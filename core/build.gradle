@@ -1,0 +1,11 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "org.projectlombok:lombok:$lombokVersion"
+  annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+  api 'com.github.raeleus.TenPatch:tenpatch:5.2.3'
+  implementation 'com.github.raeleus.stripe:stripe:1.4.5'
+  implementation 'com.github.raeleus.stripe:colorpicker:1.4.5'
+}
