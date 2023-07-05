@@ -1,5 +1,7 @@
 # Particle Park Pro
 
+![box-art](https://github.com/raeleus/Particle-Park-Pro/assets/12948924/dc7ad3c9-69fd-4099-bfb0-89cd5878b8ab)
+
 ## Purpose
 
 The purpose of Particle Park Pro is to replace the official libGDX Particle Editor. These are the goals of the project:
