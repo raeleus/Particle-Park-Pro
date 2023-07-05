@@ -343,7 +343,7 @@
 		"horizontalStretchAreas": [ 6, 55 ],
 		"verticalStretchAreas": [ 6, 18 ],
 		"tiling": false,
-		"minWidth": 62,
+		"minWidth": 25,
 		"minHeight": 25,
 		"rightWidth": 8,
 		"leftWidth": 8,
@@ -1179,6 +1179,16 @@
 		"up": "card-up-10",
 		"down": "card-down-10",
 		"over": "card-over-10"
+	},
+	"home": {
+		"up": "icon-home-up",
+		"down": "icon-home-down",
+		"over": "icon-home-over"
+	},
+	"settings": {
+		"up": "icon-settings-up",
+		"down": "icon-settings-down",
+		"over": "icon-settings-over"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {

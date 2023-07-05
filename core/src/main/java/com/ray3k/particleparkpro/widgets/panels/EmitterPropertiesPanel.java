@@ -21,6 +21,7 @@ public class EmitterPropertiesPanel extends Panel {
         var scrollPane = new ScrollPane(scrollTable, skin);
         scrollPane.setFlickScroll(false);
         bodyTable.add(scrollPane).grow();
+        addScrollFocusListener(scrollPane);
 
         var panel = new Panel();
         scrollTable.add(panel).growX();
@@ -181,13 +182,26 @@ public class EmitterPropertiesPanel extends Panel {
         table.add(button);
         addHandListener(button);
 
-
         scrollTable.row();
         panel = new Panel();
         scrollTable.add(panel).growX();
 
+        panel.tabTable.padRight(4);
+
         panel.tabTable.left();
         label = new Label("Tint", skin, "header");
-        panel.tabTable.add(label);
+        panel.tabTable.add(label).spaceRight(3);
+
+        button = new Button(skin, "close");
+        panel.tabTable.add(button);
+        addHandListener(button);
+
+        image = new Image(skin, "colorbar-bg-10");
+        panel.bodyTable.add(image).growX();
+
+        bodyTable.row();
+        textButton = new TextButton("Add Property", skin, "add");
+        bodyTable.add(textButton).right();
+        addHandListener(textButton);
     }
 }
