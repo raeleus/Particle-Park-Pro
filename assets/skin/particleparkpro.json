@@ -1189,6 +1189,16 @@
 		"up": "icon-settings-up",
 		"down": "icon-settings-down",
 		"over": "icon-settings-over"
+	},
+	"undo": {
+		"up": "icon-undo-up",
+		"down": "icon-undo-down",
+		"over": "icon-undo-over"
+	},
+	"redo": {
+		"up": "icon-redo-up",
+		"down": "icon-redo-down",
+		"over": "icon-redo-over"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {

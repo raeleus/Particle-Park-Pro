@@ -115,6 +115,7 @@ public class EmitterPropertiesPanel extends Panel {
         addHandListener(button);
 
         panel.bodyTable.defaults().space(5);
+        panel.bodyTable.left();
         table = new Table();
         panel.bodyTable.add(table);
 

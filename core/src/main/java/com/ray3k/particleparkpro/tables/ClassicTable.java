@@ -46,5 +46,13 @@ public class ClassicTable extends Table {
         button = new Button(skin, "settings");
         table.add(button);
         addHandListener(button);
+
+        button = new Button(skin, "undo");
+        table.add(button);
+        addHandListener(button);
+
+        button = new Button(skin, "redo");
+        table.add(button);
+        addHandListener(button);
     }
 }
