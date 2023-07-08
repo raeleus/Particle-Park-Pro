@@ -11,7 +11,6 @@ import static com.ray3k.particleparkpro.Core.skin;
 
 public class PPcolorPickerStyle extends PopColorPickerStyle {
     public PPcolorPickerStyle() {
-        System.out.println((int) 'O');
         background = skin.getDrawable("cp-background-10");
         stageBackground = skin.getDrawable("stage-background");
         titleBarBackground = skin.getDrawable("cp-header-10");

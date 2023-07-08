@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,30 +14,39 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.tables.WelcomeTable;
+import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPcolorPickerStyle;
+import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
 import com.ray3k.stripe.ScrollFocusListener;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
     public static Stage stage;
+    public static SpriteBatch spriteBatch;
     public static boolean windowResized;
     public static ScreenViewport viewport;
     public static Container<Actor> root;
     public static String version;
     private Color bgColor = new Color();
     public static PopColorPickerStyle popColorPickerStyle;
+    public static LineGraphStyle lineGraphStyle;
+    public static ShapeDrawer shapeDrawer;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
 
         viewport = new ScreenViewport();
-        stage = new Stage(viewport);
+        spriteBatch = new SpriteBatch();
+        stage = new Stage(viewport, spriteBatch);
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         popColorPickerStyle = new PPcolorPickerStyle();
+        lineGraphStyle = new PPlineGraphStyle();
+        shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
 
         Gdx.input.setInputProcessor(stage);
 
