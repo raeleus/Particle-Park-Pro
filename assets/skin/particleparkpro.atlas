@@ -4,13 +4,6 @@ size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-white-pixel
-  rotate: false
-  xy: 555, 671
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
 bold
   rotate: false
   xy: 1, 542
@@ -422,6 +415,20 @@ colorbar-right-fill
   xy: 345, 442
   size: 9, 41
   orig: 9, 41
+  offset: 0, 0
+  index: -1
+colorbar-white
+  rotate: false
+  xy: 555, 671
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white-pixel
+  rotate: false
+  xy: 555, 671
+  size: 1, 1
+  orig: 1, 1
   offset: 0, 0
   index: -1
 cp-background

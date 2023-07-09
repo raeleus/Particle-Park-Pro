@@ -9,4 +9,5 @@ dependencies {
   implementation 'com.github.raeleus.stripe:stripe:1.4.5'
   implementation 'com.github.raeleus.stripe:colorpicker:1.4.5'
   implementation 'space.earlygrey:shapedrawer:2.5.0'
+  implementation 'com.github.tommyettinger:colorful:0.8.4'
 }

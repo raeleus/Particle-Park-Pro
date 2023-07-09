@@ -1,0 +1,341 @@
+package com.ray3k.particleparkpro.widgets;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.github.tommyettinger.colorful.FloatColors;
+import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.ray3k.stripe.PopColorPicker;
+import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
+import com.ray3k.tenpatch.TenPatchDrawable;
+
+import static com.ray3k.particleparkpro.Core.*;
+
+public class ColorGraph extends Table {
+    private ColorGraphStyle style;
+    private DragListener dragListener;
+    private ImageButtonStyle nodeStartStyle;
+    private ImageButtonStyle nodeStyle;
+    private ImageButtonStyle nodeEndStyle;
+    private EventListener nodeListener;
+    private final Array<ImageButton> nodes = new Array<>();
+    private boolean createNewNode;
+    private boolean openColorPicker;
+    private boolean allowDrag;
+    private static final Vector2 temp = new Vector2();
+    private Action colorPickerAction;
+    private Table colorTable;
+    private Table nodeTable;
+
+    public ColorGraph(ColorGraphStyle style) {
+        nodeStartStyle = new ImageButtonStyle();
+        nodeStyle = new ImageButtonStyle();
+        nodeEndStyle = new ImageButtonStyle();
+        setStyle(style);
+
+        var stack = new Stack();
+        add(stack).grow();
+
+        colorTable = new Table();
+        stack.add(colorTable);
+
+        nodeTable = new Table();
+        stack.add(nodeTable);
+
+        initialize();
+    }
+
+    public ColorGraph(Skin skin) {
+        this(skin.get(ColorGraphStyle.class));
+    }
+
+    public ColorGraph(Skin skin, String style) {
+        this(skin.get(style, ColorGraphStyle.class));
+    }
+
+    public void setStyle(ColorGraphStyle style) {
+        this.style = style;
+        setBackground(style.background);
+
+        nodeStartStyle.up = style.nodeStartUp;
+        nodeStartStyle.down = style.nodeStartDown;
+        nodeStartStyle.over = style.nodeStartOver;
+        nodeStartStyle.imageUp = style.nodeStartFill;
+
+        nodeStyle.up = style.nodeUp;
+        nodeStyle.down = style.nodeDown;
+        nodeStyle.over = style.nodeOver;
+        nodeStyle.imageUp = style.nodeFill;
+
+        nodeEndStyle.up = style.nodeEndUp;
+        nodeEndStyle.down = style.nodeEndDown;
+        nodeEndStyle.over = style.nodeEndOver;
+        nodeEndStyle.imageUp = style.nodeEndFill;
+    }
+
+    public void initialize() {
+        setTouchable(Touchable.enabled);
+        nodeTable.setTouchable(Touchable.enabled);
+        nodeTable.addListener(dragListener = createDragListener());
+
+        createNode(getPadLeft(), true);
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
+
+        for (int i = 0; i < nodes.size; i++) {
+            var node = nodes.get(i);
+            var nodeData = (NodeData) node.getUserObject();
+            node.setX(MathUtils.round(nodeData.value * nodeTable.getWidth() - node.getWidth() / 2));
+            node.setY(getPadBottom() + (getHeight() - getPadTop() - getPadBottom()) / 2, Align.center);
+
+            var image = (Image) colorTable.getChild(i);
+
+            image.setX(MathUtils.round(nodeData.value * colorTable.getWidth()));
+
+            float widthValue;
+            if (i + 1 < nodes.size) {
+                var nextNode = nodes.get(i + 1);
+                var nextNodeData = (NodeData) nextNode.getUserObject();
+
+                widthValue = nextNodeData.value - nodeData.value;
+                nodeData.tenPatch.setColor1(nodeData.color);
+                nodeData.tenPatch.setColor2(nodeData.color);
+                nodeData.tenPatch.setColor3(nextNodeData.color);
+                nodeData.tenPatch.setColor4(nextNodeData.color);
+            } else {
+                widthValue = 1 - nodeData.value;
+                nodeData.tenPatch.setColor1(nodeData.color);
+                nodeData.tenPatch.setColor2(nodeData.color);
+                nodeData.tenPatch.setColor3(nodeData.color);
+                nodeData.tenPatch.setColor4(nodeData.color);
+            }
+            image.setSize(MathUtils.round(widthValue * colorTable.getWidth()), colorTable.getHeight());
+        }
+    }
+
+    private DragListener createDragListener() {
+        return new DragListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                createNewNode = true;
+                allowDrag = true;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (createNewNode) {
+                    createNode(x, false);
+                }
+            }
+
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                createNewNode = false;
+                openColorPicker = false;
+            }
+        };
+    }
+
+    private void createNode(float x, boolean stationary) {
+        final var tapCountInterval = .4f;
+
+        var node = new ImageButton(nodeStyle);
+        var nodeData = new NodeData();
+        nodeData.value = MathUtils.isZero(getWidth()) ? 0 : x / nodeTable.getWidth();
+
+        ImageButton previousNode = null, nextNode = null;
+        for (int i = 0; i < nodes.size; i++) {
+            var testNode = nodes.get(i);
+            if (x > testNode.getX()) previousNode = testNode;
+            else if (x < testNode.getX()) {
+                nextNode = testNode;
+                break;
+            }
+        }
+        var previousColor = previousNode != null ? ((NodeData) previousNode.getUserObject()).color : Color.RED;
+        if (nextNode == null) nodeData.color = new Color(previousColor);
+        else {
+            var nextColor = ((NodeData) nextNode.getUserObject()).color;
+            var previousX = previousNode.getX();
+            var nextX = nextNode.getX();
+            var packed = FloatColors.lerpFloatColors(
+                ColorTools.fromColor(previousColor),
+                ColorTools.fromColor(nextColor),
+                (x - previousX) / (nextX - previousX));
+            nodeData.color = new Color();
+            ColorTools.toColor(nodeData.color, packed);
+        }
+
+        nodeData.tenPatch = new TenPatchDrawable(style.white);
+        node.setUserObject(nodeData);
+
+        if (nodeListener != null) node.addListener(nodeListener);
+
+        nodeTable.addActor(node);
+        nodes.add(node);
+
+        node.setPosition(x, nodeTable.getHeight() / 2, Align.center);
+        sortNodes();
+        updateColors();
+
+        var clickListener = new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                createNewNode = false;
+                if (pointer == -1) openColorPicker = true;
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (getTapCount() == 1 && event.getButton() == Buttons.LEFT && openColorPicker) {
+                    openColorPicker = false;
+                    colorPickerAction = Actions.delay(tapCountInterval,
+                        Actions.run(() -> Gdx.app.postRunnable(() -> {
+                            colorPickerAction = null;
+                            allowDrag = false;
+                            var cp = new PopColorPicker(nodeData.color, popColorPickerStyle);
+                            cp.setHideOnUnfocus(true);
+                            cp.setButtonListener(handListener);
+                            cp.setTextFieldListener(ibeamListener);
+                            cp.setDraggable(true);
+                            cp.show(stage);
+                            cp.addListener(new PopColorPickerListener() {
+                                @Override
+                                public void picked(Color color) {
+                                    nodeData.color.set(color);
+                                    updateColors();
+                                }
+
+                                @Override
+                                public void cancelled() {
+
+                                }
+                            });
+                        })));
+                    node.addAction(colorPickerAction);
+                }
+
+                if (event.getButton() == Buttons.RIGHT || getTapCount() >= 2) {
+                    if (nodes.indexOf(node, true) != 0) {
+                        node.remove();
+                        nodes.removeValue(node, true);
+                        sortNodes();
+                        updateColors();
+                    } else {
+                        node.removeAction(colorPickerAction);
+                    }
+                }
+            }
+        };
+        clickListener.setButton(-1);
+        clickListener.setTapCountInterval(tapCountInterval);
+        node.addListener(clickListener);
+
+        var dragListener = new DragListener() {
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                clickListener.cancel();
+                openColorPicker = false;
+                if (allowDrag && !stationary) {
+                    temp.set(x, y);
+                    node.localToActorCoordinates(nodeTable, temp);
+
+                    nodeData.value = MathUtils.clamp(temp.x / nodeTable.getWidth(), 0, 1);
+
+                    sortNodes();
+                    updateColors();
+                }
+            }
+        };
+        dragListener.setTapSquareSize(5);
+        node.addListener(dragListener);
+    }
+
+    private void sortNodes() {
+        nodes.sort((o1, o2) -> Float.compare(o1.getX(), o2.getX()));
+
+        for (int i = 0; i < nodes.size; i++) {
+            var node = nodes.get(i);
+            if (i == 0) node.setStyle(nodeStartStyle);
+            else if (i == nodes.size - 1) node.setStyle(nodeEndStyle);
+            else node.setStyle(nodeStyle);
+        }
+    }
+
+    private void updateColors() {
+        colorTable.clearChildren();
+
+        for (int i = 0; i < nodes.size; i++) {
+            var node =  nodes.get(i);
+            var nodeData = (NodeData) node.getUserObject();
+
+            node.getImage().setColor(nodeData.color);
+
+            var image = new Image(nodeData.tenPatch);
+            colorTable.addActor(image);
+        }
+    }
+
+    public EventListener getNodeListener() {
+        return nodeListener;
+    }
+
+    public void setNodeListener(EventListener nodeListener) {
+        if (this.nodeListener != null) {
+            for (int i = 0; i < nodes.size; i++) {
+                var node = nodes.get(i);
+                node.removeListener(this.nodeListener);
+            }
+        }
+        this.nodeListener = nodeListener;
+        for (int i = 0; i < nodes.size; i++) {
+            var node = nodes.get(i);
+            node.addListener(nodeListener);
+        }
+    }
+
+    private static class NodeData {
+        Color color;
+        TenPatchDrawable tenPatch;
+        float value;
+    }
+
+    public static class ColorGraphStyle {
+        public Drawable background;
+        public Drawable nodeStartUp;
+        public Drawable nodeStartOver;
+        public Drawable nodeStartDown;
+        public Drawable nodeStartFill;
+        public Drawable nodeUp;
+        public Drawable nodeOver;
+        public Drawable nodeDown;
+        public Drawable nodeFill;
+        public Drawable nodeEndUp;
+        public Drawable nodeEndOver;
+        public Drawable nodeEndDown;
+        public Drawable nodeEndFill;
+        public TenPatchDrawable white;
+    }
+}

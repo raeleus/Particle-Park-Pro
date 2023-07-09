@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
 
@@ -195,9 +196,9 @@ public class EmitterPropertiesPanel extends Panel {
         panel.tabTable.add(button);
         addHandListener(button);
 
-        var image = new Image(skin, "colorbar-bg-10");
-        panel.bodyTable.add(image).growX();
-        addHandListener(image);
+        var colorGraph = new ColorGraph(colorGraphStyle);
+        panel.bodyTable.add(colorGraph).growX();
+        colorGraph.setNodeListener(handListener);
 
         bodyTable.row();
         textButton = new TextButton("Add Property", skin, "add");

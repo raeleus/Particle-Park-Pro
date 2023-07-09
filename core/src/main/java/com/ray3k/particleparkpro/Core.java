@@ -14,9 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.tables.WelcomeTable;
+import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
+import com.ray3k.particleparkpro.widgets.styles.PPcolorGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPcolorPickerStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
+import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
 import com.ray3k.stripe.ScrollFocusListener;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -35,6 +38,7 @@ public class Core extends ApplicationAdapter {
     public static PopColorPickerStyle popColorPickerStyle;
     public static LineGraphStyle lineGraphStyle;
     public static ShapeDrawer shapeDrawer;
+    public static ColorGraphStyle colorGraphStyle;
 
     @Override
     public void create() {
@@ -47,6 +51,7 @@ public class Core extends ApplicationAdapter {
         popColorPickerStyle = new PPcolorPickerStyle();
         lineGraphStyle = new PPlineGraphStyle();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
+        colorGraphStyle = new PPcolorGraphStyle();
 
         Gdx.input.setInputProcessor(stage);
 
