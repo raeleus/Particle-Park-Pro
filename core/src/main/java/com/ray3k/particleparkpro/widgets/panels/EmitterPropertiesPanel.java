@@ -2,10 +2,9 @@ package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
-import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
+import com.ray3k.particleparkpro.widgets.Panel;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Core.skin;

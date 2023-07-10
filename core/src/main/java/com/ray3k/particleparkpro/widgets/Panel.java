@@ -1,4 +1,4 @@
-package com.ray3k.particleparkpro.widgets.panels;
+package com.ray3k.particleparkpro.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 

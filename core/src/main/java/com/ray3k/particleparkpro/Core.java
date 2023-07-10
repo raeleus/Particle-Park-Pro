@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,9 +20,9 @@ import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPcolorGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPcolorPickerStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
-import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
 import com.ray3k.stripe.ScrollFocusListener;
+import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
@@ -32,6 +33,8 @@ public class Core extends ApplicationAdapter {
     public static SpriteBatch spriteBatch;
     public static boolean windowResized;
     public static ScreenViewport viewport;
+    public static ScreenViewport previewViewport;
+    public static OrthographicCamera previewCamera;
     public static Container<Actor> root;
     public static String version;
     private Color bgColor = new Color();
@@ -39,12 +42,17 @@ public class Core extends ApplicationAdapter {
     public static LineGraphStyle lineGraphStyle;
     public static ShapeDrawer shapeDrawer;
     public static ColorGraphStyle colorGraphStyle;
+    public static ViewportWidget viewportWidget;
+    public static ParticlePreview particlePreview;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
 
         viewport = new ScreenViewport();
+        previewCamera = new OrthographicCamera();
+        previewViewport = new ScreenViewport(previewCamera);
+        viewportWidget = new ViewportWidget(previewViewport);
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport, spriteBatch);
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
@@ -52,6 +60,7 @@ public class Core extends ApplicationAdapter {
         lineGraphStyle = new PPlineGraphStyle();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         colorGraphStyle = new PPcolorGraphStyle();
+        particlePreview = new ParticlePreview();
 
         Gdx.input.setInputProcessor(stage);
 
@@ -82,7 +91,12 @@ public class Core extends ApplicationAdapter {
         ScreenUtils.clear(bgColor);
 
         stage.act();
+        viewport.apply();
         stage.draw();
+
+        viewportWidget.updateViewport(false);
+        particlePreview.render();
+
         windowResized = false;
     }
 

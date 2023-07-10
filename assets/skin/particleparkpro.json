@@ -291,10 +291,10 @@
 		"tiling": false,
 		"minWidth": 35,
 		"minHeight": 35,
-		"rightWidth": 2,
-		"leftWidth": 2,
-		"bottomHeight": 2,
-		"topHeight": 2,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 0,
+		"topHeight": 0,
 		"offsetX": 0,
 		"offsetY": 0,
 		"offsetXspeed": 0,
@@ -1285,6 +1285,21 @@
 		"up": "icon-redo-up",
 		"down": "icon-redo-down",
 		"over": "icon-redo-over"
+	},
+	"zoom-in": {
+		"up": "icon-zoom-in-up",
+		"down": "icon-zoom-in-down",
+		"over": "icon-zoom-in-over"
+	},
+	"zoom-out": {
+		"up": "icon-zoom-out-up",
+		"down": "icon-zoom-out-down",
+		"over": "icon-zoom-out-over"
+	},
+	"zoom-full": {
+		"up": "icon-zoom-full-up",
+		"down": "icon-zoom-full-down",
+		"over": "icon-zoom-full-over"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
