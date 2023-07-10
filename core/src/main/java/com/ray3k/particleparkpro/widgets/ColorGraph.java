@@ -18,6 +18,7 @@ import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 import com.ray3k.tenpatch.TenPatchDrawable;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -215,6 +216,7 @@ public class ColorGraph extends Table {
                         Actions.run(() -> Gdx.app.postRunnable(() -> {
                             colorPickerAction = null;
                             allowDrag = false;
+                            Gdx.input.setInputProcessor(foregroundStage);
                             var cp = new PopColorPicker(nodeData.color, popColorPickerStyle);
                             cp.setHideOnUnfocus(true);
                             cp.setButtonListener(handListener);
@@ -231,6 +233,18 @@ public class ColorGraph extends Table {
                                 @Override
                                 public void cancelled() {
 
+                                }
+                            });
+                            cp.show(foregroundStage);
+                            cp.addListener(new TableShowHideListener() {
+                                @Override
+                                public void tableShown(Event event) {
+
+                                }
+
+                                @Override
+                                public void tableHidden(Event event) {
+                                    Gdx.input.setInputProcessor(stage);
                                 }
                             });
                         })));

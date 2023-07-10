@@ -1,11 +1,15 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.PopColorPicker;
+import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -27,7 +31,7 @@ public class EditorPropertiesPanel extends Panel {
         bodyTable.add(scrollPane).grow();
         addScrollFocusListener(scrollPane);
 
-        scrollTable.top();
+        scrollTable.top().pad(1);
         label = new Label("Pixels per meter", skin, "header");
         scrollTable.add(label).left().padTop(topBorder);
 
@@ -79,11 +83,23 @@ public class EditorPropertiesPanel extends Panel {
         stack.add(image);
         addHandListener(stack);
         onClick(image, () -> {
+            Gdx.input.setInputProcessor(foregroundStage);
             var cp = new PopColorPicker(Color.RED, popColorPickerStyle);
             cp.setHideOnUnfocus(true);
             cp.setButtonListener(handListener);
             cp.setTextFieldListener(ibeamListener);
-            cp.show(stage);
+            cp.show(foregroundStage);
+            cp.addListener(new TableShowHideListener() {
+                @Override
+                public void tableShown(Event event) {
+
+                }
+
+                @Override
+                public void tableHidden(Event event) {
+                    Gdx.input.setInputProcessor(stage);
+                }
+            });
         });
     }
 }

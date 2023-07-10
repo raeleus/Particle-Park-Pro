@@ -20,7 +20,7 @@ public class PPcolorPickerStyle extends PopColorPickerStyle {
         scrollPaneStyle = skin.get(ScrollPaneStyle.class);
         colorSwatch = skin.getDrawable("cp-color-swatch");
         colorSwatchNew = skin.getDrawable("cp-color-swatch-new");
-        colorSwatchPopBackground = skin.getDrawable("cp-color-swatch-pop-background");
+        colorSwatchPopBackground = skin.getDrawable("cp-color-swatch-pop-background-10");
         previewSwatchBackground = skin.getDrawable("cp-swatch");
         previewSwatchOld = skin.getDrawable("cp-swatch-old");
         previewSwatchNew = skin.getDrawable("cp-swatch-new");

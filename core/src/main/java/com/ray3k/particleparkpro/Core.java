@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,6 +31,7 @@ import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 public class Core extends ApplicationAdapter {
     public static Skin skin;
     public static Stage stage;
+    public static Stage foregroundStage;
     public static SpriteBatch spriteBatch;
     public static boolean windowResized;
     public static ScreenViewport viewport;
@@ -55,6 +57,7 @@ public class Core extends ApplicationAdapter {
         viewportWidget = new ViewportWidget(previewViewport);
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport, spriteBatch);
+        foregroundStage = new Stage(viewport, spriteBatch);
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         popColorPickerStyle = new PPcolorPickerStyle();
         lineGraphStyle = new PPlineGraphStyle();
@@ -96,6 +99,10 @@ public class Core extends ApplicationAdapter {
 
         viewportWidget.updateViewport(false);
         particlePreview.render();
+
+        foregroundStage.act();
+        viewport.apply();
+        foregroundStage.draw();
 
         windowResized = false;
     }
