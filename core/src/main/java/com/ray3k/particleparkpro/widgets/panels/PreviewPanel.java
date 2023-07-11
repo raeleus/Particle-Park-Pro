@@ -48,6 +48,7 @@ public class PreviewPanel extends Panel {
         onChange(button, () -> {
             zoomLevelIndex = 5;
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
+            previewCamera.position.set(0, 0, 0);
         });
 
         button = new Button(skin, "zoom-out");
@@ -81,13 +82,23 @@ public class PreviewPanel extends Panel {
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY) {
+                var oldZoom = 1 / zoomLevels.get(zoomLevelIndex);
                 if (amountY > 0) {
                     zoomLevelIndex = MathUtils.clamp(zoomLevelIndex + 1, 0, zoomLevels.size - 1);
-                    previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
                 } else if (amountY < 0) {
                     zoomLevelIndex = MathUtils.clamp(zoomLevelIndex - 1, 0, zoomLevels.size - 1);
-                    previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
                 }
+                var newZoom = 1 / zoomLevels.get(zoomLevelIndex);
+
+                var pixelsDifferenceW = (table.getWidth() / oldZoom) - (table.getWidth() / newZoom);
+                var sideRatioX = (x - (table.getWidth() / 2)) / table.getWidth();
+                previewCamera.position.x += pixelsDifferenceW * sideRatioX;
+
+                var pixelsDifferenceH = (table.getHeight() / oldZoom) - (table.getHeight() / newZoom);
+                var sideRatioH = (y - (table.getHeight() / 2)) / table.getHeight();
+                previewCamera.position.y += pixelsDifferenceH * sideRatioH;
+
+                previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
                 return true;
             }
 

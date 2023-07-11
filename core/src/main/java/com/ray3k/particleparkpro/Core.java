@@ -49,7 +49,6 @@ public class Core extends ApplicationAdapter {
 
     @Override
     public void create() {
-        System.out.println((int) 'O');
         version = "ver " + Gdx.files.classpath("version").readString();
 
         viewport = new ScreenViewport();
