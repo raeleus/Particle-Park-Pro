@@ -30,7 +30,7 @@ configure(subprojects) {
 
 task versionText {
   doLast {
-    new File(projectDir, "lwjgl3/src/main/resources/version").text = project(':core').version
+    new File(projectDir, "core/src/main/resources/version").text = project(':core').version
   }
 }
 
