@@ -10,4 +10,5 @@ dependencies {
   implementation 'com.github.raeleus.stripe:colorpicker:1.4.5'
   implementation 'space.earlygrey:shapedrawer:2.5.0'
   implementation 'com.github.tommyettinger:colorful:0.8.4'
+  implementation "org.lwjgl:lwjgl-nfd:3.3.1"
 }

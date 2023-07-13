@@ -27,13 +27,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.github.tommyettinger.textra.utils.ColorUtils;
+import com.ray3k.stripe.PopColorPicker.PopColorPickerEvent.Status;
 import com.ray3k.tenpatch.TenPatchDrawable;
 
 import java.util.Locale;
 
 public class PopColorPicker extends PopTable {
     private float r, g, b, a, h, s, br;
-    private final Color oldColor;
+    private final Color oldColor = new Color();
+    private final Color eventColor = new Color();
+    private static final Color tempColor = new Color();
     private Image squareModelImage, verticalModelImage, redImage, greenImage, blueImage, hueImage, saturationImage, brightnessImage, alphaImage, swatchNewImage;
     private Stack squareModelCircleStack;
     private Image squareModelCircleImage, verticalModelArrowImage, redArrowImage, greenArrowImage, blueArrowImage, hueArrowImage, saturationArrowImage, brightnessArrowImage, alphaArrowImage;
@@ -79,12 +82,11 @@ public class PopColorPicker extends PopTable {
             b = 0f;
             a = 1f;
         }
-        Color tempColor = new Color();
         tempColor.set(ColorUtils.rgb2hsb(r, g, b, a));
         h = tempColor.r;
         s = tempColor.g;
         br = tempColor.b;
-        this.oldColor = originalColor;
+        this.oldColor.set(originalColor);
 
         setModal(true);
         setKeepSizedWithinStage(true);
@@ -111,7 +113,7 @@ public class PopColorPicker extends PopTable {
                     @Override
                     public void run() {
                         PopColorPicker.this.hide();
-                        PopColorPicker.this.fire(new PopColorPickerEvent(true));
+                        PopColorPicker.this.fire(new PopColorPickerEvent(oldColor, Status.cancelled));
                     }
                 });
             }
@@ -122,7 +124,8 @@ public class PopColorPicker extends PopTable {
                     @Override
                     public void run() {
                         PopColorPicker.this.hide();
-                        PopColorPicker.this.fire(new PopColorPickerEvent(new Color(r, g, b, a)));
+                        eventColor.set(r, g, b, a);
+                        PopColorPicker.this.fire(new PopColorPickerEvent(eventColor, Status.picked));
                         PopColorPicker.this.fire(new ChangeEvent());
                     }
                 });
@@ -573,7 +576,8 @@ public class PopColorPicker extends PopTable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 hide();
-                fire(new PopColorPickerEvent(new Color(r, g, b, a)));
+                eventColor.set(r, g, b, a);
+                fire(new PopColorPickerEvent(eventColor, Status.picked));
                 fire(new ChangeEvent());
             }
         });
@@ -585,7 +589,7 @@ public class PopColorPicker extends PopTable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 hide();
-                fire(new PopColorPickerEvent(true));
+                fire(new PopColorPickerEvent(oldColor, Status.cancelled));
             }
         });
     }
@@ -1506,7 +1510,8 @@ public class PopColorPicker extends PopTable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 hide();
-                fire(new PopColorPickerEvent(new Color(r, g, b, a)));
+                eventColor.set(r, g, b, a);
+                fire(new PopColorPickerEvent(eventColor, Status.picked));
             }
         });
 
@@ -1517,7 +1522,7 @@ public class PopColorPicker extends PopTable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 hide();
-                fire(new PopColorPickerEvent(true));
+                fire(new PopColorPickerEvent(oldColor, Status.cancelled));
             }
         });
     }
@@ -1579,7 +1584,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private void updateRGB() {
-        Color tempColor = new Color();
         if (hslTextButton.isChecked()) tempColor.set(ColorUtils.hsl2rgb(h, s, br, a));
         else tempColor.set(ColorUtils.hsb2rgb(h, s, br, a));
         r = tempColor.r;
@@ -1588,7 +1592,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private void updateHSB() {
-        Color tempColor = new Color();
         if (hslTextButton.isChecked()) tempColor.set(ColorUtils.rgb2hsl(r, g, b, a));
         else tempColor.set(ColorUtils.rgb2hsb(r, g, b, a));
         if (!MathUtils.isZero(r) || !MathUtils.isZero(g) || !MathUtils.isZero(b))
@@ -1601,10 +1604,12 @@ public class PopColorPicker extends PopTable {
     }
 
     private void updateColorDisplay() {
+        eventColor.set(r, g, b, a);
+        fire(new PopColorPickerEvent(eventColor, Status.updated));
+
         if (hslTextButton.isChecked()) brightnessLabel.setText("L");
         else brightnessLabel.setText("B");
 
-        Color tempColor = new Color();
         if (redRadio.isChecked()) {
             squareModelCircleStack.setX(b * squareModelImage.getWidth() - squareModelCircleStack.getWidth()/ 2);
             squareModelCircleStack.setY(g * squareModelImage.getWidth() - squareModelCircleStack.getWidth()/ 2);
@@ -1771,19 +1776,17 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateHorizontalHue(int width) {
-        Color color = new Color();
         Pixmap pixmap = new Pixmap(width, 1, Format.RGBA8888);
         for (int i = 0; i < width; i++) {
-            if (hslTextButton.isChecked()) color.set(ColorUtils.hsl2rgb((float) i / width, 1f, 1f, 1f));
-            else color.set(ColorUtils.hsb2rgb((float) i / width, 1f, 1f, 1f));
-            pixmap.setColor(color);
+            if (hslTextButton.isChecked()) tempColor.set(ColorUtils.hsl2rgb((float) i / width, 1f, 1f, 1f));
+            else tempColor.set(ColorUtils.hsb2rgb((float) i / width, 1f, 1f, 1f));
+            pixmap.setColor(tempColor);
             pixmap.drawPixel(i, 0);
         }
         return new TextureRegion(new Texture(pixmap));
     }
 
     private TextureRegion generateHorizontalBrightness(int width) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(width, 1, Format.RGBA8888);
         for (int i = 0; i < width; i++) {
             float newBr = (float) i / width;
@@ -1798,7 +1801,7 @@ public class PopColorPicker extends PopTable {
     private TenPatchDrawable generateVerticalRed(Color color) {
         TenPatchDrawable tenPatchDrawable = new TenPatchDrawable(whiteTenPatch);
 
-        Color tempColor = new Color(0f, color.g, color.b, 1f);
+        tempColor.set(0f, color.g, color.b, 1f);
         tenPatchDrawable.setColor1(tempColor);
         tenPatchDrawable.setColor4(tempColor);
 
@@ -1812,7 +1815,7 @@ public class PopColorPicker extends PopTable {
     private TenPatchDrawable generateVerticalGreen(Color color) {
         TenPatchDrawable tenPatchDrawable = new TenPatchDrawable(whiteTenPatch);
 
-        Color tempColor = new Color(color.r, 0f, color.b, 1f);
+        tempColor.set(color.r, 0f, color.b, 1f);
         tenPatchDrawable.setColor1(tempColor);
         tenPatchDrawable.setColor4(tempColor);
 
@@ -1826,7 +1829,7 @@ public class PopColorPicker extends PopTable {
     private TenPatchDrawable generateVerticalBlue(Color color) {
         TenPatchDrawable tenPatchDrawable = new TenPatchDrawable(whiteTenPatch);
 
-        Color tempColor = new Color(color.r, color.g, 0f, 1f);
+        tempColor.set(color.r, color.g, 0f, 1f);
         tenPatchDrawable.setColor1(tempColor);
         tenPatchDrawable.setColor4(tempColor);
 
@@ -1838,19 +1841,17 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateVerticalHue(int height) {
-        Color color = new Color();
         Pixmap pixmap = new Pixmap(1, height, Format.RGBA8888);
         for (int i = 0; i < height; i++) {
-            if (hslTextButton.isChecked()) color.set(ColorUtils.hsl2rgb((float) (height - i) / height, 1f, .5f, 1f));
-            else color.set(ColorUtils.hsb2rgb((float) (height - i) / height, 1f, 1f, 1f));
-            pixmap.setColor(color);
+            if (hslTextButton.isChecked()) tempColor.set(ColorUtils.hsl2rgb((float) (height - i) / height, 1f, .5f, 1f));
+            else tempColor.set(ColorUtils.hsb2rgb((float) (height - i) / height, 1f, 1f, 1f));
+            pixmap.setColor(tempColor);
             pixmap.drawPixel(0, i);
         }
         return new TextureRegion(new Texture(pixmap));
     }
 
     private TextureRegion generateVerticalSaturation(Color color, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(1, height, Format.RGBA8888);
         for (int i = 0; i < height; i++) {
             float newS = (float) (height - i) / height;
@@ -1863,7 +1864,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateVerticalBrightness(Color color, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(1, height, Format.RGBA8888);
         for (int i = 0; i < height; i++) {
             float newBr = (float) (height - i) / height;
@@ -1876,13 +1876,12 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateHueVsSaturation(int width, int height) {
-        Color color = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (hslTextButton.isChecked()) color.set(ColorUtils.hsl2rgb((float) x / width, (float) (height - y) / height, br, 1f));
-                else color.set(ColorUtils.hsb2rgb((float) x / width, (float) (height - y) / height, br, 1f));
-                pixmap.setColor(color);
+                if (hslTextButton.isChecked()) tempColor.set(ColorUtils.hsl2rgb((float) x / width, (float) (height - y) / height, br, 1f));
+                else tempColor.set(ColorUtils.hsb2rgb((float) x / width, (float) (height - y) / height, br, 1f));
+                pixmap.setColor(tempColor);
                 pixmap.drawPixel(x, y);
             }
         }
@@ -1890,13 +1889,12 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateHueVsBrightness(int width, int height) {
-        Color color = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (hslTextButton.isChecked()) color.set(ColorUtils.hsl2rgb((float) x / width, s, (float) (height - y) / height, 1f));
-                else color.set(ColorUtils.hsb2rgb((float) x / width, s, (float) (height - y) / height, 1f));
-                pixmap.setColor(color);
+                if (hslTextButton.isChecked()) tempColor.set(ColorUtils.hsl2rgb((float) x / width, s, (float) (height - y) / height, 1f));
+                else tempColor.set(ColorUtils.hsb2rgb((float) x / width, s, (float) (height - y) / height, 1f));
+                pixmap.setColor(tempColor);
                 pixmap.drawPixel(x, y);
             }
         }
@@ -1904,7 +1902,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateColorVsBrightnessAndSaturation(Color color, int width, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -1918,7 +1915,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateColorVsGreenAndBlue(Color color, int width, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -1931,7 +1927,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateColorVsRedAndBlue(Color color, int width, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -1944,7 +1939,6 @@ public class PopColorPicker extends PopTable {
     }
 
     private TextureRegion generateColorVsGreenAndRed(Color color, int width, int height) {
-        Color tempColor = new Color();
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -2125,16 +2119,13 @@ public class PopColorPicker extends PopTable {
     }
 
     public static class PopColorPickerEvent extends Event {
-        public boolean cancelled;
         public Color color;
+        public enum Status {picked, updated, cancelled}
+        public Status status;
 
-        public PopColorPickerEvent(boolean cancelled) {
-            this.cancelled = cancelled;
-        }
-
-        public PopColorPickerEvent(Color color) {
-            this.cancelled = false;
+        public PopColorPickerEvent(Color color, Status status) {
             this.color = color;
+            this.status = status;
         }
     }
 
@@ -2143,7 +2134,8 @@ public class PopColorPicker extends PopTable {
         public boolean handle(Event event) {
             if (event instanceof PopColorPickerEvent) {
                 PopColorPickerEvent pickerEvent = (PopColorPickerEvent)event;
-                if (pickerEvent.cancelled) cancelled();
+                if (pickerEvent.status == Status.cancelled) cancelled(pickerEvent.color);
+                else if (pickerEvent.status == Status.updated) updated(pickerEvent.color);
                 else picked(pickerEvent.color);
                 return true;
             }
@@ -2152,7 +2144,9 @@ public class PopColorPicker extends PopTable {
 
         public abstract void picked(Color color);
 
-        public abstract void cancelled();
+        public abstract void updated(Color color);
+
+        public abstract void cancelled(Color oldColor);
     }
 
     public static class PopColorPickerAdapter extends PopColorPickerListener {
@@ -2161,8 +2155,12 @@ public class PopColorPicker extends PopTable {
 
         }
 
+        public void updated(Color color) {
+
+        }
+
         @Override
-        public void cancelled() {
+        public void cancelled(Color oldColor) {
 
         }
     }

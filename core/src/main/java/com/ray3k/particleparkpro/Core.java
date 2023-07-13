@@ -2,7 +2,6 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.particleparkpro.tables.WelcomeTable;
+import com.ray3k.particleparkpro.widgets.styles.PPspinnerStyle;
+import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPcolorGraphStyle;
@@ -23,6 +23,7 @@ import com.ray3k.particleparkpro.widgets.styles.PPcolorPickerStyle;
 import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
 import com.ray3k.stripe.ScrollFocusListener;
+import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -46,6 +47,7 @@ public class Core extends ApplicationAdapter {
     public static ColorGraphStyle colorGraphStyle;
     public static ViewportWidget viewportWidget;
     public static ParticlePreview particlePreview;
+    public static SpinnerStyle spinnerStyle;
 
     @Override
     public void create() {
@@ -64,6 +66,7 @@ public class Core extends ApplicationAdapter {
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         colorGraphStyle = new PPcolorGraphStyle();
         particlePreview = new ParticlePreview();
+        spinnerStyle = new PPspinnerStyle();
 
         Gdx.input.setInputProcessor(stage);
 

@@ -12,6 +12,12 @@
 		"markupEnabled": false,
 		"flip": false
 	},
+	"font-black": {
+		"file": "font-black.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
 	"header": {
 		"file": "header.fnt",
 		"scaledSize": -1,
@@ -43,6 +49,12 @@
 		"g": 1,
 		"b": 1,
 		"a": 0
+	},
+	"disabled": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 0.3988764
 	},
 	"graph": {
 		"r": 0.81960785,
@@ -1187,6 +1199,89 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"pop-table-10": {
+		"region": "pop-table",
+		"horizontalStretchAreas": [ 5, 46 ],
+		"verticalStretchAreas": [ 5, 45 ],
+		"tiling": false,
+		"minWidth": 52,
+		"minHeight": 52,
+		"rightWidth": 2,
+		"leftWidth": 2,
+		"bottomHeight": 2,
+		"topHeight": 2,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"spinner-top-button-disabled": {
+		"region": "spinner-top-button-up",
+		"color": "disabled",
+		"horizontalStretchAreas": [ 0, 11 ],
+		"verticalStretchAreas": [ 0, 8 ],
+		"tiling": false,
+		"minWidth": 12,
+		"minHeight": 9,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 0,
+		"topHeight": 0,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"spinner-bottom-button-disabled": {
+		"region": "spinner-bottom-button-up",
+		"color": "disabled",
+		"horizontalStretchAreas": [ 0, 11 ],
+		"verticalStretchAreas": [ 0, 9 ],
+		"tiling": false,
+		"minWidth": 12,
+		"minHeight": 10,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 0,
+		"topHeight": 0,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"spinner-textfield-disabled-10": {
+		"region": "spinner-textfield-up",
+		"color": "disabled",
+		"horizontalStretchAreas": [ 2, 41 ],
+		"verticalStretchAreas": [ 2, 16 ],
+		"tiling": false,
+		"minWidth": 44,
+		"minHeight": 19,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 2,
+		"topHeight": 2,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1214,12 +1309,14 @@
 	"spinner-top": {
 		"up": "spinner-top-button-up",
 		"down": "spinner-top-button-down",
-		"over": "spinner-top-button-over"
+		"over": "spinner-top-button-over",
+		"disabled": "spinner-top-button-disabled"
 	},
 	"spinner-bottom": {
 		"up": "spinner-bottom-button-up",
 		"down": "spinner-bottom-button-down",
-		"over": "spinner-bottom-button-over"
+		"over": "spinner-bottom-button-over",
+		"disabled": "spinner-bottom-button-disabled"
 	},
 	"close": {
 		"up": "button-close-up",
@@ -1362,13 +1459,20 @@
 	"graph-node": {
 		"font": "font",
 		"fontColor": "black"
+	},
+	"black": {
+		"font": "font-black"
+	},
+	"disabled": {
+		"font": "font",
+		"fontColor": "disabled"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
 	"default": {
-		"font": "font",
-		"fontColorSelected": "black",
-		"fontColorUnselected": "black",
+		"font": "font-black",
+		"fontColorSelected": "white",
+		"fontColorUnselected": "white",
 		"selection": "list-selection-10",
 		"background": "list-background-10"
 	}
@@ -1429,18 +1533,20 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
-		"font": "font",
-		"fontColor": "blue-gray",
+		"font": "font-black",
+		"fontColor": "white",
 		"background": "textfield-up-10",
 		"focusedBackground": "textfield-focused-10",
 		"cursor": "cursor",
 		"selection": "selection"
 	},
 	"spinner": {
-		"font": "font",
-		"fontColor": "black",
+		"font": "font-black",
+		"fontColor": "white",
+		"disabledFontColor": "disabled",
 		"background": "spinner-textfield-up-10",
 		"focusedBackground": "spinner-textfield-focused-10",
+		"disabledBackground": "spinner-textfield-disabled-10",
 		"cursor": "cursor",
 		"selection": "selection"
 	},
@@ -1451,8 +1557,8 @@
 		"selection": "selection"
 	},
 	"cp": {
-		"font": "font",
-		"fontColor": "black",
+		"font": "font-black",
+		"fontColor": "white",
 		"background": "cp-hex-field-10",
 		"focusedBackground": "cp-hex-field-focused-10",
 		"cursor": "cursor",
@@ -1462,6 +1568,13 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
 	"default": {
 		"label": "default"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"background": "pop-table-10",
+		"titleFont": "font",
+		"stageBackground": "stage-background"
 	}
 }
 }

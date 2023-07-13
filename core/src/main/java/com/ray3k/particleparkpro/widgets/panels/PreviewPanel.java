@@ -2,15 +2,20 @@ package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
-import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
+import com.ray3k.stripe.PopTable;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -38,11 +43,17 @@ public class PreviewPanel extends Panel {
         stack.add(table);
 
         table.top().pad(5);
-        var button = new Button(skin, "settings");
-        table.add(button).expandX().left();
-        addHandListener(button);
+        var settingsButton = new Button(skin, "settings");
+        table.add(settingsButton).expandX().left();
+        addHandListener(settingsButton);
+        onChange(settingsButton, () -> {
+            var pop = new PopEditorSettings();
+            pop.attachToActor(settingsButton, Align.topLeft, Align.topRight);
+            pop.show(foregroundStage);
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        });
 
-        button = new Button(skin, "zoom-full");
+        var button = new Button(skin, "zoom-full");
         table.add(button);
         addHandListener(button);
         onChange(button, () -> {

@@ -1,11 +1,10 @@
-package com.ray3k.particleparkpro.tables;
+package com.ray3k.particleparkpro.widgets.tables;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.ray3k.particleparkpro.ResizeArrowListener;
-import com.ray3k.particleparkpro.widgets.panels.EditorPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
@@ -22,13 +21,8 @@ public class ClassicTable extends Table {
         leftSplitPane.setSplitAmount(.7f);
         leftSplitPane.addListener(new ResizeArrowListener(true));
 
-        var editorPropertiesPanel = new EditorPropertiesPanel();
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
-        var rightSplitPane = new SplitPane(editorPropertiesPanel, emitterPropertiesPanel, true, skin);
-        rightSplitPane.setSplitAmount(.3f);
-        rightSplitPane.addListener(new ResizeArrowListener(true));
-
-        var horizontalSplitPane = new SplitPane(leftSplitPane, rightSplitPane, false, skin);
+        var horizontalSplitPane = new SplitPane(leftSplitPane, emitterPropertiesPanel, false, skin);
         add(horizontalSplitPane).grow();
         horizontalSplitPane.addListener(new ResizeArrowListener(false));
 

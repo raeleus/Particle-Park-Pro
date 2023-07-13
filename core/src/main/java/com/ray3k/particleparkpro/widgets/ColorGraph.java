@@ -231,7 +231,12 @@ public class ColorGraph extends Table {
                                 }
 
                                 @Override
-                                public void cancelled() {
+                                public void updated(Color color) {
+
+                                }
+
+                                @Override
+                                public void cancelled(Color oldColor) {
 
                                 }
                             });
