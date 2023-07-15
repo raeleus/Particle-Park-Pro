@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.ParticlePreview;
+import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -172,7 +172,8 @@ public class PopEditorSettings extends PopTable {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-
+//            FileDialogs.openDialog(Gdx.files.getLocalStoragePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            FileDialogs.saveDialog(Gdx.files.getLocalStoragePath(), null, new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
         });
 
         textButton = new TextButton("Remove preview", skin);
