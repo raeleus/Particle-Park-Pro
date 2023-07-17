@@ -20,8 +20,7 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
-import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.previewBackgroundImage;
-import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.resizeWidget;
+import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 
 public class PopEditorSettings extends PopTable {
     public PopEditorSettings() {
@@ -160,6 +159,26 @@ public class PopEditorSettings extends PopTable {
                 }
             });
             cp.show(foregroundStage);
+        });
+
+        scrollTable.row();
+        image = new Image(skin, "divider-10");
+        image.setScaling(Scaling.stretchX);
+        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
+
+        //Statistics
+        scrollTable.row();
+        label = new Label("Statistics", skin, "header");
+        scrollTable.add(label).left();
+
+        scrollTable.row();
+        var checkBox = new CheckBox("Statistics enabled", skin);
+        checkBox.setChecked(statisticsEnabled);
+        scrollTable.add(checkBox).padLeft(tabWidth).left();
+        addHandListener(checkBox);
+        onChange(checkBox, () -> {
+            statisticsEnabled = checkBox.isChecked();
+            statsLabel.setVisible(statisticsEnabled);
         });
 
         scrollTable.row();

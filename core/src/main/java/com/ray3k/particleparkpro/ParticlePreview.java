@@ -15,6 +15,7 @@ public class ParticlePreview {
     public static float pixelsPerMeter;
     public static float deltaMultiplier;
     public static final Color backgroundColor = new Color(Color.BLACK);
+    public static boolean statisticsEnabled;
     public static Texture previewImageTexture;
     public static boolean showResizeInterface;
     public static float previewImageX;

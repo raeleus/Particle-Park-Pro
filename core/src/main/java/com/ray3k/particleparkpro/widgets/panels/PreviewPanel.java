@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
-import com.ray3k.particleparkpro.ParticlePreview;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 import com.ray3k.stripe.ResizeWidget;
@@ -25,6 +25,7 @@ public class PreviewPanel extends Panel {
     private static final Vector2 temp = new Vector2();
     public static Image previewBackgroundImage;
     public static ResizeWidget resizeWidget;
+    public static Label statsLabel;
 
     public PreviewPanel() {
         setTouchable(Touchable.enabled);
@@ -35,12 +36,15 @@ public class PreviewPanel extends Panel {
         var stack = new Stack();
         bodyTable.add(stack).grow();
 
+        //Background
         previewBackgroundImage = new Image(skin, "white");
         stack.add(previewBackgroundImage);
         previewBackgroundImage.setColor(backgroundColor);
 
+        //Preview viewport
         stack.add(viewportWidget);
 
+        //UI
         var table = new Table();
         table.setTouchable(Touchable.enabled);
         stack.add(table);
@@ -142,17 +146,13 @@ public class PreviewPanel extends Panel {
                     particlePreview.particleEffect.setPosition(temp.x, temp.y);
                 }
             }
-
-            @Override
-            public void dragStop(InputEvent event, float x, float y, int pointer) {
-
-            }
         };
         dragListener.setButton(-1);
         dragListener.setTapSquareSize(5);
         table.addListener(dragListener);
         addScrollFocusListener(table);
 
+        //Resize widget
         var container = new Container<>();
         container.setTouchable(Touchable.enabled);
         resizeWidget = new ResizeWidget(container, resizeWidgetStyle) {
@@ -187,5 +187,29 @@ public class PreviewPanel extends Panel {
         addNESWresizeListener(resizeWidget.getTopRightHandle());
         addAllResizeListener(resizeWidget.getActor());
         stack.add(resizeWidget);
+
+        //label
+        statsLabel = new Label("", skin) {
+            int max;
+
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                if (isVisible()) {
+                    max = Math.max(max, particleEffect.getEmitters().first().getActiveCount());
+                    setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
+                        "\nCount: " + particleEffect.getEmitters().first().getActiveCount() +
+                        "\nMax: " +  max +
+                        "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
+                }
+            }
+        };
+        statsLabel.setLayoutEnabled(false);
+        container = new Container<>(statsLabel);
+        container.bottom().left();
+        container.pad(10);
+        stack.add(container);
+        statsLabel.addAction(Actions.delay(1f, Actions.run(() -> statsLabel.setLayoutEnabled(true))));
+        statsLabel.setVisible(false);
     }
 }
