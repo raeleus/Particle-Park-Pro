@@ -2,9 +2,12 @@ package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
+import com.ray3k.stripe.PopTableClickListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Core.skin;
@@ -200,8 +203,13 @@ public class EmitterPropertiesPanel extends Panel {
         colorGraph.setNodeListener(handListener);
 
         bodyTable.row();
-        textButton = new TextButton("Add Property", skin, "add");
-        bodyTable.add(textButton).right();
-        addHandListener(textButton);
+        var addPropertyTextButton = new TextButton("Add Property", skin, "add");
+        bodyTable.add(addPropertyTextButton).right();
+        addHandListener(addPropertyTextButton);
+        onChange(addPropertyTextButton, () -> {
+            var pop = new PopAddProperty();
+            pop.attachToActor(addPropertyTextButton, Align.top, Align.top);
+            pop.show(foregroundStage);
+        });
     }
 }
