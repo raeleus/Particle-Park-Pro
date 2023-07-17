@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -20,6 +22,8 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 
 public class PopAddProperty extends PopTable {
@@ -54,6 +58,10 @@ public class PopAddProperty extends PopTable {
         var checkBox = new CheckBox("Delay", skin);
         scrollTable.add(checkBox);
         addHandListener(checkBox);
+        onChange(checkBox, () -> {
+            if (checkBox.isChecked()) shownProperties.add(DELAY);
+            else shownProperties.remove(DELAY);
+        });
 
         scrollTable.row();
         checkBox = new CheckBox("Life Offset", skin);

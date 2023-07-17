@@ -3,6 +3,8 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
@@ -13,6 +15,11 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Core.skin;
 
 public class EmitterPropertiesPanel extends Panel {
+    public enum ShownProperty {
+        DELAY, LIFE_OFFSET, X_OFFSET, Y_OFFSET, Y_SIZE, VELOCITY, ANGLE, ROTATION, WIND, GRAVITY
+    }
+    public static ObjectSet<ShownProperty> shownProperties;
+
     public EmitterPropertiesPanel() {
         setTouchable(Touchable.enabled);
 
