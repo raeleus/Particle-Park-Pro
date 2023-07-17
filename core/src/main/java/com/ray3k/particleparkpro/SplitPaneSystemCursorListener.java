@@ -24,7 +24,7 @@
 package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
@@ -33,38 +33,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
  *
  * @author Raymond
  */
-public class ResizeArrowListener extends DragListener {
+public class SplitPaneSystemCursorListener extends DragListener {
     private boolean draggingCursor;
-    private boolean vertical;
+    private SystemCursor systemCursor;
 
-    public ResizeArrowListener(boolean vertical) {
+    public SplitPaneSystemCursorListener(SystemCursor systemCursor) {
         this.draggingCursor = false;
-        this.vertical = vertical;
+        this.systemCursor = systemCursor;
     }
 
     @Override
-    public void exit(InputEvent event, float x, float y, int pointer,
-            Actor toActor) {
-        if (!draggingCursor && event.getListenerActor().equals(event.getTarget())) {
-            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+        if (pointer == -1 && !draggingCursor && event.getListenerActor().equals(event.getTarget())) {
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
         }
     }
 
     @Override
-    public void enter(InputEvent event, float x, float y, int pointer,
-            Actor fromActor) {
+    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         if (!draggingCursor && event.getListenerActor().equals(event.getTarget())) {
-            if (vertical) {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.VerticalResize);
-            } else {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.HorizontalResize);
-            }
+            Gdx.graphics.setSystemCursor(systemCursor);
         }
     }
 
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer) {
-        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        if (draggingCursor && !event.getListenerActor().equals(event.getTarget())) {
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+        }
         draggingCursor = false;
     }
 
@@ -72,11 +68,6 @@ public class ResizeArrowListener extends DragListener {
     public void dragStart(InputEvent event, float x, float y,
             int pointer) {
         if (!draggingCursor && event.getListenerActor().equals(event.getTarget())) {
-            if (vertical) {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.VerticalResize);
-            } else {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.HorizontalResize);
-            }
             draggingCursor = true;
         }
     }

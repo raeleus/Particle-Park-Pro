@@ -2,7 +2,9 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,14 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.particleparkpro.widgets.styles.PPspinnerStyle;
-import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
-import com.ray3k.particleparkpro.widgets.styles.PPcolorGraphStyle;
-import com.ray3k.particleparkpro.widgets.styles.PPcolorPickerStyle;
-import com.ray3k.particleparkpro.widgets.styles.PPlineGraphStyle;
+import com.ray3k.particleparkpro.widgets.styles.*;
+import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
+import com.ray3k.stripe.ResizeWidget.ResizeWidgetStyle;
 import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
@@ -48,10 +48,23 @@ public class Core extends ApplicationAdapter {
     public static ViewportWidget viewportWidget;
     public static ParticlePreview particlePreview;
     public static SpinnerStyle spinnerStyle;
+    public static Preferences preferences;
+    public static ResizeWidgetStyle resizeWidgetStyle;
+    public static SystemCursorListener handListener;
+    public static SystemCursorListener ibeamListener;
+    public static SystemCursorListener horizontalResizeListener;
+    public static SystemCursorListener verticalResizeListener;
+    public static SystemCursorListener neswResizeListener;
+    public static SystemCursorListener nwseResizeListener;
+    public static SystemCursorListener allResizeListener;
+    public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
+    public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
+
+        preferences = Gdx.app.getPreferences("Particle Park Pro");
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();
@@ -67,12 +80,21 @@ public class Core extends ApplicationAdapter {
         colorGraphStyle = new PPcolorGraphStyle();
         particlePreview = new ParticlePreview();
         spinnerStyle = new PPspinnerStyle();
+        resizeWidgetStyle = new PPresizeWidgetStyle();
 
         Gdx.input.setInputProcessor(stage);
 
-        handListener = new HandListener();
-        ibeamListener = new IbeamListener();
+        handListener = new SystemCursorListener(SystemCursor.Hand);
+        ibeamListener = new SystemCursorListener(SystemCursor.Ibeam);
+        neswResizeListener = new SystemCursorListener(SystemCursor.NESWResize);
+        nwseResizeListener = new SystemCursorListener(SystemCursor.NWSEResize);
+        horizontalResizeListener = new SystemCursorListener(SystemCursor.HorizontalResize);
+        verticalResizeListener = new SystemCursorListener(SystemCursor.VerticalResize);
+        allResizeListener = new SystemCursorListener(SystemCursor.AllResize);
+        splitPaneHorizontalSystemCursorListener = new SplitPaneSystemCursorListener(SystemCursor.HorizontalResize);
+        splitPaneVerticalSystemCursorListener = new SplitPaneSystemCursorListener(SystemCursor.VerticalResize);
         scrollFocusListener = new ScrollFocusListener(stage);
+        foregroundScrollFocusListener = new ScrollFocusListener(foregroundStage);
 
         bgColor.set(skin.getColor("bg"));
 
@@ -143,8 +165,6 @@ public class Core extends ApplicationAdapter {
         });
     }
 
-    public static HandListener handListener;
-    public static IbeamListener ibeamListener;
 
     public static void addHandListener(Actor actor) {
         actor.addListener(handListener);
@@ -155,8 +175,41 @@ public class Core extends ApplicationAdapter {
     }
 
     private static ScrollFocusListener scrollFocusListener;
+    private static ScrollFocusListener foregroundScrollFocusListener;
 
     public static void addScrollFocusListener(Actor actor) {
         actor.addListener(scrollFocusListener);
+    }
+
+    public static void addForegroundScrollFocusListener(Actor actor) {
+        actor.addListener(foregroundScrollFocusListener);
+    }
+
+    public static void addHorizontalResizeListener(Actor actor) {
+        actor.addListener(horizontalResizeListener);
+    }
+
+    public static void addVerticalResizeListener(Actor actor) {
+        actor.addListener(verticalResizeListener);
+    }
+
+    public static void addNESWresizeListener(Actor actor) {
+        actor.addListener(neswResizeListener);
+    }
+
+    public static void addNWSEresizeListener(Actor actor) {
+        actor.addListener(nwseResizeListener);
+    }
+
+    public static void addAllResizeListener(Actor actor) {
+        actor.addListener(allResizeListener);
+    }
+
+    public static void addSplitPaneHorizontalSystemCursorListener(Actor actor) {
+        actor.addListener(splitPaneHorizontalSystemCursorListener);
+    }
+
+    public static void addSplitPaneVerticalSystemCursorListener(Actor actor) {
+        actor.addListener(splitPaneVerticalSystemCursorListener);
     }
 }

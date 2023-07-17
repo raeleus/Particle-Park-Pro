@@ -5,24 +5,26 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
+import com.ray3k.particleparkpro.ParticlePreview;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
-import com.ray3k.stripe.PopTable;
-import com.ray3k.stripe.PopTable.TableShowHideListener;
+import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.ParticlePreview.*;
 
 public class PreviewPanel extends Panel {
     private final FloatArray zoomLevels = new FloatArray(new float[] {1/6f, 1/4f, 1/3f, .5f, 2/3f, 1f, 1.5f, 2f, 3f, 4f, 6f});
     private int zoomLevelIndex = 5;
     private static final Vector2 temp = new Vector2();
+    public static Image previewBackgroundImage;
+    public static ResizeWidget resizeWidget;
 
     public PreviewPanel() {
         setTouchable(Touchable.enabled);
@@ -33,8 +35,9 @@ public class PreviewPanel extends Panel {
         var stack = new Stack();
         bodyTable.add(stack).grow();
 
-        var image = new Image(skin, "black");
-        stack.add(image);
+        previewBackgroundImage = new Image(skin, "white");
+        stack.add(previewBackgroundImage);
+        previewBackgroundImage.setColor(backgroundColor);
 
         stack.add(viewportWidget);
 
@@ -149,5 +152,40 @@ public class PreviewPanel extends Panel {
         dragListener.setTapSquareSize(5);
         table.addListener(dragListener);
         addScrollFocusListener(table);
+
+        var container = new Container<>();
+        container.setTouchable(Touchable.enabled);
+        resizeWidget = new ResizeWidget(container, resizeWidgetStyle) {
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                if (isVisible() && previewImageTexture != null) {
+                    temp.set(0, 0);
+                    getActor().localToScreenCoordinates(temp);
+                    previewViewport.unproject(temp);
+                    previewImageX = temp.x;
+                    previewImageY = temp.y;
+
+                    temp.set(getActor().getWidth(), getActor().getHeight());
+                    getActor().localToScreenCoordinates(temp);
+                    previewViewport.unproject(temp);
+                    previewImageWidth = temp.x - previewImageX;
+                    previewImageHeight = temp.y - previewImageY;
+                }
+            }
+        };
+        resizeWidget.setAllowDragging(true);
+        resizeWidget.setTouchable(Touchable.childrenOnly);
+        resizeWidget.setVisible(false);
+        addHorizontalResizeListener(resizeWidget.getRightHandle());
+        addNWSEresizeListener(resizeWidget.getBottomRightHandle());
+        addVerticalResizeListener(resizeWidget.getBottomHandle());
+        addNESWresizeListener(resizeWidget.getBottomLeftHandle());
+        addHorizontalResizeListener(resizeWidget.getLeftHandle());
+        addNWSEresizeListener(resizeWidget.getTopLeftHandle());
+        addVerticalResizeListener(resizeWidget.getTopHandle());
+        addNESWresizeListener(resizeWidget.getTopRightHandle());
+        addAllResizeListener(resizeWidget.getActor());
+        stack.add(resizeWidget);
     }
 }

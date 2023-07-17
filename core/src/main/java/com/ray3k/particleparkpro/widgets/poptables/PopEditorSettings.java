@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -17,6 +18,10 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
+import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
+import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.previewBackgroundImage;
+import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.resizeWidget;
 
 public class PopEditorSettings extends PopTable {
     public PopEditorSettings() {
@@ -41,12 +46,13 @@ public class PopEditorSettings extends PopTable {
         final int tabWidth = 5;
         final int itemSpacing = 5;
         final int spinnerWidth = 70;
+        final int seperationWidth = 30;
 
         var scrollTable = new Table();
         var scrollPane = new ScrollPane(scrollTable, skin);
         scrollPane.setFlickScroll(false);
         add(scrollPane).grow();
-        addScrollFocusListener(scrollPane);
+        addForegroundScrollFocusListener(scrollPane);
 
         scrollTable.top().pad(5);
 
@@ -136,18 +142,21 @@ public class PopEditorSettings extends PopTable {
                 public void picked(Color color) {
                     backgroundColorImage.setColor(color);
                     backgroundColor.set(color);
+                    previewBackgroundImage.setColor(color);
                 }
 
                 @Override
                 public void updated(Color color) {
                     backgroundColorImage.setColor(color);
                     backgroundColor.set(color);
+                    previewBackgroundImage.setColor(color);
                 }
 
                 @Override
                 public void cancelled(Color oldColor) {
                     backgroundColorImage.setColor(oldColor);
                     backgroundColor.set(oldColor);
+                    previewBackgroundImage.setColor(oldColor);
                 }
             });
             cp.show(foregroundStage);
@@ -168,74 +177,109 @@ public class PopEditorSettings extends PopTable {
         scrollTable.add(table).space(itemSpacing).left().padLeft(tabWidth);
 
         table.defaults().space(itemSpacing);
-        var textButton = new TextButton("Select preview", skin);
-        table.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
-//            FileDialogs.openDialog(Gdx.files.getLocalStoragePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
-            FileDialogs.saveDialog(Gdx.files.getLocalStoragePath(), null, new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
-        });
+        var selectPreviewTextButton = new TextButton("Select preview", skin);
+        table.add(selectPreviewTextButton);
+        addHandListener(selectPreviewTextButton);
 
-        textButton = new TextButton("Remove preview", skin);
-        table.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
-            previewImagePath = null;
-            previewImage = null;
-        });
+        var removePreviewTextButton = new TextButton("Remove preview", skin);
+        table.add(removePreviewTextButton);
+        addHandListener(removePreviewTextButton);
 
         scrollTable.row();
+        var previewSizeTable = new Table();
+        scrollTable.add(previewSizeTable).space(itemSpacing).left().padLeft(tabWidth);
+
+        if (previewImageTexture != null) {
+            previewSizeTable.setColor(Color.WHITE);
+            previewSizeTable.setTouchable(Touchable.childrenOnly);
+        } else {
+            previewSizeTable.setColor(skin.getColor("disabled"));
+            previewSizeTable.setTouchable(Touchable.disabled);
+        }
+
         var showResizeInterfaceCheckBox = new CheckBox("Show resize interface", skin);
-        scrollTable.add(showResizeInterfaceCheckBox).left().padLeft(tabWidth).space(itemSpacing);
+        showResizeInterfaceCheckBox.setChecked(showResizeInterface);
+        previewSizeTable.add(showResizeInterfaceCheckBox).left().space(itemSpacing).colspan(4);
         addHandListener(showResizeInterfaceCheckBox);
-        onChange(showResizeInterfaceCheckBox, () -> showResizeInterface = showResizeInterfaceCheckBox.isChecked());
+        onChange(showResizeInterfaceCheckBox, () -> {
+            showResizeInterface = showResizeInterfaceCheckBox.isChecked();
+            resizeWidget.setVisible(showResizeInterface);
+        });
 
-        scrollTable.row();
-        table = new Table();
-        scrollTable.add(table).space(itemSpacing).left().padLeft(tabWidth);
-
-        table.defaults().right().space(itemSpacing);
+        previewSizeTable.row();
+        previewSizeTable.defaults().right().space(itemSpacing);
 
         label = new Label("X:", skin);
-        table.add(label).padLeft(tabWidth);
+        previewSizeTable.add(label).padLeft(tabWidth);
 
         var xSpinner = new Spinner(previewImageX, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(xSpinner).width(spinnerWidth);
+        previewSizeTable.add(xSpinner).width(spinnerWidth);
         addHandListener(xSpinner.getButtonMinus());
         addHandListener(xSpinner.getButtonPlus());
         addIbeamListener(xSpinner.getTextField());
         onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
 
         label = new Label("Y:", skin);
-        table.add(label).padLeft(tabWidth);
+        previewSizeTable.add(label).padLeft(tabWidth);
 
         var ySpinner = new Spinner(previewImageY, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(ySpinner).width(spinnerWidth);
+        previewSizeTable.add(ySpinner).width(spinnerWidth);
         addHandListener(ySpinner.getButtonMinus());
         addHandListener(ySpinner.getButtonPlus());
         addIbeamListener(ySpinner.getTextField());
         onChange(ySpinner, () -> previewImageY = (float) ySpinner.getValue());
 
-        table.row();
+        previewSizeTable.row();
         label = new Label("Width:", skin);
-        table.add(label).padLeft(tabWidth);
+        previewSizeTable.add(label).padLeft(tabWidth);
 
         var widthSpinner = new Spinner(previewImageWidth, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(widthSpinner).width(spinnerWidth);
+        previewSizeTable.add(widthSpinner).width(spinnerWidth);
         addHandListener(widthSpinner.getButtonMinus());
         addHandListener(widthSpinner.getButtonPlus());
         addIbeamListener(widthSpinner.getTextField());
         onChange(widthSpinner, () -> previewImageWidth = (float) widthSpinner.getValue());
 
         label = new Label("Height:", skin);
-        table.add(label).padLeft(tabWidth);
+        previewSizeTable.add(label).padLeft(tabWidth);
 
         var heightSpinner = new Spinner(previewImageHeight, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(heightSpinner).width(spinnerWidth);
+        previewSizeTable.add(heightSpinner).width(spinnerWidth);
         addHandListener(heightSpinner.getButtonMinus());
         addHandListener(heightSpinner.getButtonPlus());
         addIbeamListener(heightSpinner.getTextField());
         onChange(heightSpinner, () -> previewImageHeight = (float) heightSpinner.getValue());
+
+        onChange(selectPreviewTextButton, () -> {
+            var fileHandle = FileDialogs.openDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            if (fileHandle != null) {
+                setDefaultImagePath(fileHandle);
+                previewImageTexture = new Texture(fileHandle);
+
+                previewImageX = 0;
+                previewImageY = 0;
+                previewImageWidth = previewImageTexture.getWidth();
+                previewImageHeight = previewImageTexture.getHeight();
+
+                xSpinner.setValue(previewImageX);
+                ySpinner.setValue(previewImageY);
+                widthSpinner.setValue(previewImageWidth);
+                heightSpinner.setValue(previewImageHeight);
+
+                previewSizeTable.setColor(Color.WHITE);
+                previewSizeTable.setTouchable(Touchable.childrenOnly);
+            }
+        });
+        onChange(removePreviewTextButton, () -> {
+            if (previewImageTexture != null) {
+                previewImageTexture.dispose();
+                previewImageTexture = null;
+            }
+
+            previewSizeTable.setColor(skin.getColor("disabled"));
+            previewSizeTable.setTouchable(Touchable.disabled);
+            showResizeInterfaceCheckBox.setChecked(false);
+        });
 
         scrollTable.row();
         image = new Image(skin, "divider-10");
@@ -248,18 +292,26 @@ public class PopEditorSettings extends PopTable {
         scrollTable.add(label).left();
 
         scrollTable.row();
-        table = new Table();
-        scrollTable.add(table).left().padLeft(tabWidth);
+        var renderGridTable = new Table();
+        scrollTable.add(renderGridTable).left().padLeft(tabWidth);
 
-        table.defaults().space(itemSpacing);
-        var renderGridCheckBox = new CheckBox("Grid enabled", skin);
-        table.add(renderGridCheckBox);
-        addHandListener(renderGridCheckBox);
-        onChange(renderGridCheckBox, () -> gridEnabled = renderGridCheckBox.isChecked());
+        renderGridTable.defaults().spaceLeft(seperationWidth).spaceTop(itemSpacing);
+        var gridCheckBox = new CheckBox("Grid enabled", skin);
+        gridCheckBox.setChecked(gridEnabled);
+        renderGridTable.add(gridCheckBox).left().expandX();
+        addHandListener(gridCheckBox);
+        onChange(gridCheckBox, () -> gridEnabled = gridCheckBox.isChecked());
 
-        scrollTable.row();
+        var axesCheckBox = new CheckBox("Axes enabled", skin);
+        axesCheckBox.setChecked(axesEnabled);
+        renderGridTable.add(axesCheckBox).left().expandX();
+        addHandListener(axesCheckBox);
+        onChange(axesCheckBox, () -> axesEnabled = axesCheckBox.isChecked());
+
+        //Grid
+        renderGridTable.row();
         var gridTable = new Table();
-        scrollTable.add(gridTable).left();
+        renderGridTable.add(gridTable).left();
 
         gridTable.defaults().space(itemSpacing);
         gridTable.columnDefaults(0).right();
@@ -273,7 +325,10 @@ public class PopEditorSettings extends PopTable {
         addHandListener(majorGridlinesSpinner.getButtonPlus());
         addIbeamListener(majorGridlinesSpinner.getTextField());
         onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
-        onChange(majorGridlinesSpinner, () -> gridMajorGridlines = (float) majorGridlinesSpinner.getValue());
+        onChange(majorGridlinesSpinner, () -> {
+            float value = (float) majorGridlinesSpinner.getValue();
+            if (value > 0) gridMajorGridlines = value;
+        });
 
         gridTable.row();
         label = new Label("Minor gridlines:", skin);
@@ -284,7 +339,10 @@ public class PopEditorSettings extends PopTable {
         addHandListener(minorGridlinesSpinner.getButtonMinus());
         addHandListener(minorGridlinesSpinner.getButtonPlus());
         addIbeamListener(minorGridlinesSpinner.getTextField());
-        onChange(minorGridlinesSpinner, () -> gridMinorGridlines = (float) minorGridlinesSpinner.getValue());
+        onChange(majorGridlinesSpinner, () -> {
+            float value = (float) minorGridlinesSpinner.getValue();
+            if (value > 0) gridMinorGridlines = value;
+        });
 
         gridTable.row();
         label = new Label("Grid color:", skin);
@@ -340,8 +398,8 @@ public class PopEditorSettings extends PopTable {
             cp.show(foregroundStage);
         });
 
-        onChange(renderGridCheckBox, () -> {
-            if (renderGridCheckBox.isChecked()) {
+        onChange(gridCheckBox, () -> {
+            if (gridCheckBox.isChecked()) {
                 gridTable.setTouchable(Touchable.enabled);
                 gridTable.setColor(Color.WHITE);
             } else {
@@ -353,6 +411,81 @@ public class PopEditorSettings extends PopTable {
         if (!gridEnabled) {
             gridTable.setTouchable(Touchable.disabled);
             gridTable.setColor(skin.getColor("disabled"));
+        }
+
+        //Axes
+        var axesTable = new Table();
+        renderGridTable.add(axesTable).left().top();
+
+        axesTable.defaults().space(itemSpacing);
+        axesTable.columnDefaults(0).right();
+        axesTable.columnDefaults(1).left();
+        label = new Label("Axes color:", skin);
+        axesTable.add(label).padLeft(tabWidth);
+
+        stack = new Stack();
+        axesTable.add(stack).space(itemSpacing);
+
+        image = new Image(skin, "swatch-bg");
+        image.setScaling(Scaling.none);
+        stack.add(image);
+
+        var axesColorImage = new Image(skin, "swatch-fill");
+        axesColorImage.setColor(axesColor);
+        axesColorImage.setScaling(Scaling.none);
+        stack.add(axesColorImage);
+        addHandListener(stack);
+        onClick(axesColorImage, () -> {
+            var cp = new PopColorPicker(gridColor, popColorPickerStyle);
+            cp.setHideOnUnfocus(true);
+            cp.setButtonListener(handListener);
+            cp.setTextFieldListener(ibeamListener);
+            cp.addListener(new TableShowHideListener() {
+                @Override
+                public void tableShown(Event event) {
+                    setHideOnUnfocus(false);
+                }
+
+                @Override
+                public void tableHidden(Event event) {
+                    setHideOnUnfocus(true);
+                }
+            });
+            cp.addListener(new PopColorPickerListener() {
+                @Override
+                public void picked(Color color) {
+                    axesColorImage.setColor(color);
+                    axesColor.set(color);
+                }
+
+                @Override
+                public void updated(Color color) {
+                    axesColorImage.setColor(color);
+                    axesColor.set(color);
+                }
+
+                @Override
+                public void cancelled(Color oldColor) {
+                    axesColorImage.setColor(oldColor);
+                    axesColor.set(oldColor);
+                }
+            });
+            cp.show(foregroundStage);
+        });
+
+        onChange(axesCheckBox, () -> {
+            if (axesCheckBox.isChecked()) {
+                axesTable.setTouchable(Touchable.enabled);
+                axesTable.setColor(Color.WHITE);
+            } else {
+                axesTable.setTouchable(Touchable.disabled);
+                axesTable.setColor(skin.getColor("disabled"));
+                foregroundStage.setKeyboardFocus(null);
+            }
+        });
+        if (!axesEnabled) {
+            axesTable.setTouchable(Touchable.disabled);
+            axesTable.setColor(skin.getColor("disabled"));
         }
 
         scrollTable.row();
@@ -379,7 +512,7 @@ public class PopEditorSettings extends PopTable {
         subtable.add(label).padLeft(tabWidth);
 
         subtable.row();
-        textButton = new TextButton("Default", skin);
+        var textButton = new TextButton("Default", skin);
         subtable.add(textButton);
         addHandListener(textButton);
 
@@ -428,7 +561,7 @@ public class PopEditorSettings extends PopTable {
 
         //Extra Texture Units
         subtable = new Table();
-        table.add(subtable).padLeft(30);
+        table.add(subtable).padLeft(seperationWidth);
 
         subtable.defaults().space(itemSpacing);
         label = new Label("Extra Texture Units", skin);
@@ -439,6 +572,7 @@ public class PopEditorSettings extends PopTable {
         scrollPane = new ScrollPane(list, skin);
         subtable.add(scrollPane).growY().width(100);
         addHandListener(list);
+        addScrollFocusListener(scrollPane);
 
         var textureUnitsTable = new Table();
         subtable.add(textureUnitsTable);
