@@ -17,12 +17,10 @@ import com.ray3k.stripe.Spinner.Orientation;
 import static com.ray3k.particleparkpro.Core.*;
 
 public class OptionsSubPanel extends Panel {
-    private static PopTable.PopTableStyle popTableStyle;
     public OptionsSubPanel() {
         setTouchable(Touchable.enabled);
 
         final var itemSpacing = 5;
-        popTableStyle = new PopTable.PopTableStyle();
 
         tabTable.left();
         var label = new Label("Options", skin, "header");
@@ -78,7 +76,7 @@ public class OptionsSubPanel extends Panel {
             PopTable popTable;
 
             {
-                popTable = new PopTable(popTableStyle);
+                popTable = new PopTable(tooltipBottomArrowStyle);
                 popTable.setModal(false);
                 popTable.setHideOnUnfocus(true);
                 popTable.setTouchable(Touchable.disabled);

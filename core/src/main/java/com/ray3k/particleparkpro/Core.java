@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,6 +22,7 @@ import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
+import com.ray3k.stripe.PopTable.PopTableStyle;
 import com.ray3k.stripe.ResizeWidget.ResizeWidgetStyle;
 import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner.SpinnerStyle;
@@ -59,6 +61,10 @@ public class Core extends ApplicationAdapter {
     public static SystemCursorListener allResizeListener;
     public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
     public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
+    public static PopTableStyle tooltipBottomArrowStyle;
+    public static PopTableStyle tooltipTopArrowStyle;
+    public static PopTableStyle tooltipRightArrowStyle;
+    public static PopTableStyle tooltipLeftArrowStyle;
 
     @Override
     public void create() {
@@ -81,6 +87,10 @@ public class Core extends ApplicationAdapter {
         particlePreview = new ParticlePreview();
         spinnerStyle = new PPspinnerStyle();
         resizeWidgetStyle = new PPresizeWidgetStyle();
+        tooltipBottomArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-arrow", WindowStyle.class));
+        tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
+        tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
+        tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
 
         Gdx.input.setInputProcessor(stage);
 

@@ -57,8 +57,7 @@ public class PopAddProperty extends PopTable {
             EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable();
         });
 
-        var popStyle = new PopTableStyle();
-        var popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        var popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
         delayCheckBox.addListener(popHoverListener);
@@ -76,7 +75,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(LIFE_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         lifeOffsetCheckbox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -94,7 +93,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(X_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         xOffsetCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -112,7 +111,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(Y_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         yOffsetCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -130,7 +129,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(Y_SIZE);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         ySizeCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -148,7 +147,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(VELOCITY);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         velocityCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -166,7 +165,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(ANGLE);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         angleCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -184,7 +183,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(ROTATION);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         rotationCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -202,7 +201,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(WIND);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         windCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
@@ -220,7 +219,7 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(GRAVITY);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, popStyle);
+        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
         gravityCheckBox.addListener(popHoverListener);
         popHoverListener.getPopTable().setAttachOffsetX(-10);
         popHoverListener.getPopTable().setKeepSizedWithinStage(false);
