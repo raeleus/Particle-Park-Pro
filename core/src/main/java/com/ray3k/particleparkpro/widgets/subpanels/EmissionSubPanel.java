@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -15,6 +16,7 @@ import static com.ray3k.particleparkpro.Core.*;
 public class EmissionSubPanel extends Panel {
     public EmissionSubPanel() {
         final int spinnerWidth = 70;
+        final int itemSpacing = 5;
 
         setTouchable(Touchable.enabled);
 
@@ -27,53 +29,125 @@ public class EmissionSubPanel extends Panel {
         tabTable.add(button);
         addHandListener(button);
 
-        bodyTable.defaults().space(5);
-        bodyTable.left();
-        var table = new Table();
-        bodyTable.add(table);
+        var graphToggleWidget = new ToggleWidget();
+        bodyTable.add(graphToggleWidget).grow();
 
-        table.defaults().space(3);
+        graphToggleWidget.table1.defaults().space(itemSpacing);
+        graphToggleWidget.table1.left();
+        var table = new Table();
+        graphToggleWidget.table1.add(table);
+
+        //High
+        table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
 
+        var highToggleWidget = new ToggleWidget();
+        table.add(highToggleWidget);
+
+        //High single
+        highToggleWidget.table1.defaults().space(itemSpacing);
         var spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(spinner).width(spinnerWidth);
+        highToggleWidget.table1.add(spinner).width(spinnerWidth);
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
         addTooltip(spinner, "The high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
-        table.add(button);
+        highToggleWidget.table1.add(button);
         addHandListener(button);
         addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        onChange(button, highToggleWidget::swap);
 
+        //High range
+        highToggleWidget.table2.defaults().space(itemSpacing);
+        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        highToggleWidget.table2.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The minimum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+
+        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        highToggleWidget.table2.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The maximum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+
+        button = new Button(skin, "moveleft");
+        highToggleWidget.table2.add(button);
+        addHandListener(button);
+        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        onChange(button, highToggleWidget::swap);
+
+        //Low
         table.row();
         label = new Label("Low:", skin);
         table.add(label);
 
+        var lowToggleWidget = new ToggleWidget();
+        table.add(lowToggleWidget);
+
+        //Low single
+        lowToggleWidget.table1.defaults().space(itemSpacing);
         spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(spinner).width(spinnerWidth);
+        lowToggleWidget.table1.add(spinner).width(spinnerWidth);
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
         addTooltip(spinner, "The low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
-        table.add(button);
+        lowToggleWidget.table1.add(button);
         addHandListener(button);
         addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        onChange(button, lowToggleWidget::swap);
 
-        var graph = new LineGraph("text", lineGraphStyle);
-        graph.setNodeListener(handListener);
-        bodyTable.add(graph);
+        //Low range
+        lowToggleWidget.table2.defaults().space(itemSpacing);
+        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        lowToggleWidget.table2.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The minimum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
-        table = new Table();
-        bodyTable.add(table).bottom();
+        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        lowToggleWidget.table2.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The maximum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
-        table.defaults().space(3);
-        button = new Button(skin, "plus");
-        table.add(button);
+        button = new Button(skin, "moveleft");
+        lowToggleWidget.table2.add(button);
         addHandListener(button);
+        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        onChange(button, lowToggleWidget::swap);
+
+        //Graph small
+        var graph = new LineGraph("Emission", lineGraphStyle);
+        graph.setNodeListener(handListener);
+        graphToggleWidget.table1.add(graph);
+
+        button = new Button(skin, "plus");
+        graphToggleWidget.table1.add(button).bottom();
+        addHandListener(button);
+        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        onChange(button, graphToggleWidget::swap);
+
+        //Graph large
+        graphToggleWidget.table2.defaults().space(itemSpacing);
+        graph = new LineGraph("Emission", lineGraphStyle);
+        graph.setNodeListener(handListener);
+        graphToggleWidget.table2.add(graph).grow();
+
+        button = new Button(skin, "minus");
+        graphToggleWidget.table2.add(button).bottom();
+        addHandListener(button);
+        addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
+        onChange(button, graphToggleWidget::swap);
     }
 }
