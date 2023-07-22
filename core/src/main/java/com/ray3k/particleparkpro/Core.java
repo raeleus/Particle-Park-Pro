@@ -7,14 +7,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
@@ -22,6 +25,7 @@ import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
+import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.PopTableStyle;
 import com.ray3k.stripe.ResizeWidget.ResizeWidgetStyle;
 import com.ray3k.stripe.ScrollFocusListener;
@@ -29,6 +33,7 @@ import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 
 public class Core extends ApplicationAdapter {
@@ -221,5 +226,89 @@ public class Core extends ApplicationAdapter {
 
     public static void addSplitPaneVerticalSystemCursorListener(Actor actor) {
         actor.addListener(splitPaneVerticalSystemCursorListener);
+    }
+
+    public static PopTable addTooltip(Actor actor, String text, int align, float width, PopTableStyle popTableStyle) {
+        return addTooltip(actor, text, align, width, true, popTableStyle);
+    }
+
+    public static PopTable addTooltip(Actor actor, String text, int align, PopTableStyle popTableStyle) {
+        return addTooltip(actor, text, align, 0, false, popTableStyle);
+    }
+
+    private static PopTable addTooltip(Actor actor, String text, int align, float width, boolean defineWidth, PopTableStyle popTableStyle) {
+        PopTable popTable = new PopTable(popTableStyle);
+        var inputListener = new ClickListener() {
+            boolean dismissed;
+            Action showTableAction;
+
+            {
+                popTable.setModal(false);
+                popTable.setHideOnUnfocus(true);
+                popTable.setTouchable(Touchable.disabled);
+
+                var label = new Label(text, skin);
+                if (defineWidth) {
+                    label.setWrap(true);
+                    popTable.add(label).width(width);
+                } else {
+                    popTable.add(label);
+                }
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1 && popTable.isHidden() && !dismissed) {
+                    if (fromActor == null || !event.getListenerActor().isAscendantOf(fromActor)) {
+                        if (showTableAction == null) {
+                            showTableAction = Actions.delay(.5f,
+                                Actions.run(() -> {
+                                    showTable(actor);
+                                    showTableAction = null;
+                                }));
+                            actor.addAction(showTableAction);
+                        }
+                    }
+                }
+            }
+
+            private void showTable(Actor actor) {
+                if (actor instanceof Disableable) {
+                    if (((Disableable) actor).isDisabled()) return;
+                }
+
+                popTable.show(foregroundStage);
+                popTable.attachToActor(actor, align, align);
+
+                popTable.moveToInsideStage();
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (pointer == -1) {
+                    if (toActor == null || !toActor.isDescendantOf(event.getListenerActor())) {
+                        if (!popTable.isHidden()) popTable.hide();
+                        dismissed = false;
+                        if (showTableAction != null) {
+                            actor.removeAction(showTableAction);
+                            showTableAction = null;
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dismissed = true;
+                popTable.hide();
+                if (showTableAction != null) {
+                    actor.removeAction(showTableAction);
+                    showTableAction = null;
+                }
+            }
+        };
+        actor.addListener(inputListener);
+        return popTable;
     }
 }

@@ -1,6 +1,7 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -57,12 +58,9 @@ public class PopAddProperty extends PopTable {
             EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable();
         });
 
-        var popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        delayCheckBox.addListener(popHoverListener);
-        var label = new Label("Time from beginning of effect to emission start, in milliseconds.", skin);
-        popHoverListener.getPopTable().add(label);
+        var popTable = addTooltip(delayCheckBox, "Time from beginning of effect to emission start, in milliseconds.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Life Offset
         scrollTable.row();
@@ -75,12 +73,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(LIFE_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        lifeOffsetCheckbox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Particle starting life consumed, in milliseconds.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(lifeOffsetCheckbox, "Particle starting life consumed, in milliseconds.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //X Offset
         scrollTable.row();
@@ -93,12 +88,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(X_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        xOffsetCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Amount to offset a particle's starting X location, in world units.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(xOffsetCheckBox, "Amount to offset a particle's starting X location, in world units.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Y Offset
         scrollTable.row();
@@ -111,12 +103,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(Y_OFFSET);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        yOffsetCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Amount to offset a particle's starting y location, in world units.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(yOffsetCheckBox, "Amount to offset a particle's starting y location, in world units.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Y Size
         scrollTable.row();
@@ -129,12 +118,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(Y_SIZE);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        ySizeCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Particle y size, in world units.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(ySizeCheckBox, "Particle y size, in world units.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Velocity
         scrollTable.row();
@@ -147,12 +133,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(VELOCITY);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        velocityCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Particle speed, in world units per second.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(velocityCheckBox, "Particle speed, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Angle
         scrollTable.row();
@@ -165,12 +148,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(ANGLE);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        angleCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Particle emission angle, in degrees.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(angleCheckBox, "Particle emission angle, in degrees.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Rotation
         scrollTable.row();
@@ -183,12 +163,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(ROTATION);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        rotationCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Particle rotation, in degrees.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(rotationCheckBox, "Particle rotation, in degrees.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Wind
         scrollTable.row();
@@ -201,12 +178,9 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(WIND);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        windCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Wind strength, in world units per second.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(windCheckBox, "Wind strength, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
 
         //Graviity
         scrollTable.row();
@@ -219,11 +193,8 @@ public class PopAddProperty extends PopTable {
             else shownProperties.remove(GRAVITY);
         });
 
-        popHoverListener = new PopTableHoverListener(Align.left, Align.left, tooltipRightArrowStyle);
-        gravityCheckBox.addListener(popHoverListener);
-        popHoverListener.getPopTable().setAttachOffsetX(-10);
-        popHoverListener.getPopTable().setKeepSizedWithinStage(false);
-        label = new Label("Gravity strength, in world units per second.", skin);
-        popHoverListener.getPopTable().add(label);
+        popTable = addTooltip(gravityCheckBox, "Gravity strength, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable.setAttachOffsetX(-10);
+        popTable.setKeepSizedWithinStage(false);
     }
 }
