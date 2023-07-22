@@ -6,6 +6,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
+import com.ray3k.particleparkpro.widgets.subpanels.CountSubPanel;
+import com.ray3k.particleparkpro.widgets.subpanels.EmissionSubPanel;
+import com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel;
+import com.ray3k.particleparkpro.widgets.subpanels.OptionsSubPanel;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Core.skin;

@@ -1,7 +1,8 @@
-package com.ray3k.particleparkpro.widgets.panels;
+package com.ray3k.particleparkpro.widgets.subpanels;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 
@@ -24,16 +25,19 @@ public class ImagesSubPanel extends Panel {
         var textButton = new TextButton("Add", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
+        addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, tooltipBottomArrowStyle);
 
         table.row();
         textButton = new TextButton("Default", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
+        addTooltip(textButton, "Set the image to the default round-faded image", Align.top, tooltipBottomArrowStyle);
 
         table.row();
         textButton = new TextButton("Default (Premultiplied Alpha)", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
+        addTooltip(textButton, "Set the image to the default for premultiplied alpha", Align.top, tooltipBottomArrowStyle);
 
         table = new Table();
         bodyTable.add(table);
@@ -48,18 +52,21 @@ public class ImagesSubPanel extends Panel {
         table.add(checkBox).spaceTop(5);
         buttonGroup.add(checkBox);
         addHandListener(checkBox);
+        addTooltip(checkBox, "Only the selected image will be drawn", Align.top, tooltipBottomArrowStyle);
 
         table.row();
         checkBox = new CheckBox("Random", skin, "radio");
         table.add(checkBox);
         buttonGroup.add(checkBox);
         addHandListener(checkBox);
+        addTooltip(checkBox, "A randomly selected image will be chosen for each particle", Align.top, tooltipBottomArrowStyle);
 
         table.row();
         checkBox = new CheckBox("Animated", skin, "radio");
         table.add(checkBox);
         buttonGroup.add(checkBox);
         addHandListener(checkBox);
+        addTooltip(checkBox, "All images will be displayed in sequence over the life of each particle", Align.top, tooltipBottomArrowStyle);
 
         var list = new List<String>(skin);
         list.setItems("particle.png", "particle1.png", "particle2.png", "particle3.png", "particle4.png");

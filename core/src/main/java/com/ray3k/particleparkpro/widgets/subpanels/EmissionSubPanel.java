@@ -1,4 +1,4 @@
-package com.ray3k.particleparkpro.widgets.panels;
+package com.ray3k.particleparkpro.widgets.subpanels;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -7,6 +7,8 @@ import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
+import com.ray3k.stripe.Spinner;
+import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -34,49 +36,33 @@ public class EmissionSubPanel extends Panel {
         label = new Label("High:", skin);
         table.add(label);
 
-        var textField = new TextField("250", skin, "spinner");
-        table.add(textField).spaceRight(0).width(spinnerWidth);
-        addIbeamListener(textField);
-
-        var subTable = new Table();
-        table.add(subTable).spaceLeft(0);
-
-        button = new Button(skin, "spinner-top");
-        subTable.add(button);
-        addHandListener(button);
-
-        subTable.row();
-        button = new Button(skin, "spinner-bottom");
-        subTable.add(button);
-        addHandListener(button);
+        var spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        table.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
 
-        table.row().spaceTop(5);
+        table.row();
         label = new Label("Low:", skin);
         table.add(label);
 
-        textField = new TextField("250", skin, "spinner");
-        table.add(textField).spaceRight(0).width(spinnerWidth);
-        addIbeamListener(textField);
-
-        subTable = new Table();
-        table.add(subTable).spaceLeft(0);
-
-        button = new Button(skin, "spinner-top");
-        subTable.add(button);
-        addHandListener(button);
-
-        subTable.row();
-        button = new Button(skin, "spinner-bottom");
-        subTable.add(button);
-        addHandListener(button);
+        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        table.add(spinner).width(spinnerWidth);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonPlus());
+        addHandListener(spinner.getButtonMinus());
+        addTooltip(spinner, "The low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
 
         var graph = new LineGraph("text", lineGraphStyle);
         graph.setNodeListener(handListener);
