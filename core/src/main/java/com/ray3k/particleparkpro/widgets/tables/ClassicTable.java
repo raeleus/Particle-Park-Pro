@@ -1,10 +1,8 @@
 package com.ray3k.particleparkpro.widgets.tables;
 
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.SystemCursorListener;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
@@ -33,6 +31,11 @@ public class ClassicTable extends Table {
 
         var label = new Label(version, skin);
         table.add(label);
+
+        var textButton = new TextButton("-Update Available-", skin, "no-bg");
+        table.add(textButton).spaceLeft(10);
+        addHandListener(textButton);
+        addTooltip(textButton, "Open browser to download page", Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "home");
         table.add(button).expandX().right();

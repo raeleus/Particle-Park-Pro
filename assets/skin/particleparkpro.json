@@ -1629,6 +1629,12 @@
 		"font": "font",
 		"up": "cp-file-text-button-invisible-10",
 		"checked": "cp-file-text-button-10"
+	},
+	"no-bg": {
+		"font": "font",
+		"fontColor": "white",
+		"overFontColor": "selection",
+		"pressedOffsetY": -1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
