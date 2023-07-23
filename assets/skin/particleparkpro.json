@@ -1365,7 +1365,7 @@
 	},
 	"graph-big-bg-10": {
 		"region": "graph-big-bg",
-		"horizontalStretchAreas": [ 57, 57, 93, 93, 133, 133, 173, 173, 213, 213, 253, 253, 293, 293, 327, 327, 370, 370, 403, 403 ],
+		"horizontalStretchAreas": [ 57, 58, 93, 94, 133, 134, 173, 174, 213, 214, 253, 254, 293, 294, 327, 328, 370, 371, 403, 404 ],
 		"verticalStretchAreas": [ 39, 39, 67, 67, 99, 99, 125, 125, 157, 157, 184, 184 ],
 		"tiling": false,
 		"minWidth": 434,
@@ -1381,7 +1381,7 @@
 		"frameDuration": 0.03,
 		"regions": [],
 		"playMode": 2,
-		"crushMode": 0
+		"crushMode": 1
 	},
 	"graph-node-label-padding-10": {
 		"region": "graph-node-label-padding",
