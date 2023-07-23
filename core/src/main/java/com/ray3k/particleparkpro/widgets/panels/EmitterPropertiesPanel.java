@@ -72,7 +72,7 @@ public class EmitterPropertiesPanel extends Panel {
 
         //Duration
         scrollTable.row();
-        var durationSubPanel = new EmissionSubPanel();
+        var durationSubPanel = new DurationSubPanel();
         scrollTable.add(durationSubPanel);
 
         //Emission
@@ -95,14 +95,14 @@ public class EmitterPropertiesPanel extends Panel {
         //X Offset
         if (shownProperties.contains(X_OFFSET)) {
             scrollTable.row();
-            var xOffsetSubPanel = new EmissionSubPanel();
+            var xOffsetSubPanel = new XoffsetPanel();
             scrollTable.add(xOffsetSubPanel);
         }
 
         //Y Offset
         if (shownProperties.contains(Y_OFFSET)) {
             scrollTable.row();
-            var yOffsetSubPanel = new EmissionSubPanel();
+            var yOffsetSubPanel = new YoffsetPanel();
             scrollTable.add(yOffsetSubPanel);
         }
 

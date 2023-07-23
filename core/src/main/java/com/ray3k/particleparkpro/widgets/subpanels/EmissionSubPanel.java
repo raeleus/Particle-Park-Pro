@@ -39,10 +39,16 @@ public class EmissionSubPanel extends Panel {
         //Normal view
         graphToggleWidget.table1.defaults().space(itemSpacing);
         graphToggleWidget.table1.left();
-        var table = new Table();
-        graphToggleWidget.table1.add(table);
+
+        //Relative
+        var checkBox = new CheckBox("Relative", skin);
+        graphToggleWidget.table1.add(checkBox).left();
+        addHandListener(checkBox);
 
         //High
+        graphToggleWidget.table1.row();
+        var table = new Table();
+        graphToggleWidget.table1.add(table);
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
