@@ -1,9 +1,7 @@
 package com.ray3k.particleparkpro.widgets.tables;
 
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.SystemCursorListener;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
@@ -23,6 +21,7 @@ public class ClassicTable extends Table {
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
         var horizontalSplitPane = new SplitPane(leftSplitPane, emitterPropertiesPanel, false, skin);
         add(horizontalSplitPane).grow();
+        horizontalSplitPane.setSplitAmount(.4f);
         addSplitPaneHorizontalSystemCursorListener(horizontalSplitPane);
 
         row();

@@ -2,8 +2,6 @@ package com.ray3k.particleparkpro.widgets;
 
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,10 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.ShapeDrawerDrawable;
-
-import java.util.Comparator;
 
 import static com.ray3k.particleparkpro.Core.shapeDrawer;
 
@@ -32,10 +29,11 @@ public class LineGraph extends Table {
     private DragListener dragListener;
     private ButtonStyle nodeStyle;
     private EventListener nodeListener;
-    private final Array<Button> nodes = new Array<>();
+    private final Array<Node> nodes = new Array<>();
     private ShapeDrawerDrawable shapeDrawerDrawable;
     private boolean createNewNode;
     private static final Vector2 temp = new Vector2();
+    private Image shapeDrawerImage;
 
     public LineGraph(String text, LineGraphStyle style) {
         this.text = text;
@@ -50,8 +48,9 @@ public class LineGraph extends Table {
         stack.add(container);
 
         shapeDrawerDrawable = createShapeDrawerDrawable();
-        var image = new Image(shapeDrawerDrawable);
-        stack.add(image);
+        shapeDrawerImage = new Image(shapeDrawerDrawable);
+        shapeDrawerImage.setScaling(Scaling.stretch);
+        stack.add(shapeDrawerImage);
 
         initialize();
     }
@@ -76,18 +75,49 @@ public class LineGraph extends Table {
         nodeStyle.up = style.nodeUp;
         nodeStyle.down = style.nodeDown;
         nodeStyle.over = style.nodeOver;
+
+        for (var node : nodes) {
+            if (style.knobLabelStyle == null && node.label != null) node.label.remove();
+            else if (style.knobLabelStyle != null) {
+                if (node.label == null) node.label = new Label("sex", style.knobLabelStyle);
+                else node.label.setStyle(style.knobLabelStyle);
+            }
+        }
     }
 
     public void initialize() {
         setTouchable(Touchable.enabled);
         addListener(dragListener = createDragListener());
 
-        createNode(getPadLeft(), getPadBottom(), true);
+        createNode(0, 0, true);
     }
 
     @Override
     public void layout() {
         super.layout();
+
+        for (int i = 0; i < nodes.size; i++) {
+            var node = nodes.get(i);
+
+            node.setPosition(MathUtils.round(getPadLeft() + node.percentX * (getWidth() - getPadLeft() - getPadRight()) - node.getWidth() / 2),
+                MathUtils.round(getPadBottom() + node.percentY * (getHeight() - getPadBottom() - getPadTop()) - node.getHeight() / 2));
+
+            if (node.label != null) {
+                node.label.pack();
+                var labelX = MathUtils.round(node.getWidth() / 2 - node.label.getWidth() / 2);
+                var nodeLeft = node.getX() - node.label.getWidth() / 2;
+                var nodeRight = node.getX() + node.label.getWidth() / 2;
+                if (nodeLeft < getPadLeft()) labelX = MathUtils.round(-node.getX() + getPadLeft());
+                else if (nodeRight > getWidth() - getPadRight())
+                    labelX = MathUtils.round(getWidth() - getPadRight() - node.getX() - node.label.getWidth());
+
+                var labelY = MathUtils.round(node.getHeight());
+                if (node.getY() + node.getHeight() + node.label.getHeight() >= getHeight() - getPadTop())
+                    labelY = MathUtils.round(-node.label.getHeight());
+
+                node.label.setPosition(labelX, labelY);
+            }
+        }
     }
 
     private ShapeDrawerDrawable createShapeDrawerDrawable() {
@@ -100,10 +130,10 @@ public class LineGraph extends Table {
                     shapeDrawer.setColor(style.lineColor);
                     shapeDrawer.setDefaultLineWidth(style.lineWidth);
 
-                    if (i == nodes.size - 1) shapeDrawer.line(x + node.getX(), y + node.getY(), x + width, y + node.getY());
+                    if (i == nodes.size - 1) shapeDrawer.line(x + node.percentX * width, y + node.percentY * height, x + width, y + node.percentY * height);
                     else {
                         var nextNode = nodes.get(i + 1);
-                        shapeDrawer.line(x + node.getX(), y + node.getY(), x + nextNode.getX(), y + nextNode.getY());
+                        shapeDrawer.line(x + node.percentX * width, y + node.percentY * height, x + nextNode.percentX * width, y + nextNode.percentY * height);
                     }
                 }
             }
@@ -127,7 +157,8 @@ public class LineGraph extends Table {
                     y >= getPadBottom() &&
                     y <= getHeight() - getPadTop()) {
 
-                    createNode(x, y, false);
+                    createNode((x - getPadLeft()) / (getWidth() - getPadLeft() - getPadRight()),
+                        (y - getPadBottom()) / (getHeight() - getPadBottom() - getPadTop()), false);
                 }
             }
 
@@ -138,13 +169,20 @@ public class LineGraph extends Table {
         };
     }
 
-    private void createNode(float x, float y, boolean onlyDragY) {
-        var node = new Button(nodeStyle);
+    private void createNode(float percentX, float percentY, boolean onlyDragY) {
+        var node = new Node(nodeStyle);
         if (nodeListener != null) node.addListener(nodeListener);
         addActor(node);
         nodes.add(node);
-        node.setPosition(MathUtils.round(x), MathUtils.round(y), Align.center);
+        node.percentX = percentX;
+        node.percentY = percentY;
         sortNodes();
+
+        if (style.knobLabelStyle != null) {
+            var label = new Label("hello", style.knobLabelStyle);
+            node.addActor(label);
+            node.label = label;
+        }
 
         var clickListener = new ClickListener() {
             @Override
@@ -169,9 +207,11 @@ public class LineGraph extends Table {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 temp.set(x, y);
                 node.localToActorCoordinates(LineGraph.this, temp);
-                float newX = MathUtils.clamp(onlyDragY ? node.getX(Align.center) : temp.x, getPadLeft(), getWidth() - getPadRight());
-                float newY = MathUtils.clamp(temp.y, getPadBottom(), getHeight() - getPadTop());
-                node.setPosition(newX, newY, Align.center);
+                node.percentX = MathUtils.clamp(onlyDragY ? node.percentX : (temp.x - getPadLeft()) / (getWidth() - getPadLeft() - getPadRight()), 0, 1);
+                node.percentY = MathUtils.clamp((temp.y - getPadBottom()) / (getHeight() - getPadBottom() - getPadTop()), 0, 1);
+                node.label.setText(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%");
+
+                invalidate();
 
                 sortNodes();
             }
@@ -181,7 +221,7 @@ public class LineGraph extends Table {
     }
 
     private void sortNodes() {
-        nodes.sort((o1, o2) -> Float.compare(o1.getX(), o2.getX()));
+        nodes.sort((o1, o2) -> Float.compare(o1.percentX, o2.percentX));
     }
 
     public EventListener getNodeListener() {
@@ -211,5 +251,15 @@ public class LineGraph extends Table {
         public Drawable nodeDown;
         public Color lineColor;
         public int lineWidth;
+    }
+
+    public static class Node extends Button{
+        public float percentX;
+        public float percentY;
+        public Label label;
+
+        public Node(ButtonStyle style) {
+            super(style);
+        }
     }
 }

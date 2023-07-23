@@ -50,6 +50,7 @@ public class Core extends ApplicationAdapter {
     private Color bgColor = new Color();
     public static PopColorPickerStyle popColorPickerStyle;
     public static LineGraphStyle lineGraphStyle;
+    public static LineGraphStyle lineGraphBigStyle;
     public static ShapeDrawer shapeDrawer;
     public static ColorGraphStyle colorGraphStyle;
     public static ViewportWidget viewportWidget;
@@ -87,6 +88,7 @@ public class Core extends ApplicationAdapter {
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         popColorPickerStyle = new PPcolorPickerStyle();
         lineGraphStyle = new PPlineGraphStyle();
+        lineGraphBigStyle = new PPlineGraphBigStyle();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         colorGraphStyle = new PPcolorGraphStyle();
         particlePreview = new ParticlePreview();

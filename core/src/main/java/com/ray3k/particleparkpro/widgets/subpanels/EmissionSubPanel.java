@@ -32,6 +32,7 @@ public class EmissionSubPanel extends Panel {
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();
 
+        //Normal view
         graphToggleWidget.table1.defaults().space(itemSpacing);
         graphToggleWidget.table1.left();
         var table = new Table();
@@ -138,9 +139,9 @@ public class EmissionSubPanel extends Panel {
         addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
         onChange(button, graphToggleWidget::swap);
 
-        //Graph large
+        //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
-        graph = new LineGraph("Emission", lineGraphStyle);
+        graph = new LineGraph("Emission", lineGraphBigStyle);
         graph.setNodeListener(handListener);
         graphToggleWidget.table2.add(graph).grow();
 
