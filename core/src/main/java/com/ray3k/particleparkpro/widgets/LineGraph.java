@@ -79,7 +79,7 @@ public class LineGraph extends Table {
         for (var node : nodes) {
             if (style.knobLabelStyle == null && node.label != null) node.label.remove();
             else if (style.knobLabelStyle != null) {
-                if (node.label == null) node.label = new Label("sex", style.knobLabelStyle);
+                if (node.label == null) node.label = new Label(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%", style.knobLabelStyle);
                 else node.label.setStyle(style.knobLabelStyle);
             }
         }
@@ -176,10 +176,11 @@ public class LineGraph extends Table {
         nodes.add(node);
         node.percentX = percentX;
         node.percentY = percentY;
+        if (node.label != null) node.label.setText(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%");
         sortNodes();
 
         if (style.knobLabelStyle != null) {
-            var label = new Label("hello", style.knobLabelStyle);
+            var label = new Label(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%", style.knobLabelStyle);
             node.addActor(label);
             node.label = label;
         }
@@ -209,7 +210,7 @@ public class LineGraph extends Table {
                 node.localToActorCoordinates(LineGraph.this, temp);
                 node.percentX = MathUtils.clamp(onlyDragY ? node.percentX : (temp.x - getPadLeft()) / (getWidth() - getPadLeft() - getPadRight()), 0, 1);
                 node.percentY = MathUtils.clamp((temp.y - getPadBottom()) / (getHeight() - getPadBottom() - getPadTop()), 0, 1);
-                node.label.setText(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%");
+                if (node.label != null) node.label.setText(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%");
 
                 invalidate();
 
