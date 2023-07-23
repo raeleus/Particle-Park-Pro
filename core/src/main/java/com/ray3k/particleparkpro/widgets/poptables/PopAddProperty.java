@@ -16,6 +16,7 @@ import com.ray3k.stripe.PopTableHoverListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class PopAddProperty extends PopTable {
@@ -55,7 +56,7 @@ public class PopAddProperty extends PopTable {
         onChange(delayCheckBox, () -> {
             if (delayCheckBox.isChecked()) shownProperties.add(DELAY);
             else shownProperties.remove(DELAY);
-            EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable();
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         var popTable = addTooltip(delayCheckBox, "Time from beginning of effect to emission start, in milliseconds.", Align.left, tooltipRightArrowStyle);
@@ -71,6 +72,7 @@ public class PopAddProperty extends PopTable {
         onChange(lifeOffsetCheckbox, () -> {
             if (lifeOffsetCheckbox.isChecked()) shownProperties.add(LIFE_OFFSET);
             else shownProperties.remove(LIFE_OFFSET);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(lifeOffsetCheckbox, "Particle starting life consumed, in milliseconds.", Align.left, tooltipRightArrowStyle);
@@ -86,6 +88,7 @@ public class PopAddProperty extends PopTable {
         onChange(xOffsetCheckBox, () -> {
             if (xOffsetCheckBox.isChecked()) shownProperties.add(X_OFFSET);
             else shownProperties.remove(X_OFFSET);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(xOffsetCheckBox, "Amount to offset a particle's starting X location, in world units.", Align.left, tooltipRightArrowStyle);
@@ -101,6 +104,7 @@ public class PopAddProperty extends PopTable {
         onChange(yOffsetCheckBox, () -> {
             if (yOffsetCheckBox.isChecked()) shownProperties.add(Y_OFFSET);
             else shownProperties.remove(Y_OFFSET);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(yOffsetCheckBox, "Amount to offset a particle's starting y location, in world units.", Align.left, tooltipRightArrowStyle);
@@ -116,6 +120,7 @@ public class PopAddProperty extends PopTable {
         onChange(ySizeCheckBox, () -> {
             if (ySizeCheckBox.isChecked()) shownProperties.add(Y_SIZE);
             else shownProperties.remove(Y_SIZE);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(ySizeCheckBox, "Particle y size, in world units.", Align.left, tooltipRightArrowStyle);
@@ -131,6 +136,7 @@ public class PopAddProperty extends PopTable {
         onChange(velocityCheckBox, () -> {
             if (velocityCheckBox.isChecked()) shownProperties.add(VELOCITY);
             else shownProperties.remove(VELOCITY);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(velocityCheckBox, "Particle speed, in world units per second.", Align.left, tooltipRightArrowStyle);
@@ -146,6 +152,7 @@ public class PopAddProperty extends PopTable {
         onChange(angleCheckBox, () -> {
             if (angleCheckBox.isChecked()) shownProperties.add(ANGLE);
             else shownProperties.remove(ANGLE);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(angleCheckBox, "Particle emission angle, in degrees.", Align.left, tooltipRightArrowStyle);
@@ -161,6 +168,7 @@ public class PopAddProperty extends PopTable {
         onChange(rotationCheckBox, () -> {
             if (rotationCheckBox.isChecked()) shownProperties.add(ROTATION);
             else shownProperties.remove(ROTATION);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(rotationCheckBox, "Particle rotation, in degrees.", Align.left, tooltipRightArrowStyle);
@@ -176,6 +184,7 @@ public class PopAddProperty extends PopTable {
         onChange(windCheckBox, () -> {
             if (windCheckBox.isChecked()) shownProperties.add(WIND);
             else shownProperties.remove(WIND);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(windCheckBox, "Wind strength, in world units per second.", Align.left, tooltipRightArrowStyle);
@@ -191,6 +200,7 @@ public class PopAddProperty extends PopTable {
         onChange(gravityCheckBox, () -> {
             if (gravityCheckBox.isChecked()) shownProperties.add(GRAVITY);
             else shownProperties.remove(GRAVITY);
+            emitterPropertiesPanel.populateScrollTable();
         });
 
         popTable = addTooltip(gravityCheckBox, "Gravity strength, in world units per second.", Align.left, tooltipRightArrowStyle);
