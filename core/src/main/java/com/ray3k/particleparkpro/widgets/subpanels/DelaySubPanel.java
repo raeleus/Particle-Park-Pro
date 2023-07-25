@@ -32,10 +32,7 @@ public class DelaySubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(DELAY);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(DELAY));
 
         //Value
         var table = new Table();

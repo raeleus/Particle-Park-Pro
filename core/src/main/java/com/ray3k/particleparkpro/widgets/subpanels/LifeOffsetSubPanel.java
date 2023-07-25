@@ -33,10 +33,7 @@ public class LifeOffsetSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(LIFE_OFFSET);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(LIFE_OFFSET));
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

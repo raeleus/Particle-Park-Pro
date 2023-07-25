@@ -33,10 +33,7 @@ public class AngleSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(ANGLE);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(ANGLE));
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

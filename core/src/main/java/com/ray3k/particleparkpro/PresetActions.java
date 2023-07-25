@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
@@ -74,12 +73,12 @@ public class PresetActions {
             table.setTransform(true);
             table.setOrigin(Align.center);
         });
-        return Actions.sequence(
-            Actions.color(CLEAR_WHITE),
-            Actions.scaleTo(1.1f, 1.1f),
-            Actions.delay(.5f),
-            Actions.parallel(Actions.fadeIn(1f), Actions.scaleTo(1f, 1f, .75f, Interpolation.smooth)),
-            Actions.run(() -> table.setTransform(false)));
+        return sequence(
+            color(CLEAR_WHITE),
+            scaleTo(1.1f, 1.1f),
+            delay(.5f),
+            parallel(fadeIn(1f), scaleTo(1f, 1f, .75f, Interpolation.smooth)),
+            run(() -> table.setTransform(false)));
     }
 
     public static void transition(Actor first, Actor second, int alignDirection) {
@@ -90,5 +89,16 @@ public class PresetActions {
         root.validate();
 
         second.addAction(moveInAction(second, alignDirection));
+    }
+
+    public static Action fadeInEmitterProperty(Actor actor) {
+        var transitionTime = .5f;
+        var moveAction = sequence(moveTo(actor.getX() + actor.getWidth(), actor.getY()), moveTo(actor.getX(), actor.getY(), transitionTime, Interpolation.smooth));
+        var fadeAction = sequence(color(CLEAR_WHITE), fadeIn(transitionTime));
+        return parallel(moveAction, fadeAction);
+    }
+
+    public static Action hideEmitterProperty(Actor actor) {
+        return sequence(moveTo(actor.getX() + actor.getWidth(), actor.getY(), .5f, Interpolation.smooth));
     }
 }

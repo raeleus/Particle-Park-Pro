@@ -30,10 +30,7 @@ public class YoffsetSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(Y_OFFSET);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(Y_OFFSET));
 
         //Value
         var table = new Table();

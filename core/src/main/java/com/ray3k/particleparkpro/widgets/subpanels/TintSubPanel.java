@@ -15,15 +15,11 @@ public class TintSubPanel extends Panel {
     public TintSubPanel() {
         setTouchable(Touchable.enabled);
 
-        tabTable.padRight(4);
+        tabTable.padRight(7);
 
         tabTable.left();
         var label = new Label("Tint", skin, "header");
         tabTable.add(label).spaceRight(3);
-
-        var button = new Button(skin, "close");
-        tabTable.add(button);
-        addHandListener(button);
 
         var colorGraph = new ColorGraph(colorGraphStyle);
         bodyTable.add(colorGraph).growX();

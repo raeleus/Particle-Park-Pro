@@ -33,10 +33,7 @@ public class VelocitySubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(VELOCITY);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(VELOCITY));
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

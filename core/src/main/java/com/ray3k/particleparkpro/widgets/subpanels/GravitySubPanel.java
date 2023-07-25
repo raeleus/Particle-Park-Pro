@@ -33,10 +33,7 @@ public class GravitySubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> {
-            shownProperties.remove(GRAVITY);
-            emitterPropertiesPanel.populateScrollTable();
-        });
+        onChange(button, () -> emitterPropertiesPanel.removeProperty(GRAVITY));
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();
