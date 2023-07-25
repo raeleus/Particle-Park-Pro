@@ -11,13 +11,12 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.DELAY;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.Y_OFFSET;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
-public class YoffsetPanel extends Panel {
-    public YoffsetPanel() {
+public class YoffsetSubPanel extends Panel {
+    public YoffsetSubPanel() {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 

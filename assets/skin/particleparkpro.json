@@ -1402,6 +1402,66 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"select-box-up-10": {
+		"region": "select-box-up",
+		"horizontalStretchAreas": [ 3, 41 ],
+		"verticalStretchAreas": [ 3, 5, 13, 15 ],
+		"tiling": false,
+		"minWidth": 57,
+		"minHeight": 19,
+		"rightWidth": 20,
+		"leftWidth": 6,
+		"bottomHeight": 2,
+		"topHeight": 2,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"select-box-selected-10": {
+		"region": "select-box-selected",
+		"horizontalStretchAreas": [ 3, 41 ],
+		"verticalStretchAreas": [ 3, 5, 13, 15 ],
+		"tiling": false,
+		"minWidth": 57,
+		"minHeight": 19,
+		"rightWidth": 20,
+		"leftWidth": 6,
+		"bottomHeight": 2,
+		"topHeight": 2,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"select-box-list-10": {
+		"region": "select-box-list",
+		"horizontalStretchAreas": [ 2, 41 ],
+		"verticalStretchAreas": [ 2, 34 ],
+		"tiling": false,
+		"minWidth": 44,
+		"minHeight": 37,
+		"rightWidth": 1,
+		"leftWidth": 1,
+		"bottomHeight": 1,
+		"topHeight": 1,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1595,6 +1655,13 @@
 		"fontColorUnselected": "white",
 		"selection": "list-selection-10",
 		"background": "list-background-10"
+	},
+	"select-box": {
+		"font": "font-black",
+		"fontColorSelected": "white",
+		"fontColorUnselected": "white",
+		"selection": "list-selection-10",
+		"background": "select-box-list-10"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
@@ -1606,6 +1673,15 @@
 		"background": "subpanel2-body-10",
 		"hScrollKnob": "scrollbar-10",
 		"vScrollKnob": "scrollbar-10"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
+	"default": {
+		"font": "font-black",
+		"fontColor": "white",
+		"background": "select-box-up-10",
+		"scrollStyle": "default",
+		"listStyle": "select-box"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle": {

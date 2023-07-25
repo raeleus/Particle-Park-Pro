@@ -82,33 +82,33 @@ public class EmitterPropertiesPanel extends Panel {
 
         //Life
         scrollTable.row();
-        var lifeSubPanel = new EmissionSubPanel();
+        var lifeSubPanel = new LifeSubPanel();
         scrollTable.add(lifeSubPanel);
 
         //Life Offset
         if (shownProperties.contains(LIFE_OFFSET)) {
             scrollTable.row();
-            var lifeOffsetSubPanel = new EmissionSubPanel();
+            var lifeOffsetSubPanel = new LifeOffsetSubPanel();
             scrollTable.add(lifeOffsetSubPanel);
         }
 
         //X Offset
         if (shownProperties.contains(X_OFFSET)) {
             scrollTable.row();
-            var xOffsetSubPanel = new XoffsetPanel();
+            var xOffsetSubPanel = new XoffsetSubPanel();
             scrollTable.add(xOffsetSubPanel);
         }
 
         //Y Offset
         if (shownProperties.contains(Y_OFFSET)) {
             scrollTable.row();
-            var yOffsetSubPanel = new YoffsetPanel();
+            var yOffsetSubPanel = new YoffsetSubPanel();
             scrollTable.add(yOffsetSubPanel);
         }
 
         //Spawn
         scrollTable.row();
-        var spawnSubPanel = new EmissionSubPanel();
+        var spawnSubPanel = new SpawnSubPanel();
         scrollTable.add(spawnSubPanel);
 
         //X Size

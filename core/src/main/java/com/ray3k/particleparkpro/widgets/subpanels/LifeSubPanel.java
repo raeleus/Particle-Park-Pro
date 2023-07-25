@@ -1,24 +1,21 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
-import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.DELAY;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
-public class EmissionSubPanel extends Panel {
-    public EmissionSubPanel() {
+public class LifeSubPanel extends Panel {
+    public LifeSubPanel() {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -26,8 +23,8 @@ public class EmissionSubPanel extends Panel {
 
         tabTable.padRight(7);
         tabTable.left();
-        var label = new Label("Emission", skin, "header");
-        tabTable.add(label);
+        var label = new Label("Life", skin, "header");
+        tabTable.add(label).space(3);
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();
@@ -41,6 +38,13 @@ public class EmissionSubPanel extends Panel {
         graphToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
         addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, tooltipBottomArrowStyle);
+
+        //Independent
+        graphToggleWidget.table1.row();
+        var independentCheckBox = new CheckBox("Independent", skin);
+        graphToggleWidget.table1.add(independentCheckBox).left();
+        addHandListener(independentCheckBox);
+        addTooltip(independentCheckBox, "If true, the value is randomly assigned per particle", Align.top, tooltipBottomArrowStyle);
 
         //High
         graphToggleWidget.table1.row();
@@ -60,7 +64,7 @@ public class EmissionSubPanel extends Panel {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The high value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -75,14 +79,14 @@ public class EmissionSubPanel extends Panel {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The minimum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The minimum high value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highToggleWidget.table2.add(spinner).width(spinnerWidth);
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The maximum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The maximum high value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
@@ -105,7 +109,7 @@ public class EmissionSubPanel extends Panel {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The low value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         lowToggleWidget.table1.add(button);
@@ -120,14 +124,14 @@ public class EmissionSubPanel extends Panel {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The minimum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The minimum low value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowToggleWidget.table2.add(spinner).width(spinnerWidth);
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonPlus());
         addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The maximum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The maximum low value for the time particles will live in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(button);
