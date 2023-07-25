@@ -30,6 +30,7 @@ public class SpawnSubPanel extends Panel {
     public SpawnSubPanel() {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
+        final int sectionPadding = 10;
 
         setTouchable(Touchable.enabled);
 
@@ -87,7 +88,6 @@ public class SpawnSubPanel extends Panel {
         addTooltip(selectBox, "The side of the ellipse where particles will spawn", Align.top, tooltipBottomArrowStyle);
 
         //Shape specific widgets
-        //High
         graphToggleWidget.table1.row();
 
         var shapeToggleWidget = new ToggleWidget();
@@ -102,9 +102,15 @@ public class SpawnSubPanel extends Panel {
             else shapeToggleWidget.showTable2();
         });
 
+        //Width
         shapeToggleWidget.table2.defaults().space(itemSpacing);
+        label = new Label("Width", skin, "header");
+        shapeToggleWidget.table2.add(label).left().padTop(sectionPadding);
+
+        //High
+        shapeToggleWidget.table2.row();
         table = new Table();
-        shapeToggleWidget.table2.add(table);
+        shapeToggleWidget.table2.add(table).top();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
@@ -217,11 +223,15 @@ public class SpawnSubPanel extends Panel {
         addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
         onChange(button, graphToggleWidget::swap);
 
-        //Spawn Height
+        //Height
+        shapeToggleWidget.table2.row();
+        label = new Label("Height", skin, "header");
+        shapeToggleWidget.table2.add(label).left().padTop(sectionPadding);
+
         //High
         shapeToggleWidget.table2.row();
         table = new Table();
-        shapeToggleWidget.table2.add(table);
+        shapeToggleWidget.table2.add(table).top();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);

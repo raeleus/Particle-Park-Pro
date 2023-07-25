@@ -45,7 +45,8 @@ public class EmissionSubPanel extends Panel {
         //High
         graphToggleWidget.table1.row();
         var table = new Table();
-        graphToggleWidget.table1.add(table);
+        graphToggleWidget.table1.add(table).top();
+
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);

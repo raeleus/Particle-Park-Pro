@@ -111,22 +111,6 @@ public class PopAddProperty extends PopTable {
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
-        //Y Size
-        scrollTable.row();
-        var ySizeCheckBox = new CheckBox("Y Size", skin);
-        ySizeCheckBox.setChecked(shownProperties.contains(Y_SIZE));
-        scrollTable.add(ySizeCheckBox);
-        addHandListener(ySizeCheckBox);
-        onChange(ySizeCheckBox, () -> {
-            if (ySizeCheckBox.isChecked()) shownProperties.add(Y_SIZE);
-            else shownProperties.remove(Y_SIZE);
-            emitterPropertiesPanel.populateScrollTable();
-        });
-
-        popTable = addTooltip(ySizeCheckBox, "Particle y size, in world units.", Align.left, tooltipRightArrowStyle);
-        popTable.setAttachOffsetX(-10);
-        popTable.setKeepSizedWithinStage(false);
-
         //Velocity
         scrollTable.row();
         var velocityCheckBox = new CheckBox("Velocity", skin);

@@ -14,7 +14,7 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.Sh
 
 public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {
-        DELAY, LIFE_OFFSET, X_OFFSET, Y_OFFSET, Y_SIZE, VELOCITY, ANGLE, ROTATION, WIND, GRAVITY
+        DELAY, LIFE_OFFSET, X_OFFSET, Y_OFFSET, VELOCITY, ANGLE, ROTATION, WIND, GRAVITY
     }
     public static ObjectSet<ShownProperty> shownProperties;
     private Table scrollTable;
@@ -111,17 +111,10 @@ public class EmitterPropertiesPanel extends Panel {
         var spawnSubPanel = new SpawnSubPanel();
         scrollTable.add(spawnSubPanel);
 
-        //X Size
+        //Size
         scrollTable.row();
-        var xSizeSubPanel = new EmissionSubPanel();
-        scrollTable.add(xSizeSubPanel);
-
-        //Y Size
-        if (shownProperties.contains(Y_SIZE)) {
-            scrollTable.row();
-            var ySizeSubPanel = new EmissionSubPanel();
-            scrollTable.add(ySizeSubPanel);
-        }
+        var sizeSubPanel = new SizeSubPanel();
+        scrollTable.add(sizeSubPanel);
 
         //Velocity
         if (shownProperties.contains(VELOCITY)) {
