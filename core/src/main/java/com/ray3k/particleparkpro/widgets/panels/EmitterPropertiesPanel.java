@@ -119,35 +119,35 @@ public class EmitterPropertiesPanel extends Panel {
         //Velocity
         if (shownProperties.contains(VELOCITY)) {
             scrollTable.row();
-            var velocitySubPanel = new EmissionSubPanel();
+            var velocitySubPanel = new VelocitySubPanel();
             scrollTable.add(velocitySubPanel);
         }
 
         //Angle
         if (shownProperties.contains(ANGLE)) {
             scrollTable.row();
-            var angleSubPanel = new EmissionSubPanel();
+            var angleSubPanel = new AngleSubPanel();
             scrollTable.add(angleSubPanel);
         }
 
         //Rotation
         if (shownProperties.contains(ROTATION)) {
             scrollTable.row();
-            var rotationSubPanel = new EmissionSubPanel();
+            var rotationSubPanel = new RotationSubPanel();
             scrollTable.add(rotationSubPanel);
         }
 
         //Wind
         if (shownProperties.contains(WIND)) {
             scrollTable.row();
-            var windSubPanel = new EmissionSubPanel();
+            var windSubPanel = new WindSubPanel();
             scrollTable.add(windSubPanel);
         }
 
         //Gravity
         if (shownProperties.contains(GRAVITY)) {
             scrollTable.row();
-            var gravitySubPanel = new EmissionSubPanel();
+            var gravitySubPanel = new GravitySubPanel();
             scrollTable.add(gravitySubPanel);
         }
 
