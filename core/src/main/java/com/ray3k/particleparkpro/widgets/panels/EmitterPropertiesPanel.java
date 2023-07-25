@@ -158,7 +158,7 @@ public class EmitterPropertiesPanel extends Panel {
 
         //Transparency
         scrollTable.row();
-        var transparencySubPanel = new EmissionSubPanel();
+        var transparencySubPanel = new TransparencySubPanel();
         scrollTable.add(transparencySubPanel);
 
         //Options
