@@ -31,7 +31,7 @@ public class EmitterPropertiesPanel extends Panel {
         bodyTable.defaults().space(5);
         scrollTable = new Table();
         scrollTable.top();
-        var scrollPane = new ScrollPane(scrollTable, skin);
+        var scrollPane = new ScrollPane(scrollTable, skin, "emitter-properties");
         scrollPane.setFlickScroll(false);
         bodyTable.add(scrollPane).grow();
         addScrollFocusListener(scrollPane);

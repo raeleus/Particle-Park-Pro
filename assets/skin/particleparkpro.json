@@ -1462,6 +1462,26 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"emitter-properties-scroll-pane-10": {
+		"region": "emitter-properties-scroll-pane",
+		"horizontalStretchAreas": [ 0, 30 ],
+		"verticalStretchAreas": [ 1, 4 ],
+		"tiling": false,
+		"minWidth": 41,
+		"minHeight": 6,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 2,
+		"topHeight": 2,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1671,6 +1691,11 @@
 	},
 	"subpanel2": {
 		"background": "subpanel2-body-10",
+		"hScrollKnob": "scrollbar-10",
+		"vScrollKnob": "scrollbar-10"
+	},
+	"emitter-properties": {
+		"background": "emitter-properties-scroll-pane-10",
 		"hScrollKnob": "scrollbar-10",
 		"vScrollKnob": "scrollbar-10"
 	}
