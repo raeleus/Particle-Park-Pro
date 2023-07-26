@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import static com.ray3k.particleparkpro.Core.*;
 
 public class ParticlePreview {
-    public static ParticleEffect particleEffect;
     public static float pixelsPerMeter;
     public static float deltaMultiplier;
     public static final Color backgroundColor = new Color(Color.BLACK);
@@ -34,12 +33,6 @@ public class ParticlePreview {
     public static String shaderFrag;
     public static final Array<String> shaderExtraTextureUnits = new Array<>();
     private static final Vector2 temp = new Vector2();
-
-    public ParticlePreview() {
-        particleEffect = new ParticleEffect();
-        particleEffect.load(Gdx.files.internal("flame.p"), skin.getAtlas());
-        particleEffect.setPosition(0, 0);
-    }
 
     public void render() {
         spriteBatch.setProjectionMatrix(previewViewport.getCamera().combined);

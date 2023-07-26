@@ -3,13 +3,15 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,7 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.BooleanArray;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
@@ -33,7 +36,8 @@ import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import java.util.HashMap;
+
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 
 public class Core extends ApplicationAdapter {
@@ -71,6 +75,8 @@ public class Core extends ApplicationAdapter {
     public static PopTableStyle tooltipTopArrowStyle;
     public static PopTableStyle tooltipRightArrowStyle;
     public static PopTableStyle tooltipLeftArrowStyle;
+    public static ParticleEffect particleEffect;
+    public static ObjectMap<ParticleEmitter, Boolean> activeEmitters;
 
     @Override
     public void create() {
@@ -99,6 +105,10 @@ public class Core extends ApplicationAdapter {
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
 
+        particleEffect = new ParticleEffect();
+        activeEmitters = new ObjectMap<>();
+        loadParticle(Gdx.files.internal("flame.p"));
+
         Gdx.input.setInputProcessor(stage);
 
         handListener = new SystemCursorListener(SystemCursor.Hand);
@@ -123,6 +133,17 @@ public class Core extends ApplicationAdapter {
         var welcomeTable = new WelcomeTable();
         root.setActor(welcomeTable);
         welcomeTable.addAction(welcomeAction(welcomeTable));
+    }
+
+    public static void loadParticle(FileHandle fileHandle) {
+        particleEffect = new ParticleEffect();
+        particleEffect.load(fileHandle, skin.getAtlas());
+        particleEffect.setPosition(0, 0);
+
+        activeEmitters.clear();
+        for (var emitter : particleEffect.getEmitters()) {
+            activeEmitters.put(emitter, true);
+        }
     }
 
     @Override

@@ -92,7 +92,7 @@ public class PreviewPanel extends Panel {
                     temp.set(x, y);
                     stack.localToScreenCoordinates(temp);
                     previewViewport.unproject(temp);
-                    particlePreview.particleEffect.setPosition(temp.x, temp.y);
+                    particleEffect.setPosition(temp.x, temp.y);
                 }
 
                 return super.touchDown(event, x, y, pointer, button);
@@ -143,7 +143,7 @@ public class PreviewPanel extends Panel {
                     temp.set(x, y);
                     stack.localToScreenCoordinates(temp);
                     previewViewport.unproject(temp);
-                    particlePreview.particleEffect.setPosition(temp.x, temp.y);
+                    particleEffect.setPosition(temp.x, temp.y);
                 }
             }
         };
