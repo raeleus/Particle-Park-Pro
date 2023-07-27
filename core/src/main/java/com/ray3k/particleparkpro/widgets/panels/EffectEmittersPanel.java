@@ -1,6 +1,7 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -19,6 +20,7 @@ public class EffectEmittersPanel extends Panel {
     private final int col1Width = 40;
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
+    private TextButton deleteButton;
 
     public EffectEmittersPanel() {
         setTouchable(Touchable.enabled);
@@ -71,19 +73,41 @@ public class EffectEmittersPanel extends Panel {
 
             particleEffect.getEmitters().add(emitter);
             activeEmitters.put(emitter, true);
+            selectedEmitter = emitter;
+
             populateEmittersTable();
+            updateDeleteButton();
         });
 
         table.row();
         textButton = new TextButton("Duplicate", skin);
         table.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var emitter = new ParticleEmitter(selectedEmitter);
+
+            particleEffect.getEmitters().add(emitter);
+            activeEmitters.put(emitter, activeEmitters.get(selectedEmitter));
+            selectedEmitter = emitter;
+
+            populateEmittersTable();
+            updateDeleteButton();
+        });
 
         table.row();
-        textButton = new TextButton("Delete", skin);
-        table.add(textButton);
-        addHandListener(textButton);
-        textButton.setDisabled(true);
+        deleteButton = new TextButton("Delete", skin);
+        updateDeleteButton();
+        table.add(deleteButton);
+        addHandListener(deleteButton);
+        onChange(deleteButton, () -> {
+            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
+            particleEffect.getEmitters().removeIndex(index);
+            activeEmitters.remove(selectedEmitter);
+            selectedEmitter = particleEffect.getEmitters().get(Math.min(index, particleEffect.getEmitters().size - 1));
+
+            populateEmittersTable();
+            updateDeleteButton();
+        });
 
         table.row();
         image = new Image(skin, "divider-10");
@@ -114,6 +138,10 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Down", skin);
         table.add(textButton);
         addHandListener(textButton);
+    }
+
+    private void updateDeleteButton() {
+        deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
     }
 
     private void populateEmittersTable() {
@@ -160,7 +188,7 @@ public class EffectEmittersPanel extends Panel {
                 @Override
                 public void unfocused() {
                     if (getText().equals("")) {
-                        setText("untitled");
+                        setText("Untitled");
                         emitter.setName(getText());
                     }
                 }
