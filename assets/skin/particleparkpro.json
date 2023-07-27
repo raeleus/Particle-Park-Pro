@@ -1506,6 +1506,26 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"button-normal-disabled-10": {
+		"region": "button-normal-disabled",
+		"horizontalStretchAreas": [ 3, 74 ],
+		"verticalStretchAreas": [ 4, 23 ],
+		"tiling": false,
+		"minWidth": 78,
+		"minHeight": 27,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 4,
+		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1744,9 +1764,11 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
 		"font": "font",
+		"disabledFontColor": "disabled",
 		"up": "button-normal-up-10",
 		"down": "button-normal-down-10",
-		"over": "button-normal-over-10"
+		"over": "button-normal-over-10",
+		"disabled": "button-normal-disabled-10"
 	},
 	"highlighted": {
 		"font": "font",

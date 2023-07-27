@@ -83,6 +83,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Delete", skin);
         table.add(textButton);
         addHandListener(textButton);
+        textButton.setDisabled(true);
 
         table.row();
         image = new Image(skin, "divider-10");
