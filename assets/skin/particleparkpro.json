@@ -56,10 +56,22 @@
 		"b": 1,
 		"a": 0.3988764
 	},
+	"editable-label-selection": {
+		"r": 0.62352943,
+		"g": 0.41960785,
+		"b": 0,
+		"a": 1
+	},
 	"graph": {
 		"r": 0.81960785,
 		"g": 0.81960785,
 		"b": 0.81960785,
+		"a": 1
+	},
+	"selected-emitter": {
+		"r": 0.16078432,
+		"g": 0.61960787,
+		"b": 1,
 		"a": 1
 	},
 	"selection": {
@@ -113,6 +125,18 @@
 	"stage-background": {
 		"name": "white-pixel",
 		"color": "stage-background"
+	},
+	"clear": {
+		"name": "white-pixel",
+		"color": "clear"
+	},
+	"selected-emitter": {
+		"name": "white-pixel",
+		"color": "selected-emitter"
+	},
+	"editable-label-selection": {
+		"name": "white-pixel",
+		"color": "editable-label-selection"
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
@@ -1790,6 +1814,12 @@
 		"focusedBackground": "cp-hex-field-focused-10",
 		"cursor": "cursor",
 		"selection": "selection"
+	},
+	"editable-label-selection": {
+		"font": "font",
+		"fontColor": "white",
+		"cursor": "cursor-white",
+		"selection": "editable-label-selection"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {

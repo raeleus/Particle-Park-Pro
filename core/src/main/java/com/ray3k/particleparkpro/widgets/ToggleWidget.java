@@ -1,16 +1,14 @@
 package com.ray3k.particleparkpro.widgets;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-public class ToggleWidget extends Container {
+public class ToggleWidget extends Container<Table> {
     public Table table1 = new Table();
     public Table table2 = new Table();
     public boolean showingTable1;
 
-    public ToggleWidget() {
-        showTable1();
+    public ToggleWidget() {showTable1();
         fill();
     }
 
@@ -30,7 +28,7 @@ public class ToggleWidget extends Container {
     }
 
     @Override @Deprecated
-    public void setActor(Actor actor) {
-        super.setActor(actor);
+    public void setActor(Table table) {
+        super.setActor(table);
     }
 }

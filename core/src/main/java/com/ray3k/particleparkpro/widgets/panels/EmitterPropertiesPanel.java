@@ -57,7 +57,6 @@ public class EmitterPropertiesPanel extends Panel {
     }
 
     public void populateScrollTable(ShownProperty newProperty) {
-        System.out.println("clear");
         if (newProperty != null) shownProperties.add(newProperty);
         Actor scrollToActor = null;
 

@@ -1,10 +1,16 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.styles.PPeditableLabelStyle;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -45,6 +51,7 @@ public class EffectEmittersPanel extends Panel {
 
         var scrollPane = new ScrollPane(emittersTable, skin, "subpanel2");
         scrollPane.setFlickScroll(false);
+        scrollPane.setScrollingDisabled(true, false);
         table.add(scrollPane).grow();
         addScrollFocusListener(scrollPane);
 
@@ -111,13 +118,32 @@ public class EffectEmittersPanel extends Panel {
     private void populateEmittersTable() {
         emittersTable.clear();
 
-        emittersTable.defaults().spaceLeft(defaultHorizontalSpacing).spaceRight(defaultHorizontalSpacing);
+        var backgroundImages = new Array<Image>();
+
         for (int i = 0; i < particleEffect.getEmitters().size; i++) {
             var emitter = particleEffect.getEmitters().get(i);
 
+            var stack = new Stack();
+            emittersTable.add(stack).growX();
+
+            var backgroundImage = new Image();
+            backgroundImage.setDrawable(skin, selectedEmitter == emitter ? "selected-emitter" : "clear");
+            stack.add(backgroundImage);
+            backgroundImages.add(backgroundImage);
+
+            var table = new Table();
+            table.setTouchable(Touchable.enabled);
+            stack.add(table);
+            onClick(table, () -> {
+                for (var bg : backgroundImages) bg.setDrawable(skin, "clear");
+                backgroundImage.setDrawable(skin, "selected-emitter");
+                selectedEmitter = emitter;
+            });
+
+            table.defaults().spaceLeft(defaultHorizontalSpacing).spaceRight(defaultHorizontalSpacing);
             var container = new Container<>();
             container.right();
-            emittersTable.add(container).width(col1Width).padLeft(col1PadLeft);
+            table.add(container).width(col1Width).padLeft(col1PadLeft);
 
             var button = new Button(skin, "checkbox");
             container.setActor(button);
@@ -127,12 +153,21 @@ public class EffectEmittersPanel extends Panel {
 
             var image = new Image(skin, "subpanel2-divider-invisible");
             image.setScaling(Scaling.none);
-            emittersTable.add(image).fillY();
+            table.add(image).fillY();
 
-            var textField = new TextField(emitter.getName(), skin, "plain");
-            emittersTable.add(textField).left().expandX();
-            addIbeamListener(textField);
-            onChange(textField, () -> emitter.setName(textField.getText()));
+            var editableLabel = new EditableLabel(emitter.getName(), Core.editableLabelStyle) {
+                @Override
+                public void unfocused() {
+                    if (getText().equals("")) {
+                        setText("untitled");
+                        emitter.setName(getText());
+                    }
+                }
+            };
+            table.add(editableLabel).growX();
+            addIbeamListener(editableLabel.textField);
+            addIbeamListener(editableLabel.label);
+            onChange(editableLabel, () -> emitter.setName(editableLabel.getText()));
 
             emittersTable.row();
         }

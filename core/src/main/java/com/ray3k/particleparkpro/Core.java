@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.particles.emitters.Emitter;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
+import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
@@ -75,8 +77,10 @@ public class Core extends ApplicationAdapter {
     public static PopTableStyle tooltipTopArrowStyle;
     public static PopTableStyle tooltipRightArrowStyle;
     public static PopTableStyle tooltipLeftArrowStyle;
+    public static EditableLabelStyle editableLabelStyle;
     public static ParticleEffect particleEffect;
     public static ObjectMap<ParticleEmitter, Boolean> activeEmitters;
+    public static ParticleEmitter selectedEmitter;
 
     @Override
     public void create() {
@@ -104,10 +108,12 @@ public class Core extends ApplicationAdapter {
         tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
+        editableLabelStyle = new PPeditableLabelStyle();
 
         particleEffect = new ParticleEffect();
         activeEmitters = new ObjectMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
+        selectedEmitter = particleEffect.getEmitters().first();
 
         Gdx.input.setInputProcessor(stage);
 
