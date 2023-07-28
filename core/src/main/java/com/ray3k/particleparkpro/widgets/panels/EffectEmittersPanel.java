@@ -133,11 +133,29 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Up", skin);
         table.add(textButton).expandY().bottom();
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
+            if (index <= 0) return;
+            particleEffect.getEmitters().removeIndex(index);
+            index--;
+            particleEffect.getEmitters().insert(index, selectedEmitter);
+
+            populateEmittersTable();
+        });
 
         table.row();
         textButton = new TextButton("Down", skin);
         table.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
+            if (index >= particleEffect.getEmitters().size -1) return;
+            particleEffect.getEmitters().removeIndex(index);
+            index++;
+            particleEffect.getEmitters().insert(index, selectedEmitter);
+
+            populateEmittersTable();
+        });
     }
 
     private void updateDeleteButton() {
