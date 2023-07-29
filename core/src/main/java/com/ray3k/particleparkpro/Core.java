@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.particles.emitters.Emitter;
+import com.badlogic.gdx.graphics.g3d.particles.emitters.RegularEmitter;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -110,7 +112,6 @@ public class Core extends ApplicationAdapter {
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
         editableLabelStyle = new PPeditableLabelStyle();
 
-        particleEffect = new ParticleEffect();
         activeEmitters = new ObjectMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
         selectedEmitter = particleEffect.getEmitters().first();
@@ -149,6 +150,28 @@ public class Core extends ApplicationAdapter {
         activeEmitters.clear();
         for (var emitter : particleEffect.getEmitters()) {
             activeEmitters.put(emitter, true);
+        }
+    }
+
+    public static void mergeParticle(FileHandle fileHandle) {
+        var oldEmitters = new Array<ParticleEmitter>();
+        var oldActiveEmitters = new ObjectMap<ParticleEmitter, Boolean>();
+        for (var emitter : particleEffect.getEmitters()) {
+            var oldEmitter = new ParticleEmitter(emitter);
+            oldEmitters.add(oldEmitter);
+            oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
+        }
+
+        particleEffect.load(fileHandle, skin.getAtlas());
+
+        activeEmitters.clear();
+        for (var emitter : particleEffect.getEmitters()) {
+            activeEmitters.put(emitter, true);
+        }
+
+        particleEffect.getEmitters().addAll(oldEmitters);
+        for (var emitter : oldEmitters) {
+            activeEmitters.put(emitter, oldActiveEmitters.get(emitter));
         }
     }
 

@@ -1,5 +1,7 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -7,13 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.FileDialogs;
+import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.styles.PPeditableLabelStyle;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class EffectEmittersPanel extends Panel {
     private Table emittersTable;
@@ -123,11 +129,34 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Open", skin);
         table.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
+
+            if (fileHandle != null) {
+                Settings.setDefaultSavePath(fileHandle);
+                loadParticle(fileHandle);
+                selectedEmitter = particleEffect.getEmitters().first();
+
+                populateEmittersTable();
+                updateDeleteButton();
+            }
+        });
 
         table.row();
         textButton = new TextButton("Merge", skin);
         table.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
+
+            if (fileHandle != null) {
+                Settings.setDefaultSavePath(fileHandle);
+                mergeParticle(fileHandle);
+
+                populateEmittersTable();
+                updateDeleteButton();
+            }
+        });
 
         table.row();
         textButton = new TextButton("Up", skin);
