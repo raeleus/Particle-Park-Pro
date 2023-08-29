@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.particles.emitters.Emitter;
-import com.badlogic.gdx.graphics.g3d.particles.emitters.RegularEmitter;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -39,8 +37,6 @@ import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import java.util.HashMap;
 
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 
@@ -83,6 +79,8 @@ public class Core extends ApplicationAdapter {
     public static ParticleEffect particleEffect;
     public static ObjectMap<ParticleEmitter, Boolean> activeEmitters;
     public static ParticleEmitter selectedEmitter;
+    public static ShaderProgram shader;
+//    public static float time;
 
     @Override
     public void create() {
@@ -140,6 +138,12 @@ public class Core extends ApplicationAdapter {
         var welcomeTable = new WelcomeTable();
         root.setActor(welcomeTable);
         welcomeTable.addAction(welcomeAction(welcomeTable));
+
+//        shader = new ShaderProgram(spriteBatch.getShader().getVertexShaderSource(), Gdx.files.internal("test.frag").readString());
+//        if (!shader.isCompiled()){
+//            System.out.println(shader.getLog());
+//        }
+//        ShaderProgram.pedantic = false;
     }
 
     public static void loadParticle(FileHandle fileHandle) {
@@ -189,8 +193,15 @@ public class Core extends ApplicationAdapter {
         viewport.apply();
         stage.draw();
 
+//        time += Gdx.graphics.getDeltaTime();
+//        spriteBatch.setShader(shader);
+//        shader.bind();
+//        shader.setUniformf("u_amount", 10);
+//        shader.setUniformf("u_speed", .5f);
+//        shader.setUniformf("u_time", time);
         viewportWidget.updateViewport(false);
         particlePreview.render();
+//        spriteBatch.setShader(null);
 
         foregroundStage.act();
         viewport.apply();
