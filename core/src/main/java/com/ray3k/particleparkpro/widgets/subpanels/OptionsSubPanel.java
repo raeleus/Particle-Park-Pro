@@ -23,45 +23,57 @@ public class OptionsSubPanel extends Panel {
         bodyTable.left();
 
         //Additive
-        var checkBox = new CheckBox("Additive", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white.",
+        var additiveCheckBox = new CheckBox("Additive", skin);
+        additiveCheckBox.setChecked(selectedEmitter.isAdditive());
+        bodyTable.add(additiveCheckBox);
+        addHandListener(additiveCheckBox);
+        addTooltip(additiveCheckBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white.",
             Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(additiveCheckBox, () -> selectedEmitter.setAdditive(additiveCheckBox.isChecked()));
 
         //Attached
         bodyTable.row();
-        checkBox = new CheckBox("Attached", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        var attachedCheckBox = new CheckBox("Attached", skin);
+        attachedCheckBox.setChecked(selectedEmitter.isAttached());
+        bodyTable.add(attachedCheckBox);
+        addHandListener(attachedCheckBox);
+        addTooltip(attachedCheckBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(attachedCheckBox, () -> selectedEmitter.setAttached(attachedCheckBox.isChecked()));
 
         //Continuous
         bodyTable.row();
-        checkBox = new CheckBox("Continuous", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        var continuousCheckBox = new CheckBox("Continuous", skin);
+        continuousCheckBox.setChecked(selectedEmitter.isContinuous());
+        bodyTable.add(continuousCheckBox);
+        addHandListener(continuousCheckBox);
+        addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(continuousCheckBox, () -> selectedEmitter.setContinuous(continuousCheckBox.isChecked()));
 
         //Aligned
         bodyTable.row();
-        checkBox = new CheckBox("Aligned", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        var alignedCheckBox = new CheckBox("Aligned", skin);
+        alignedCheckBox.setChecked(selectedEmitter.isAligned());
+        bodyTable.add(alignedCheckBox);
+        addHandListener(alignedCheckBox);
+        addTooltip(alignedCheckBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(alignedCheckBox, () -> selectedEmitter.setAligned(alignedCheckBox.isChecked()));
 
         //Behind
         bodyTable.row();
-        checkBox = new CheckBox("Behind", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        var behindCheckBox = new CheckBox("Behind", skin);
+        behindCheckBox.setChecked(selectedEmitter.isBehind());
+        bodyTable.add(behindCheckBox);
+        addHandListener(behindCheckBox);
+        addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(behindCheckBox, () -> selectedEmitter.setBehind(behindCheckBox.isChecked()));
 
         //Premultiplied alpha
         bodyTable.row();
-        checkBox = new CheckBox("Premultiplied Alpha", skin);
-        bodyTable.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        var premultipliedAlphaCheckBox = new CheckBox("Premultiplied Alpha", skin);
+        premultipliedAlphaCheckBox.setChecked(selectedEmitter.isPremultipliedAlpha());
+        bodyTable.add(premultipliedAlphaCheckBox);
+        addHandListener(premultipliedAlphaCheckBox);
+        addTooltip(premultipliedAlphaCheckBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        onChange(premultipliedAlphaCheckBox, () -> selectedEmitter.setPremultipliedAlpha(premultipliedAlphaCheckBox.isChecked()));
     }
 }
