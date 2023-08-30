@@ -20,7 +20,6 @@ public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {
         DELAY, LIFE_OFFSET, X_OFFSET, Y_OFFSET, VELOCITY, ANGLE, ROTATION, WIND, GRAVITY
     }
-    public static ObjectSet<ShownProperty> shownProperties;
     private Table scrollTable;
     public static EmitterPropertiesPanel emitterPropertiesPanel;
     private ScrollPane scrollPane;
@@ -28,7 +27,6 @@ public class EmitterPropertiesPanel extends Panel {
 
     public EmitterPropertiesPanel() {
         emitterPropertiesPanel = this;
-        shownProperties = new ObjectSet<>();
         setTouchable(Touchable.enabled);
 
         var label = new Label("Emitter Properties", skin, "header");
@@ -57,7 +55,6 @@ public class EmitterPropertiesPanel extends Panel {
     }
 
     public void populateScrollTable(ShownProperty newProperty) {
-        if (newProperty != null) shownProperties.add(newProperty);
         Actor scrollToActor = null;
 
         scrollTable.clearChildren(true);
@@ -73,7 +70,7 @@ public class EmitterPropertiesPanel extends Panel {
         scrollTable.add(countSubPanel);
 
         //Delay
-        if (shownProperties.contains(DELAY)) {
+        if (selectedEmitter.getDelay().isActive()) {
             scrollTable.row();
             var delaySubPanel = new DelaySubPanel();
             delaySubPanel.setUserObject(DELAY);
@@ -97,16 +94,16 @@ public class EmitterPropertiesPanel extends Panel {
         scrollTable.add(lifeSubPanel);
 
         //Life Offset
-        if (shownProperties.contains(LIFE_OFFSET)) {
+        if (selectedEmitter.getLifeOffset().isActive()) {
             scrollTable.row();
             var lifeOffsetSubPanel = new LifeOffsetSubPanel();
             lifeOffsetSubPanel.setUserObject(LIFE_OFFSET);
             scrollTable.add(lifeOffsetSubPanel);
-            if (newProperty == LIFE_OFFSET) scrollToActor = lifeSubPanel;
+            if (newProperty == LIFE_OFFSET) scrollToActor = lifeOffsetSubPanel;
         }
 
         //X Offset
-        if (shownProperties.contains(X_OFFSET)) {
+        if (selectedEmitter.getXOffsetValue().isActive()) {
             scrollTable.row();
             var xOffsetSubPanel = new XoffsetSubPanel();
             xOffsetSubPanel.setUserObject(X_OFFSET);
@@ -115,7 +112,7 @@ public class EmitterPropertiesPanel extends Panel {
         }
 
         //Y Offset
-        if (shownProperties.contains(Y_OFFSET)) {
+        if (selectedEmitter.getYOffsetValue().isActive()) {
             scrollTable.row();
             var yOffsetSubPanel = new YoffsetSubPanel();
             yOffsetSubPanel.setUserObject(Y_OFFSET);
@@ -134,7 +131,7 @@ public class EmitterPropertiesPanel extends Panel {
         scrollTable.add(sizeSubPanel);
 
         //Velocity
-        if (shownProperties.contains(VELOCITY)) {
+        if (selectedEmitter.getVelocity().isActive()) {
             scrollTable.row();
             var velocitySubPanel = new VelocitySubPanel();
             velocitySubPanel.setUserObject(VELOCITY);
@@ -143,7 +140,7 @@ public class EmitterPropertiesPanel extends Panel {
         }
 
         //Angle
-        if (shownProperties.contains(ANGLE)) {
+        if (selectedEmitter.getAngle().isActive()) {
             scrollTable.row();
             var angleSubPanel = new AngleSubPanel();
             angleSubPanel.setUserObject(ANGLE);
@@ -152,7 +149,7 @@ public class EmitterPropertiesPanel extends Panel {
         }
 
         //Rotation
-        if (shownProperties.contains(ROTATION)) {
+        if (selectedEmitter.getRotation().isActive()) {
             scrollTable.row();
             var rotationSubPanel = new RotationSubPanel();
             rotationSubPanel.setUserObject(ROTATION);
@@ -161,7 +158,7 @@ public class EmitterPropertiesPanel extends Panel {
         }
 
         //Wind
-        if (shownProperties.contains(WIND)) {
+        if (selectedEmitter.getWind().isActive()) {
             scrollTable.row();
             var windSubPanel = new WindSubPanel();
             windSubPanel.setUserObject(WIND);
@@ -170,7 +167,7 @@ public class EmitterPropertiesPanel extends Panel {
         }
 
         //Gravity
-        if (shownProperties.contains(GRAVITY)) {
+        if (selectedEmitter.getGravity().isActive()) {
             scrollTable.row();
             var gravitySubPanel = new GravitySubPanel();
             gravitySubPanel.setUserObject(GRAVITY);
@@ -205,7 +202,6 @@ public class EmitterPropertiesPanel extends Panel {
     }
 
     public void removeProperty(ShownProperty shownProperty) {
-        shownProperties.remove(shownProperty);
         for (var child : scrollTable.getChildren()) {
             if (child.getUserObject() == shownProperty) {
                 child.addAction(Actions.sequence(hideEmitterProperty(child), Actions.run(() -> populateScrollTable(null))));

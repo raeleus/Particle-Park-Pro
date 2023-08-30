@@ -32,7 +32,10 @@ public class DelaySubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> emitterPropertiesPanel.removeProperty(DELAY));
+        onChange(button, () -> {
+            selectedEmitter.getDelay().setActive(false);
+            emitterPropertiesPanel.removeProperty(DELAY);
+        });
 
         //Value
         var table = new Table();
@@ -46,12 +49,13 @@ public class DelaySubPanel extends Panel {
 
         //Value single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table1.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueSpinner = new Spinner(selectedEmitter.getDelay().getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table1.add(valueSpinner).width(spinnerWidth);
+        addIbeamListener(valueSpinner.getTextField());
+        addHandListener(valueSpinner.getButtonPlus());
+        addHandListener(valueSpinner.getButtonMinus());
+        addTooltip(valueSpinner, "The time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -61,24 +65,48 @@ public class DelaySubPanel extends Panel {
 
         //Value range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table2.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The minimum time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueMinSpinner = new Spinner(selectedEmitter.getDelay().getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueMinSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table2.add(valueMinSpinner).width(spinnerWidth);
+        addIbeamListener(valueMinSpinner.getTextField());
+        addHandListener(valueMinSpinner.getButtonPlus());
+        addHandListener(valueMinSpinner.getButtonMinus());
+        addTooltip(valueMinSpinner, "The minimum time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
 
-        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table2.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The maximum time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueMaxSpinner = new Spinner(selectedEmitter.getDelay().getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueMaxSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table2.add(valueMaxSpinner).width(spinnerWidth);
+        addIbeamListener(valueMaxSpinner.getTextField());
+        addHandListener(valueMaxSpinner.getButtonPlus());
+        addHandListener(valueMaxSpinner.getButtonMinus());
+        addTooltip(valueMaxSpinner, "The maximum time from beginning of the effect to emission start in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
         addTooltip(button, "Collapse to define a single delay", Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
+
+        onChange(valueSpinner, () -> {
+            selectedEmitter.getDelay().setLow(valueSpinner.getValueAsInt());
+            valueMinSpinner.setValue(valueSpinner.getValueAsInt());
+            valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+        });
+
+        onChange(valueMinSpinner, () -> {
+            selectedEmitter.getDelay().setLowMin(valueMinSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMinSpinner.getValueAsInt());
+        });
+
+        onChange(valueMaxSpinner, () -> {
+            selectedEmitter.getDelay().setLowMax(valueMaxSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMaxSpinner.getValueAsInt());
+        });
+
+        onChange(button, () -> {
+            selectedEmitter.getDelay().setLow(valueSpinner.getValueAsInt());
+            valueMinSpinner.setValue(valueSpinner.getValueAsInt());
+            valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+        });
     }
 }

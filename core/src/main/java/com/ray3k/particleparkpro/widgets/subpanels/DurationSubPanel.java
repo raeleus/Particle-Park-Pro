@@ -7,14 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.DELAY;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class DurationSubPanel extends Panel {
     public DurationSubPanel() {
@@ -40,12 +36,13 @@ public class DurationSubPanel extends Panel {
 
         //Value single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table1.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueSpinner = new Spinner(selectedEmitter.getDuration().getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table1.add(valueSpinner).width(spinnerWidth);
+        addIbeamListener(valueSpinner.getTextField());
+        addHandListener(valueSpinner.getButtonPlus());
+        addHandListener(valueSpinner.getButtonMinus());
+        addTooltip(valueSpinner, "The time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -55,24 +52,48 @@ public class DurationSubPanel extends Panel {
 
         //Value range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table2.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The minimum time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueMinSpinner = new Spinner(selectedEmitter.getDuration().getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueMinSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table2.add(valueMinSpinner).width(spinnerWidth);
+        addIbeamListener(valueMinSpinner.getTextField());
+        addHandListener(valueMinSpinner.getButtonPlus());
+        addHandListener(valueMinSpinner.getButtonMinus());
+        addTooltip(valueMinSpinner, "The minimum time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
 
-        spinner = new Spinner(250, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
-        highToggleWidget.table2.add(spinner).width(spinnerWidth);
-        addIbeamListener(spinner.getTextField());
-        addHandListener(spinner.getButtonPlus());
-        addHandListener(spinner.getButtonMinus());
-        addTooltip(spinner, "The maximum time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
+        var valueMaxSpinner = new Spinner(selectedEmitter.getDuration().getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        valueMaxSpinner.setProgrammaticChangeEvents(false);
+        highToggleWidget.table2.add(valueMaxSpinner).width(spinnerWidth);
+        addIbeamListener(valueMaxSpinner.getTextField());
+        addHandListener(valueMaxSpinner.getButtonPlus());
+        addHandListener(valueMaxSpinner.getButtonMinus());
+        addTooltip(valueMaxSpinner, "The maximum time particles will be emitted in milliseconds", Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
         addTooltip(button, "Collapse to define a single duration", Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
+
+        onChange(valueSpinner, () -> {
+            selectedEmitter.getDuration().setLow(valueSpinner.getValueAsInt());
+            valueMinSpinner.setValue(valueSpinner.getValueAsInt());
+            valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+        });
+
+        onChange(valueMinSpinner, () -> {
+            selectedEmitter.getDuration().setLowMin(valueMinSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMinSpinner.getValueAsInt());
+        });
+
+        onChange(valueMaxSpinner, () -> {
+            selectedEmitter.getDuration().setLowMax(valueMaxSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMaxSpinner.getValueAsInt());
+        });
+
+        onChange(button, () -> {
+            selectedEmitter.getDuration().setLow(valueSpinner.getValueAsInt());
+            valueMinSpinner.setValue(valueSpinner.getValueAsInt());
+            valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+        });
     }
 }

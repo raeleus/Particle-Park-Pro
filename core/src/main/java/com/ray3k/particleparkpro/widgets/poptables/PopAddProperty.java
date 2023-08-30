@@ -1,23 +1,18 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.stripe.PopTable;
-import com.ray3k.stripe.PopTableHoverListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class PopAddProperty extends PopTable {
     public PopAddProperty() {
@@ -50,10 +45,11 @@ public class PopAddProperty extends PopTable {
         scrollTable.pad(5);
         scrollTable.defaults().space(itemSpacing).left();
         var delayCheckBox = new CheckBox("Delay", skin);
-        delayCheckBox.setChecked(shownProperties.contains(DELAY));
+        delayCheckBox.setChecked(selectedEmitter.getDelay().isActive());
         scrollTable.add(delayCheckBox);
         addHandListener(delayCheckBox);
         onChange(delayCheckBox, () -> {
+            selectedEmitter.getDelay().setActive(delayCheckBox.isChecked());
             if (delayCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(DELAY);
             else emitterPropertiesPanel.removeProperty(DELAY);
         });
@@ -65,10 +61,11 @@ public class PopAddProperty extends PopTable {
         //Life Offset
         scrollTable.row();
         var lifeOffsetCheckbox = new CheckBox("Life Offset", skin);
-        lifeOffsetCheckbox.setChecked(shownProperties.contains(LIFE_OFFSET));
+        lifeOffsetCheckbox.setChecked(selectedEmitter.getLifeOffset().isActive());
         scrollTable.add(lifeOffsetCheckbox);
         addHandListener(lifeOffsetCheckbox);
         onChange(lifeOffsetCheckbox, () -> {
+            selectedEmitter.getLifeOffset().setActive(lifeOffsetCheckbox.isChecked());
             if (lifeOffsetCheckbox.isChecked()) emitterPropertiesPanel.populateScrollTable(LIFE_OFFSET);
             else emitterPropertiesPanel.removeProperty(LIFE_OFFSET);
         });
@@ -80,10 +77,11 @@ public class PopAddProperty extends PopTable {
         //X Offset
         scrollTable.row();
         var xOffsetCheckBox = new CheckBox("X Offset", skin);
-        xOffsetCheckBox.setChecked(shownProperties.contains(X_OFFSET));
+        xOffsetCheckBox.setChecked(selectedEmitter.getXOffsetValue().isActive());
         scrollTable.add(xOffsetCheckBox);
         addHandListener(xOffsetCheckBox);
         onChange(xOffsetCheckBox, () -> {
+            selectedEmitter.getXOffsetValue().setActive(xOffsetCheckBox.isChecked());
             if (xOffsetCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(X_OFFSET);
             else emitterPropertiesPanel.removeProperty(X_OFFSET);
         });
@@ -95,10 +93,11 @@ public class PopAddProperty extends PopTable {
         //Y Offset
         scrollTable.row();
         var yOffsetCheckBox = new CheckBox("Y Offset", skin);
-        yOffsetCheckBox.setChecked(shownProperties.contains(Y_OFFSET));
+        yOffsetCheckBox.setChecked(selectedEmitter.getYOffsetValue().isActive());
         scrollTable.add(yOffsetCheckBox);
         addHandListener(yOffsetCheckBox);
         onChange(yOffsetCheckBox, () -> {
+            selectedEmitter.getYOffsetValue().setActive(yOffsetCheckBox.isChecked());
             if (yOffsetCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(Y_OFFSET);
             else emitterPropertiesPanel.removeProperty(Y_OFFSET);
         });
@@ -110,10 +109,11 @@ public class PopAddProperty extends PopTable {
         //Velocity
         scrollTable.row();
         var velocityCheckBox = new CheckBox("Velocity", skin);
-        velocityCheckBox.setChecked(shownProperties.contains(VELOCITY));
+        velocityCheckBox.setChecked(selectedEmitter.getVelocity().isActive());
         scrollTable.add(velocityCheckBox);
         addHandListener(velocityCheckBox);
         onChange(velocityCheckBox, () -> {
+            selectedEmitter.getVelocity().setActive(velocityCheckBox.isChecked());
             if (velocityCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(VELOCITY);
             else emitterPropertiesPanel.removeProperty(VELOCITY);
         });
@@ -125,10 +125,11 @@ public class PopAddProperty extends PopTable {
         //Angle
         scrollTable.row();
         var angleCheckBox = new CheckBox("Angle", skin);
-        angleCheckBox.setChecked(shownProperties.contains(ANGLE));
+        angleCheckBox.setChecked(selectedEmitter.getAngle().isActive());
         scrollTable.add(angleCheckBox);
         addHandListener(angleCheckBox);
         onChange(angleCheckBox, () -> {
+            selectedEmitter.getAngle().setActive(angleCheckBox.isChecked());
             if (angleCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(ANGLE);
             else emitterPropertiesPanel.removeProperty(ANGLE);
         });
@@ -140,10 +141,11 @@ public class PopAddProperty extends PopTable {
         //Rotation
         scrollTable.row();
         var rotationCheckBox = new CheckBox("Rotation", skin);
-        rotationCheckBox.setChecked(shownProperties.contains(ROTATION));
+        rotationCheckBox.setChecked(selectedEmitter.getRotation().isActive());
         scrollTable.add(rotationCheckBox);
         addHandListener(rotationCheckBox);
         onChange(rotationCheckBox, () -> {
+            selectedEmitter.getRotation().setActive(rotationCheckBox.isChecked());
             if (rotationCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(ROTATION);
             else emitterPropertiesPanel.removeProperty(ROTATION);
         });
@@ -155,10 +157,11 @@ public class PopAddProperty extends PopTable {
         //Wind
         scrollTable.row();
         var windCheckBox = new CheckBox("Wind", skin);
-        windCheckBox.setChecked(shownProperties.contains(WIND));
+        windCheckBox.setChecked(selectedEmitter.getWind().isActive());
         scrollTable.add(windCheckBox);
         addHandListener(windCheckBox);
         onChange(windCheckBox, () -> {
+            selectedEmitter.getWind().setActive(windCheckBox.isChecked());
             if (windCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(WIND);
             else emitterPropertiesPanel.removeProperty(WIND);
         });
@@ -170,10 +173,11 @@ public class PopAddProperty extends PopTable {
         //Graviity
         scrollTable.row();
         var gravityCheckBox = new CheckBox("Gravity", skin);
-        gravityCheckBox.setChecked(shownProperties.contains(GRAVITY));
+        gravityCheckBox.setChecked(selectedEmitter.getGravity().isActive());
         scrollTable.add(gravityCheckBox);
         addHandListener(gravityCheckBox);
         onChange(gravityCheckBox, () -> {
+            selectedEmitter.getGravity().setActive(gravityCheckBox.isChecked());
             if (gravityCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(GRAVITY);
             else emitterPropertiesPanel.removeProperty(GRAVITY);
         });

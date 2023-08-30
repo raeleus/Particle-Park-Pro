@@ -13,10 +13,8 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.DELAY;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.LIFE_OFFSET;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class LifeOffsetSubPanel extends Panel {
     public LifeOffsetSubPanel() {
@@ -33,7 +31,10 @@ public class LifeOffsetSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> emitterPropertiesPanel.removeProperty(LIFE_OFFSET));
+        onChange(button, () -> {
+            selectedEmitter.getLifeOffset().setActive(false);
+            emitterPropertiesPanel.removeProperty(LIFE_OFFSET);
+        });
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

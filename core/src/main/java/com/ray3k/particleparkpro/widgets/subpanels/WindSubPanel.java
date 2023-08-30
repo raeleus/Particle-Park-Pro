@@ -13,10 +13,8 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.VELOCITY;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.WIND;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class WindSubPanel extends Panel {
     public WindSubPanel() {
@@ -33,7 +31,10 @@ public class WindSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> emitterPropertiesPanel.removeProperty(WIND));
+        onChange(button, () -> {
+            selectedEmitter.getWind().setActive(false);
+            emitterPropertiesPanel.removeProperty(WIND);
+        });
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

@@ -14,9 +14,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.ROTATION;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.VELOCITY;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.shownProperties;
 
 public class RotationSubPanel extends Panel {
     public RotationSubPanel() {
@@ -33,7 +31,10 @@ public class RotationSubPanel extends Panel {
         var button = new Button(skin, "close");
         tabTable.add(button);
         addHandListener(button);
-        onChange(button, () -> emitterPropertiesPanel.removeProperty(ROTATION));
+        onChange(button, () -> {
+            selectedEmitter.getRotation().setActive(false);
+            emitterPropertiesPanel.removeProperty(ROTATION);
+        });
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

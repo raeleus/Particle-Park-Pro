@@ -410,4 +410,10 @@ public class Spinner extends Table implements Disableable {
     public boolean isDisabled() {
         return disabled;
     }
+
+    public void setProgrammaticChangeEvents(boolean programmaticChangeEvents) {
+        buttonMinus.setProgrammaticChangeEvents(programmaticChangeEvents);
+        buttonPlus.setProgrammaticChangeEvents(programmaticChangeEvents);
+        textField.setProgrammaticChangeEvents(programmaticChangeEvents);
+    }
 }

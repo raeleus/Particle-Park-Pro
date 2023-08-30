@@ -28,21 +28,23 @@ public class CountSubPanel extends Panel {
         label = new Label("Min:", skin);
         bodyTable.add(label);
 
-        var minSpinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var minSpinner = new Spinner(selectedEmitter.getMinParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(minSpinner).width(spinnerWidth);
         addHandListener(minSpinner.getButtonMinus());
         addHandListener(minSpinner.getButtonPlus());
         addIbeamListener(minSpinner.getTextField());
         addTooltip(minSpinner, "The minimum number of particles at all times", Align.top, tooltipBottomArrowStyle);
+        onChange(minSpinner, () -> selectedEmitter.setMinParticleCount(minSpinner.getValueAsInt()));
 
         label = new Label("Max:", skin);
         bodyTable.add(label).spaceLeft(gap);
 
-        var maxSpinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var maxSpinner = new Spinner(selectedEmitter.getMaxParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(maxSpinner).width(spinnerWidth);
         addHandListener(maxSpinner.getButtonMinus());
         addHandListener(maxSpinner.getButtonPlus());
         addIbeamListener(maxSpinner.getTextField());
         addTooltip(maxSpinner, "The maximum number of particles allowed", Align.top, tooltipBottomArrowStyle);
+        onChange(maxSpinner, () -> selectedEmitter.setMaxParticleCount(maxSpinner.getValueAsInt()));
     }
 }
