@@ -11,15 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import lombok.Getter;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.ShapeDrawerDrawable;
 
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.Core.shapeDrawer;
 
 public class LineGraph extends Table {
@@ -28,8 +32,8 @@ public class LineGraph extends Table {
     private Label backgroundLabel;
     private DragListener dragListener;
     private ButtonStyle nodeStyle;
-    private EventListener nodeListener;
-    private final Array<Node> nodes = new Array<>();
+    @Getter private EventListener nodeListener;
+    @Getter private final Array<Node> nodes = new Array<>();
     private ShapeDrawerDrawable shapeDrawerDrawable;
     private boolean createNewNode;
     private static final Vector2 temp = new Vector2();
@@ -159,6 +163,7 @@ public class LineGraph extends Table {
 
                     createNode((x - getPadLeft()) / (getWidth() - getPadLeft() - getPadRight()),
                         (y - getPadBottom()) / (getHeight() - getPadBottom() - getPadTop()), false);
+                    fire(new ChangeEvent());
                 }
             }
 
@@ -169,7 +174,7 @@ public class LineGraph extends Table {
         };
     }
 
-    private void createNode(float percentX, float percentY, boolean onlyDragY) {
+    public void createNode(float percentX, float percentY, boolean onlyDragY) {
         var node = new Node(nodeStyle);
         if (nodeListener != null) node.addListener(nodeListener);
         addActor(node);
@@ -197,11 +202,18 @@ public class LineGraph extends Table {
                 if (nodes.indexOf(node, true) != 0 && (event.getButton() == Buttons.RIGHT || getTapCount() >= 2)) {
                     node.remove();
                     nodes.removeValue(node, true);
+                    fire(new ChangeEvent());
                 }
             }
         };
         clickListener.setButton(-1);
         node.addListener(clickListener);
+        node.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                event.stop();
+            }
+        });
 
         var dragListener = new DragListener() {
             @Override
@@ -211,6 +223,7 @@ public class LineGraph extends Table {
                 node.percentX = MathUtils.clamp(onlyDragY ? node.percentX : (temp.x - getPadLeft()) / (getWidth() - getPadLeft() - getPadRight()), 0, 1);
                 node.percentY = MathUtils.clamp((temp.y - getPadBottom()) / (getHeight() - getPadBottom() - getPadTop()), 0, 1);
                 if (node.label != null) node.label.setText(Math.round(node.percentX * 100) + "%, " + Math.round(node.percentY * 100) + "%");
+                fire(new ChangeEvent());
 
                 invalidate();
 
@@ -221,12 +234,23 @@ public class LineGraph extends Table {
         node.addListener(dragListener);
     }
 
-    private void sortNodes() {
-        nodes.sort((o1, o2) -> Float.compare(o1.percentX, o2.percentX));
+    public void setNodes(float[] timeline, float[] scaling) {
+        while (nodes.size > 1) {
+            var node = nodes.get(1);
+            node.remove();
+            nodes.removeIndex(1);
+        }
+
+        if (scaling.length > 0) {
+            getNodes().first().percentY = selectedEmitter.getLife().getScaling()[0];
+            for (int i = 1; i < scaling.length; i++) {
+                createNode(timeline[i], scaling[i], false);
+            }
+        }
     }
 
-    public EventListener getNodeListener() {
-        return nodeListener;
+    private void sortNodes() {
+        nodes.sort((o1, o2) -> Float.compare(o1.percentX, o2.percentX));
     }
 
     public void setNodeListener(EventListener nodeListener) {
@@ -254,13 +278,18 @@ public class LineGraph extends Table {
         public int lineWidth;
     }
 
-    public static class Node extends Button{
+    public static class Node extends Button {
         public float percentX;
         public float percentY;
         public Label label;
 
         public Node(ButtonStyle style) {
             super(style);
+        }
+
+        public void set(float percentX, float percentY) {
+            this.percentX = percentX;
+            this.percentY = percentY;
         }
     }
 }

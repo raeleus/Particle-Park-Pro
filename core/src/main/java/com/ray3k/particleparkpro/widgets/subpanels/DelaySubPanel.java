@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -108,5 +109,6 @@ public class DelaySubPanel extends Panel {
             valueMinSpinner.setValue(valueSpinner.getValueAsInt());
             valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
         });
+        if (!MathUtils.isEqual(selectedEmitter.getDelay().getLowMin(), selectedEmitter.getDelay().getLowMax())) highToggleWidget.swap();
     }
 }
