@@ -16,7 +16,6 @@ import com.ray3k.stripe.Spinner.Orientation;
 import static com.ray3k.particleparkpro.Core.*;
 
 public class SizeSubPanel extends Panel {
-    private boolean splitXY;
     private enum ExpandedType {
         EXPANDED_X, EXPANDED_Y, EXPANDED_BOTH
     }
