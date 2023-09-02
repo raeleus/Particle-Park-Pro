@@ -235,16 +235,14 @@ public class LineGraph extends Table {
     }
 
     public void setNodes(float[] timeline, float[] scaling) {
-        while (nodes.size > 1) {
-            var node = nodes.get(1);
-            node.remove();
-            nodes.removeIndex(1);
+        while (nodes.size > 0) {
+            nodes.get(0).remove();
+            nodes.removeIndex(0);
         }
 
         if (scaling.length > 0) {
-            getNodes().first().percentY = selectedEmitter.getLife().getScaling()[0];
-            for (int i = 1; i < scaling.length; i++) {
-                createNode(timeline[i], scaling[i], false);
+            for (int i = 0; i < scaling.length; i++) {
+                createNode(timeline[i], scaling[i], i == 0);
             }
         }
     }

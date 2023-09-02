@@ -174,6 +174,12 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMaxValueSpinner.getButtonMinus());
         addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, tooltipBottomArrowStyle);
 
+        button = new Button(skin, "moveleft");
+        lowToggleWidget.table2.add(button);
+        addHandListener(button);
+        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        onChange(button, lowToggleWidget::swap);
+
         onChange(lowValueSpinner, () -> {
             value.setLow(lowValueSpinner.getValueAsInt());
             lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
@@ -195,13 +201,8 @@ public class GraphSubPanel extends Panel {
             lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValueAsInt());
         });
-        if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) lowToggleWidget.swap();
 
-        button = new Button(skin, "moveleft");
-        lowToggleWidget.table2.add(button);
-        addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
-        onChange(button, lowToggleWidget::swap);
+        if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) lowToggleWidget.swap();
 
         //Graph small
         var graph = new LineGraph(graphText, lineGraphStyle);
