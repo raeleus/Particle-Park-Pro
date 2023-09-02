@@ -18,6 +18,8 @@ public class TransparencySubPanel extends Panel {
     public TransparencySubPanel() {
         final int itemSpacing = 5;
 
+        var value = selectedEmitter.getTransparency();
+
         setTouchable(Touchable.enabled);
 
         tabTable.padRight(7);
@@ -34,6 +36,7 @@ public class TransparencySubPanel extends Panel {
 
         //Graph small
         var graph = new LineGraph("Life", lineGraphStyle);
+        graph.setNodes(value.getTimeline(), value.getScaling());
         graph.setNodeListener(handListener);
         graphToggleWidget.table1.add(graph);
 
@@ -41,18 +44,51 @@ public class TransparencySubPanel extends Panel {
         graphToggleWidget.table1.add(button).bottom();
         addHandListener(button);
         addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
-        onChange(button, graphToggleWidget::swap);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
-        graph = new LineGraph("Life", lineGraphBigStyle);
-        graph.setNodeListener(handListener);
-        graphToggleWidget.table2.add(graph).grow();
+        var graphExpanded = new LineGraph("Life", lineGraphBigStyle);
+        graphExpanded.setNodeListener(handListener);
+        graphToggleWidget.table2.add(graphExpanded).grow();
+
+        onChange(button, () -> {
+            graphToggleWidget.swap();
+            graphExpanded.setNodes(value.getTimeline(), value.getScaling());
+        });
+
+        onChange(graph, () -> {
+            var nodes = graph.getNodes();
+            float[] newTimeline = new float[nodes.size];
+            float[] newScaling = new float[nodes.size];
+            for (int i = 0; i < nodes.size; i++) {
+                var node = nodes.get(i);
+                newTimeline[i] = node.percentX;
+                newScaling[i] = node.percentY;
+            }
+            value.setTimeline(newTimeline);
+            value.setScaling(newScaling);
+        });
+
+        onChange(graphExpanded, () -> {
+            var nodes = graphExpanded.getNodes();
+            float[] newTimeline = new float[nodes.size];
+            float[] newScaling = new float[nodes.size];
+            for (int i = 0; i < nodes.size; i++) {
+                var node = nodes.get(i);
+                newTimeline[i] = node.percentX;
+                newScaling[i] = node.percentY;
+            }
+            value.setTimeline(newTimeline);
+            value.setScaling(newScaling);
+        });
 
         button = new Button(skin, "minus");
         graphToggleWidget.table2.add(button).bottom();
         addHandListener(button);
         addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
-        onChange(button, graphToggleWidget::swap);
+        onChange(button, () -> {
+            graphToggleWidget.swap();
+            graph.setNodes(value.getTimeline(), value.getScaling());
+        });
     }
 }
