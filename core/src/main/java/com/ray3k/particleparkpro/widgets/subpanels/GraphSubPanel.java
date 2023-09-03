@@ -12,13 +12,15 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class GraphSubPanel extends Panel {
-    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String graphText) {
+    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String graphText, ShownProperty closeProperty) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -28,6 +30,16 @@ public class GraphSubPanel extends Panel {
         tabTable.left();
         var label = new Label(name, skin, "header");
         tabTable.add(label).space(3);
+
+        if (closeProperty != null) {
+            var button = new Button(skin, "close");
+            tabTable.add(button);
+            addHandListener(button);
+            onChange(button, () -> {
+                value.setActive(false);
+                emitterPropertiesPanel.removeProperty(closeProperty);
+            });
+        }
 
         var graphToggleWidget = new ToggleWidget();
         bodyTable.add(graphToggleWidget).grow();

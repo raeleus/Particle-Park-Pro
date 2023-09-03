@@ -71,7 +71,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Delay
         if (selectedEmitter.getDelay().isActive()) {
             scrollTable.row();
-            var delaySubPanel = new DelaySubPanel();
+            var delaySubPanel = new RangeSubPanel("Delay", selectedEmitter.getDelay(), "time from beginning of the effect to emission start in milliseconds", DELAY);
             delaySubPanel.setUserObject(DELAY);
             scrollTable.add(delaySubPanel);
             if (newProperty == DELAY) scrollToActor = delaySubPanel;
@@ -79,23 +79,23 @@ public class EmitterPropertiesPanel extends Panel {
 
         //Duration
         scrollTable.row();
-        var durationSubPanel = new DurationSubPanel();
+        var durationSubPanel = new RangeSubPanel("Duration", selectedEmitter.getDuration(), "time particles will be emitted in milliseconds", null);
         scrollTable.add(durationSubPanel);
 
         //Emission
         scrollTable.row();
-        var emissionSubPanel = new GraphSubPanel("Emission", selectedEmitter.getEmission(), true, false, "the number of particles emitted per second", "Duration");
+        var emissionSubPanel = new GraphSubPanel("Emission", selectedEmitter.getEmission(), true, false, "the number of particles emitted per second", "Duration", null);
         scrollTable.add(emissionSubPanel);
 
         //Life
         scrollTable.row();
-        var lifeSubPanel = new GraphSubPanel("Life", selectedEmitter.getLife(), true, true, "the time particles will live in milliseconds", "Duration");
+        var lifeSubPanel = new GraphSubPanel("Life", selectedEmitter.getLife(), true, true, "the time particles will live in milliseconds", "Duration", null);
         scrollTable.add(lifeSubPanel);
 
         //Life Offset
         if (selectedEmitter.getLifeOffset().isActive()) {
             scrollTable.row();
-            var lifeOffsetSubPanel = new GraphSubPanel("Life Offset", selectedEmitter.getLifeOffset(), true, true, "the life duration consumed upon particle emission in milliseconds", "Duration");
+            var lifeOffsetSubPanel = new GraphSubPanel("Life Offset", selectedEmitter.getLifeOffset(), true, true, "the life duration consumed upon particle emission in milliseconds", "Duration", LIFE_OFFSET);
             lifeOffsetSubPanel.setUserObject(LIFE_OFFSET);
             scrollTable.add(lifeOffsetSubPanel);
             if (newProperty == LIFE_OFFSET) scrollToActor = lifeOffsetSubPanel;
@@ -104,7 +104,7 @@ public class EmitterPropertiesPanel extends Panel {
         //X Offset
         if (selectedEmitter.getXOffsetValue().isActive()) {
             scrollTable.row();
-            var xOffsetSubPanel = new XoffsetSubPanel();
+            var xOffsetSubPanel = new RangeSubPanel("X Offset", selectedEmitter.getXOffsetValue(), "amount to offset a particle's starting X location in world units", X_OFFSET);
             xOffsetSubPanel.setUserObject(X_OFFSET);
             scrollTable.add(xOffsetSubPanel);
             if (newProperty == X_OFFSET) scrollToActor = xOffsetSubPanel;
@@ -113,7 +113,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Y Offset
         if (selectedEmitter.getYOffsetValue().isActive()) {
             scrollTable.row();
-            var yOffsetSubPanel = new YoffsetSubPanel();
+            var yOffsetSubPanel = new RangeSubPanel("Y Offset", selectedEmitter.getYOffsetValue(), "amount to offset a particle's starting Y location in world units", Y_OFFSET);
             yOffsetSubPanel.setUserObject(Y_OFFSET);
             scrollTable.add(yOffsetSubPanel);
             if (newProperty == Y_OFFSET) scrollToActor = yOffsetSubPanel;
@@ -132,7 +132,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Velocity
         if (selectedEmitter.getVelocity().isActive()) {
             scrollTable.row();
-            var velocitySubPanel = new GraphSubPanel("Velocity", selectedEmitter.getVelocity(), true, false, "the particle speed in world units per second", "Life");
+            var velocitySubPanel = new GraphSubPanel("Velocity", selectedEmitter.getVelocity(), true, false, "the particle speed in world units per second", "Life", VELOCITY);
             velocitySubPanel.setUserObject(VELOCITY);
             scrollTable.add(velocitySubPanel);
             if (newProperty == VELOCITY) scrollToActor = velocitySubPanel;
@@ -141,7 +141,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Angle
         if (selectedEmitter.getAngle().isActive()) {
             scrollTable.row();
-            var angleSubPanel = new GraphSubPanel("Angle", selectedEmitter.getAngle(), true, false, "the particle emission angle in degrees", "Life");
+            var angleSubPanel = new GraphSubPanel("Angle", selectedEmitter.getAngle(), true, false, "the particle emission angle in degrees", "Life", ANGLE);
             angleSubPanel.setUserObject(ANGLE);
             scrollTable.add(angleSubPanel);
             if (newProperty == ANGLE) scrollToActor = angleSubPanel;
@@ -150,7 +150,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Rotation
         if (selectedEmitter.getRotation().isActive()) {
             scrollTable.row();
-            var rotationSubPanel = new GraphSubPanel("Rotation", selectedEmitter.getRotation(), true, false, "the particle rotation in degrees", "Life");
+            var rotationSubPanel = new GraphSubPanel("Rotation", selectedEmitter.getRotation(), true, false, "the particle rotation in degrees", "Life", ROTATION);
             rotationSubPanel.setUserObject(ROTATION);
             scrollTable.add(rotationSubPanel);
             if (newProperty == ROTATION) scrollToActor = rotationSubPanel;
@@ -159,7 +159,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Wind
         if (selectedEmitter.getWind().isActive()) {
             scrollTable.row();
-            var windSubPanel = new GraphSubPanel("Wind", selectedEmitter.getWind(), true, false, "the wind strength in world units per second", "Life");
+            var windSubPanel = new GraphSubPanel("Wind", selectedEmitter.getWind(), true, false, "the wind strength in world units per second", "Life", WIND);
             windSubPanel.setUserObject(WIND);
             scrollTable.add(windSubPanel);
             if (newProperty == WIND) scrollToActor = windSubPanel;
@@ -168,7 +168,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Gravity
         if (selectedEmitter.getGravity().isActive()) {
             scrollTable.row();
-            var gravitySubPanel = new GraphSubPanel("Gravity", selectedEmitter.getGravity(), true, false, "the gravity strength in world units per second", "Life");
+            var gravitySubPanel = new GraphSubPanel("Gravity", selectedEmitter.getGravity(), true, false, "the gravity strength in world units per second", "Life", GRAVITY);
             gravitySubPanel.setUserObject(GRAVITY);
             scrollTable.add(gravitySubPanel);
             if (newProperty == GRAVITY) scrollToActor = gravitySubPanel;
