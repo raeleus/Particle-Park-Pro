@@ -13,7 +13,7 @@ public class PPlineGraphStyle extends LineGraphStyle {
         nodeUp = skin.getDrawable("graph-node-up");
         nodeDown = skin.getDrawable("graph-node-over");
         nodeOver = skin.getDrawable("graph-node-over");
-        lineColor = Color.BLUE;
+        lineColor = Color.valueOf("0074ff");
         lineWidth = 2;
     }
 }
