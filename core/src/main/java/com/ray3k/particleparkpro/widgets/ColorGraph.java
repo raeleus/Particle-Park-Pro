@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -20,6 +22,7 @@ import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
 import com.ray3k.tenpatch.TenPatchDrawable;
+import lombok.Getter;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -29,8 +32,8 @@ public class ColorGraph extends Table {
     private ImageButtonStyle nodeStartStyle;
     private ImageButtonStyle nodeStyle;
     private ImageButtonStyle nodeEndStyle;
-    private EventListener nodeListener;
-    private final Array<ImageButton> nodes = new Array<>();
+    @Getter private EventListener nodeListener;
+    @Getter private final Array<ImageButton> nodes = new Array<>();
     private boolean createNewNode;
     private boolean openColorPicker;
     private boolean allowDrag;
@@ -90,7 +93,7 @@ public class ColorGraph extends Table {
         nodeTable.setTouchable(Touchable.enabled);
         nodeTable.addListener(dragListener = createDragListener());
 
-        createNode(getPadLeft(), true);
+        createNode(0, null, true);
     }
 
     @Override
@@ -146,7 +149,8 @@ public class ColorGraph extends Table {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (createNewNode) {
-                    createNode(x, false);
+                    createNode(x / nodeTable.getWidth(), null, false);
+                    fire(new ChangeEvent());
                 }
             }
 
@@ -158,12 +162,20 @@ public class ColorGraph extends Table {
         };
     }
 
-    private void createNode(float x, boolean stationary) {
+    private void createNode(float value, Color color, boolean stationary) {
         final var tapCountInterval = .4f;
 
         var node = new ImageButton(nodeStyle);
         var nodeData = new NodeData();
-        nodeData.value = MathUtils.isZero(getWidth()) ? 0 : x / nodeTable.getWidth();
+        nodeData.value = value;
+        nodeData.color = color;
+        float x = MathUtils.isZero(getWidth()) ? 0 : value * nodeTable.getWidth();
+        node.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                event.stop();
+            }
+        });
 
         ImageButton previousNode = null, nextNode = null;
         for (int i = 0; i < nodes.size; i++) {
@@ -228,6 +240,7 @@ public class ColorGraph extends Table {
                                 public void picked(Color color) {
                                     nodeData.color.set(color);
                                     updateColors();
+                                    fire(new ChangeEvent());
                                 }
 
                                 @Override
@@ -262,6 +275,7 @@ public class ColorGraph extends Table {
                         nodes.removeValue(node, true);
                         sortNodes();
                         updateColors();
+                        fire(new ChangeEvent());
                     } else {
                         node.removeAction(colorPickerAction);
                     }
@@ -292,6 +306,19 @@ public class ColorGraph extends Table {
         node.addListener(dragListener);
     }
 
+    public void setNodes(float[] timeline, float[] colors) {
+        while (nodes.size > 0) {
+            nodes.get(0).remove();
+            nodes.removeIndex(0);
+        }
+
+        for (int i = 0; i < timeline.length; i++) {
+            var colorIndex = i * 3;
+            var color = new Color(colors[colorIndex], colors[colorIndex + 1], colors[colorIndex + 2], 1);
+            createNode(timeline[i], color, i == 0);
+        }
+    }
+
     private void sortNodes() {
         nodes.sort((o1, o2) -> Float.compare(o1.getX(), o2.getX()));
 
@@ -317,10 +344,6 @@ public class ColorGraph extends Table {
         }
     }
 
-    public EventListener getNodeListener() {
-        return nodeListener;
-    }
-
     public void setNodeListener(EventListener nodeListener) {
         if (this.nodeListener != null) {
             for (int i = 0; i < nodes.size; i++) {
@@ -335,10 +358,10 @@ public class ColorGraph extends Table {
         }
     }
 
-    private static class NodeData {
-        Color color;
-        TenPatchDrawable tenPatch;
-        float value;
+    public static class NodeData {
+        public Color color;
+        public TenPatchDrawable tenPatch;
+        public float value;
     }
 
     public static class ColorGraphStyle {
