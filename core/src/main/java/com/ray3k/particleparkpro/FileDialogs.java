@@ -37,6 +37,7 @@ public class FileDialogs {
             var status = NativeFileDialog.NFD_OpenDialogMultiple(pp, filters, stack.UTF8(defaultPath));
 
             if (status == NFD_CANCEL) return null;
+            if (status != NFD_OKAY) System.err.format("Error: %s\n", NFD_GetError());
 
             long pathSet = pp.get(0);
             var psEnum = NFDPathSetEnum.calloc(stack);
@@ -44,7 +45,7 @@ public class FileDialogs {
 
             var paths = new Array<FileHandle>();
             while (NFD_PathSet_EnumNext(psEnum, pp) == NFD_OKAY && pp.get(0) != NULL) {
-                var path = pp.getStringUTF8();
+                var path = pp.getStringUTF8(0);
                 paths.add(Gdx.files.absolute(path));
                 NFD_PathSet_FreePath(pp.get(0));
             }
@@ -53,6 +54,7 @@ public class FileDialogs {
             NFD_PathSet_Free(pathSet);
             return paths;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

@@ -30,6 +30,7 @@ import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.DraggableList.DraggableListStyle;
+import com.ray3k.stripe.DraggableTextList.DraggableTextListStyle;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.PopTableStyle;
@@ -63,7 +64,8 @@ public class Core extends ApplicationAdapter {
     public static SpinnerStyle spinnerStyle;
     public static Preferences preferences;
     public static ResizeWidgetStyle resizeWidgetStyle;
-    public static DraggableListStyle draggableListStyle;
+    public static DraggableTextListStyle draggableListStyle;
+    public static DraggableTextListStyle draggableListNoBgStyle;
     public static SystemCursorListener handListener;
     public static SystemCursorListener ibeamListener;
     public static SystemCursorListener horizontalResizeListener;
@@ -106,7 +108,8 @@ public class Core extends ApplicationAdapter {
         particlePreview = new ParticlePreview();
         spinnerStyle = new PPspinnerStyle();
         resizeWidgetStyle = new PPresizeWidgetStyle();
-        draggableListStyle = new PPdraggableListStyle();
+        draggableListStyle = new PPdraggableTextListStyle();
+        draggableListNoBgStyle = new PPdraggableTextListNoBGStyle();
         tooltipBottomArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-arrow", WindowStyle.class));
         tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));

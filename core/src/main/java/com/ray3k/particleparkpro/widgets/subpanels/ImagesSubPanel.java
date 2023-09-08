@@ -1,15 +1,37 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.widgets.LineGraph;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.stripe.DraggableList;
+import com.ray3k.stripe.DraggableList.DraggableListListener;
+import com.ray3k.stripe.DraggableTextList;
+import com.ray3k.stripe.DraggableTextList.DraggableTextListListener;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 
 public class ImagesSubPanel extends Panel {
+    private ObjectMap<String, FileHandle> fileHandles;
+    private ObjectMap<String, Sprite> sprites;
+    private DraggableTextList list;
+
     public ImagesSubPanel() {
+        var listWidth = 210;
+        var listHeight = 100;
+
+        fileHandles = new ObjectMap<>();
+        sprites = new ObjectMap<>();
         setTouchable(Touchable.enabled);
 
         tabTable.left();
@@ -26,6 +48,18 @@ public class ImagesSubPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, tooltipBottomArrowStyle);
+        onChange(textButton, () -> {
+            var selectedFileHandles = FileDialogs.openMultipleDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            for (var fileHandle : selectedFileHandles) {
+                var path = fileHandle.name();
+                selectedEmitter.getImagePaths().add(path);
+                fileHandles.put(path, fileHandle);
+                var sprite = new Sprite(new Texture(fileHandle));
+                sprites.put(path, sprite);
+                selectedEmitter.getSprites().add(sprite);
+            }
+            if (selectedFileHandles.size > 0) updateList();
+        });
 
         table.row();
         textButton = new TextButton("Default", skin, "small");
@@ -34,7 +68,7 @@ public class ImagesSubPanel extends Panel {
         addTooltip(textButton, "Set the image to the default round-faded image", Align.top, tooltipBottomArrowStyle);
 
         table.row();
-        textButton = new TextButton("Default (Premultiplied Alpha)", skin, "small");
+        textButton = new TextButton("Default PMA", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
         addTooltip(textButton, "Set the image to the default for premultiplied alpha", Align.top, tooltipBottomArrowStyle);
@@ -48,30 +82,66 @@ public class ImagesSubPanel extends Panel {
         table.row();
         table.defaults().left();
         var buttonGroup = new ButtonGroup<>();
-        var checkBox = new CheckBox("Single", skin, "radio");
-        table.add(checkBox).spaceTop(5);
-        buttonGroup.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "Only the selected image will be drawn", Align.top, tooltipBottomArrowStyle);
+        var checkBoxSingle = new CheckBox("Single", skin, "radio");
+        table.add(checkBoxSingle).spaceTop(5);
+        buttonGroup.add(checkBoxSingle);
+        addHandListener(checkBoxSingle);
+        addTooltip(checkBoxSingle, "Only the selected image will be drawn", Align.top, tooltipBottomArrowStyle);
+        onChange(checkBoxSingle, () -> selectedEmitter.setSpriteMode(SpriteMode.single));
 
         table.row();
-        checkBox = new CheckBox("Random", skin, "radio");
-        table.add(checkBox);
-        buttonGroup.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "A randomly selected image will be chosen for each particle", Align.top, tooltipBottomArrowStyle);
+        var checkBoxRandom = new CheckBox("Random", skin, "radio");
+        table.add(checkBoxRandom);
+        buttonGroup.add(checkBoxRandom);
+        addHandListener(checkBoxRandom);
+        addTooltip(checkBoxRandom, "A randomly selected image will be chosen for each particle", Align.top, tooltipBottomArrowStyle);
+        onChange(checkBoxRandom, () -> selectedEmitter.setSpriteMode(SpriteMode.random));
 
         table.row();
-        checkBox = new CheckBox("Animated", skin, "radio");
-        table.add(checkBox);
-        buttonGroup.add(checkBox);
-        addHandListener(checkBox);
-        addTooltip(checkBox, "All images will be displayed in sequence over the life of each particle", Align.top, tooltipBottomArrowStyle);
+        var checkBoxAnimated = new CheckBox("Animated", skin, "radio");
+        table.add(checkBoxAnimated);
+        buttonGroup.add(checkBoxAnimated);
+        addHandListener(checkBoxAnimated);
+        addTooltip(checkBoxAnimated, "All images will be displayed in sequence over the life of each particle", Align.top, tooltipBottomArrowStyle);
+        onChange(checkBoxAnimated, () -> selectedEmitter.setSpriteMode(SpriteMode.animated));
 
-        var list = new List<String>(skin);
-        list.setItems("particle.png", "particle1.png", "particle2.png", "particle3.png", "particle4.png");
-        bodyTable.add(list).fill().spaceRight(10);
+        list = new DraggableTextList(true, draggableListNoBgStyle);
+        list.setProgrammaticChangeEvents(false);
+        list.setTextAlignment(Align.left);
+        list.align(Align.top);
+        updateList();
         addHandListener(list);
+        list.addListener(new DraggableTextListListener() {
+            @Override
+            public void removed(String text) {
+                fileHandles.remove(text);
+                var sprite = sprites.get(text);
+                sprites.remove(text);
+                selectedEmitter.getSprites().removeValue(sprite, true);
+
+                var paths = selectedEmitter.getImagePaths();
+                paths.clear();
+                paths.addAll(list.getTexts());
+            }
+
+            @Override
+            public void reordered(String text, int indexBefore, int indexAfter) {
+                var paths = selectedEmitter.getImagePaths();
+                paths.clear();
+                paths.addAll(list.getTexts());
+            }
+
+            @Override
+            public void selected(String text) {
+
+            }
+        });
+
+        var scrollPane = new ScrollPane(list, skin, "draggable-list");
+        scrollPane.setFlickScroll(false);
+        scrollPane.setFadeScrollBars(false);
+        bodyTable.add(scrollPane).size(listWidth, listHeight).spaceRight(10);
+        addScrollFocusListener(scrollPane);
 
         table = new Table();
         bodyTable.add(table).spaceLeft(10);
@@ -80,15 +150,66 @@ public class ImagesSubPanel extends Panel {
         var button = new Button(skin, "moveup");
         table.add(button);
         addHandListener(button);
+        onChange(button, () -> {
+            var paths = selectedEmitter.getImagePaths();
+            var index = list.getSelectedIndex();
+            if (index > 0) {
+                var path = paths.get(index);
+                paths.removeIndex(index);
+                paths.insert(--index, path);
+                selectedEmitter.setImagePaths(paths);
+
+                list.clearChildren();
+                list.addAllTexts(paths);
+                list.setSelected(index);
+            }
+        });
 
         table.row();
         button = new Button(skin, "movedown");
         table.add(button);
         addHandListener(button);
+        onChange(button, () -> {
+            var paths = selectedEmitter.getImagePaths();
+            var index = list.getSelectedIndex();
+            if (index < paths.size - 1) {
+                var path = paths.get(index);
+                paths.removeIndex(index);
+                paths.insert(++index, path);
+
+                list.clearChildren();
+                list.addAllTexts(paths);
+                list.setSelected(index);
+            }
+        });
 
         table.row();
         button = new Button(skin, "cancel");
         table.add(button);
         addHandListener(button);
+        onChange(button, () -> {
+            var paths = selectedEmitter.getImagePaths();
+            var index = list.getSelectedIndex();
+            paths.removeIndex(index);
+
+            var text = list.getSelected().toString();
+            fileHandles.remove(text);
+            var sprite = sprites.get(text);
+            sprites.remove(text);
+            selectedEmitter.getSprites().removeValue(sprite, true);
+
+            list.clearChildren();
+            list.addAllTexts(paths);
+            list.setSelected(index < list.getTexts().size ? index : list.getTexts().size - 1);
+        });
+    }
+
+    private void updateList() {
+        var paths = selectedEmitter.getImagePaths();
+        list.clearChildren();
+        for (var path : paths) {
+            var fileHandle = fileHandles.get(path);
+            list.addText(path);
+        }
     }
 }
