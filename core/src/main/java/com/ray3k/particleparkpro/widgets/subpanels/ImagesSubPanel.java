@@ -23,6 +23,7 @@ import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 
 public class ImagesSubPanel extends Panel {
     private DraggableTextList list;
+    private Button removeButton;
 
     public ImagesSubPanel() {
         var listWidth = 210;
@@ -69,12 +70,32 @@ public class ImagesSubPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         addTooltip(textButton, "Set the image to the default round-faded image", Align.top, tooltipBottomArrowStyle);
+        onChange(textButton, () -> {
+            var fileHandle = Gdx.files.internal("particle.png");
+            var path = fileHandle.name();
+            selectedEmitter.getImagePaths().add(path);
+            fileHandles.put(path, fileHandle);
+            var sprite = new Sprite(new Texture(fileHandle));
+            sprites.put(path, sprite);
+            selectedEmitter.getSprites().add(sprite);
+            updateList();
+        });
 
         table.row();
         textButton = new TextButton("Default PMA", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
         addTooltip(textButton, "Set the image to the default for premultiplied alpha", Align.top, tooltipBottomArrowStyle);
+        onChange(textButton, () -> {
+            var fileHandle = Gdx.files.internal("pre_particle.png");
+            var path = fileHandle.name();
+            selectedEmitter.getImagePaths().add(path);
+            fileHandles.put(path, fileHandle);
+            var sprite = new Sprite(new Texture(fileHandle));
+            sprites.put(path, sprite);
+            selectedEmitter.getSprites().add(sprite);
+            updateList();
+        });
 
         table = new Table();
         bodyTable.add(table);
@@ -112,11 +133,13 @@ public class ImagesSubPanel extends Panel {
         list.setProgrammaticChangeEvents(false);
         list.setTextAlignment(Align.left);
         list.align(Align.top);
-        updateList();
         addHandListener(list);
         list.addListener(new DraggableTextListListener() {
             @Override
             public void removed(String text) {
+                list.setAllowRemoval(list.getTexts().size > 1);
+                removeButton.setDisabled(!list.isAllowRemoval());
+
                 fileHandles.remove(text);
                 var sprite = sprites.get(text);
                 sprites.remove(text);
@@ -194,11 +217,12 @@ public class ImagesSubPanel extends Panel {
         });
 
         table.row();
-        button = new Button(skin, "cancel");
-        table.add(button);
-        addHandListener(button);
-        onChange(button, () -> {
+        removeButton = new Button(skin, "cancel");
+        table.add(removeButton);
+        addHandListener(removeButton);
+        onChange(removeButton, () -> {
             var paths = selectedEmitter.getImagePaths();
+            if (paths.size <= 1) return;
             var index = list.getSelectedIndex();
             paths.removeIndex(index);
 
@@ -211,7 +235,11 @@ public class ImagesSubPanel extends Panel {
             list.clearChildren();
             list.addAllTexts(paths);
             list.setSelected(index < list.getTexts().size ? index : list.getTexts().size - 1);
+            list.setAllowRemoval(list.getTexts().size > 1);
+            removeButton.setDisabled(!list.isAllowRemoval());
         });
+
+        updateList();
     }
 
     private void updateList() {
@@ -220,5 +248,7 @@ public class ImagesSubPanel extends Panel {
         for (var path : paths) {
             list.addText(path);
         }
+        list.setAllowRemoval(list.getTexts().size > 1);
+        removeButton.setDisabled(!list.isAllowRemoval());
     }
 }

@@ -1742,7 +1742,8 @@
 	"cancel": {
 		"up": "button-cancel-up",
 		"down": "button-cancel-down",
-		"over": "button-cancel-over"
+		"over": "button-cancel-over",
+		"disabled": "button-cancel-disabled"
 	},
 	"plus": {
 		"up": "button-plus-up",
