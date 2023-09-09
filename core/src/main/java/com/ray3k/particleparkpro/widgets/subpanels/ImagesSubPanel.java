@@ -136,14 +136,14 @@ public class ImagesSubPanel extends Panel {
         addHandListener(list);
         list.addListener(new DraggableTextListListener() {
             @Override
-            public void removed(String text) {
+            public void removed(String text, int index) {
                 list.setAllowRemoval(list.getTexts().size > 1);
                 removeButton.setDisabled(!list.isAllowRemoval());
 
                 fileHandles.remove(text);
                 var sprite = sprites.get(text);
                 sprites.remove(text);
-                selectedEmitter.getSprites().removeValue(sprite, true);
+                selectedEmitter.getSprites().removeIndex(index);
 
                 var paths = selectedEmitter.getImagePaths();
                 paths.clear();
@@ -228,9 +228,8 @@ public class ImagesSubPanel extends Panel {
 
             var text = list.getSelected().toString();
             fileHandles.remove(text);
-            var sprite = sprites.get(text);
             sprites.remove(text);
-            selectedEmitter.getSprites().removeValue(sprite, true);
+            selectedEmitter.getSprites().removeIndex(index);
 
             list.clearChildren();
             list.addAllTexts(paths);
