@@ -22,16 +22,18 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 
 public class ImagesSubPanel extends Panel {
-    private ObjectMap<String, FileHandle> fileHandles;
-    private ObjectMap<String, Sprite> sprites;
     private DraggableTextList list;
 
     public ImagesSubPanel() {
         var listWidth = 210;
         var listHeight = 100;
 
-        fileHandles = new ObjectMap<>();
-        sprites = new ObjectMap<>();
+        for (int i = 0; i < selectedEmitter.getImagePaths().size; i++) {
+            var path = selectedEmitter.getImagePaths().get(i);
+            var sprite = selectedEmitter.getSprites().get(i);
+            sprites.put(path, sprite);
+        }
+
         setTouchable(Touchable.enabled);
 
         tabTable.left();
@@ -50,6 +52,7 @@ public class ImagesSubPanel extends Panel {
         addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             var selectedFileHandles = FileDialogs.openMultipleDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            if (selectedFileHandles == null) return;
             for (var fileHandle : selectedFileHandles) {
                 var path = fileHandle.name();
                 selectedEmitter.getImagePaths().add(path);
@@ -152,12 +155,15 @@ public class ImagesSubPanel extends Panel {
         addHandListener(button);
         onChange(button, () -> {
             var paths = selectedEmitter.getImagePaths();
+            var sprites = selectedEmitter.getSprites();
             var index = list.getSelectedIndex();
             if (index > 0) {
                 var path = paths.get(index);
                 paths.removeIndex(index);
+                var sprite = sprites.get(index);
+                sprites.removeIndex(index);
                 paths.insert(--index, path);
-                selectedEmitter.setImagePaths(paths);
+                sprites.insert(index, sprite);
 
                 list.clearChildren();
                 list.addAllTexts(paths);
@@ -171,11 +177,15 @@ public class ImagesSubPanel extends Panel {
         addHandListener(button);
         onChange(button, () -> {
             var paths = selectedEmitter.getImagePaths();
+            var sprites = selectedEmitter.getSprites();
             var index = list.getSelectedIndex();
             if (index < paths.size - 1) {
                 var path = paths.get(index);
                 paths.removeIndex(index);
+                var sprite = sprites.get(index);
+                sprites.removeIndex(index);
                 paths.insert(++index, path);
+                sprites.insert(index, sprite);
 
                 list.clearChildren();
                 list.addAllTexts(paths);
@@ -208,7 +218,6 @@ public class ImagesSubPanel extends Panel {
         var paths = selectedEmitter.getImagePaths();
         list.clearChildren();
         for (var path : paths) {
-            var fileHandle = fileHandles.get(path);
             list.addText(path);
         }
     }

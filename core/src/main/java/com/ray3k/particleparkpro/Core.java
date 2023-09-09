@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -85,12 +86,16 @@ public class Core extends ApplicationAdapter {
     public static ParticleEmitter selectedEmitter;
     public static ShaderProgram shader;
 //    public static float time;
+    public static ObjectMap<String, FileHandle> fileHandles;
+    public static ObjectMap<String, Sprite> sprites;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
 
         preferences = Gdx.app.getPreferences("Particle Park Pro");
+        fileHandles = new ObjectMap<>();
+        sprites = new ObjectMap<>();
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();
@@ -99,6 +104,7 @@ public class Core extends ApplicationAdapter {
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport, spriteBatch);
         foregroundStage = new Stage(viewport, spriteBatch);
+
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         popColorPickerStyle = new PPcolorPickerStyle();
         lineGraphStyle = new PPlineGraphStyle();
