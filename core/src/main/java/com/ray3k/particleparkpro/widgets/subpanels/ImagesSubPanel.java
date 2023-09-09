@@ -32,7 +32,6 @@ public class ImagesSubPanel extends Panel {
         for (int i = 0; i < selectedEmitter.getImagePaths().size; i++) {
             var path = selectedEmitter.getImagePaths().get(i);
             var sprite = selectedEmitter.getSprites().get(i);
-            sprites.put(path, sprite);
         }
 
         setTouchable(Touchable.enabled);
@@ -57,9 +56,8 @@ public class ImagesSubPanel extends Panel {
             for (var fileHandle : selectedFileHandles) {
                 var path = fileHandle.name();
                 selectedEmitter.getImagePaths().add(path);
-                fileHandles.put(path, fileHandle);
-                var sprite = new Sprite(new Texture(fileHandle));
-                sprites.put(path, sprite);
+                addImage(fileHandle);
+                var sprite = particleAtlas.createSprite(fileHandle.nameWithoutExtension());
                 selectedEmitter.getSprites().add(sprite);
             }
             if (selectedFileHandles.size > 0) updateList();
@@ -74,9 +72,7 @@ public class ImagesSubPanel extends Panel {
             var fileHandle = Gdx.files.internal("particle.png");
             var path = fileHandle.name();
             selectedEmitter.getImagePaths().add(path);
-            fileHandles.put(path, fileHandle);
-            var sprite = new Sprite(new Texture(fileHandle));
-            sprites.put(path, sprite);
+            var sprite = particleAtlas.createSprite("particle");
             selectedEmitter.getSprites().add(sprite);
             updateList();
         });
@@ -90,9 +86,7 @@ public class ImagesSubPanel extends Panel {
             var fileHandle = Gdx.files.internal("pre_particle.png");
             var path = fileHandle.name();
             selectedEmitter.getImagePaths().add(path);
-            fileHandles.put(path, fileHandle);
-            var sprite = new Sprite(new Texture(fileHandle));
-            sprites.put(path, sprite);
+            var sprite = particleAtlas.createSprite("pre_particle");
             selectedEmitter.getSprites().add(sprite);
             updateList();
         });
@@ -136,14 +130,11 @@ public class ImagesSubPanel extends Panel {
         addHandListener(list);
         list.addListener(new DraggableTextListListener() {
             @Override
-            public void removed(String text) {
+            public void removed(String text, int index) {
                 list.setAllowRemoval(list.getTexts().size > 1);
                 removeButton.setDisabled(!list.isAllowRemoval());
 
-                fileHandles.remove(text);
-                var sprite = sprites.get(text);
-                sprites.remove(text);
-                selectedEmitter.getSprites().removeValue(sprite, true);
+                selectedEmitter.getSprites().removeIndex(index);
 
                 var paths = selectedEmitter.getImagePaths();
                 paths.clear();
@@ -226,11 +217,7 @@ public class ImagesSubPanel extends Panel {
             var index = list.getSelectedIndex();
             paths.removeIndex(index);
 
-            var text = list.getSelected().toString();
-            fileHandles.remove(text);
-            var sprite = sprites.get(text);
-            sprites.remove(text);
-            selectedEmitter.getSprites().removeValue(sprite, true);
+            selectedEmitter.getSprites().removeIndex(index);
 
             list.clearChildren();
             list.addAllTexts(paths);

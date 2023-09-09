@@ -78,8 +78,8 @@ public class DraggableTextList extends DraggableList {
 
         addListener(new DraggableListListener() {
             @Override
-            public void removed(Actor actor) {
-                fire(new DraggableTextListRemovedEvent(((TextButton) actor).getText().toString()));
+            public void removed(Actor actor, int index) {
+                fire(new DraggableTextListRemovedEvent(((TextButton) actor).getText().toString(), index));
             }
 
             @Override
@@ -343,9 +343,11 @@ public class DraggableTextList extends DraggableList {
 
     public static class DraggableTextListRemovedEvent extends Event {
         public String text;
+        public int index;
 
-        public DraggableTextListRemovedEvent(String text) {
+        public DraggableTextListRemovedEvent(String text, int index) {
             this.text = text;
+            this.index = index;
         }
     }
 
@@ -373,7 +375,7 @@ public class DraggableTextList extends DraggableList {
         @Override
         public boolean handle(Event event) {
             if (event instanceof DraggableTextListRemovedEvent) {
-                removed(((DraggableTextListRemovedEvent) event).text);
+                removed(((DraggableTextListRemovedEvent) event).text, ((DraggableTextListRemovedEvent) event).index);
                 return true;
             } else if (event instanceof DraggableTextListReorderedEvent) {
                 DraggableTextListReorderedEvent reorderedEvent = (DraggableTextListReorderedEvent) event;
@@ -385,7 +387,7 @@ public class DraggableTextList extends DraggableList {
             } else return false;
         }
 
-        public abstract void removed(String text);
+        public abstract void removed(String text, int indexRemoved);
         public abstract void reordered(String text, int indexBefore, int indexAfter);
         public abstract void selected(String text);
     }
