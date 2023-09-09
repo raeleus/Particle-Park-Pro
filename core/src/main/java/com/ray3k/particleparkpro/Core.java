@@ -7,10 +7,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -86,18 +86,16 @@ public class Core extends ApplicationAdapter {
     public static ParticleEmitter selectedEmitter;
     public static ShaderProgram shader;
 //    public static float time;
-    public static PixmapPacker pixmapPacker;
-    public static TextureAtlas particleAtlas;
+    public static ObjectMap<String, FileHandle> fileHandles;
+    public static ObjectMap<String, Sprite> sprites;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
 
         preferences = Gdx.app.getPreferences("Particle Park Pro");
-        pixmapPacker = new PixmapPacker(2048, 2048, Format.RGBA8888, 2, true);
-        particleAtlas = pixmapPacker.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, false);
-        addImage(Gdx.files.internal("particle.png"));
-        addImage(Gdx.files.internal("pre_particle.png"));
+        fileHandles = new ObjectMap<>();
+        sprites = new ObjectMap<>();
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();
@@ -162,7 +160,7 @@ public class Core extends ApplicationAdapter {
 
     public static void loadParticle(FileHandle fileHandle) {
         particleEffect = new ParticleEffect();
-        particleEffect.load(fileHandle, particleAtlas);
+        particleEffect.load(fileHandle, skin.getAtlas());
         particleEffect.setPosition(0, 0);
 
         activeEmitters.clear();
@@ -180,7 +178,7 @@ public class Core extends ApplicationAdapter {
             oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
         }
 
-        particleEffect.load(fileHandle, particleAtlas);
+        particleEffect.load(fileHandle, skin.getAtlas());
 
         activeEmitters.clear();
         for (var emitter : particleEffect.getEmitters()) {
@@ -387,14 +385,5 @@ public class Core extends ApplicationAdapter {
         };
         actor.addListener(inputListener);
         return popTable;
-    }
-
-    public static String addImage(FileHandle fileHandle) {
-        var pixmap = new Pixmap(fileHandle);
-        var name = fileHandle.nameWithoutExtension();
-
-        pixmapPacker.pack(name, pixmap);
-        pixmapPacker.updateTextureAtlas(particleAtlas, TextureFilter.Linear, TextureFilter.Linear, false, false);
-        return name;
     }
 }
