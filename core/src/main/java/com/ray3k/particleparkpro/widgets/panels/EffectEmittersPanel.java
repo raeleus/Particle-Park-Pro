@@ -159,11 +159,17 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton).expandY().bottom();
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
-            if (index <= 0) return;
-            particleEffect.getEmitters().removeIndex(index);
-            index--;
-            particleEffect.getEmitters().insert(index, selectedEmitter);
+            var index = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
+            if (index > 0) {
+                activeEmitters.orderedKeys().removeIndex(index);
+                index--;
+                activeEmitters.orderedKeys().insert(index, selectedEmitter);
+            }
+
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                if (entry.value) particleEffect.getEmitters().add(entry.key);
+            }
 
             populateEmittersTable();
         });
@@ -173,11 +179,17 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
-            if (index >= particleEffect.getEmitters().size -1) return;
-            particleEffect.getEmitters().removeIndex(index);
-            index++;
-            particleEffect.getEmitters().insert(index, selectedEmitter);
+            var index = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
+            if (index < activeEmitters.orderedKeys().size - 1) {
+                activeEmitters.orderedKeys().removeIndex(index);
+                index++;
+                activeEmitters.orderedKeys().insert(index, selectedEmitter);
+            }
+
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                if (entry.value) particleEffect.getEmitters().add(entry.key);
+            }
 
             populateEmittersTable();
         });
@@ -192,8 +204,8 @@ public class EffectEmittersPanel extends Panel {
 
         var backgroundImages = new Array<Image>();
 
-        for (int i = 0; i < particleEffect.getEmitters().size; i++) {
-            var emitter = particleEffect.getEmitters().get(i);
+        for (int i = 0; i < activeEmitters.orderedKeys().size; i++) {
+            var emitter = activeEmitters.orderedKeys().get(i);
 
             var stack = new Stack();
             emittersTable.add(stack).growX();
@@ -222,7 +234,14 @@ public class EffectEmittersPanel extends Panel {
             container.setActor(button);
             addHandListener(button);
             button.setChecked(activeEmitters.get(emitter));
-            onChange(button, () -> activeEmitters.put(emitter, button.isChecked()));
+            onChange(button, () -> {
+                activeEmitters.put(emitter, button.isChecked());
+
+                particleEffect.getEmitters().clear();
+                for (var entry : activeEmitters.entries()) {
+                    if (entry.value) particleEffect.getEmitters().add(entry.key);
+                }
+            });
 
             var image = new Image(skin, "subpanel2-divider-invisible");
             image.setScaling(Scaling.none);

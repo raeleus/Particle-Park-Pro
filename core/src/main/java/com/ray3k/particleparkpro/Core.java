@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
@@ -84,7 +85,7 @@ public class Core extends ApplicationAdapter {
     public static PopTableStyle tooltipLeftArrowStyle;
     public static EditableLabelStyle editableLabelStyle;
     public static ParticleEffect particleEffect;
-    public static ObjectMap<ParticleEmitter, Boolean> activeEmitters;
+    public static OrderedMap<ParticleEmitter, Boolean> activeEmitters;
     public static ParticleEmitter selectedEmitter;
     public static ShaderProgram shader;
 //    public static float time;
@@ -125,7 +126,7 @@ public class Core extends ApplicationAdapter {
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
         editableLabelStyle = new PPeditableLabelStyle();
 
-        activeEmitters = new ObjectMap<>();
+        activeEmitters = new OrderedMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
         selectedEmitter = particleEffect.getEmitters().first();
 
