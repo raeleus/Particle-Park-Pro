@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.DraggableList.DraggableListStyle;
@@ -88,6 +89,7 @@ public class Core extends ApplicationAdapter {
 //    public static float time;
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
+    public static EmitterPropertiesPanel emitterPropertiesPanel;
 
     @Override
     public void create() {

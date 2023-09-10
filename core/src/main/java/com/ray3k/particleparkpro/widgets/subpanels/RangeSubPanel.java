@@ -23,7 +23,7 @@ public class RangeSubPanel extends Panel {
 
         setTouchable(Touchable.enabled);
 
-        tabTable.padRight(4);
+        tabTable.padRight(7);
         tabTable.left();
         var label = new Label(title, skin, "header");
         tabTable.add(label).space(3);

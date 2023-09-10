@@ -186,18 +186,21 @@ public class ColorGraph extends Table {
                 break;
             }
         }
-        var previousColor = previousNode != null ? ((NodeData) previousNode.getUserObject()).color : Color.RED;
-        if (nextNode == null) nodeData.color = new Color(previousColor);
-        else {
-            var nextColor = ((NodeData) nextNode.getUserObject()).color;
-            var previousX = previousNode.getX();
-            var nextX = nextNode.getX();
-            var packed = FloatColors.lerpFloatColors(
-                ColorTools.fromColor(previousColor),
-                ColorTools.fromColor(nextColor),
-                (x - previousX) / (nextX - previousX));
-            nodeData.color = new Color();
-            ColorTools.toColor(nodeData.color, packed);
+
+        if (nodeData.color == null) {
+            var previousColor = previousNode != null ? ((NodeData) previousNode.getUserObject()).color : Color.RED;
+            if (nextNode == null) nodeData.color = new Color(previousColor);
+            else {
+                var nextColor = ((NodeData) nextNode.getUserObject()).color;
+                var previousX = previousNode.getX();
+                var nextX = nextNode.getX();
+                var packed = FloatColors.lerpFloatColors(
+                    ColorTools.fromColor(previousColor),
+                    ColorTools.fromColor(nextColor),
+                    (x - previousX) / (nextX - previousX));
+                nodeData.color = new Color();
+                ColorTools.toColor(nodeData.color, packed);
+            }
         }
 
         nodeData.tenPatch = new TenPatchDrawable(style.white);
@@ -299,6 +302,7 @@ public class ColorGraph extends Table {
 
                     sortNodes();
                     updateColors();
+                    fire(new ChangeEvent());
                 }
             }
         };

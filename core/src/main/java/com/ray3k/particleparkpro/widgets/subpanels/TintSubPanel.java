@@ -34,7 +34,6 @@ public class TintSubPanel extends Panel {
         colorGraph.setNodeListener(handListener);
         onChange(colorGraph, () -> {
             var nodes = colorGraph.getNodes();
-            System.out.println("nodes.size = " + nodes.size);
 
             var newTimeline = new FloatArray();
             var newColors = new FloatArray();

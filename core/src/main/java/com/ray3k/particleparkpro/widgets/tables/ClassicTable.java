@@ -18,7 +18,7 @@ public class ClassicTable extends Table {
         leftSplitPane.setSplitAmount(.7f);
         addSplitPaneVerticalSystemCursorListener(leftSplitPane);
 
-        var emitterPropertiesPanel = new EmitterPropertiesPanel();
+        emitterPropertiesPanel = new EmitterPropertiesPanel();
         var horizontalSplitPane = new SplitPane(leftSplitPane, emitterPropertiesPanel, false, skin);
         add(horizontalSplitPane).grow();
         horizontalSplitPane.setSplitAmount(.4f);

@@ -1,8 +1,11 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -73,9 +76,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var emitter = new ParticleEmitter();
-            emitter.setName("Untitled");
-            emitter.setMaxParticleCount(100);
+            var emitter = createNewEmitter();
 
             particleEffect.getEmitters().add(emitter);
             activeEmitters.put(emitter, true);
@@ -83,6 +84,7 @@ public class EffectEmittersPanel extends Panel {
 
             populateEmittersTable();
             updateDeleteButton();
+            emitterPropertiesPanel.populateScrollTable(null);
         });
 
         table.row();
@@ -98,6 +100,7 @@ public class EffectEmittersPanel extends Panel {
 
             populateEmittersTable();
             updateDeleteButton();
+            emitterPropertiesPanel.populateScrollTable(null);
         });
 
         table.row();
@@ -113,6 +116,7 @@ public class EffectEmittersPanel extends Panel {
 
             populateEmittersTable();
             updateDeleteButton();
+            emitterPropertiesPanel.populateScrollTable(null);
         });
 
         table.row();
@@ -139,6 +143,7 @@ public class EffectEmittersPanel extends Panel {
 
                 populateEmittersTable();
                 updateDeleteButton();
+                emitterPropertiesPanel.populateScrollTable(null);
             }
         });
 
@@ -155,6 +160,7 @@ public class EffectEmittersPanel extends Panel {
 
                 populateEmittersTable();
                 updateDeleteButton();
+                emitterPropertiesPanel.populateScrollTable(null);
             }
         });
 
@@ -214,6 +220,7 @@ public class EffectEmittersPanel extends Panel {
                 for (var bg : backgroundImages) bg.setDrawable(skin, "clear");
                 backgroundImage.setDrawable(skin, "selected-emitter");
                 selectedEmitter = emitter;
+                emitterPropertiesPanel.populateScrollTable(null);
             });
 
             table.defaults().spaceLeft(defaultHorizontalSpacing).spaceRight(defaultHorizontalSpacing);
@@ -247,5 +254,60 @@ public class EffectEmittersPanel extends Panel {
 
             emittersTable.row();
         }
+    }
+
+    private ParticleEmitter createNewEmitter() {
+        var emitter = new ParticleEmitter();
+        emitter.setName("Untitled");
+
+        var fileHandle = Gdx.files.internal("particle.png");
+        var path = fileHandle.name();
+        emitter.getImagePaths().add(path);
+        fileHandles.put(path, fileHandle);
+        var sprite = new Sprite(new Texture(fileHandle));
+        sprites.put(path, sprite);
+        emitter.getSprites().add(sprite);
+
+        emitter.setMaxParticleCount(200);
+
+        emitter.getDuration().setActive(true);
+        emitter.getDuration().setLow(3000);
+
+        emitter.getEmission().setActive(true);
+        emitter.getEmission().setHigh(40);
+
+        emitter.getLife().setActive(true);
+        emitter.getLife().setHigh(500);
+
+        emitter.getSpawnShape().setActive(true);
+        emitter.getSpawnWidth().setActive(true);
+        emitter.getSpawnHeight().setActive(true);
+
+        emitter.getXScale().setActive(true);
+        emitter.getXScale().setHigh(32);
+        emitter.getYScale().setActive(false);
+
+        emitter.getVelocity().setActive(true);
+        emitter.getVelocity().setHigh(100);
+
+        emitter.getAngle().setActive(true);
+        emitter.getAngle().setHighMin(0);
+        emitter.getAngle().setHighMax(360);
+
+        emitter.getTint().setActive(true);
+        emitter.getTint().getColors()[0] = 1;
+        emitter.getTint().getColors()[1] = 0;
+        emitter.getTint().getColors()[2] = 0;
+
+        emitter.getTransparency().setActive(true);
+        emitter.getTransparency().setHigh(1);
+        emitter.getTransparency().setTimeline(new float[] {0, 1});
+        emitter.getTransparency().setScaling(new float[] {1, 0});
+
+        emitter.setAdditive(true);
+        emitter.setContinuous(true);
+        emitter.setSpriteMode(SpriteMode.single);
+
+        return emitter;
     }
 }
