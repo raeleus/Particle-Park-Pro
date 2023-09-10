@@ -135,6 +135,7 @@ public class DraggableList extends WidgetGroup {
 
     protected void updateTable() {
         dragAndDrop.clear();
+        dragAndDrop.setDragTime(0);
         for (Button divider : dividers) {
             removeActor(divider);
         }
