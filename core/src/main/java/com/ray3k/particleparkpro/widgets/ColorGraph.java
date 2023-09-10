@@ -248,12 +248,16 @@ public class ColorGraph extends Table {
 
                                 @Override
                                 public void updated(Color color) {
-
+                                    nodeData.color.set(color);
+                                    updateColors();
+                                    fire(new ChangeEvent());
                                 }
 
                                 @Override
                                 public void cancelled(Color oldColor) {
-
+                                    nodeData.color.set(oldColor);
+                                    updateColors();
+                                    fire(new ChangeEvent());
                                 }
                             });
                             cp.show(foregroundStage);
@@ -384,4 +388,23 @@ public class ColorGraph extends Table {
         public Drawable nodeEndFill;
         public TenPatchDrawable white;
     }
+
+//    public static class ColorGraphEvent extends Event {
+//
+//    }
+//
+//    public static class ColorGraphListener implements EventListener {
+//        @Override
+//        public boolean handle(Event event) {
+//            if (event instanceof ColorGraphEvent) {
+//
+//                return true;
+//            }
+//            return false;
+//        }
+//
+//        public void colorPreviewed {
+//
+//        }
+//    }
 }

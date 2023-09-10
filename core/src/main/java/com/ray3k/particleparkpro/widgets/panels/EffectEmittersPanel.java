@@ -307,6 +307,7 @@ public class EffectEmittersPanel extends Panel {
         emitter.setAdditive(true);
         emitter.setContinuous(true);
         emitter.setSpriteMode(SpriteMode.single);
+        emitter.setPosition(selectedEmitter.getX(), selectedEmitter.getY());
 
         return emitter;
     }
