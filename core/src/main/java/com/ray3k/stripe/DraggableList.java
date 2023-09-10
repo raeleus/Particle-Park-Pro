@@ -124,7 +124,7 @@ public class DraggableList extends WidgetGroup {
     }
 
     @Override
-    public void clearChildren() {
+    public void clearChildren(boolean unfocus) {
         actors.clear();
         dragActors.clear();
         validDragActors.clear();

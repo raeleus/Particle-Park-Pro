@@ -1873,6 +1873,14 @@
 	"disabled": {
 		"font": "font",
 		"fontColor": "disabled"
+	},
+	"emitter-drag": {
+		"font": "font-black",
+		"background": "draggable-list-drag-background-10"
+	},
+	"emitter-remove": {
+		"font": "font-black",
+		"background": "draggable-list-drag-remove-10"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {

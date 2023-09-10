@@ -1,8 +1,10 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
@@ -10,12 +12,14 @@ import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.stripe.DraggableList;
+import com.ray3k.stripe.DraggableList.DraggableListListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
 
 public class EffectEmittersPanel extends Panel {
-    private Table emittersTable;
+    private DraggableList emittersDraggableList;
     private final int col1Width = 40;
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
@@ -47,16 +51,54 @@ public class EffectEmittersPanel extends Panel {
         headerTable.add(label).expandX().left();
 
         table.row();
-        emittersTable = new Table();
-        emittersTable.top();
+        emittersDraggableList = new DraggableList(true, draggableListStyle);
+        emittersDraggableList.align(Align.top);
+        emittersDraggableList.addListener(new DraggableListListener() {
+            @Override
+            public void removed(Actor actor, int index) {
+                if (particleEffect.getEmitters().size > 1) {
+                    var emitterIndex = particleEffect.getEmitters().indexOf(activeEmitters.orderedKeys().get(index),
+                        true);
+                    particleEffect.getEmitters().removeIndex(emitterIndex);
+                    activeEmitters.removeIndex(index);
+                    selectedEmitter = particleEffect.getEmitters().get(
+                        Math.min(index, activeEmitters.orderedKeys().size - 1));
+                }
 
-        var scrollPane = new ScrollPane(emittersTable, skin, "subpanel2");
+                populateEmitters();
+                updateDeleteButton();
+                emitterPropertiesPanel.populateScrollTable(null);
+            }
+
+            @Override
+            public void reordered(Actor actor, int indexBefore, int indexAfter) {
+                var emitter = activeEmitters.orderedKeys().get(indexBefore);
+                activeEmitters.orderedKeys().removeIndex(indexBefore);
+                activeEmitters.orderedKeys().insert(indexAfter, emitter);
+
+                particleEffect.getEmitters().clear();
+                for (var entry : activeEmitters.entries()) {
+                    if (entry.value) particleEffect.getEmitters().add(entry.key);
+                }
+
+                selectedEmitter = emitter;
+                populateEmitters();
+                emitterPropertiesPanel.populateScrollTable(null);
+            }
+
+            @Override
+            public void selected(Actor actor) {
+
+            }
+        });
+
+        var scrollPane = new ScrollPane(emittersDraggableList, skin, "subpanel2");
         scrollPane.setFlickScroll(false);
         scrollPane.setScrollingDisabled(true, false);
         table.add(scrollPane).grow();
         addScrollFocusListener(scrollPane);
 
-        populateEmittersTable();
+        populateEmitters();
 
         table = new Table();
         bodyTable.add(table).padRight(5).growY();
@@ -72,7 +114,7 @@ public class EffectEmittersPanel extends Panel {
             activeEmitters.put(emitter, true);
             selectedEmitter = emitter;
 
-            populateEmittersTable();
+            populateEmitters();
             updateDeleteButton();
             emitterPropertiesPanel.populateScrollTable(null);
         });
@@ -88,7 +130,7 @@ public class EffectEmittersPanel extends Panel {
             activeEmitters.put(emitter, activeEmitters.get(selectedEmitter));
             selectedEmitter = emitter;
 
-            populateEmittersTable();
+            populateEmitters();
             updateDeleteButton();
             emitterPropertiesPanel.populateScrollTable(null);
         });
@@ -102,9 +144,9 @@ public class EffectEmittersPanel extends Panel {
             var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
             particleEffect.getEmitters().removeIndex(index);
             activeEmitters.remove(selectedEmitter);
-            selectedEmitter = particleEffect.getEmitters().get(Math.min(index, particleEffect.getEmitters().size - 1));
+            selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
 
-            populateEmittersTable();
+            populateEmitters();
             updateDeleteButton();
             emitterPropertiesPanel.populateScrollTable(null);
         });
@@ -131,7 +173,7 @@ public class EffectEmittersPanel extends Panel {
                 loadParticle(fileHandle);
                 selectedEmitter = particleEffect.getEmitters().first();
 
-                populateEmittersTable();
+                populateEmitters();
                 updateDeleteButton();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
@@ -148,7 +190,7 @@ public class EffectEmittersPanel extends Panel {
                 Settings.setDefaultSavePath(fileHandle);
                 mergeParticle(fileHandle);
 
-                populateEmittersTable();
+                populateEmitters();
                 updateDeleteButton();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
@@ -171,7 +213,7 @@ public class EffectEmittersPanel extends Panel {
                 if (entry.value) particleEffect.getEmitters().add(entry.key);
             }
 
-            populateEmittersTable();
+            populateEmitters();
         });
 
         table.row();
@@ -191,7 +233,7 @@ public class EffectEmittersPanel extends Panel {
                 if (entry.value) particleEffect.getEmitters().add(entry.key);
             }
 
-            populateEmittersTable();
+            populateEmitters();
         });
     }
 
@@ -199,8 +241,8 @@ public class EffectEmittersPanel extends Panel {
         deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
     }
 
-    private void populateEmittersTable() {
-        emittersTable.clear();
+    private void populateEmitters() {
+        emittersDraggableList.clearChildren();
 
         var backgroundImages = new Array<Image>();
 
@@ -208,7 +250,6 @@ public class EffectEmittersPanel extends Panel {
             var emitter = activeEmitters.orderedKeys().get(i);
 
             var stack = new Stack();
-            emittersTable.add(stack).growX();
 
             var backgroundImage = new Image();
             backgroundImage.setDrawable(skin, selectedEmitter == emitter ? "selected-emitter" : "clear");
@@ -261,7 +302,10 @@ public class EffectEmittersPanel extends Panel {
             addIbeamListener(editableLabel.label);
             onChange(editableLabel, () -> emitter.setName(editableLabel.getText()));
 
-            emittersTable.row();
+            var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
+            var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
+
+            emittersDraggableList.add(stack, removeLabel, dragLabel, removeLabel);
         }
     }
 }

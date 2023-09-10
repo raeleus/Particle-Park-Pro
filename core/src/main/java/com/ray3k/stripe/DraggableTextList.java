@@ -266,8 +266,8 @@ public class DraggableTextList extends DraggableList {
     }
 
     @Override
-    public void clearChildren() {
-        super.clearChildren();
+    public void clearChildren(boolean unfocus) {
+        super.clearChildren(unfocus);
         buttonGroup.clear();
         dragButtons.clear();
         validButtons.clear();
