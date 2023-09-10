@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -287,8 +288,8 @@ public class DraggableList extends WidgetGroup {
                 actors.removeValue(payloadActor, true);
 
                 boolean addFirst = true;
-                if (vertical && y < table.getHeight() / 2) addFirst = false;
-                else if (!vertical && x > table.getWidth() / 2) addFirst = false;
+                if (vertical && y < actors.peek().getY(Align.center)) addFirst = false;
+                else if (!vertical && x > actors.peek().getX(Align.center)) addFirst = false;
 
                 if (addFirst) actors.insert(0, payloadActor);
                 else actors.add(payloadActor);

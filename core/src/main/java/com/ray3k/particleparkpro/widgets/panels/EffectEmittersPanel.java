@@ -56,6 +56,7 @@ public class EffectEmittersPanel extends Panel {
         emittersDraggableList.addListener(new DraggableListListener() {
             @Override
             public void removed(Actor actor, int index) {
+                System.out.println("removed");
                 if (particleEffect.getEmitters().size > 1) {
                     var emitterIndex = particleEffect.getEmitters().indexOf(activeEmitters.orderedKeys().get(index),
                         true);
@@ -72,6 +73,7 @@ public class EffectEmittersPanel extends Panel {
 
             @Override
             public void reordered(Actor actor, int indexBefore, int indexAfter) {
+                System.out.println("reordered");
                 var emitter = activeEmitters.orderedKeys().get(indexBefore);
                 activeEmitters.orderedKeys().removeIndex(indexBefore);
                 activeEmitters.orderedKeys().insert(indexAfter, emitter);
@@ -303,7 +305,9 @@ public class EffectEmittersPanel extends Panel {
             onChange(editableLabel, () -> emitter.setName(editableLabel.getText()));
 
             var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
+            dragLabel.setTouchable(Touchable.disabled);
             var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
+            removeLabel.setTouchable(Touchable.disabled);
 
             emittersDraggableList.add(stack, removeLabel, dragLabel, removeLabel);
         }
