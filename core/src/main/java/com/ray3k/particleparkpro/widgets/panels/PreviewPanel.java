@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 import com.ray3k.stripe.ResizeWidget;
@@ -192,14 +193,27 @@ public class PreviewPanel extends Panel {
         //label
         statsLabel = new Label("", skin) {
             int max;
+            float countdown = -1f;
+            final float MAX_TIME = 5f;
 
             @Override
             public void act(float delta) {
                 super.act(delta);
                 if (isVisible()) {
-                    max = Math.max(max, particleEffect.getEmitters().first().getActiveCount());
+                    var count = Core.calcParticleCount();
+                    max = Math.max(max, count);
+                    if (count >= max) countdown = MAX_TIME;
+                    else {
+                        countdown -= delta;
+                        if (countdown < 0) {
+                            countdown = MAX_TIME;
+                            max = count;
+                        }
+                    }
+
+
                     setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
-                        "\nCount: " + particleEffect.getEmitters().first().getActiveCount() +
+                        "\nCount: " + count +
                         "\nMax: " +  max +
                         "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
                 }

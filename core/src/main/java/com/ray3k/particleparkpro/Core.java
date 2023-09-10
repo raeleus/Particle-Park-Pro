@@ -255,6 +255,14 @@ public class Core extends ApplicationAdapter {
         return emitter;
     }
 
+    public static int calcParticleCount() {
+        var count = 0;
+        for (var emitter : particleEffect.getEmitters()) {
+            count += emitter.getActiveCount();
+        }
+        return count;
+    }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
