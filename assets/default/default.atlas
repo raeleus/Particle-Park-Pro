@@ -1,0 +1,7 @@
+default.png
+size:128,128
+filter:Linear,Linear
+particle
+bounds:1,35,32,32
+pre_particle
+bounds:1,1,32,32

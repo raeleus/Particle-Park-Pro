@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.DraggableTextList;
@@ -134,7 +135,7 @@ public class ImagesSubPanel extends Panel {
                 list.setAllowRemoval(list.getTexts().size > 1);
                 removeButton.setDisabled(!list.isAllowRemoval());
 
-                fileHandles.remove(text);
+                removeUnusedImageFiles();
                 var sprite = sprites.get(text);
                 sprites.remove(text);
                 selectedEmitter.getSprites().removeIndex(index);
@@ -221,7 +222,7 @@ public class ImagesSubPanel extends Panel {
             paths.removeIndex(index);
 
             var text = list.getSelected().toString();
-            fileHandles.remove(text);
+            removeUnusedImageFiles();
             sprites.remove(text);
             selectedEmitter.getSprites().removeIndex(index);
 

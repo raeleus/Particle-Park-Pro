@@ -1,6 +1,7 @@
 package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
@@ -8,11 +9,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -23,10 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.OrderedMap;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
@@ -166,13 +161,42 @@ public class Core extends ApplicationAdapter {
     }
 
     public static void loadParticle(FileHandle fileHandle) {
+        disposeParticleEffect();
+        sprites.clear();
+
         particleEffect = new ParticleEffect();
-        particleEffect.load(fileHandle, skin.getAtlas());
+        if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
+        else {
+            var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
+            particleEffect.load(fileHandle, textureAtlas);
+        }
         particleEffect.setPosition(0, 0);
 
         activeEmitters.clear();
         for (var emitter : particleEffect.getEmitters()) {
             activeEmitters.put(emitter, true);
+        }
+
+        fileHandles.clear();
+        if (fileHandle.type() != FileType.Internal) {
+            for (var emitter : particleEffect.getEmitters()) {
+                for (int i = 0; i < particleEffect.getEmitters().size; i++) {
+                    var path = emitter.getImagePaths().get(i);
+                    var imageHandle = fileHandle.parent().child(path);
+                    fileHandles.put(path, imageHandle);
+                    if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
+                }
+            }
+        }
+    }
+
+    public static void disposeParticleEffect() {
+        if (particleEffect == null) return;
+        for (int i = 0, n = particleEffect.getEmitters().size; i < n; i++) {
+            ParticleEmitter emitter = particleEffect.getEmitters().get(i);
+            for (Sprite sprite : emitter.getSprites()) {
+                sprite.getTexture().dispose();
+            }
         }
     }
 
@@ -261,6 +285,19 @@ public class Core extends ApplicationAdapter {
             count += emitter.getActiveCount();
         }
         return count;
+    }
+
+    public static void removeUnusedImageFiles() {
+        var names = new ObjectSet<String>();
+        for (var emitter : particleEffect.getEmitters()) {
+            names.addAll(emitter.getImagePaths());
+        }
+
+        var iter = fileHandles.iterator();
+        while (iter.hasNext) {
+            var entry = iter.next();
+            if (!names.contains(entry.value.name())) iter.remove();
+        }
     }
 
     @Override

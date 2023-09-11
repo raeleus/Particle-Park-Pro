@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.StreamUtils;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
@@ -14,6 +15,10 @@ import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
@@ -160,6 +165,23 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var fileHandle = FileDialogs.saveDialog(getDefaultSavePath(), "particle.p", new String[] {"p"}, new String[] {"Particle Files"});
+
+            if (fileHandle != null) {
+                Settings.setDefaultSavePath(fileHandle);
+
+                Writer fileWriter = null;
+                try {
+                    fileWriter = new FileWriter(fileHandle.file());
+                    particleEffect.save(fileWriter);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    StreamUtils.closeQuietly(fileWriter);
+                }
+            }
+        });
 
         table.row();
         textButton = new TextButton("Open", skin);
