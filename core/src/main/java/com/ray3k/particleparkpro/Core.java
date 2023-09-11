@@ -265,8 +265,10 @@ public class Core extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        windowResized = true;
+        if (width + height > 0) {
+            viewport.update(width, height, true);
+            windowResized = true;
+        }
     }
 
     @Override
