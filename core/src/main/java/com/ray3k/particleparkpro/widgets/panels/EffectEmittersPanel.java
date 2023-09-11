@@ -166,19 +166,29 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var fileHandle = FileDialogs.saveDialog(getDefaultSavePath(), "particle.p", new String[] {"p"}, new String[] {"Particle Files"});
+            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, new String[] {"p"}, new String[] {"Particle Files"});
 
-            if (fileHandle != null) {
-                Settings.setDefaultSavePath(fileHandle);
+            if (saveHandle != null) {
+                Settings.setDefaultSavePath(saveHandle);
+                defaultFileName = saveHandle.name();
 
                 Writer fileWriter = null;
                 try {
-                    fileWriter = new FileWriter(fileHandle.file());
+                    fileWriter = new FileWriter(saveHandle.file());
                     particleEffect.save(fileWriter);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     StreamUtils.closeQuietly(fileWriter);
+                }
+
+                for (var fileHandle : fileHandles.values()) {
+                    if (fileHandle.parent().equals(saveHandle.parent())) break;
+                    try {
+                        fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

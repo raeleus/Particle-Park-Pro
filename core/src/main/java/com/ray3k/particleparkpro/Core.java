@@ -89,10 +89,12 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static EmitterPropertiesPanel emitterPropertiesPanel;
+    public static String defaultFileName;
 
     @Override
     public void create() {
         version = "ver " + Gdx.files.classpath("version").readString();
+        defaultFileName = "particle.p";
 
         preferences = Gdx.app.getPreferences("Particle Park Pro");
         fileHandles = new ObjectMap<>();
@@ -163,29 +165,26 @@ public class Core extends ApplicationAdapter {
     public static void loadParticle(FileHandle fileHandle) {
         disposeParticleEffect();
         sprites.clear();
+        fileHandles.clear();
+        activeEmitters.clear();
 
         particleEffect = new ParticleEffect();
         if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
         else {
             var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
             particleEffect.load(fileHandle, textureAtlas);
+            var defaultImageHandle = Gdx.files.internal("particle.png");
+            fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
         }
         particleEffect.setPosition(0, 0);
 
-        activeEmitters.clear();
         for (var emitter : particleEffect.getEmitters()) {
             activeEmitters.put(emitter, true);
-        }
-
-        fileHandles.clear();
-        if (fileHandle.type() != FileType.Internal) {
-            for (var emitter : particleEffect.getEmitters()) {
-                for (int i = 0; i < particleEffect.getEmitters().size; i++) {
-                    var path = emitter.getImagePaths().get(i);
-                    var imageHandle = fileHandle.parent().child(path);
-                    fileHandles.put(path, imageHandle);
-                    if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
-                }
+            for (int i = 0; i < particleEffect.getEmitters().size; i++) {
+                var path = emitter.getImagePaths().get(i);
+                var imageHandle = fileHandle.parent().child(path);
+                fileHandles.put(path, imageHandle);
+                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
             }
         }
     }
