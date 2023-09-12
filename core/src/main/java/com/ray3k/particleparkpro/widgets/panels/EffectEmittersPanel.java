@@ -169,7 +169,7 @@ public class EffectEmittersPanel extends Panel {
             var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, new String[] {"p"}, new String[] {"Particle Files"});
 
             if (saveHandle != null) {
-                Settings.setDefaultSavePath(saveHandle);
+                Settings.setDefaultSavePath(saveHandle.parent());
                 defaultFileName = saveHandle.name();
 
                 Writer fileWriter = null;
@@ -201,7 +201,8 @@ public class EffectEmittersPanel extends Panel {
             var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
 
             if (fileHandle != null) {
-                Settings.setDefaultSavePath(fileHandle);
+                defaultFileName = fileHandle.name();
+                Settings.setDefaultSavePath(fileHandle.parent());
                 loadParticle(fileHandle);
                 selectedEmitter = particleEffect.getEmitters().first();
 
@@ -219,7 +220,8 @@ public class EffectEmittersPanel extends Panel {
             var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
 
             if (fileHandle != null) {
-                Settings.setDefaultSavePath(fileHandle);
+                defaultFileName = fileHandle.name();
+                Settings.setDefaultSavePath(fileHandle.parent());
                 mergeParticle(fileHandle);
 
                 populateEmitters();

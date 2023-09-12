@@ -272,7 +272,7 @@ public class PopEditorSettings extends PopTable {
         onChange(selectPreviewTextButton, () -> {
             var fileHandle = FileDialogs.openDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
             if (fileHandle != null) {
-                setDefaultImagePath(fileHandle);
+                setDefaultImagePath(fileHandle.parent());
                 previewImageTexture = new Texture(fileHandle);
 
                 previewImageX = 0;

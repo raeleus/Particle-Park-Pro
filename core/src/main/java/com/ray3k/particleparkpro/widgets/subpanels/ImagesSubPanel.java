@@ -15,6 +15,7 @@ import com.ray3k.stripe.DraggableTextList.DraggableTextListListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
+import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
 
 public class ImagesSubPanel extends Panel {
     private DraggableTextList list;
@@ -49,6 +50,7 @@ public class ImagesSubPanel extends Panel {
         onChange(textButton, () -> {
             var selectedFileHandles = FileDialogs.openMultipleDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
             if (selectedFileHandles == null) return;
+            if (selectedFileHandles.size > 0) setDefaultImagePath(selectedFileHandles.first().parent());
             for (var fileHandle : selectedFileHandles) {
                 var path = fileHandle.name();
                 selectedEmitter.getImagePaths().add(path);
