@@ -358,7 +358,7 @@ public class PopEditorSettings extends PopTable {
         addHandListener(minorGridlinesSpinner.getButtonMinus());
         addHandListener(minorGridlinesSpinner.getButtonPlus());
         addIbeamListener(minorGridlinesSpinner.getTextField());
-        onChange(majorGridlinesSpinner, () -> {
+        onChange(minorGridlinesSpinner, () -> {
             float value = (float) minorGridlinesSpinner.getValue();
             if (value > 0) gridMinorGridlines = value;
         });
