@@ -61,7 +61,7 @@ public class RangeSubPanel extends Panel {
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the delay", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the value", Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         //Value range
@@ -85,7 +85,7 @@ public class RangeSubPanel extends Panel {
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single delay", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single value", Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         onChange(valueSpinner, () -> {
