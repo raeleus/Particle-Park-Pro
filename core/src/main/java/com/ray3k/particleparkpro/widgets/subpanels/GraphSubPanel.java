@@ -54,7 +54,7 @@ public class GraphSubPanel extends Panel {
             checkBox.setChecked(value.isRelative());
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
-            addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, tooltipBottomArrowStyle);
+            addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
             onChange(checkBox, () -> value.setRelative(checkBox.isChecked()));
         }
 
@@ -64,7 +64,7 @@ public class GraphSubPanel extends Panel {
             var checkBox = new CheckBox("Independent", skin);
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
-            addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, tooltipBottomArrowStyle);
+            addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
             onChange(checkBox, () -> ((IndependentScaledNumericValue) value).setIndependent(checkBox.isChecked()));
         }
 
@@ -88,12 +88,12 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highValueSpinner.getTextField());
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
-        addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         //High range
@@ -104,7 +104,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highMinValueSpinner.getTextField());
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
-        addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -112,12 +112,12 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highMaxValueSpinner.getTextField());
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
-        addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         onChange(highValueSpinner, () -> {
@@ -160,12 +160,12 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowValueSpinner.getTextField());
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
-        addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         lowToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowToggleWidget::swap);
 
         //Low range
@@ -176,7 +176,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowMinValueSpinner.getTextField());
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
-        addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -184,12 +184,12 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowMaxValueSpinner.getTextField());
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
-        addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowToggleWidget::swap);
 
         onChange(lowValueSpinner, () -> {
@@ -225,7 +225,7 @@ public class GraphSubPanel extends Panel {
         button = new Button(skin, "plus");
         graphToggleWidget.table1.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
@@ -267,7 +267,7 @@ public class GraphSubPanel extends Panel {
         button = new Button(skin, "minus");
         graphToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             graphToggleWidget.swap();
             graph.setNodes(value.getTimeline(), value.getScaling());

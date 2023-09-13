@@ -28,6 +28,7 @@ import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.styles.*;
+import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.stripe.DraggableList.DraggableListStyle;
 import com.ray3k.stripe.DraggableTextList.DraggableTextListStyle;
@@ -77,6 +78,7 @@ public class Core extends ApplicationAdapter {
     public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
     public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
     public static PopTableStyle tooltipBottomArrowStyle;
+    public static PopTableStyle tooltipBottomRightArrowStyle;
     public static PopTableStyle tooltipTopArrowStyle;
     public static PopTableStyle tooltipRightArrowStyle;
     public static PopTableStyle tooltipLeftArrowStyle;
@@ -121,6 +123,7 @@ public class Core extends ApplicationAdapter {
         draggableTextListStyle = new PPdraggableTextListStyle();
         draggableTextListNoBgStyle = new PPdraggableTextListNoBGStyle();
         tooltipBottomArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-arrow", WindowStyle.class));
+        tooltipBottomRightArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-right-arrow", WindowStyle.class));
         tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
@@ -299,6 +302,10 @@ public class Core extends ApplicationAdapter {
         }
     }
 
+    public static void refreshUndoButtons() {
+        if (ClassicTable.classicTable != null) ClassicTable.classicTable.refreshUndo();
+    }
+
     @Override
     public void resize(int width, int height) {
         if (width + height > 0) {
@@ -413,15 +420,23 @@ public class Core extends ApplicationAdapter {
         actor.addListener(splitPaneVerticalSystemCursorListener);
     }
 
-    public static PopTable addTooltip(Actor actor, String text, int align, float width, PopTableStyle popTableStyle) {
-        return addTooltip(actor, text, align, width, true, popTableStyle);
+    public static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, PopTableStyle popTableStyle) {
+        return addTooltip(actor, text, edge, align, width, true, popTableStyle);
     }
 
-    public static PopTable addTooltip(Actor actor, String text, int align, PopTableStyle popTableStyle) {
-        return addTooltip(actor, text, align, 0, false, popTableStyle);
+    public static PopTable addTooltip(Actor actor, String text, int edge, int align, PopTableStyle popTableStyle) {
+        return addTooltip(actor, text, edge, align, 0, false, popTableStyle);
     }
 
-    private static PopTable addTooltip(Actor actor, String text, int align, float width, boolean defineWidth, PopTableStyle popTableStyle) {
+    public static PopTable addTooltip(Actor actor, String text, int edge, int align, PopTableStyle popTableStyle, boolean foreground) {
+        return addTooltip(actor, text, edge, align, 0, false, popTableStyle, foreground);
+    }
+
+    private static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, boolean defineWidth, PopTableStyle popTableStyle) {
+        return addTooltip(actor, text, edge, align, width, defineWidth, popTableStyle, true);
+    }
+
+    private static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, boolean defineWidth, PopTableStyle popTableStyle, boolean foreground) {
         PopTable popTable = new PopTable(popTableStyle);
         var inputListener = new ClickListener() {
             boolean dismissed;
@@ -462,8 +477,8 @@ public class Core extends ApplicationAdapter {
                     if (((Disableable) actor).isDisabled()) return;
                 }
 
-                popTable.show(foregroundStage);
-                popTable.attachToActor(actor, align, align);
+                popTable.show(foreground ? foregroundStage : stage);
+                popTable.attachToActor(actor, edge, align);
 
                 popTable.moveToInsideStage();
             }

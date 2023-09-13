@@ -1688,6 +1688,26 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"tooltip-bottom-right-arrow-10": {
+		"region": "tooltip-bottom-right-arrow",
+		"horizontalStretchAreas": [ 3, 22 ],
+		"verticalStretchAreas": [ 7, 18 ],
+		"tiling": false,
+		"minWidth": 34,
+		"minHeight": 22,
+		"rightWidth": 4,
+		"leftWidth": 4,
+		"bottomHeight": 7,
+		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1783,12 +1803,14 @@
 	"undo": {
 		"up": "icon-undo-up",
 		"down": "icon-undo-down",
-		"over": "icon-undo-over"
+		"over": "icon-undo-over",
+		"disabled": "icon-undo-up"
 	},
 	"redo": {
 		"up": "icon-redo-up",
 		"down": "icon-redo-down",
-		"over": "icon-redo-over"
+		"over": "icon-redo-over",
+		"disabled": "icon-redo-up"
 	},
 	"zoom-in": {
 		"up": "icon-zoom-in-up",
@@ -1804,6 +1826,18 @@
 		"up": "icon-zoom-full-up",
 		"down": "icon-zoom-full-down",
 		"over": "icon-zoom-full-over"
+	},
+	"undo-active": {
+		"up": "icon-undo-up-active",
+		"down": "icon-undo-down",
+		"over": "icon-undo-over",
+		"disabled": "icon-undo-up"
+	},
+	"redo-active": {
+		"up": "icon-redo-up-active",
+		"down": "icon-redo-down",
+		"over": "icon-redo-over",
+		"disabled": "icon-redo-up"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
@@ -2045,6 +2079,10 @@
 	},
 	"tooltip-left-arrow": {
 		"background": "tooltip-left-arrow-10",
+		"titleFont": "font"
+	},
+	"tooltip-bottom-right-arrow": {
+		"background": "tooltip-bottom-right-arrow-10",
 		"titleFont": "font"
 	}
 }

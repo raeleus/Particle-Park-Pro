@@ -56,12 +56,12 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueSpinner.getTextField());
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
-        addTooltip(valueSpinner, "The " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         //Value range
@@ -72,7 +72,7 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueMinSpinner.getTextField());
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
-        addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var valueMaxSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         valueMaxSpinner.setProgrammaticChangeEvents(false);
@@ -80,12 +80,12 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueMaxSpinner.getTextField());
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
-        addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, tooltipBottomArrowStyle);
+        addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         onChange(valueSpinner, () -> {

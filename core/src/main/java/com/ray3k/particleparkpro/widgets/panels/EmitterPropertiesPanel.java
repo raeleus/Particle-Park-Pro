@@ -50,7 +50,7 @@ public class EmitterPropertiesPanel extends Panel {
             pop.attachToActor(addPropertyTextButton, Align.top, Align.top);
             pop.show(foregroundStage);
         });
-        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, tooltipRightArrowStyle);
+        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, Align.left, tooltipRightArrowStyle);
     }
 
     public void populateScrollTable(ShownProperty newProperty) {

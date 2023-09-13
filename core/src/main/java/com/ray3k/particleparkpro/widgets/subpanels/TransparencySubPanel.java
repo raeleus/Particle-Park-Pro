@@ -43,7 +43,7 @@ public class TransparencySubPanel extends Panel {
         var button = new Button(skin, "plus");
         graphToggleWidget.table1.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
@@ -85,7 +85,7 @@ public class TransparencySubPanel extends Panel {
         button = new Button(skin, "minus");
         graphToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             graphToggleWidget.swap();
             graph.setNodes(value.getTimeline(), value.getScaling());

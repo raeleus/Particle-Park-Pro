@@ -47,7 +47,7 @@ public class SizeSubPanel extends Panel {
         var splitXYcheckBox = new CheckBox("Split X and Y", skin);
         graphToggleWidget.table1.add(splitXYcheckBox).left();
         addHandListener(splitXYcheckBox);
-        addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, tooltipBottomArrowStyle);
+        addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Split ToggleWidget
         graphToggleWidget.table1.row();
@@ -61,7 +61,7 @@ public class SizeSubPanel extends Panel {
         relativeCheckBox.setChecked(xValue.isRelative());
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
-        addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //High
         splitToggleWidget.table1.row();
@@ -83,12 +83,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highSpinner.getTextField());
         addHandListener(highSpinner.getButtonPlus());
         addHandListener(highSpinner.getButtonMinus());
-        addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         //High range
@@ -99,7 +99,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highMinSpinner.getTextField());
         addHandListener(highMinSpinner.getButtonPlus());
         addHandListener(highMinSpinner.getButtonMinus());
-        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxSpinner.setProgrammaticChangeEvents(false);
@@ -107,12 +107,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highMaxSpinner.getTextField());
         addHandListener(highMaxSpinner.getButtonPlus());
         addHandListener(highMaxSpinner.getButtonMinus());
-        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         onChange(highSpinner, () -> {
@@ -159,12 +159,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowSpinner.getTextField());
         addHandListener(lowSpinner.getButtonPlus());
         addHandListener(lowSpinner.getButtonMinus());
-        addTooltip(lowSpinner, "The low value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowSpinner, "The low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         lowToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowToggleWidget::swap);
 
         //Low range
@@ -175,7 +175,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowMinSpinner.getTextField());
         addHandListener(lowMinSpinner.getButtonPlus());
         addHandListener(lowMinSpinner.getButtonMinus());
-        addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -183,12 +183,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowMaxSpinner.getTextField());
         addHandListener(lowMaxSpinner.getButtonPlus());
         addHandListener(lowMaxSpinner.getButtonMinus());
-        addTooltip(lowMaxSpinner, "The maximum low value for the particle size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowMaxSpinner, "The maximum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowToggleWidget::swap);
 
         onChange(lowSpinner, () -> {
@@ -228,7 +228,7 @@ public class SizeSubPanel extends Panel {
         button = new Button(skin, "plus");
         splitToggleWidget.table1.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
@@ -282,7 +282,7 @@ public class SizeSubPanel extends Panel {
         var expandMinusButton = new Button(skin, "minus");
         graphToggleWidget.table2.add(expandMinusButton).bottom();
         addHandListener(expandMinusButton);
-        addTooltip(expandMinusButton, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(expandMinusButton, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Separate
         //X size
@@ -295,7 +295,7 @@ public class SizeSubPanel extends Panel {
         var relativeXcheckBox = new CheckBox("Relative", skin);
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
-        addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //High
         splitToggleWidget.table2.row();
@@ -317,12 +317,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXspinner.getTextField());
         addHandListener(highXspinner.getButtonPlus());
         addHandListener(highXspinner.getButtonMinus());
-        addTooltip(highXspinner, "The high value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highXspinner, "The high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         highXtoggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highXtoggleWidget::swap);
 
         //High range
@@ -333,7 +333,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXminSpinner.getTextField());
         addHandListener(highXminSpinner.getButtonPlus());
         addHandListener(highXminSpinner.getButtonMinus());
-        addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highXmaxSpinner.setProgrammaticChangeEvents(false);
@@ -341,12 +341,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXmaxSpinner.getTextField());
         addHandListener(highXmaxSpinner.getButtonPlus());
         addHandListener(highXmaxSpinner.getButtonMinus());
-        addTooltip(highXmaxSpinner, "The maximum high value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highXmaxSpinner, "The maximum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highXtoggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highXtoggleWidget::swap);
 
         onChange(highXspinner, () -> {
@@ -390,12 +390,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXspinner.getTextField());
         addHandListener(lowXspinner.getButtonPlus());
         addHandListener(lowXspinner.getButtonMinus());
-        addTooltip(lowXspinner, "The low value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowXspinner, "The low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         lowXtoggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowXtoggleWidget::swap);
 
         //Low range
@@ -406,7 +406,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXminSpinner.getTextField());
         addHandListener(lowXminSpinner.getButtonPlus());
         addHandListener(lowXminSpinner.getButtonMinus());
-        addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowXmaxSpinner.setProgrammaticChangeEvents(false);
@@ -414,12 +414,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXmaxSpinner.getTextField());
         addHandListener(lowXmaxSpinner.getButtonPlus());
         addHandListener(lowXmaxSpinner.getButtonMinus());
-        addTooltip(lowXmaxSpinner, "The maximum low value for the particle X size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowXmaxSpinner, "The maximum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         lowXtoggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowXtoggleWidget::swap);
 
         onChange(lowXspinner, () -> {
@@ -456,7 +456,7 @@ public class SizeSubPanel extends Panel {
         button = new Button(skin, "plus");
         splitToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(button, () -> {
             graphToggleWidget.swap();
@@ -487,7 +487,7 @@ public class SizeSubPanel extends Panel {
         var relativeYcheckBox = new CheckBox("Relative", skin);
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
-        addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //High
         splitToggleWidget.table2.row();
@@ -509,12 +509,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYspinner.getTextField());
         addHandListener(highYspinner.getButtonPlus());
         addHandListener(highYspinner.getButtonMinus());
-        addTooltip(highYspinner, "The high value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highYspinner, "The high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         highYtoggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highYtoggleWidget::swap);
 
         //High range
@@ -525,7 +525,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYminSpinner.getTextField());
         addHandListener(highYminSpinner.getButtonPlus());
         addHandListener(highYminSpinner.getButtonMinus());
-        addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highYmaxSpinner.setProgrammaticChangeEvents(false);
@@ -533,12 +533,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYmaxSpinner.getTextField());
         addHandListener(highYmaxSpinner.getButtonPlus());
         addHandListener(highYmaxSpinner.getButtonMinus());
-        addTooltip(highYmaxSpinner, "The maximum high value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(highYmaxSpinner, "The maximum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         highYtoggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highYtoggleWidget::swap);
 
         onChange(highYspinner, () -> {
@@ -582,12 +582,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYspinner.getTextField());
         addHandListener(lowYspinner.getButtonPlus());
         addHandListener(lowYspinner.getButtonMinus());
-        addTooltip(lowYspinner, "The low value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowYspinner, "The low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         lowYtoggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowYtoggleWidget::swap);
 
         //Low range
@@ -598,7 +598,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYminSpinner.getTextField());
         addHandListener(lowYminSpinner.getButtonPlus());
         addHandListener(lowYminSpinner.getButtonMinus());
-        addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowYmaxSpinner.setProgrammaticChangeEvents(false);
@@ -606,12 +606,12 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYmaxSpinner.getTextField());
         addHandListener(lowYmaxSpinner.getButtonPlus());
         addHandListener(lowYmaxSpinner.getButtonMinus());
-        addTooltip(lowYmaxSpinner, "The maximum low value for the particle Y size in world units.", Align.top, tooltipBottomArrowStyle);
+        addTooltip(lowYmaxSpinner, "The maximum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         lowYtoggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, lowYtoggleWidget::swap);
 
         onChange(lowYspinner, () -> {
@@ -648,7 +648,7 @@ public class SizeSubPanel extends Panel {
         button = new Button(skin, "plus");
         splitToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(button, () -> {
             graphToggleWidget.swap();

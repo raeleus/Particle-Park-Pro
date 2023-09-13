@@ -54,7 +54,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(DELAY);
         });
 
-        var popTable = addTooltip(delayCheckBox, "Time from beginning of effect to emission start, in milliseconds.", Align.left, tooltipRightArrowStyle);
+        var popTable = addTooltip(delayCheckBox, "Time from beginning of effect to emission start, in milliseconds.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -70,7 +70,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(LIFE_OFFSET);
         });
 
-        popTable = addTooltip(lifeOffsetCheckbox, "Particle starting life consumed, in milliseconds.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(lifeOffsetCheckbox, "Particle starting life consumed, in milliseconds.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -86,7 +86,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(X_OFFSET);
         });
 
-        popTable = addTooltip(xOffsetCheckBox, "Amount to offset a particle's starting X location, in world units.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(xOffsetCheckBox, "Amount to offset a particle's starting X location, in world units.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -102,7 +102,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(Y_OFFSET);
         });
 
-        popTable = addTooltip(yOffsetCheckBox, "Amount to offset a particle's starting y location, in world units.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(yOffsetCheckBox, "Amount to offset a particle's starting y location, in world units.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -118,7 +118,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(VELOCITY);
         });
 
-        popTable = addTooltip(velocityCheckBox, "Particle speed, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(velocityCheckBox, "Particle speed, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -134,7 +134,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(ANGLE);
         });
 
-        popTable = addTooltip(angleCheckBox, "Particle emission angle, in degrees.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(angleCheckBox, "Particle emission angle, in degrees.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -150,7 +150,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(ROTATION);
         });
 
-        popTable = addTooltip(rotationCheckBox, "Particle rotation, in degrees.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(rotationCheckBox, "Particle rotation, in degrees.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -166,7 +166,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(WIND);
         });
 
-        popTable = addTooltip(windCheckBox, "Wind strength, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(windCheckBox, "Wind strength, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
 
@@ -182,7 +182,7 @@ public class PopAddProperty extends PopTable {
             else emitterPropertiesPanel.removeProperty(GRAVITY);
         });
 
-        popTable = addTooltip(gravityCheckBox, "Gravity strength, in world units per second.", Align.left, tooltipRightArrowStyle);
+        popTable = addTooltip(gravityCheckBox, "Gravity strength, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);
         popTable.setAttachOffsetX(-10);
         popTable.setKeepSizedWithinStage(false);
     }

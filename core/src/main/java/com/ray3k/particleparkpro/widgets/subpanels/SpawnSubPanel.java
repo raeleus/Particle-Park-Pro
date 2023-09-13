@@ -80,7 +80,7 @@ public class SpawnSubPanel extends Panel {
         table.add(shapeSelectBox).width(spinnerWidth);
         addHandListener(shapeSelectBox);
         addHandListener(shapeSelectBox.getList());
-        addTooltip(shapeSelectBox, "The shape used to spawn particles", Align.top, tooltipBottomArrowStyle);
+        addTooltip(shapeSelectBox, "The shape used to spawn particles", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Edges
         graphToggleWidget.table1.row();
@@ -92,7 +92,7 @@ public class SpawnSubPanel extends Panel {
         checkBox.setChecked(value.isEdges());
         ellipseToggleWidget.table2.add(checkBox).colspan(2).left();
         addHandListener(checkBox);
-        addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, tooltipBottomArrowStyle);
+        addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBox, () -> {
             value.setEdges(checkBox.isChecked());
         });
@@ -112,7 +112,7 @@ public class SpawnSubPanel extends Panel {
         table.add(selectBox).width(spinnerWidth);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
-        addTooltip(selectBox, "The side of the ellipse where particles will spawn", Align.top, tooltipBottomArrowStyle);
+        addTooltip(selectBox, "The side of the ellipse where particles will spawn", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             switch (selectBox.getSelectedIndex()) {
                 case 0:
@@ -168,12 +168,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighSpinner.getTextField());
         addHandListener(widthHighSpinner.getButtonPlus());
         addHandListener(widthHighSpinner.getButtonMinus());
-        addTooltip(widthHighSpinner, "The high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
         widthHighToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, widthHighToggleWidget::swap);
 
         //High range
@@ -184,7 +184,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMinSpinner.getTextField());
         addHandListener(widthHighMinSpinner.getButtonPlus());
         addHandListener(widthHighMinSpinner.getButtonMinus());
-        addTooltip(widthHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthHighMaxSpinner = new Spinner(valueWidth.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -192,12 +192,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMaxSpinner.getTextField());
         addHandListener(widthHighMaxSpinner.getButtonPlus());
         addHandListener(widthHighMaxSpinner.getButtonMinus());
-        addTooltip(widthHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         widthHighToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(widthHighSpinner, () -> {
             valueWidth.setHigh(widthHighSpinner.getValueAsInt());
@@ -239,12 +239,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowSpinner.getTextField());
         addHandListener(widthLowSpinner.getButtonPlus());
         addHandListener(widthLowSpinner.getButtonMinus());
-        addTooltip(widthLowSpinner, "The low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         widthLowToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, widthLowToggleWidget::swap);
 
         //Low range
@@ -255,7 +255,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMinSpinner.getTextField());
         addHandListener(widthLowMinSpinner.getButtonPlus());
         addHandListener(widthLowMinSpinner.getButtonMinus());
-        addTooltip(widthLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthLowMaxSpinner = new Spinner(valueWidth.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -263,12 +263,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMaxSpinner.getTextField());
         addHandListener(widthLowMaxSpinner.getButtonPlus());
         addHandListener(widthLowMaxSpinner.getButtonMinus());
-        addTooltip(widthLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         widthLowToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(widthLowSpinner, () -> {
             valueWidth.setLow(widthLowSpinner.getValueAsInt());
@@ -303,7 +303,7 @@ public class SpawnSubPanel extends Panel {
         button = new Button(skin, "plus");
         shapeToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
@@ -352,7 +352,7 @@ public class SpawnSubPanel extends Panel {
         button = new Button(skin, "minus");
         graphToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Collapse to normal view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, graphToggleWidget::swap);
 
         //Height
@@ -379,12 +379,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighSpinner.getTextField());
         addHandListener(heightHighSpinner.getButtonPlus());
         addHandListener(heightHighSpinner.getButtonMinus());
-        addTooltip(heightHighSpinner, "The high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         heightHighToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, heightHighToggleWidget::swap);
 
         //High range
@@ -395,7 +395,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMinSpinner.getTextField());
         addHandListener(heightHighMinSpinner.getButtonPlus());
         addHandListener(heightHighMinSpinner.getButtonMinus());
-        addTooltip(heightHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -403,12 +403,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMaxSpinner.getTextField());
         addHandListener(heightHighMaxSpinner.getButtonPlus());
         addHandListener(heightHighMaxSpinner.getButtonMinus());
-        addTooltip(heightHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         heightHighToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(heightHighSpinner, () -> {
             valueHeight.setHigh(heightHighSpinner.getValueAsInt());
@@ -450,12 +450,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowSpinner.getTextField());
         addHandListener(heightLowSpinner.getButtonPlus());
         addHandListener(heightLowSpinner.getButtonMinus());
-        addTooltip(heightLowSpinner, "The low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveright");
         heightLowToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, heightLowToggleWidget::swap);
 
         //Low range
@@ -466,7 +466,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMinSpinner.getTextField());
         addHandListener(heightLowMinSpinner.getButtonPlus());
         addHandListener(heightLowMinSpinner.getButtonMinus());
-        addTooltip(heightLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightLowMaxSpinner = new Spinner(valueHeight.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -474,12 +474,12 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMaxSpinner.getTextField());
         addHandListener(heightLowMaxSpinner.getButtonPlus());
         addHandListener(heightLowMaxSpinner.getButtonMinus());
-        addTooltip(heightLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");
         heightLowToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, heightLowToggleWidget::swap);
 
         onChange(heightLowSpinner, () -> {
@@ -515,7 +515,7 @@ public class SpawnSubPanel extends Panel {
         button = new Button(skin, "plus");
         shapeToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(button, () -> {
             graphToggleWidget.swap();
