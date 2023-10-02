@@ -71,7 +71,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Delay
         if (selectedEmitter.getDelay().isActive()) {
             scrollTable.row();
-            var delaySubPanel = new RangeSubPanel("Delay", selectedEmitter.getDelay(), "time from beginning of the effect to emission start in milliseconds", DELAY);
+            var delaySubPanel = new RangeSubPanel("Delay", selectedEmitter.getDelay(), "time from beginning of the effect to emission start in milliseconds", "change Delay", DELAY);
             delaySubPanel.setUserObject(DELAY);
             scrollTable.add(delaySubPanel);
             if (newProperty == DELAY) scrollToActor = delaySubPanel;
@@ -79,7 +79,7 @@ public class EmitterPropertiesPanel extends Panel {
 
         //Duration
         scrollTable.row();
-        var durationSubPanel = new RangeSubPanel("Duration", selectedEmitter.getDuration(), "time particles will be emitted in milliseconds", null);
+        var durationSubPanel = new RangeSubPanel("Duration", selectedEmitter.getDuration(), "time particles will be emitted in milliseconds", "change Duration", null);
         scrollTable.add(durationSubPanel);
 
         //Emission
@@ -104,7 +104,7 @@ public class EmitterPropertiesPanel extends Panel {
         //X Offset
         if (selectedEmitter.getXOffsetValue().isActive()) {
             scrollTable.row();
-            var xOffsetSubPanel = new RangeSubPanel("X Offset", selectedEmitter.getXOffsetValue(), "amount to offset a particle's starting X location in world units", X_OFFSET);
+            var xOffsetSubPanel = new RangeSubPanel("X Offset", selectedEmitter.getXOffsetValue(), "amount to offset a particle's starting X location in world units", "change X Offset", X_OFFSET);
             xOffsetSubPanel.setUserObject(X_OFFSET);
             scrollTable.add(xOffsetSubPanel);
             if (newProperty == X_OFFSET) scrollToActor = xOffsetSubPanel;
@@ -113,7 +113,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Y Offset
         if (selectedEmitter.getYOffsetValue().isActive()) {
             scrollTable.row();
-            var yOffsetSubPanel = new RangeSubPanel("Y Offset", selectedEmitter.getYOffsetValue(), "amount to offset a particle's starting Y location in world units", Y_OFFSET);
+            var yOffsetSubPanel = new RangeSubPanel("Y Offset", selectedEmitter.getYOffsetValue(), "amount to offset a particle's starting Y location in world units", "change Y Offset", Y_OFFSET);
             yOffsetSubPanel.setUserObject(Y_OFFSET);
             scrollTable.add(yOffsetSubPanel);
             if (newProperty == Y_OFFSET) scrollToActor = yOffsetSubPanel;

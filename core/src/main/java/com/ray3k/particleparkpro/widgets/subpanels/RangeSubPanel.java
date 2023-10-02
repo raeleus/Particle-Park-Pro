@@ -7,6 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.CountMinUndoable;
+import com.ray3k.particleparkpro.undo.undoables.RangedNumericValueUndoable;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
@@ -17,7 +20,7 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class RangeSubPanel extends Panel {
-    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, ShownProperty closeProperty) {
+    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -89,26 +92,40 @@ public class RangeSubPanel extends Panel {
         onChange(button, highToggleWidget::swap);
 
         onChange(valueSpinner, () -> {
-            value.setLow(valueSpinner.getValueAsInt());
+            tempValue.set(value);
+            tempValue.setLow(valueSpinner.getValueAsInt());
+            UndoManager.addUndoable(new RangedNumericValueUndoable(value, tempValue, valueMinSpinner, valueMaxSpinner, valueSpinner, highToggleWidget, undoDescription));
+
             valueMinSpinner.setValue(valueSpinner.getValueAsInt());
             valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
         });
 
         onChange(valueMinSpinner, () -> {
-            value.setLowMin(valueMinSpinner.getValueAsInt());
+            tempValue.set(value);
+            tempValue.setLowMin(valueMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(new RangedNumericValueUndoable(value, tempValue, valueMinSpinner, valueMaxSpinner, valueSpinner, highToggleWidget, undoDescription));
+
             valueSpinner.setValue(valueMinSpinner.getValueAsInt());
         });
 
         onChange(valueMaxSpinner, () -> {
-            value.setLowMax(valueMaxSpinner.getValueAsInt());
+            tempValue.set(value);
+            tempValue.setLowMax(valueMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(new RangedNumericValueUndoable(value, tempValue, valueMinSpinner, valueMaxSpinner, valueSpinner, highToggleWidget, undoDescription));
+
             valueSpinner.setValue(valueMaxSpinner.getValueAsInt());
         });
 
         onChange(button, () -> {
-            value.setLow(valueSpinner.getValueAsInt());
+            tempValue.set(value);
+            tempValue.setLow(valueSpinner.getValueAsInt());
+            UndoManager.addUndoable(new RangedNumericValueUndoable(value, tempValue, valueMinSpinner, valueMaxSpinner, valueSpinner, highToggleWidget, undoDescription));
+
             valueMinSpinner.setValue(valueSpinner.getValueAsInt());
             valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
         });
         if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) highToggleWidget.swap();
     }
+
+    private static final RangedNumericValue tempValue = new RangedNumericValue();
 }
