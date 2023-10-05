@@ -39,18 +39,18 @@ public class ScaledNumericValueUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-            data.spinnerHigh.setValue(data.value.getHighMin());
-            data.spinnerHighMin.setValue(data.value.getHighMin());
-            data.spinnerHighMax.setValue(data.value.getHighMax());
-            if (!MathUtils.isEqual(data.value.getHighMin(), data.value.getHighMax())) data.toggleWidgetHigh.showTable2();
+        if (data.spinnerHigh != null) data.spinnerHigh.setValue(data.value.getHighMin());
+        if (data.spinnerHighMin != null) data.spinnerHighMin.setValue(data.value.getHighMin());
+        if (data.spinnerHighMax != null) data.spinnerHighMax.setValue(data.value.getHighMax());
+        if (data.toggleWidgetHigh != null && !MathUtils.isEqual(data.value.getHighMin(), data.value.getHighMax())) data.toggleWidgetHigh.showTable2();
 
-            data.spinnerLow.setValue(data.value.getLowMin());
-            data.spinnerLowMin.setValue(data.value.getLowMin());
-            data.spinnerLowMax.setValue(data.value.getLowMax());
-            if (!MathUtils.isEqual(data.value.getLowMin(), data.value.getLowMax())) data.toggleWidgetLow.showTable2();
+        if (data.spinnerLow != null) data.spinnerLow.setValue(data.value.getLowMin());
+        if (data.spinnerLowMin != null) data.spinnerLowMin.setValue(data.value.getLowMin());
+        if (data.spinnerLowMax != null) data.spinnerLowMax.setValue(data.value.getLowMax());
+        if (data.toggleWidgetLow != null && !MathUtils.isEqual(data.value.getLowMin(), data.value.getLowMax())) data.toggleWidgetLow.showTable2();
 
-            data.graph.setNodes(data.value.getTimeline(), data.value.getScaling());
-            data.graphExpanded.setNodes(data.value.getTimeline(), data.value.getScaling());
+        if (data.graph != null) data.graph.setNodes(data.value.getTimeline(), data.value.getScaling());
+        if (data.graphExpanded != null) data.graphExpanded.setNodes(data.value.getTimeline(), data.value.getScaling());
     }
 
     @Builder(toBuilder = true)

@@ -320,10 +320,8 @@ public class GraphSubPanel extends Panel {
                 newTimeline[i] = node.percentX;
                 newScaling[i] = node.percentY;
             }
-            value.setTimeline(newTimeline);
-            value.setScaling(newScaling);
 
-            addGraphUpdateAction(value, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
         });
 
         onChange(graphExpanded, () -> {
@@ -335,16 +333,18 @@ public class GraphSubPanel extends Panel {
                 newTimeline[i] = node.percentX;
                 newScaling[i] = node.percentY;
             }
-            value.setTimeline(newTimeline);
-            value.setScaling(newScaling);
 
-            addGraphUpdateAction(value, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
         });
     }
 
-    private void addGraphUpdateAction(ScaledNumericValue value, ScaledNumericValueUndoableData undoDataTemplate) {
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
         var oldValue = new ScaledNumericValue();
         oldValue.set(value);
+
+        value.setTimeline(newTimeline);
+        value.setScaling(newScaling);
+
         if (graphUndoAction != null) graphUndoAction.restart();
         else {
             graphUndoAction = new TemporalAction(GRAPH_UNDO_DELAY) {
