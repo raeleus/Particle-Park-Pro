@@ -1,23 +1,24 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.TintUndoable;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
+import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphListener;
 import com.ray3k.particleparkpro.widgets.ColorGraph.NodeData;
-import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
-
-import javax.xml.crypto.NodeSetData;
 
 import static com.ray3k.particleparkpro.Core.*;
 
 public class TintSubPanel extends Panel {
+    private static final float GRAPH_UNDO_DELAY = .5f;
+    private Action graphUndoAction;
+
     public TintSubPanel() {
         var value = selectedEmitter.getTint();
         setTouchable(Touchable.enabled);
@@ -32,22 +33,104 @@ public class TintSubPanel extends Panel {
         colorGraph.setNodes(value.getTimeline(), value.getColors());
         bodyTable.add(colorGraph).growX();
         colorGraph.setNodeListener(handListener);
-        onChange(colorGraph, () -> {
-            var nodes = colorGraph.getNodes();
 
-            var newTimeline = new FloatArray();
-            var newColors = new FloatArray();
+        colorGraph.addListener(new ColorGraphListener() {
+            final FloatArray newTimeline = new FloatArray();
+            final FloatArray newColors = new FloatArray();
 
-            for (var node : nodes) {
-                var nodeData = (NodeData) node.getUserObject();
-                newTimeline.add(nodeData.value);
-                newColors.add(nodeData.color.r);
-                newColors.add(nodeData.color.g);
-                newColors.add(nodeData.color.b);
+            private void setTimeLine() {
+                newTimeline.clear();
+                newColors.clear();
+
+                for (var node : colorGraph.getNodes()) {
+                    var nodeData = (NodeData) node.getUserObject();
+                    newTimeline.add(nodeData.value);
+                    newColors.add(nodeData.color.r);
+                    newColors.add(nodeData.color.g);
+                    newColors.add(nodeData.color.b);
+                }
             }
 
-            value.setTimeline(newTimeline.toArray());
-            value.setColors(newColors.toArray());
+            @Override
+            public void added(Color color) {
+                setTimeLine();
+
+                var undo = new TintUndoable(value, colorGraph, "add Color");
+                undo.getOldValue().setTimeline(value.getTimeline());
+                undo.getOldValue().setColors(value.getColors());
+                undo.getNewValue().setTimeline(newTimeline.toArray());
+                undo.getNewValue().setColors(newColors.toArray());
+                UndoManager.addUndoable(undo);
+            }
+
+            @Override
+            public void removed(Color color) {
+                setTimeLine();
+
+                var undo = new TintUndoable(value, colorGraph, "remove Color");
+                undo.getOldValue().setTimeline(value.getTimeline());
+                undo.getOldValue().setColors(value.getColors());
+                undo.getNewValue().setTimeline(newTimeline.toArray());
+                undo.getNewValue().setColors(newColors.toArray());
+                UndoManager.addUndoable(undo);
+            }
+
+            @Override
+            public void moved(Color color) {
+                if (graphUndoAction != null) {
+                    graphUndoAction.restart();
+                } else {
+                    var oldTimeline = value.getTimeline();
+                    var oldColors = value.getColors();
+
+                    graphUndoAction = new TemporalAction(GRAPH_UNDO_DELAY) {
+                        @Override
+                        protected void update(float percent) {
+                        }
+
+                        @Override
+                        protected void end() {
+                            setTimeLine();
+
+                            var undo = new TintUndoable(value, colorGraph, "move Color");
+                            undo.getOldValue().setTimeline(oldTimeline);
+                            undo.getOldValue().setColors(oldColors);
+                            undo.getNewValue().setTimeline(newTimeline.toArray());
+                            undo.getNewValue().setColors(newColors.toArray());
+                            UndoManager.addUndoable(undo);
+
+                            graphUndoAction = null;
+                        }
+                    };
+                    stage.addAction(graphUndoAction);
+                }
+
+                setTimeLine();
+                value.setTimeline(newTimeline.toArray());
+                value.setColors(newColors.toArray());
+            }
+
+            @Override
+            public void changed(Color color) {
+                setTimeLine();
+
+                var undo = new TintUndoable(value, colorGraph, "change Color");
+                undo.getOldValue().setTimeline(value.getTimeline());
+                undo.getOldValue().setColors(value.getColors());
+                undo.getNewValue().setTimeline(newTimeline.toArray());
+                undo.getNewValue().setColors(newColors.toArray());
+                UndoManager.addUndoable(undo);
+            }
+
+            @Override
+            public void changeCancelled(Color color) {
+
+            }
+
+            @Override
+            public void previewed(Color color) {
+
+            }
         });
     }
 }

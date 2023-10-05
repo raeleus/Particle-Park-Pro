@@ -22,13 +22,14 @@ import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
 import com.ray3k.tenpatch.TenPatchDrawable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphEventType.*;
 
 public class ColorGraph extends Table {
     private ColorGraphStyle style;
-    private DragListener dragListener;
     private ImageButtonStyle nodeStartStyle;
     private ImageButtonStyle nodeStyle;
     private ImageButtonStyle nodeEndStyle;
@@ -91,7 +92,7 @@ public class ColorGraph extends Table {
     public void initialize() {
         setTouchable(Touchable.enabled);
         nodeTable.setTouchable(Touchable.enabled);
-        nodeTable.addListener(dragListener = createDragListener());
+        nodeTable.addListener(createDragListener());
 
         createNode(0, null, true);
     }
@@ -149,8 +150,9 @@ public class ColorGraph extends Table {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (createNewNode) {
-                    createNode(x / nodeTable.getWidth(), null, false);
+                    var nodeData = createNode(x / nodeTable.getWidth(), null, false);
                     fire(new ChangeEvent());
+                    fire(new ColorGraphEvent(ADD, nodeData.color));
                 }
             }
 
@@ -162,7 +164,7 @@ public class ColorGraph extends Table {
         };
     }
 
-    private void createNode(float value, Color color, boolean stationary) {
+    private NodeData createNode(float value, Color color, boolean stationary) {
         final var tapCountInterval = .4f;
 
         var node = new ImageButton(nodeStyle);
@@ -244,6 +246,7 @@ public class ColorGraph extends Table {
                                     nodeData.color.set(color);
                                     updateColors();
                                     fire(new ChangeEvent());
+                                    fire(new ColorGraphEvent(CHANGE, nodeData.color));
                                 }
 
                                 @Override
@@ -251,6 +254,7 @@ public class ColorGraph extends Table {
                                     nodeData.color.set(color);
                                     updateColors();
                                     fire(new ChangeEvent());
+                                    fire(new ColorGraphEvent(PREVIEW, nodeData.color));
                                 }
 
                                 @Override
@@ -258,6 +262,7 @@ public class ColorGraph extends Table {
                                     nodeData.color.set(oldColor);
                                     updateColors();
                                     fire(new ChangeEvent());
+                                    fire(new ColorGraphEvent(CHANGE_CANCEL, nodeData.color));
                                 }
                             });
                             cp.show(foregroundStage);
@@ -283,6 +288,7 @@ public class ColorGraph extends Table {
                         sortNodes();
                         updateColors();
                         fire(new ChangeEvent());
+                        fire(new ColorGraphEvent(REMOVE, nodeData.color));
                     } else {
                         node.removeAction(colorPickerAction);
                     }
@@ -307,11 +313,13 @@ public class ColorGraph extends Table {
                     sortNodes();
                     updateColors();
                     fire(new ChangeEvent());
+                    fire(new ColorGraphEvent(MOVE, nodeData.color));
                 }
             }
         };
         dragListener.setTapSquareSize(5);
         node.addListener(dragListener);
+        return nodeData;
     }
 
     public void setNodes(float[] timeline, float[] colors) {
@@ -389,22 +397,51 @@ public class ColorGraph extends Table {
         public TenPatchDrawable white;
     }
 
-//    public static class ColorGraphEvent extends Event {
-//
-//    }
-//
-//    public static class ColorGraphListener implements EventListener {
-//        @Override
-//        public boolean handle(Event event) {
-//            if (event instanceof ColorGraphEvent) {
-//
-//                return true;
-//            }
-//            return false;
-//        }
-//
-//        public void colorPreviewed {
-//
-//        }
-//    }
+    public enum ColorGraphEventType {
+        ADD, REMOVE, MOVE, CHANGE, CHANGE_CANCEL, PREVIEW
+    }
+
+    @AllArgsConstructor
+    public static class ColorGraphEvent extends Event {
+        public ColorGraphEventType type;
+        public Color color;
+    }
+
+    public static abstract class ColorGraphListener implements EventListener {
+        @Override
+        public boolean handle(Event event) {
+            if (event instanceof ColorGraphEvent) {
+                var colorGraphEvent = (ColorGraphEvent) event;
+                switch (colorGraphEvent.type) {
+                    case ADD:
+                        added(colorGraphEvent.color);
+                        break;
+                    case REMOVE:
+                        removed(colorGraphEvent.color);
+                        break;
+                    case MOVE:
+                        moved(colorGraphEvent.color);
+                        break;
+                    case CHANGE:
+                        changed(colorGraphEvent.color);
+                        break;
+                    case CHANGE_CANCEL:
+                        changeCancelled(colorGraphEvent.color);
+                        break;
+                    case PREVIEW:
+                        previewed(colorGraphEvent.color);
+                        break;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public abstract void added(Color color);
+        public abstract void removed(Color color);
+        public abstract void moved(Color color);
+        public abstract void changed(Color color);
+        public abstract void changeCancelled(Color color);
+        public abstract void previewed(Color color);
+    }
 }
