@@ -4,6 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.OptionsUndoable;
+import com.ray3k.particleparkpro.undo.undoables.OptionsUndoable.Type;
 import com.ray3k.particleparkpro.widgets.Panel;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -29,7 +32,10 @@ public class OptionsSubPanel extends Panel {
         addHandListener(additiveCheckBox);
         addTooltip(additiveCheckBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white.",
             Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(additiveCheckBox, () -> selectedEmitter.setAdditive(additiveCheckBox.isChecked()));
+        onChange(additiveCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.ADDITIVE, additiveCheckBox.isChecked(), "change Additive option");
+            UndoManager.addUndoable(undoable);
+        });
 
         //Attached
         bodyTable.row();
@@ -38,7 +44,10 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(attachedCheckBox);
         addHandListener(attachedCheckBox);
         addTooltip(attachedCheckBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(attachedCheckBox, () -> selectedEmitter.setAttached(attachedCheckBox.isChecked()));
+        onChange(attachedCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.ATTACHED, attachedCheckBox.isChecked(), "change Attached option");
+            UndoManager.addUndoable(undoable);
+        });
 
         //Continuous
         bodyTable.row();
@@ -47,7 +56,10 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(continuousCheckBox);
         addHandListener(continuousCheckBox);
         addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(continuousCheckBox, () -> selectedEmitter.setContinuous(continuousCheckBox.isChecked()));
+        onChange(continuousCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.CONTINUOUS, continuousCheckBox.isChecked(), "change Continuous option");
+            UndoManager.addUndoable(undoable);
+        });
 
         //Aligned
         bodyTable.row();
@@ -56,7 +68,10 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(alignedCheckBox);
         addHandListener(alignedCheckBox);
         addTooltip(alignedCheckBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(alignedCheckBox, () -> selectedEmitter.setAligned(alignedCheckBox.isChecked()));
+        onChange(alignedCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.ALIGNED, alignedCheckBox.isChecked(), "change Aligned option");
+            UndoManager.addUndoable(undoable);
+        });
 
         //Behind
         bodyTable.row();
@@ -65,7 +80,10 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(behindCheckBox);
         addHandListener(behindCheckBox);
         addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(behindCheckBox, () -> selectedEmitter.setBehind(behindCheckBox.isChecked()));
+        onChange(behindCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.BEHIND, behindCheckBox.isChecked(), "change Behind option");
+            UndoManager.addUndoable(undoable);
+        });
 
         //Premultiplied alpha
         bodyTable.row();
@@ -74,6 +92,9 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(premultipliedAlphaCheckBox);
         addHandListener(premultipliedAlphaCheckBox);
         addTooltip(premultipliedAlphaCheckBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
-        onChange(premultipliedAlphaCheckBox, () -> selectedEmitter.setPremultipliedAlpha(premultipliedAlphaCheckBox.isChecked()));
+        onChange(premultipliedAlphaCheckBox, () -> {
+            var undoable = new OptionsUndoable(selectedEmitter, Type.PMA, premultipliedAlphaCheckBox.isChecked(), "change PremultipliedAlpha option");
+            UndoManager.addUndoable(undoable);
+        });
     }
 }
