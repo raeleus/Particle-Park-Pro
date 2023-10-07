@@ -1,11 +1,19 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnEllipseSide;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnShape;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.Undoable;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
+import com.ray3k.particleparkpro.undo.undoables.SpawnTypeUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
@@ -16,11 +24,18 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.subpanels.SpawnSubPanel.SpawnType.*;
 
 public class SpawnSubPanel extends Panel {
+    private SpawnType spawnType;
+    private ToggleWidget ellipseToggleWidget;
+    private ToggleWidget shapeToggleWidget;
+    private static final float GRAPH_UNDO_DELAY = .3f;
+    private Action graphUndoAction;
+
     public enum SpawnType {
         POINT("point", SpawnShape.point), LINE("line", SpawnShape.line), SQUARE("square", SpawnShape.square), ELLIPSE("ellipse", SpawnShape.ellipse);
 
         String name;
-        SpawnShape spawnShape;
+        public SpawnShape spawnShape;
+
         SpawnType(String name, SpawnShape spawnShape) {
             this.name = name;
             this.spawnShape = spawnShape;
@@ -45,6 +60,13 @@ public class SpawnSubPanel extends Panel {
     }
 
     public SpawnSubPanel() {
+        populate();
+    }
+
+    public void populate() {
+        tabTable.clearChildren();
+        bodyTable.clearChildren();
+
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
         final int sectionPadding = 10;
@@ -76,7 +98,8 @@ public class SpawnSubPanel extends Panel {
 
         var shapeSelectBox = new SelectBox<SpawnType>(skin);
         shapeSelectBox.setItems(POINT, LINE, SQUARE, ELLIPSE);
-        shapeSelectBox.setSelected(shapeToType(value.getShape()));
+        spawnType = shapeToType(value.getShape());
+        shapeSelectBox.setSelected(spawnType);
         table.add(shapeSelectBox).width(spinnerWidth);
         addHandListener(shapeSelectBox);
         addHandListener(shapeSelectBox.getList());
@@ -84,7 +107,7 @@ public class SpawnSubPanel extends Panel {
 
         //Edges
         graphToggleWidget.table1.row();
-        var ellipseToggleWidget = new ToggleWidget();
+        ellipseToggleWidget = new ToggleWidget();
         graphToggleWidget.table1.add(ellipseToggleWidget);
 
         ellipseToggleWidget.table2.defaults().space(itemSpacing);
@@ -130,18 +153,15 @@ public class SpawnSubPanel extends Panel {
         //Shape specific widgets
         graphToggleWidget.table1.row();
 
-        var shapeToggleWidget = new ToggleWidget();
+        shapeToggleWidget = new ToggleWidget();
         graphToggleWidget.table1.add(shapeToggleWidget);
 
         onChange(shapeSelectBox, () -> {
-            var selected = shapeSelectBox.getSelected();
-            value.setShape(selected.spawnShape);
+            var spawnTypeOld = spawnType;
+            spawnType = shapeSelectBox.getSelected();
+            UndoManager.addUndoable(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, this, "change Spawn Type"));
 
-            if (selected == ELLIPSE) ellipseToggleWidget.showTable2();
-            else ellipseToggleWidget.showTable1();
-
-            if (selected == POINT) shapeToggleWidget.showTable1();
-            else shapeToggleWidget.showTable2();
+            updateShownTable();
         });
 
         //Width
@@ -170,11 +190,11 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighSpinner.getButtonMinus());
         addTooltip(widthHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var button = new Button(skin, "moveright");
-        widthHighToggleWidget.table1.add(button);
-        addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, widthHighToggleWidget::swap);
+        var widthHighExpandButton = new Button(skin, "moveright");
+        widthHighToggleWidget.table1.add(widthHighExpandButton);
+        addHandListener(widthHighExpandButton);
+        addTooltip(widthHighExpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(widthHighExpandButton, widthHighToggleWidget::swap);
 
         //High range
         widthHighToggleWidget.table2.defaults().space(itemSpacing);
@@ -194,32 +214,10 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighMaxSpinner.getButtonMinus());
         addTooltip(widthHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveleft");
-        widthHighToggleWidget.table2.add(button);
-        addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
-
-        onChange(widthHighSpinner, () -> {
-            valueWidth.setHigh(widthHighSpinner.getValueAsInt());
-            widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
-            widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
-        });
-
-        onChange(widthHighMinSpinner, () -> {
-            valueWidth.setHighMin(widthHighMinSpinner.getValueAsInt());
-            widthHighSpinner.setValue(widthHighMinSpinner.getValueAsInt());
-        });
-
-        onChange(widthHighMaxSpinner, () -> {
-            valueWidth.setHighMax(widthHighMaxSpinner.getValueAsInt());
-            widthHighSpinner.setValue(widthHighMaxSpinner.getValueAsInt());
-        });
-
-        onChange(button, () -> {
-            valueWidth.setHigh(widthHighSpinner.getValueAsInt());
-            widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
-            widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
-        });
+        var widthHighCollapseButton = new Button(skin, "moveleft");
+        widthHighToggleWidget.table2.add(widthHighCollapseButton);
+        addHandListener(widthHighCollapseButton);
+        addTooltip(widthHighCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         if (!MathUtils.isEqual(valueWidth.getHighMin(), valueWidth.getHighMax())) widthHighToggleWidget.swap();
 
@@ -241,11 +239,11 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowSpinner.getButtonMinus());
         addTooltip(widthLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveright");
-        widthLowToggleWidget.table1.add(button);
-        addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, widthLowToggleWidget::swap);
+        var widthLowExpandButton = new Button(skin, "moveright");
+        widthLowToggleWidget.table1.add(widthLowExpandButton);
+        addHandListener(widthLowExpandButton);
+        addTooltip(widthLowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(widthLowExpandButton, widthLowToggleWidget::swap);
 
         //Low range
         widthLowToggleWidget.table2.defaults().space(itemSpacing);
@@ -265,32 +263,10 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowMaxSpinner.getButtonMinus());
         addTooltip(widthLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveleft");
-        widthLowToggleWidget.table2.add(button);
-        addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
-
-        onChange(widthLowSpinner, () -> {
-            valueWidth.setLow(widthLowSpinner.getValueAsInt());
-            widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
-            widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
-        });
-
-        onChange(widthLowMinSpinner, () -> {
-            valueWidth.setLowMin(widthLowMinSpinner.getValueAsInt());
-            widthLowSpinner.setValue(widthLowMinSpinner.getValueAsInt());
-        });
-
-        onChange(widthLowMaxSpinner, () -> {
-            valueWidth.setLowMax(widthLowMaxSpinner.getValueAsInt());
-            widthLowSpinner.setValue(widthLowMaxSpinner.getValueAsInt());
-        });
-
-        onChange(button, () -> {
-            valueWidth.setLow(widthLowSpinner.getValueAsInt());
-            widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
-            widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
-        });
+        var widthLowCollapseButton = new Button(skin, "moveleft");
+        widthLowToggleWidget.table2.add(widthLowCollapseButton);
+        addHandListener(widthLowCollapseButton);
+        addTooltip(widthLowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         if (!MathUtils.isEqual(valueWidth.getLowMin(), valueWidth.getLowMax())) widthLowToggleWidget.swap();
 
@@ -300,10 +276,10 @@ public class SpawnSubPanel extends Panel {
         graphWidth.setNodeListener(handListener);
         shapeToggleWidget.table2.add(graphWidth);
 
-        button = new Button(skin, "plus");
-        shapeToggleWidget.table2.add(button).bottom();
-        addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
+        var widthExpandGraphButton = new Button(skin, "plus");
+        shapeToggleWidget.table2.add(widthExpandGraphButton).bottom();
+        addHandListener(widthExpandGraphButton);
+        addTooltip(widthExpandGraphButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
@@ -311,49 +287,17 @@ public class SpawnSubPanel extends Panel {
         graphExpanded.setNodeListener(handListener);
         graphToggleWidget.table2.add(graphExpanded).grow();
 
-        onChange(button, () -> {
+        onChange(widthExpandGraphButton, () -> {
             graphToggleWidget.swap();
             graphExpanded.setNodes(valueWidth.getTimeline(), valueWidth.getScaling());
             expandedType = ExpandedType.EXPANDED_WIDTH;
         });
 
-        onChange(graphWidth, () -> {
-            var nodes = graphWidth.getNodes();
-            float[] newTimeline = new float[nodes.size];
-            float[] newScaling = new float[nodes.size];
-            for (int i = 0; i < nodes.size; i++) {
-                var node = nodes.get(i);
-                newTimeline[i] = node.percentX;
-                newScaling[i] = node.percentY;
-            }
-            valueWidth.setTimeline(newTimeline);
-            valueWidth.setScaling(newScaling);
-        });
-
-        onChange(graphExpanded, () -> {
-            var nodes = graphExpanded.getNodes();
-            float[] newTimeline = new float[nodes.size];
-            float[] newScaling = new float[nodes.size];
-            for (int i = 0; i < nodes.size; i++) {
-                var node = nodes.get(i);
-                newTimeline[i] = node.percentX;
-                newScaling[i] = node.percentY;
-            }
-
-            if (expandedType == ExpandedType.EXPANDED_WIDTH) {
-                valueWidth.setTimeline(newTimeline);
-                valueWidth.setScaling(newScaling);
-            } else {
-                valueHeight.setTimeline(newTimeline);
-                valueHeight.setScaling(newScaling);
-            }
-        });
-
-        button = new Button(skin, "minus");
-        graphToggleWidget.table2.add(button).bottom();
-        addHandListener(button);
-        addTooltip(button, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, graphToggleWidget::swap);
+        var collapseExpandedGraphButton = new Button(skin, "minus");
+        graphToggleWidget.table2.add(collapseExpandedGraphButton).bottom();
+        addHandListener(collapseExpandedGraphButton);
+        addTooltip(collapseExpandedGraphButton, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(collapseExpandedGraphButton, graphToggleWidget::swap);
 
         //Height
         shapeToggleWidget.table2.row();
@@ -381,11 +325,11 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighSpinner.getButtonMinus());
         addTooltip(heightHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveright");
-        heightHighToggleWidget.table1.add(button);
-        addHandListener(button);
-        addTooltip(button, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, heightHighToggleWidget::swap);
+        var heightHighExpandButton = new Button(skin, "moveright");
+        heightHighToggleWidget.table1.add(heightHighExpandButton);
+        addHandListener(heightHighExpandButton);
+        addTooltip(heightHighExpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(heightHighExpandButton, heightHighToggleWidget::swap);
 
         //High range
         heightHighToggleWidget.table2.defaults().space(itemSpacing);
@@ -405,32 +349,10 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMaxSpinner.getButtonMinus());
         addTooltip(heightHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveleft");
-        heightHighToggleWidget.table2.add(button);
-        addHandListener(button);
-        addTooltip(button, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
-
-        onChange(heightHighSpinner, () -> {
-            valueHeight.setHigh(heightHighSpinner.getValueAsInt());
-            heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
-            heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
-        });
-
-        onChange(heightHighMinSpinner, () -> {
-            valueHeight.setHighMin(heightHighMinSpinner.getValueAsInt());
-            heightHighSpinner.setValue(heightHighMinSpinner.getValueAsInt());
-        });
-
-        onChange(heightHighMaxSpinner, () -> {
-            valueHeight.setHighMax(heightHighMaxSpinner.getValueAsInt());
-            heightHighSpinner.setValue(heightHighMaxSpinner.getValueAsInt());
-        });
-
-        onChange(button, () -> {
-            valueHeight.setHigh(heightHighSpinner.getValueAsInt());
-            heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
-            heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
-        });
+        var heightHighCollapseButton = new Button(skin, "moveleft");
+        heightHighToggleWidget.table2.add(heightHighCollapseButton);
+        addHandListener(heightHighCollapseButton);
+        addTooltip(heightHighCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
 
         if (!MathUtils.isEqual(valueHeight.getHighMin(), valueHeight.getHighMax())) heightHighToggleWidget.swap();
 
@@ -452,11 +374,11 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowSpinner.getButtonMinus());
         addTooltip(heightLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveright");
-        heightLowToggleWidget.table1.add(button);
-        addHandListener(button);
-        addTooltip(button, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, heightLowToggleWidget::swap);
+        var heightLowExpandButton = new Button(skin, "moveright");
+        heightLowToggleWidget.table1.add(heightLowExpandButton);
+        addHandListener(heightLowExpandButton);
+        addTooltip(heightLowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(heightLowExpandButton, heightLowToggleWidget::swap);
 
         //Low range
         heightLowToggleWidget.table2.defaults().space(itemSpacing);
@@ -476,33 +398,11 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowMaxSpinner.getButtonMinus());
         addTooltip(heightLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        button = new Button(skin, "moveleft");
-        heightLowToggleWidget.table2.add(button);
-        addHandListener(button);
-        addTooltip(button, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(button, heightLowToggleWidget::swap);
-
-        onChange(heightLowSpinner, () -> {
-            valueHeight.setLow(heightLowSpinner.getValueAsInt());
-            heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
-            heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
-        });
-
-        onChange(heightLowMinSpinner, () -> {
-            valueHeight.setLowMin(heightLowMinSpinner.getValueAsInt());
-            heightLowSpinner.setValue(heightLowMinSpinner.getValueAsInt());
-        });
-
-        onChange(heightLowMaxSpinner, () -> {
-            valueHeight.setLowMax(heightLowMaxSpinner.getValueAsInt());
-            heightLowSpinner.setValue(heightLowMaxSpinner.getValueAsInt());
-        });
-
-        onChange(button, () -> {
-            valueHeight.setLow(heightLowSpinner.getValueAsInt());
-            heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
-            heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
-        });
+        var heightLowCollapseButton = new Button(skin, "moveleft");
+        heightLowToggleWidget.table2.add(heightLowCollapseButton);
+        addHandListener(heightLowCollapseButton);
+        addTooltip(heightLowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(heightLowCollapseButton, heightLowToggleWidget::swap);
 
         if (!MathUtils.isEqual(valueHeight.getLowMin(), valueHeight.getLowMax())) heightLowToggleWidget.swap();
 
@@ -512,15 +412,230 @@ public class SpawnSubPanel extends Panel {
         graphHeight.setNodeListener(handListener);
         shapeToggleWidget.table2.add(graphHeight);
 
-        button = new Button(skin, "plus");
-        shapeToggleWidget.table2.add(button).bottom();
-        addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
+        var heightExpandGraphButton = new Button(skin, "plus");
+        shapeToggleWidget.table2.add(heightExpandGraphButton).bottom();
+        addHandListener(heightExpandGraphButton);
+        addTooltip(heightExpandGraphButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        onChange(button, () -> {
+        onChange(heightExpandGraphButton, () -> {
             graphToggleWidget.swap();
             graphExpanded.setNodes(valueHeight.getTimeline(), valueHeight.getScaling());
             expandedType = ExpandedType.EXPANDED_HEIGHT;
+        });
+
+        updateShownTable();
+
+        var widthUndoDataTemplate = ScaledNumericValueUndoableData
+            .builder()
+            .value(valueWidth)
+            .spinnerHigh(widthHighSpinner)
+            .spinnerHighMin(widthHighMinSpinner)
+            .spinnerHighMax(widthHighMaxSpinner)
+            .toggleWidgetHigh(widthHighToggleWidget)
+            .spinnerLow(widthLowSpinner)
+            .spinnerLowMin(widthLowMinSpinner)
+            .spinnerLowMax(widthLowMaxSpinner)
+            .toggleWidgetLow(widthLowToggleWidget)
+            .graph(graphWidth)
+            .graphExpanded(graphExpanded)
+            .description("change Shape Width")
+            .build();
+
+        onChange(widthHighSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setHigh(widthHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
+            widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
+        });
+
+        onChange(widthHighMinSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setHighMin(widthHighMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthHighSpinner.setValue(widthHighMinSpinner.getValueAsInt());
+        });
+
+        onChange(widthHighMaxSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setHighMax(widthHighMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthHighSpinner.setValue(widthHighMaxSpinner.getValueAsInt());
+        });
+
+        onChange(widthHighCollapseButton, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setHigh(widthHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
+            widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
+        });
+
+        onChange(widthLowSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setLow(widthLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
+            widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
+        });
+
+        onChange(widthLowMinSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setLowMin(widthLowMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthLowSpinner.setValue(widthLowMinSpinner.getValueAsInt());
+        });
+
+        onChange(widthLowMaxSpinner, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setLowMax(widthLowMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthLowSpinner.setValue(widthLowMaxSpinner.getValueAsInt());
+        });
+
+        onChange(widthLowCollapseButton, () -> {
+            var undoData = widthUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueWidth);
+            undoData.newValue.set(valueWidth);
+            undoData.newValue.setLow(widthLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
+            widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
+        });
+
+        onChange(graphWidth, () -> {
+            var nodes = graphWidth.getNodes();
+            float[] newTimeline = new float[nodes.size];
+            float[] newScaling = new float[nodes.size];
+            for (int i = 0; i < nodes.size; i++) {
+                var node = nodes.get(i);
+                newTimeline[i] = node.percentX;
+                newScaling[i] = node.percentY;
+            }
+
+            addGraphUpdateAction(valueWidth, newTimeline, newScaling, widthUndoDataTemplate);
+        });
+
+        var heightUndoDataTemplate = ScaledNumericValueUndoableData
+            .builder()
+            .value(valueHeight)
+            .spinnerHigh(heightHighSpinner)
+            .spinnerHighMin(heightHighMinSpinner)
+            .spinnerHighMax(heightHighMaxSpinner)
+            .toggleWidgetHigh(heightHighToggleWidget)
+            .spinnerLow(heightLowSpinner)
+            .spinnerLowMin(heightLowMinSpinner)
+            .spinnerLowMax(heightLowMaxSpinner)
+            .toggleWidgetLow(heightLowToggleWidget)
+            .graph(graphHeight)
+            .graphExpanded(graphExpanded)
+            .description("change Shape Height")
+            .build();
+
+        onChange(heightHighSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setHigh(heightHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
+            heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
+        });
+
+        onChange(heightHighMinSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setHighMin(heightHighMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightHighSpinner.setValue(heightHighMinSpinner.getValueAsInt());
+        });
+
+        onChange(heightHighMaxSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setHighMax(heightHighMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightHighSpinner.setValue(heightHighMaxSpinner.getValueAsInt());
+        });
+
+        onChange(heightHighCollapseButton, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setHigh(heightHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
+            heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
+        });
+
+        onChange(heightLowSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setLow(heightLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
+            heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
+        });
+
+        onChange(heightLowMinSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setLowMin(heightLowMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightLowSpinner.setValue(heightLowMinSpinner.getValueAsInt());
+        });
+
+        onChange(heightLowMaxSpinner, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setLowMax(heightLowMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightLowSpinner.setValue(heightLowMaxSpinner.getValueAsInt());
+        });
+
+        onChange(heightLowCollapseButton, () -> {
+            var undoData = heightUndoDataTemplate.toBuilder().build();
+            undoData.oldValue.set(valueHeight);
+            undoData.newValue.set(valueHeight);
+            undoData.newValue.setLow(heightLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+            heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
+            heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
         });
 
         onChange(graphHeight, () -> {
@@ -532,8 +647,61 @@ public class SpawnSubPanel extends Panel {
                 newTimeline[i] = node.percentX;
                 newScaling[i] = node.percentY;
             }
-            valueHeight.setTimeline(newTimeline);
-            valueHeight.setScaling(newScaling);
+
+            addGraphUpdateAction(valueHeight, newTimeline, newScaling, heightUndoDataTemplate);
         });
+
+        onChange(graphExpanded, () -> {
+            var nodes = graphExpanded.getNodes();
+            float[] newTimeline = new float[nodes.size];
+            float[] newScaling = new float[nodes.size];
+            for (int i = 0; i < nodes.size; i++) {
+                var node = nodes.get(i);
+                newTimeline[i] = node.percentX;
+                newScaling[i] = node.percentY;
+            }
+
+            if (expandedType == ExpandedType.EXPANDED_WIDTH) {
+                addGraphUpdateAction(valueWidth, newTimeline, newScaling, widthUndoDataTemplate);
+            } else {
+                addGraphUpdateAction(valueHeight, newTimeline, newScaling, heightUndoDataTemplate);
+            }
+        });
+    }
+
+    private void updateShownTable() {
+        if (spawnType == ELLIPSE) ellipseToggleWidget.showTable2();
+        else ellipseToggleWidget.showTable1();
+
+        if (spawnType == POINT) shapeToggleWidget.showTable1();
+        else shapeToggleWidget.showTable2();
+    }
+
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
+        var oldValue = new ScaledNumericValue();
+        oldValue.set(value);
+
+        value.setTimeline(newTimeline);
+        value.setScaling(newScaling);
+
+        if (graphUndoAction != null) graphUndoAction.restart();
+        else {
+            graphUndoAction = new TemporalAction(GRAPH_UNDO_DELAY) {
+                @Override
+                protected void update(float percent) {
+                }
+
+                @Override
+                protected void end() {
+                    var undoData = undoDataTemplate.toBuilder().build();
+                    undoData.oldValue.set(oldValue);
+                    undoData.newValue.set(value);
+                    UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+
+                    graphUndoAction = null;
+                }
+            };
+            stage.addAction(graphUndoAction);
+        }
     }
 }
