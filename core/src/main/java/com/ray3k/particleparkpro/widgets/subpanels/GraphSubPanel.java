@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumerValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
@@ -59,21 +60,23 @@ public class GraphSubPanel extends Panel {
         //Relative
         if (hasRelative) {
             var checkBox = new CheckBox("Relative", skin);
+            checkBox.setProgrammaticChangeEvents(false);
             checkBox.setChecked(value.isRelative());
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> value.setRelative(checkBox.isChecked()));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumerValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
         //Independent
         if (hasIndependent) {
             graphToggleWidget.table1.row();
             var checkBox = new CheckBox("Independent", skin);
+            checkBox.setProgrammaticChangeEvents(false);
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> ((IndependentScaledNumericValue) value).setIndependent(checkBox.isChecked()));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumerValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Independent")));
         }
 
         //High
