@@ -1,6 +1,5 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter.IndependentScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.ray3k.particleparkpro.undo.Undoable;
@@ -9,27 +8,31 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ScaledNumerValueIndependentUndoable implements Undoable {
-    private IndependentScaledNumericValue value;
+public class DualScaledNumericValueRelativeUndoable implements Undoable {
+    private ScaledNumericValue xValue;
+    private ScaledNumericValue yValue;
     private CheckBox checkBox;
     private boolean active;
     private String description;
 
     @Override
     public void undo() {
-        value.setIndependent(!active);
+        xValue.setRelative(!active);
+        yValue.setRelative(!active);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        value.setIndependent(active);
+        xValue.setRelative(active);
+        yValue.setRelative(active);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        value.setIndependent(active);
+        xValue.setRelative(active);
+        yValue.setRelative(active);
     }
 
     @Override
@@ -38,6 +41,6 @@ public class ScaledNumerValueIndependentUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        if (checkBox !=null) checkBox.setChecked(value.isIndependent());
+        if (checkBox !=null) checkBox.setChecked(xValue.isRelative());
     }
 }

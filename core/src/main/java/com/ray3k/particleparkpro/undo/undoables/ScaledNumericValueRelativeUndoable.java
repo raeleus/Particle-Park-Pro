@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ScaledNumerValueRelativeUndoable implements Undoable {
+public class ScaledNumericValueRelativeUndoable implements Undoable {
     private ScaledNumericValue value;
     private CheckBox checkBox;
     private boolean active;

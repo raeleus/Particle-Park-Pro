@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueUndoable.DualScaledNumericValueUndoableData;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
@@ -68,10 +70,12 @@ public class SizeSubPanel extends Panel {
         //Relative
         splitToggleWidget.table1.defaults().space(itemSpacing);
         var relativeCheckBox = new CheckBox("Relative", skin);
+        relativeCheckBox.setProgrammaticChangeEvents(false);
         relativeCheckBox.setChecked(xValue.isRelative());
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
         addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(relativeCheckBox, () -> UndoManager.addUndoable(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
         splitToggleWidget.table1.row();
@@ -215,9 +219,11 @@ public class SizeSubPanel extends Panel {
         //Relative
         splitToggleWidget.table2.row();
         var relativeXcheckBox = new CheckBox("Relative", skin);
+        relativeXcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
         addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(relativeXcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -344,9 +350,11 @@ public class SizeSubPanel extends Panel {
         //Relative
         splitToggleWidget.table2.row();
         var relativeYcheckBox = new CheckBox("Relative", skin);
+        relativeYcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
         addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(relativeYcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High
         splitToggleWidget.table2.row();

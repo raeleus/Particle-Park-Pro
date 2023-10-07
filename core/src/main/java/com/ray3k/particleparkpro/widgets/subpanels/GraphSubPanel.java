@@ -1,6 +1,5 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter.IndependentScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -12,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.undo.undoables.ScaledNumerValueRelativeUndoable;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
@@ -65,7 +64,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumerValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Relative")));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
         //Independent
@@ -76,7 +75,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumerValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Independent")));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Independent")));
         }
 
         //High
