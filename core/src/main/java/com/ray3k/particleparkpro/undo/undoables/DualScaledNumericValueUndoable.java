@@ -8,6 +8,8 @@ import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.stripe.Spinner;
 import lombok.Builder;
 
+import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+
 public class DualScaledNumericValueUndoable implements Undoable {
     private DualScaledNumericValueUndoableData data;
 
@@ -41,18 +43,7 @@ public class DualScaledNumericValueUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        if (data.spinnerHigh != null) data.spinnerHigh.setValue(data.xValue.getHighMin());
-        if (data.spinnerHighMin != null) data.spinnerHighMin.setValue(data.xValue.getHighMin());
-        if (data.spinnerHighMax != null) data.spinnerHighMax.setValue(data.xValue.getHighMax());
-        if (data.toggleWidgetHigh != null && !MathUtils.isEqual(data.xValue.getHighMin(), data.xValue.getHighMax())) data.toggleWidgetHigh.showTable2();
-
-        if (data.spinnerLow != null) data.spinnerLow.setValue(data.xValue.getLowMin());
-        if (data.spinnerLowMin != null) data.spinnerLowMin.setValue(data.xValue.getLowMin());
-        if (data.spinnerLowMax != null) data.spinnerLowMax.setValue(data.xValue.getLowMax());
-        if (data.toggleWidgetLow != null && !MathUtils.isEqual(data.xValue.getLowMin(), data.xValue.getLowMax())) data.toggleWidgetLow.showTable2();
-
-        if (data.graph != null) data.graph.setNodes(data.xValue.getTimeline(), data.xValue.getScaling());
-        if (data.graphExpanded != null) data.graphExpanded.setNodes(data.xValue.getTimeline(), data.xValue.getScaling());
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 
     @Builder(toBuilder = true)
@@ -60,21 +51,9 @@ public class DualScaledNumericValueUndoable implements Undoable {
         public final ScaledNumericValue newXvalue = new ScaledNumericValue();
         public final ScaledNumericValue oldXvalue = new ScaledNumericValue();
         private ScaledNumericValue xValue;
-        private Spinner spinnerLow;
-        private Spinner spinnerLowMin;
-        private Spinner spinnerLowMax;
-        private Spinner spinnerHigh;
-        private Spinner spinnerHighMin;
-        private Spinner spinnerHighMax;
-        private ToggleWidget toggleWidgetLow;
-        private ToggleWidget toggleWidgetHigh;
-        private LineGraph graph;
-        private LineGraph graphExpanded;
-
         public final ScaledNumericValue newYvalue = new ScaledNumericValue();
         public final ScaledNumericValue oldYvalue = new ScaledNumericValue();
         private ScaledNumericValue yValue;
-
         private String description;
     }
 }

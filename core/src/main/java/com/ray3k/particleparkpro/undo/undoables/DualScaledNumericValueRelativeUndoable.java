@@ -6,12 +6,13 @@ import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+
 @Data
 @AllArgsConstructor
 public class DualScaledNumericValueRelativeUndoable implements Undoable {
     private ScaledNumericValue xValue;
     private ScaledNumericValue yValue;
-    private CheckBox checkBox;
     private boolean active;
     private String description;
 
@@ -41,6 +42,6 @@ public class DualScaledNumericValueRelativeUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        if (checkBox !=null) checkBox.setChecked(xValue.isRelative());
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 }

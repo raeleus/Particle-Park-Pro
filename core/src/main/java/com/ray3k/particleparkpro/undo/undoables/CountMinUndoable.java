@@ -9,12 +9,10 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 public class CountMinUndoable implements Undoable {
     private int newValue;
     private int oldValue;
-    private Spinner spinner;
 
-    public CountMinUndoable(Spinner spinner) {
-        this.newValue = spinner.getValueAsInt();
+    public CountMinUndoable(int newValue) {
+        this.newValue = newValue;
         this.oldValue = selectedEmitter.getMinParticleCount();
-        this.spinner = spinner;
     }
 
     @Override
@@ -40,7 +38,6 @@ public class CountMinUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        if (spinner.getStage() != null) spinner.setValue(selectedEmitter.getMinParticleCount());
-        else emitterPropertiesPanel.populateScrollTable(null);
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 }

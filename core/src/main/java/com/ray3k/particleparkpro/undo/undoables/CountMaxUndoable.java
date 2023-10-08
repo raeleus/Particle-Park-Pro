@@ -9,12 +9,10 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 public class CountMaxUndoable implements Undoable {
     private int newValue;
     private int oldValue;
-    private Spinner spinner;
 
-    public CountMaxUndoable(Spinner spinner) {
-        this.newValue = spinner.getValueAsInt();
+    public CountMaxUndoable(int newValue) {
+        this.newValue = newValue;
         this.oldValue = selectedEmitter.getMaxParticleCount();
-        this.spinner = spinner;
     }
 
     @Override
@@ -40,7 +38,6 @@ public class CountMaxUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        if (spinner.getStage() != null) spinner.setValue(selectedEmitter.getMaxParticleCount());
-        else emitterPropertiesPanel.populateScrollTable(null);
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 }

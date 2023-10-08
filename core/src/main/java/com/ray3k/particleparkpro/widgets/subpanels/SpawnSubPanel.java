@@ -159,7 +159,7 @@ public class SpawnSubPanel extends Panel {
         onChange(shapeSelectBox, () -> {
             var spawnTypeOld = spawnType;
             spawnType = shapeSelectBox.getSelected();
-            UndoManager.addUndoable(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, this, "change Spawn Type"));
+            UndoManager.addUndoable(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, "change Spawn Type"));
 
             updateShownTable();
         });
@@ -428,16 +428,6 @@ public class SpawnSubPanel extends Panel {
         var widthUndoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(valueWidth)
-            .spinnerHigh(widthHighSpinner)
-            .spinnerHighMin(widthHighMinSpinner)
-            .spinnerHighMax(widthHighMaxSpinner)
-            .toggleWidgetHigh(widthHighToggleWidget)
-            .spinnerLow(widthLowSpinner)
-            .spinnerLowMin(widthLowMinSpinner)
-            .spinnerLowMax(widthLowMaxSpinner)
-            .toggleWidgetLow(widthLowToggleWidget)
-            .graph(graphWidth)
-            .graphExpanded(graphExpanded)
             .description("change Shape Width")
             .build();
 
@@ -541,16 +531,6 @@ public class SpawnSubPanel extends Panel {
         var heightUndoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(valueHeight)
-            .spinnerHigh(heightHighSpinner)
-            .spinnerHighMin(heightHighMinSpinner)
-            .spinnerHighMax(heightHighMaxSpinner)
-            .toggleWidgetHigh(heightHighToggleWidget)
-            .spinnerLow(heightLowSpinner)
-            .spinnerLowMin(heightLowMinSpinner)
-            .spinnerLowMax(heightLowMaxSpinner)
-            .toggleWidgetLow(heightLowToggleWidget)
-            .graph(graphHeight)
-            .graphExpanded(graphExpanded)
             .description("change Shape Height")
             .build();
 

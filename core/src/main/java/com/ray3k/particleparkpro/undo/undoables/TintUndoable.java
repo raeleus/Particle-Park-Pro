@@ -6,6 +6,8 @@ import com.ray3k.particleparkpro.widgets.ColorGraph;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+
 @Data
 @AllArgsConstructor
 public class TintUndoable implements Undoable {
@@ -41,6 +43,6 @@ public class TintUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        colorGraph.setNodes(value.getTimeline(), value.getColors());
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 }

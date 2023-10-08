@@ -7,13 +7,14 @@ import com.ray3k.particleparkpro.widgets.subpanels.SpawnSubPanel.SpawnType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+
 @Data
 @AllArgsConstructor
 public class SpawnTypeUndoable implements Undoable {
     private SpawnShapeValue value;
     private SpawnType spawnType;
     private SpawnType spawnTypeOld;
-    private SpawnSubPanel spawnSubPanel;
     private String description;
 
     @Override
@@ -34,7 +35,7 @@ public class SpawnTypeUndoable implements Undoable {
     }
 
     public void refreshDisplay() {
-        if (spawnSubPanel != null) spawnSubPanel.populate();
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 
     @Override

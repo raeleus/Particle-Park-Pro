@@ -77,8 +77,6 @@ public class TransparencySubPanel extends Panel {
         var undoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(value)
-            .graph(graph)
-            .graphExpanded(graphExpanded)
             .description("change Transparency")
             .build();
 

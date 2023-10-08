@@ -7,6 +7,8 @@ import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.stripe.Spinner;
 import lombok.Builder;
 
+import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+
 public class RangedNumericValueUndoable implements Undoable {
     private RangedNumericValueUndoableData data;
 
@@ -37,11 +39,7 @@ public class RangedNumericValueUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
-        data.spinner.setValue(data.value.getLowMin());
-        data.spinnerMin.setValue(data.value.getLowMin());
-        data.spinnerMax.setValue(data.value.getLowMax());
-
-        if (!MathUtils.isEqual(data.value.getLowMin(), data.value.getLowMax())) data.toggleWidget.showTable2();
+        emitterPropertiesPanel.populateScrollTable(null);
     }
 
     @Builder(toBuilder = true)
@@ -49,10 +47,6 @@ public class RangedNumericValueUndoable implements Undoable {
         public final RangedNumericValue newValue = new RangedNumericValue();
         public final RangedNumericValue oldValue = new RangedNumericValue();
         private RangedNumericValue value;
-        private Spinner spinner;
-        private Spinner spinnerMin;
-        private Spinner spinnerMax;
-        private ToggleWidget toggleWidget;
         private String description;
     }
 }

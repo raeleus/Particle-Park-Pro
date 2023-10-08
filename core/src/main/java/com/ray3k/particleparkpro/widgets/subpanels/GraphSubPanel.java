@@ -64,7 +64,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Relative")));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
         //Independent
@@ -75,7 +75,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox, checkBox.isChecked(), undoDescription + " Independent")));
+            onChange(checkBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(value, checkBox.isChecked(), undoDescription + " Independent")));
         }
 
         //High
@@ -216,16 +216,6 @@ public class GraphSubPanel extends Panel {
         var undoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(value)
-            .spinnerHigh(highValueSpinner)
-            .spinnerHighMin(highMinValueSpinner)
-            .spinnerHighMax(highMaxValueSpinner)
-            .toggleWidgetHigh(highToggleWidget)
-            .spinnerLow(lowValueSpinner)
-            .spinnerLowMin(lowMinValueSpinner)
-            .spinnerLowMax(lowMaxValueSpinner)
-            .toggleWidgetLow(lowToggleWidget)
-            .graph(graph)
-            .graphExpanded(graphExpanded)
             .description(undoDescription)
             .build();
 

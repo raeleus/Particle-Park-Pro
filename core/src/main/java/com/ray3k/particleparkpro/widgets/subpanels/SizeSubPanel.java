@@ -75,7 +75,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
         addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeCheckBox, () -> UndoManager.addUndoable(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox, relativeCheckBox.isChecked(), "change Size Relative")));
+        onChange(relativeCheckBox, () -> UndoManager.addUndoable(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
         splitToggleWidget.table1.row();
@@ -223,7 +223,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
         addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeXcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox, relativeXcheckBox.isChecked(), "change X Size Relative")));
+        onChange(relativeXcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -354,7 +354,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
         addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeYcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox, relativeYcheckBox.isChecked(), "change Y Size Relative")));
+        onChange(relativeYcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -533,16 +533,6 @@ public class SizeSubPanel extends Panel {
             .builder()
             .xValue(xValue)
             .yValue(yValue)
-            .spinnerHigh(highSpinner)
-            .spinnerHighMin(highMinSpinner)
-            .spinnerHighMax(highMaxSpinner)
-            .toggleWidgetHigh(highToggleWidget)
-            .spinnerLow(lowSpinner)
-            .spinnerLowMin(lowMinSpinner)
-            .spinnerLowMax(lowMaxSpinner)
-            .toggleWidgetLow(lowToggleWidget)
-            .graph(graph)
-            .graphExpanded(graphExpanded)
             .description("change Scale")
             .build();
 
@@ -678,16 +668,6 @@ public class SizeSubPanel extends Panel {
         var xUndoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(xValue)
-            .spinnerHigh(highXspinner)
-            .spinnerHighMin(highXminSpinner)
-            .spinnerHighMax(highXmaxSpinner)
-            .toggleWidgetHigh(highXtoggleWidget)
-            .spinnerLow(lowXspinner)
-            .spinnerLowMin(lowXminSpinner)
-            .spinnerLowMax(lowXmaxSpinner)
-            .toggleWidgetLow(lowXtoggleWidget)
-            .graph(graphX)
-            .graphExpanded(graphExpanded)
             .description("change X Scale")
             .build();
 
@@ -791,16 +771,6 @@ public class SizeSubPanel extends Panel {
         var yUndoDataTemplate = ScaledNumericValueUndoableData
             .builder()
             .value(yValue)
-            .spinnerHigh(highYspinner)
-            .spinnerHighMin(highYminSpinner)
-            .spinnerHighMax(highYmaxSpinner)
-            .toggleWidgetHigh(highYtoggleWidget)
-            .spinnerLow(lowYspinner)
-            .spinnerLowMin(lowYminSpinner)
-            .spinnerLowMax(lowYmaxSpinner)
-            .toggleWidgetLow(lowYtoggleWidget)
-            .graph(graphY)
-            .graphExpanded(graphExpanded)
             .description("change Y Scale")
             .build();
 

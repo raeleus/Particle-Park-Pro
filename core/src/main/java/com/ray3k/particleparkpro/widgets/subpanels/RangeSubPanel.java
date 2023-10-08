@@ -94,10 +94,6 @@ public class RangeSubPanel extends Panel {
         var undoDataTemplate = RangedNumericValueUndoableData
             .builder()
             .value(value)
-            .spinnerMin(valueMinSpinner)
-            .spinnerMax(valueMaxSpinner)
-            .spinner(valueSpinner)
-            .toggleWidget(highToggleWidget)
             .description(undoDescription)
             .build();
 
