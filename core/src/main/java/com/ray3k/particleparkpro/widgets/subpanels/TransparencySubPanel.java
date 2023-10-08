@@ -5,18 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
-import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
-import com.ray3k.stripe.Spinner;
-import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -74,12 +69,6 @@ public class TransparencySubPanel extends Panel {
             graph.setNodes(value.getTimeline(), value.getScaling());
         });
 
-        var undoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(value)
-            .description("change Transparency")
-            .build();
-
         onChange(graph, () -> {
             var nodes = graph.getNodes();
             float[] newTimeline = new float[nodes.size];
@@ -90,7 +79,7 @@ public class TransparencySubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, "change Transparency");
         });
 
         onChange(graphExpanded, () -> {
@@ -103,11 +92,11 @@ public class TransparencySubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, "change Transparency");
         });
     }
 
-    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, String description) {
         var oldValue = new ScaledNumericValue();
         oldValue.set(value);
 
@@ -123,10 +112,10 @@ public class TransparencySubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undoData = undoDataTemplate.toBuilder().build();
-                    undoData.oldValue.set(oldValue);
-                    undoData.newValue.set(value);
-                    UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+                    var undo = new ScaledNumericValueUndoable(value, description);
+                    undo.oldValue.set(oldValue);
+                    undo.newValue.set(value);
+                    UndoManager.addUndoable(undo);
 
                     graphUndoAction = null;
                 }

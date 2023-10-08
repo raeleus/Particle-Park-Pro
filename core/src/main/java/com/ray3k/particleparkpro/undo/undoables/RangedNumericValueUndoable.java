@@ -5,48 +5,41 @@ import com.badlogic.gdx.math.MathUtils;
 import com.ray3k.particleparkpro.undo.Undoable;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.stripe.Spinner;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
 
+@AllArgsConstructor
 public class RangedNumericValueUndoable implements Undoable {
-    private RangedNumericValueUndoableData data;
-
-    public RangedNumericValueUndoable(RangedNumericValueUndoableData data) {
-        this.data = data;
-    }
+    public final RangedNumericValue newValue = new RangedNumericValue();
+    public final RangedNumericValue oldValue = new RangedNumericValue();
+    private RangedNumericValue value;
+    private String description;
 
     @Override
     public void undo() {
-        data.value.set(data.oldValue);
+        value.set(oldValue);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        data.value.set(data.newValue);
+        value.set(newValue);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        data.value.set(data.newValue);
+        value.set(newValue);
     }
 
     @Override
     public String getDescription() {
-        return data.description;
+        return description;
     }
 
     private void refreshDisplay() {
         emitterPropertiesPanel.populateScrollTable(null);
-    }
-
-    @Builder(toBuilder = true)
-    public static class RangedNumericValueUndoableData {
-        public final RangedNumericValue newValue = new RangedNumericValue();
-        public final RangedNumericValue oldValue = new RangedNumericValue();
-        private RangedNumericValue value;
-        private String description;
     }
 }

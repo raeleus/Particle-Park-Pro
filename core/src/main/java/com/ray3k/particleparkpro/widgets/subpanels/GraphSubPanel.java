@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
-import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
@@ -213,91 +212,85 @@ public class GraphSubPanel extends Panel {
             graph.setNodes(value.getTimeline(), value.getScaling());
         });
 
-        var undoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(value)
-            .description(undoDescription)
-            .build();
-
         onChange(highValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setHigh(highValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setHigh(highValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highMinValueSpinner.setValue(highValueSpinner.getValueAsInt());
             highMaxValueSpinner.setValue(highValueSpinner.getValueAsInt());
         });
 
         onChange(highMinValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setHighMin(highMinValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setHighMin(highMinValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highValueSpinner.setValue(highMinValueSpinner.getValueAsInt());
         });
 
         onChange(highMaxValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setHighMax(highMaxValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setHighMax(highMaxValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highValueSpinner.setValue(highMaxValueSpinner.getValueAsInt());
         });
 
         onChange(highCollapseButton, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setHigh(highValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setHigh(highValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highMinValueSpinner.setValue(highValueSpinner.getValueAsInt());
             highMaxValueSpinner.setValue(highValueSpinner.getValueAsInt());
         });
 
         onChange(lowValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setLow(lowValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setLow(lowValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValueAsInt());
         });
 
         onChange(lowMinValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setLowMin(lowMinValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setLowMin(lowMinValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowValueSpinner.setValue(lowMinValueSpinner.getValueAsInt());
         });
 
         onChange(lowMaxValueSpinner, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setLowMax(lowMaxValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setLowMax(lowMaxValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowValueSpinner.setValue(lowMaxValueSpinner.getValueAsInt());
         });
 
         onChange(lowCollapseButton, () -> {
-            var undoData = undoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(value);
-            undoData.newValue.set(value);
-            undoData.newValue.setLow(lowValueSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            undo.oldValue.set(value);
+            undo.newValue.set(value);
+            undo.newValue.setLow(lowValueSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValueAsInt());
@@ -313,7 +306,7 @@ public class GraphSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, undoDescription);
         });
 
         onChange(graphExpanded, () -> {
@@ -326,11 +319,11 @@ public class GraphSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(value, newTimeline, newScaling, undoDataTemplate);
+            addGraphUpdateAction(value, newTimeline, newScaling, undoDescription);
         });
     }
 
-    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, String undoDescription) {
         var oldValue = new ScaledNumericValue();
         oldValue.set(value);
 
@@ -346,10 +339,10 @@ public class GraphSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undoData = undoDataTemplate.toBuilder().build();
-                    undoData.oldValue.set(oldValue);
-                    undoData.newValue.set(value);
-                    UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+                    var undo = new ScaledNumericValueUndoable(value, undoDescription);
+                    undo.oldValue.set(oldValue);
+                    undo.newValue.set(value);
+                    UndoManager.addUndoable(undo);
 
                     graphUndoAction = null;
                 }

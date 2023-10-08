@@ -10,9 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.undo.Undoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
-import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.undo.undoables.SpawnTypeUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
@@ -425,91 +423,85 @@ public class SpawnSubPanel extends Panel {
 
         updateShownTable();
 
-        var widthUndoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(valueWidth)
-            .description("change Shape Width")
-            .build();
-
         onChange(widthHighSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setHigh(widthHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
         });
 
         onChange(widthHighMinSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setHighMin(widthHighMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setHighMin(widthHighMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthHighSpinner.setValue(widthHighMinSpinner.getValueAsInt());
         });
 
         onChange(widthHighMaxSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setHighMax(widthHighMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setHighMax(widthHighMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthHighSpinner.setValue(widthHighMaxSpinner.getValueAsInt());
         });
 
         onChange(widthHighCollapseButton, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setHigh(widthHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
         });
 
         onChange(widthLowSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setLow(widthLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setLow(widthLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
         });
 
         onChange(widthLowMinSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setLowMin(widthLowMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setLowMin(widthLowMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthLowSpinner.setValue(widthLowMinSpinner.getValueAsInt());
         });
 
         onChange(widthLowMaxSpinner, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setLowMax(widthLowMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setLowMax(widthLowMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthLowSpinner.setValue(widthLowMaxSpinner.getValueAsInt());
         });
 
         onChange(widthLowCollapseButton, () -> {
-            var undoData = widthUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueWidth);
-            undoData.newValue.set(valueWidth);
-            undoData.newValue.setLow(widthLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            undo.oldValue.set(valueWidth);
+            undo.newValue.set(valueWidth);
+            undo.newValue.setLow(widthLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
@@ -525,94 +517,88 @@ public class SpawnSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(valueWidth, newTimeline, newScaling, widthUndoDataTemplate);
+            addGraphUpdateAction(valueWidth, newTimeline, newScaling, "change Spawn Width");
         });
 
-        var heightUndoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(valueHeight)
-            .description("change Shape Height")
-            .build();
-
         onChange(heightHighSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setHigh(heightHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
         });
 
         onChange(heightHighMinSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setHighMin(heightHighMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setHighMin(heightHighMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightHighSpinner.setValue(heightHighMinSpinner.getValueAsInt());
         });
 
         onChange(heightHighMaxSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setHighMax(heightHighMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setHighMax(heightHighMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightHighSpinner.setValue(heightHighMaxSpinner.getValueAsInt());
         });
 
         onChange(heightHighCollapseButton, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setHigh(heightHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
         });
 
         onChange(heightLowSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setLow(heightLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setLow(heightLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
         });
 
         onChange(heightLowMinSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setLowMin(heightLowMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setLowMin(heightLowMinSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightLowSpinner.setValue(heightLowMinSpinner.getValueAsInt());
         });
 
         onChange(heightLowMaxSpinner, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setLowMax(heightLowMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setLowMax(heightLowMaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightLowSpinner.setValue(heightLowMaxSpinner.getValueAsInt());
         });
 
         onChange(heightLowCollapseButton, () -> {
-            var undoData = heightUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(valueHeight);
-            undoData.newValue.set(valueHeight);
-            undoData.newValue.setLow(heightLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            undo.oldValue.set(valueHeight);
+            undo.newValue.set(valueHeight);
+            undo.newValue.setLow(heightLowSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
@@ -628,7 +614,7 @@ public class SpawnSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(valueHeight, newTimeline, newScaling, heightUndoDataTemplate);
+            addGraphUpdateAction(valueHeight, newTimeline, newScaling, "change Spawn Height");
         });
 
         onChange(graphExpanded, () -> {
@@ -642,9 +628,9 @@ public class SpawnSubPanel extends Panel {
             }
 
             if (expandedType == ExpandedType.EXPANDED_WIDTH) {
-                addGraphUpdateAction(valueWidth, newTimeline, newScaling, widthUndoDataTemplate);
+                addGraphUpdateAction(valueWidth, newTimeline, newScaling, "change Spawn Width");
             } else {
-                addGraphUpdateAction(valueHeight, newTimeline, newScaling, heightUndoDataTemplate);
+                addGraphUpdateAction(valueHeight, newTimeline, newScaling, "change Spawn Height");
             }
         });
     }
@@ -657,7 +643,7 @@ public class SpawnSubPanel extends Panel {
         else shapeToggleWidget.showTable2();
     }
 
-    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, String description) {
         var oldValue = new ScaledNumericValue();
         oldValue.set(value);
 
@@ -673,10 +659,10 @@ public class SpawnSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undoData = undoDataTemplate.toBuilder().build();
-                    undoData.oldValue.set(oldValue);
-                    undoData.newValue.set(value);
-                    UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+                    var undo = new ScaledNumericValueUndoable(value, description);
+                    undo.oldValue.set(oldValue);
+                    undo.newValue.set(value);
+                    UndoManager.addUndoable(undo);
 
                     graphUndoAction = null;
                 }

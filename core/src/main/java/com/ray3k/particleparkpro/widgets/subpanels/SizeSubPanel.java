@@ -16,7 +16,6 @@ import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueUndoable.DualScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
-import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable.ScaledNumericValueUndoableData;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
@@ -665,91 +664,85 @@ public class SizeSubPanel extends Panel {
             addDualGraphUpdateAction(xValue, yValue, newTimeline, newScaling, unsplitUndoDataTemplate);
         });
 
-        var xUndoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(xValue)
-            .description("change X Scale")
-            .build();
-
         onChange(highXspinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setHigh(highXspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setHigh(highXspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highXminSpinner.setValue(highXspinner.getValueAsInt());
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
         });
 
         onChange(highXminSpinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setHighMin(highXminSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setHighMin(highXminSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highXspinner.setValue(highXminSpinner.getValueAsInt());
         });
 
         onChange(highXmaxSpinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setHighMax(highXmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setHighMax(highXmaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highSpinner.setValue(highXmaxSpinner.getValueAsInt());
         });
 
         onChange(highXcollapseButton, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setHigh(highXspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setHigh(highXspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
         });
 
         onChange(lowXspinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setLow(lowXspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setLow(lowXspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowXminSpinner.setValue(lowXspinner.getValueAsInt());
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
         });
 
         onChange(lowXminSpinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setLowMin(lowXminSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setLowMin(lowXminSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowXspinner.setValue(lowXminSpinner.getValueAsInt());
         });
 
         onChange(lowXmaxSpinner, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setLowMax(lowXmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setLowMax(lowXmaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowSpinner.setValue(lowXmaxSpinner.getValueAsInt());
         });
 
         onChange(lowXcollapseButton, () -> {
-            var undoData = xUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(xValue);
-            undoData.newValue.set(xValue);
-            undoData.newValue.setLow(lowXspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            undo.oldValue.set(xValue);
+            undo.newValue.set(xValue);
+            undo.newValue.setLow(lowXspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
@@ -765,94 +758,88 @@ public class SizeSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(xValue, newTimeline, newScaling, xUndoDataTemplate);
+            addGraphUpdateAction(xValue, newTimeline, newScaling, "change X Scale");
         });
 
-        var yUndoDataTemplate = ScaledNumericValueUndoableData
-            .builder()
-            .value(yValue)
-            .description("change Y Scale")
-            .build();
-
         onChange(highYspinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setHigh(highYspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setHigh(highYspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highYminSpinner.setValue(highYspinner.getValueAsInt());
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
         });
 
         onChange(highYminSpinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setHighMin(highYminSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setHighMin(highYminSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highYspinner.setValue(highYminSpinner.getValueAsInt());
         });
 
         onChange(highYmaxSpinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setHighMax(highYmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setHighMax(highYmaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highSpinner.setValue(highYmaxSpinner.getValueAsInt());
         });
 
         onChange(highYcollapseButton, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setHigh(highYspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setHigh(highYspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
         });
 
         onChange(lowYspinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setLow(lowYspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setLow(lowYspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowYminSpinner.setValue(lowYspinner.getValueAsInt());
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
         });
 
         onChange(lowYminSpinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setLowMin(lowYminSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setLowMin(lowYminSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowYspinner.setValue(lowYminSpinner.getValueAsInt());
         });
 
         onChange(lowYmaxSpinner, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setLowMax(lowYmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setLowMax(lowYmaxSpinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowSpinner.setValue(lowYmaxSpinner.getValueAsInt());
         });
 
         onChange(lowYcollapseButton, () -> {
-            var undoData = yUndoDataTemplate.toBuilder().build();
-            undoData.oldValue.set(yValue);
-            undoData.newValue.set(yValue);
-            undoData.newValue.setLow(lowYspinner.getValueAsInt());
-            UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            undo.oldValue.set(yValue);
+            undo.newValue.set(yValue);
+            undo.newValue.setLow(lowYspinner.getValueAsInt());
+            UndoManager.addUndoable(undo);
 
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
@@ -868,7 +855,7 @@ public class SizeSubPanel extends Panel {
                 newScaling[i] = node.percentY;
             }
 
-            addGraphUpdateAction(yValue, newTimeline, newScaling, yUndoDataTemplate);
+            addGraphUpdateAction(yValue, newTimeline, newScaling, "change Y scale");
         });
 
         onChange(graphExpanded, () -> {
@@ -882,16 +869,16 @@ public class SizeSubPanel extends Panel {
             }
 
             if (expandedType == ExpandedType.EXPANDED_X) {
-                addGraphUpdateAction(xValue, newTimeline, newScaling, xUndoDataTemplate);
+                addGraphUpdateAction(xValue, newTimeline, newScaling, "change X scale");
             } else if (expandedType == ExpandedType.EXPANDED_Y) {
-                addGraphUpdateAction(yValue, newTimeline, newScaling, yUndoDataTemplate);
+                addGraphUpdateAction(yValue, newTimeline, newScaling, "change Y scale");
             } else if (expandedType == ExpandedType.EXPANDED_BOTH) {
                 addDualGraphUpdateAction(xValue, yValue, newTimeline, newScaling, unsplitUndoDataTemplate);
             }
         });
     }
 
-    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, ScaledNumericValueUndoableData undoDataTemplate) {
+    private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, String description) {
         var oldValue = new ScaledNumericValue();
         oldValue.set(value);
 
@@ -907,10 +894,10 @@ public class SizeSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undoData = undoDataTemplate.toBuilder().build();
-                    undoData.oldValue.set(oldValue);
-                    undoData.newValue.set(value);
-                    UndoManager.addUndoable(new ScaledNumericValueUndoable(undoData));
+                    var undo = new ScaledNumericValueUndoable(value, description);
+                    undo.oldValue.set(oldValue);
+                    undo.newValue.set(value);
+                    UndoManager.addUndoable(undo);
 
                     graphUndoAction = null;
                 }
