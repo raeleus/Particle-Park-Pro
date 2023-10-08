@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.stripe.PopTable;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -49,9 +51,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(delayCheckBox);
         addHandListener(delayCheckBox);
         onChange(delayCheckBox, () -> {
-            selectedEmitter.getDelay().setActive(delayCheckBox.isChecked());
-            if (delayCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(DELAY);
-            else emitterPropertiesPanel.removeProperty(DELAY);
+            UndoManager.addUndoable(new SetPropertyUndoable(DELAY, delayCheckBox.isChecked(), "set Delay property"));
         });
 
         var popTable = addTooltip(delayCheckBox, "Time from beginning of effect to emission start, in milliseconds.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -65,9 +65,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(lifeOffsetCheckbox);
         addHandListener(lifeOffsetCheckbox);
         onChange(lifeOffsetCheckbox, () -> {
-            selectedEmitter.getLifeOffset().setActive(lifeOffsetCheckbox.isChecked());
-            if (lifeOffsetCheckbox.isChecked()) emitterPropertiesPanel.populateScrollTable(LIFE_OFFSET);
-            else emitterPropertiesPanel.removeProperty(LIFE_OFFSET);
+            UndoManager.addUndoable(new SetPropertyUndoable(LIFE_OFFSET, lifeOffsetCheckbox.isChecked(), "set Life Offset property"));
         });
 
         popTable = addTooltip(lifeOffsetCheckbox, "Particle starting life consumed, in milliseconds.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -81,9 +79,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(xOffsetCheckBox);
         addHandListener(xOffsetCheckBox);
         onChange(xOffsetCheckBox, () -> {
-            selectedEmitter.getXOffsetValue().setActive(xOffsetCheckBox.isChecked());
-            if (xOffsetCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(X_OFFSET);
-            else emitterPropertiesPanel.removeProperty(X_OFFSET);
+            UndoManager.addUndoable(new SetPropertyUndoable(X_OFFSET, xOffsetCheckBox.isChecked(), "set X Offset property"));
         });
 
         popTable = addTooltip(xOffsetCheckBox, "Amount to offset a particle's starting X location, in world units.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -97,9 +93,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(yOffsetCheckBox);
         addHandListener(yOffsetCheckBox);
         onChange(yOffsetCheckBox, () -> {
-            selectedEmitter.getYOffsetValue().setActive(yOffsetCheckBox.isChecked());
-            if (yOffsetCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(Y_OFFSET);
-            else emitterPropertiesPanel.removeProperty(Y_OFFSET);
+            UndoManager.addUndoable(new SetPropertyUndoable(Y_OFFSET, yOffsetCheckBox.isChecked(), "set Y Offset property"));
         });
 
         popTable = addTooltip(yOffsetCheckBox, "Amount to offset a particle's starting y location, in world units.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -113,9 +107,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(velocityCheckBox);
         addHandListener(velocityCheckBox);
         onChange(velocityCheckBox, () -> {
-            selectedEmitter.getVelocity().setActive(velocityCheckBox.isChecked());
-            if (velocityCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(VELOCITY);
-            else emitterPropertiesPanel.removeProperty(VELOCITY);
+            UndoManager.addUndoable(new SetPropertyUndoable(VELOCITY, velocityCheckBox.isChecked(), "set Velocity property"));
         });
 
         popTable = addTooltip(velocityCheckBox, "Particle speed, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -129,9 +121,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(angleCheckBox);
         addHandListener(angleCheckBox);
         onChange(angleCheckBox, () -> {
-            selectedEmitter.getAngle().setActive(angleCheckBox.isChecked());
-            if (angleCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(ANGLE);
-            else emitterPropertiesPanel.removeProperty(ANGLE);
+            UndoManager.addUndoable(new SetPropertyUndoable(ANGLE, angleCheckBox.isChecked(), "set Angle property"));
         });
 
         popTable = addTooltip(angleCheckBox, "Particle emission angle, in degrees.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -145,9 +135,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(rotationCheckBox);
         addHandListener(rotationCheckBox);
         onChange(rotationCheckBox, () -> {
-            selectedEmitter.getRotation().setActive(rotationCheckBox.isChecked());
-            if (rotationCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(ROTATION);
-            else emitterPropertiesPanel.removeProperty(ROTATION);
+            UndoManager.addUndoable(new SetPropertyUndoable(ROTATION, rotationCheckBox.isChecked(), "set Rotation property"));
         });
 
         popTable = addTooltip(rotationCheckBox, "Particle rotation, in degrees.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -161,9 +149,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(windCheckBox);
         addHandListener(windCheckBox);
         onChange(windCheckBox, () -> {
-            selectedEmitter.getWind().setActive(windCheckBox.isChecked());
-            if (windCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(WIND);
-            else emitterPropertiesPanel.removeProperty(WIND);
+            UndoManager.addUndoable(new SetPropertyUndoable(WIND, windCheckBox.isChecked(), "set Wind property"));
         });
 
         popTable = addTooltip(windCheckBox, "Wind strength, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);
@@ -177,9 +163,7 @@ public class PopAddProperty extends PopTable {
         scrollTable.add(gravityCheckBox);
         addHandListener(gravityCheckBox);
         onChange(gravityCheckBox, () -> {
-            selectedEmitter.getGravity().setActive(gravityCheckBox.isChecked());
-            if (gravityCheckBox.isChecked()) emitterPropertiesPanel.populateScrollTable(GRAVITY);
-            else emitterPropertiesPanel.removeProperty(GRAVITY);
+            UndoManager.addUndoable(new SetPropertyUndoable(GRAVITY, gravityCheckBox.isChecked(), "set Gravity property"));
         });
 
         popTable = addTooltip(gravityCheckBox, "Gravity strength, in world units per second.", Align.left, Align.left, tooltipRightArrowStyle);

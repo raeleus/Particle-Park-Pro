@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.RangedNumericValueUndoable;
+import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
@@ -16,7 +17,6 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class RangeSubPanel extends Panel {
     public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty) {
@@ -34,10 +34,7 @@ public class RangeSubPanel extends Panel {
             var button = new Button(skin, "close");
             tabTable.add(button);
             addHandListener(button);
-            onChange(button, () -> {
-                value.setActive(false);
-                emitterPropertiesPanel.removeProperty(closeProperty);
-            });
+            onChange(button, () -> UndoManager.addUndoable(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
         //Value

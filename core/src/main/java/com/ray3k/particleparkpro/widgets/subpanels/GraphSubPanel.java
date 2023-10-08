@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
+import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleWidget;
@@ -42,10 +43,7 @@ public class GraphSubPanel extends Panel {
             var button = new Button(skin, "close");
             tabTable.add(button);
             addHandListener(button);
-            onChange(button, () -> {
-                value.setActive(false);
-                emitterPropertiesPanel.removeProperty(closeProperty);
-            });
+            onChange(button, () -> UndoManager.addUndoable(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
         var graphToggleWidget = new ToggleWidget();

@@ -20,7 +20,13 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.Sh
 
 public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {
-        DELAY, LIFE_OFFSET, X_OFFSET, Y_OFFSET, VELOCITY, ANGLE, ROTATION, WIND, GRAVITY
+        DELAY("Delay"), LIFE_OFFSET("Life Offset"), X_OFFSET("X Offset"), Y_OFFSET("Y Offset"), VELOCITY("Velocity"),
+        ANGLE("Angle"), ROTATION("Rotation"), WIND("Wind"), GRAVITY("Gravity");
+
+        public String name;
+        ShownProperty(String name) {
+            this.name = name;
+        }
     }
     private Table scrollTable;
     public static EmitterPropertiesPanel emitterPropertiesPanel;
