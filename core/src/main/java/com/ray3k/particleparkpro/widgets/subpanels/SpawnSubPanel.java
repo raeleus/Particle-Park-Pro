@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
+import com.ray3k.particleparkpro.undo.undoables.SpawnEdgesUndoable;
+import com.ray3k.particleparkpro.undo.undoables.SpawnSideUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SpawnTypeUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
@@ -115,7 +117,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(checkBox);
         addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBox, () -> {
-            value.setEdges(checkBox.isChecked());
+            UndoManager.addUndoable(new SpawnEdgesUndoable(value, checkBox.isChecked(), "change Spawn Edges"));
         });
 
         //Side
@@ -135,17 +137,21 @@ public class SpawnSubPanel extends Panel {
         addHandListener(selectBox.getList());
         addTooltip(selectBox, "The side of the ellipse where particles will spawn", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
+            SpawnEllipseSide side;
+
             switch (selectBox.getSelectedIndex()) {
                 case 0:
-                    value.setSide(SpawnEllipseSide.both);
+                    side = SpawnEllipseSide.both;
                     break;
                 case 1:
-                    value.setSide(SpawnEllipseSide.top);
+                    side = SpawnEllipseSide.top;
                     break;
                 default:
-                    value.setSide(SpawnEllipseSide.bottom);
+                    side = SpawnEllipseSide.bottom;
                     break;
             }
+
+            UndoManager.addUndoable(new SpawnSideUndoable(value, side, value.getSide(), "change Spawn Side"));
         });
 
         //Shape specific widgets
