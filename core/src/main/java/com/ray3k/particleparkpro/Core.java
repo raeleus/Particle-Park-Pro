@@ -183,7 +183,7 @@ public class Core extends ApplicationAdapter {
 
         for (var emitter : particleEffect.getEmitters()) {
             activeEmitters.put(emitter, true);
-            for (int i = 0; i < particleEffect.getEmitters().size; i++) {
+            for (int i = 0; i < emitter.getImagePaths().size; i++) {
                 var path = emitter.getImagePaths().get(i);
                 var imageHandle = fileHandle.parent().child(path);
                 fileHandles.put(path, imageHandle);
