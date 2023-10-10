@@ -1,33 +1,40 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 @AllArgsConstructor
 public class ImagesSpriteModeUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private SpriteMode spriteMode;
     private SpriteMode oldSpriteMode;
     private String description;
 
     @Override
     public void undo() {
-        selectedEmitter.setSpriteMode(oldSpriteMode);
+        selectedEmitter = emitter;
+
+        emitter.setSpriteMode(oldSpriteMode);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        selectedEmitter.setSpriteMode(spriteMode);
+        selectedEmitter = emitter;
+
+        emitter.setSpriteMode(spriteMode);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        selectedEmitter.setSpriteMode(spriteMode);
+        emitter.setSpriteMode(spriteMode);
     }
 
     @Override
@@ -36,6 +43,7 @@ public class ImagesSpriteModeUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

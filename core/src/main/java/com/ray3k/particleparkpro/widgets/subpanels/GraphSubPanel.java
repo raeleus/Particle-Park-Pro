@@ -42,7 +42,7 @@ public class GraphSubPanel extends Panel {
             var button = new Button(skin, "close");
             tabTable.add(button);
             addHandListener(button);
-            onChange(button, () -> UndoManager.add(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
+            onChange(button, () -> UndoManager.add(new SetPropertyUndoable(selectedEmitter, closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
         var graphToggleWidget = new ToggleWidget();
@@ -60,7 +60,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(value, checkBox.isChecked(), undoDescription + " Relative")));
+            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
         //Independent
@@ -71,7 +71,7 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(value, checkBox.isChecked(), undoDescription + " Independent")));
+            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Independent")));
         }
 
         //High
@@ -210,7 +210,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(highValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setHigh(highValueSpinner.getValueAsInt());
@@ -221,7 +221,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(highMinValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setHighMin(highMinValueSpinner.getValueAsInt());
@@ -231,7 +231,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(highMaxValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setHighMax(highMaxValueSpinner.getValueAsInt());
@@ -241,7 +241,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(highCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setHigh(highValueSpinner.getValueAsInt());
@@ -252,7 +252,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(lowValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLow(lowValueSpinner.getValueAsInt());
@@ -263,7 +263,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(lowMinValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMin(lowMinValueSpinner.getValueAsInt());
@@ -273,7 +273,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(lowMaxValueSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMax(lowMaxValueSpinner.getValueAsInt());
@@ -283,7 +283,7 @@ public class GraphSubPanel extends Panel {
         });
 
         onChange(lowCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(value, undoDescription);
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLow(lowValueSpinner.getValueAsInt());
@@ -336,7 +336,7 @@ public class GraphSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undo = new ScaledNumericValueUndoable(value, undoDescription);
+                    var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
                     UndoManager.add(undo);

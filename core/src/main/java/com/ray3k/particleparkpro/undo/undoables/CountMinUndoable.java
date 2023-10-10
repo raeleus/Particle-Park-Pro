@@ -1,33 +1,39 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.undo.Undoable;
-import com.ray3k.stripe.Spinner;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.*;
 
 @AllArgsConstructor
 public class CountMinUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private int newValue;
     private int oldValue;
 
     @Override
     public void undo() {
-        selectedEmitter.setMinParticleCount(oldValue);
+        selectedEmitter = emitter;
+
+        emitter.setMinParticleCount(oldValue);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        selectedEmitter.setMinParticleCount(newValue);
+        selectedEmitter = emitter;
+
+        emitter.setMinParticleCount(newValue);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        selectedEmitter.setMinParticleCount(newValue);
+        emitter.setMinParticleCount(newValue);
     }
 
     @Override
@@ -36,6 +42,7 @@ public class CountMinUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

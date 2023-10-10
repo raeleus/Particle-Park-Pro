@@ -112,7 +112,7 @@ public class TransparencySubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undo = new ScaledNumericValueUndoable(value, description);
+                    var undo = new ScaledNumericValueUndoable(selectedEmitter, value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
                     UndoManager.add(undo);

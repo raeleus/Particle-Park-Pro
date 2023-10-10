@@ -1,35 +1,43 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 @AllArgsConstructor
 public class SetPropertyUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private ShownProperty property;
     private boolean active;
     private String description;
 
     @Override
     public void undo() {
+        selectedEmitter = emitter;
+
         activateProperty(!active);
-        if (active) emitterPropertiesPanel.removeProperty(property);
-        else emitterPropertiesPanel.populateScrollTable(property);
+
+        refreshDisplay(!active);
     }
 
     @Override
     public void redo() {
+        selectedEmitter = emitter;
+
         activateProperty(active);
-        if (active) emitterPropertiesPanel.populateScrollTable(property);
-        else emitterPropertiesPanel.removeProperty(property);
+
+        refreshDisplay(active);
     }
 
     @Override
     public void start() {
         activateProperty(active);
+
         if (active) emitterPropertiesPanel.populateScrollTable(property);
         else emitterPropertiesPanel.removeProperty(property);
     }
@@ -69,5 +77,11 @@ public class SetPropertyUndoable implements Undoable {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    private void refreshDisplay(boolean active) {
+        effectEmittersPanel.populateEmitters();
+        if (active) emitterPropertiesPanel.populateScrollTable(property);
+        else emitterPropertiesPanel.removeProperty(property);
     }
 }

@@ -74,7 +74,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
         addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeCheckBox, () -> UndoManager.add(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
+        onChange(relativeCheckBox, () -> UndoManager.add(new DualScaledNumericValueRelativeUndoable(selectedEmitter, xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
         splitToggleWidget.table1.row();
@@ -222,7 +222,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
         addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeXcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
+        onChange(relativeXcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -353,7 +353,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
         addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeYcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
+        onChange(relativeYcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -530,6 +530,7 @@ public class SizeSubPanel extends Panel {
 
         var unsplitUndoDataTemplate = DualScaledNumericValueUndoableData
             .builder()
+            .emitter(selectedEmitter)
             .xValue(xValue)
             .yValue(yValue)
             .description("change Scale")
@@ -665,7 +666,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highXspinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHigh(highXspinner.getValueAsInt());
@@ -676,7 +677,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highXminSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHighMin(highXminSpinner.getValueAsInt());
@@ -686,7 +687,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highXmaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHighMax(highXmaxSpinner.getValueAsInt());
@@ -696,7 +697,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highXcollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHigh(highXspinner.getValueAsInt());
@@ -707,7 +708,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowXspinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLow(lowXspinner.getValueAsInt());
@@ -718,7 +719,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowXminSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLowMin(lowXminSpinner.getValueAsInt());
@@ -728,7 +729,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowXmaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLowMax(lowXmaxSpinner.getValueAsInt());
@@ -738,7 +739,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowXcollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(xValue, "change X Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLow(lowXspinner.getValueAsInt());
@@ -762,7 +763,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highYspinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHigh(highYspinner.getValueAsInt());
@@ -773,7 +774,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highYminSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHighMin(highYminSpinner.getValueAsInt());
@@ -783,7 +784,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highYmaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHighMax(highYmaxSpinner.getValueAsInt());
@@ -793,7 +794,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(highYcollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHigh(highYspinner.getValueAsInt());
@@ -804,7 +805,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowYspinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLow(lowYspinner.getValueAsInt());
@@ -815,7 +816,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowYminSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLowMin(lowYminSpinner.getValueAsInt());
@@ -825,7 +826,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowYmaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLowMax(lowYmaxSpinner.getValueAsInt());
@@ -835,7 +836,7 @@ public class SizeSubPanel extends Panel {
         });
 
         onChange(lowYcollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(yValue, "change Y Scale");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLow(lowYspinner.getValueAsInt());
@@ -894,7 +895,7 @@ public class SizeSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undo = new ScaledNumericValueUndoable(value, description);
+                    var undo = new ScaledNumericValueUndoable(selectedEmitter, value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
                     UndoManager.add(undo);

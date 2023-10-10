@@ -34,7 +34,7 @@ public class RangeSubPanel extends Panel {
             var button = new Button(skin, "close");
             tabTable.add(button);
             addHandListener(button);
-            onChange(button, () -> UndoManager.add(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
+            onChange(button, () -> UndoManager.add(new SetPropertyUndoable(selectedEmitter, closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
         //Value
@@ -88,7 +88,7 @@ public class RangeSubPanel extends Panel {
         onChange(button, highToggleWidget::swap);
 
         onChange(valueSpinner, () -> {
-            var undo = new RangedNumericValueUndoable(value, undoDescription);
+            var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLow(valueSpinner.getValueAsInt());
@@ -99,7 +99,7 @@ public class RangeSubPanel extends Panel {
         });
 
         onChange(valueMinSpinner, () -> {
-            var undo = new RangedNumericValueUndoable(value, undoDescription);
+            var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMin(valueMinSpinner.getValueAsInt());
@@ -109,7 +109,7 @@ public class RangeSubPanel extends Panel {
         });
 
         onChange(valueMaxSpinner, () -> {
-            var undo = new RangedNumericValueUndoable(value, undoDescription);
+            var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMax(valueMaxSpinner.getValueAsInt());
@@ -120,7 +120,7 @@ public class RangeSubPanel extends Panel {
 
         onChange(button, () -> {
             if (highToggleWidget.showingTable1 && !MathUtils.isEqual(value.getLowMin(), value.getLowMax())) {
-                var undo = new RangedNumericValueUndoable(value, undoDescription);
+                var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
                 undo.oldValue.set(value);
                 undo.newValue.set(value);
                 undo.newValue.setLow(valueSpinner.getValueAsInt());

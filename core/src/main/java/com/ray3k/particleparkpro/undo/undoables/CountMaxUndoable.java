@@ -1,33 +1,38 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.undo.Undoable;
-import com.ray3k.stripe.Spinner;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 @AllArgsConstructor
 public class CountMaxUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private int newValue;
     private int oldValue;
 
     @Override
     public void undo() {
-        selectedEmitter.setMaxParticleCount(oldValue);
+        selectedEmitter = emitter;
+
+        emitter.setMaxParticleCount(oldValue);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        selectedEmitter.setMaxParticleCount(newValue);
+        selectedEmitter = emitter;
+        emitter.setMaxParticleCount(newValue);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        selectedEmitter.setMaxParticleCount(newValue);
+        emitter.setMaxParticleCount(newValue);
     }
 
     @Override
@@ -36,6 +41,7 @@ public class CountMaxUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

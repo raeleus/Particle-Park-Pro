@@ -57,7 +57,7 @@ public class ImagesSubPanel extends Panel {
             if (selectedFileHandles == null) return;
             if (selectedFileHandles.size > 0) setDefaultImagePath(selectedFileHandles.first().parent());
 
-            UndoManager.add(new ImagesAddUndoable(selectedFileHandles, "Add Images"));
+            UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Images"));
             if (selectedFileHandles.size > 0) updateList();
         });
 
@@ -70,7 +70,7 @@ public class ImagesSubPanel extends Panel {
         onChange(textButton, () -> {
             var selectedFileHandles = new Array<FileHandle>();
             selectedFileHandles.add(Gdx.files.internal("particle.png"));
-            UndoManager.add(new ImagesAddUndoable(selectedFileHandles, "Add Default Image"));
+            UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Default Image"));
             updateList();
         });
 
@@ -83,7 +83,7 @@ public class ImagesSubPanel extends Panel {
         onChange(textButton, () -> {
             var selectedFileHandles = new Array<FileHandle>();
             selectedFileHandles.add(Gdx.files.internal("pre_particle.png"));
-            UndoManager.add(new ImagesAddUndoable(selectedFileHandles, "Add Default Image"));
+            UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Default Image"));
             updateList();
         });
 
@@ -106,7 +106,7 @@ public class ImagesSubPanel extends Panel {
         buttonGroup.add(checkBoxSingle);
         addHandListener(checkBoxSingle);
         addTooltip(checkBoxSingle, "Only the selected image will be drawn", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(checkBoxSingle, () -> UndoManager.add(new ImagesSpriteModeUndoable(SpriteMode.single, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
+        onChange(checkBoxSingle, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.single, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         table.row();
         var checkBoxRandom = new CheckBox("Random", skin, "radio");
@@ -116,7 +116,7 @@ public class ImagesSubPanel extends Panel {
         buttonGroup.add(checkBoxRandom);
         addHandListener(checkBoxRandom);
         addTooltip(checkBoxRandom, "A randomly selected image will be chosen for each particle", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(checkBoxRandom, () -> UndoManager.add(new ImagesSpriteModeUndoable(SpriteMode.random, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
+        onChange(checkBoxRandom, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.random, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         table.row();
         var checkBoxAnimated = new CheckBox("Animated", skin, "radio");
@@ -126,7 +126,7 @@ public class ImagesSubPanel extends Panel {
         buttonGroup.add(checkBoxAnimated);
         addHandListener(checkBoxAnimated);
         addTooltip(checkBoxAnimated, "All images will be displayed in sequence over the life of each particle", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(checkBoxAnimated, () -> UndoManager.add(new ImagesSpriteModeUndoable(SpriteMode.animated, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
+        onChange(checkBoxAnimated, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.animated, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         //draggable text list
         list = new DraggableTextList(true, draggableTextListNoBgStyle);
@@ -140,12 +140,12 @@ public class ImagesSubPanel extends Panel {
                 list.setAllowRemoval(list.getTexts().size > 1);
                 removeButton.setDisabled(!list.isAllowRemoval());
 
-                UndoManager.add(new ImagesRemoveUndoable(path, fileHandles.get(path), sprites.get(path), "Remove Image"));
+                UndoManager.add(new ImagesRemoveUndoable(selectedEmitter, path, fileHandles.get(path), sprites.get(path), "Remove Image"));
             }
 
             @Override
             public void reordered(String text, int indexBefore, int indexAfter) {
-                UndoManager.add(new ImagesMoveUndoable(indexBefore, indexAfter, "Move Image"));
+                UndoManager.add(new ImagesMoveUndoable(selectedEmitter, indexBefore, indexAfter, "Move Image"));
             }
 
             @Override
@@ -172,7 +172,7 @@ public class ImagesSubPanel extends Panel {
             var paths = selectedEmitter.getImagePaths();
             var index = list.getSelectedIndex();
             if (index > 0) {
-                UndoManager.add(new ImagesMoveUndoable(index, --index, "Move Image"));
+                UndoManager.add(new ImagesMoveUndoable(selectedEmitter, index, --index, "Move Image"));
                 list.clearChildren();
                 list.addAllTexts(paths);
                 list.setSelected(index);
@@ -188,7 +188,7 @@ public class ImagesSubPanel extends Panel {
             var paths = selectedEmitter.getImagePaths();
             var index = list.getSelectedIndex();
             if (index > 0) {
-                UndoManager.add(new ImagesMoveUndoable(index, ++index, "Move Image"));
+                UndoManager.add(new ImagesMoveUndoable(selectedEmitter, index, ++index, "Move Image"));
                 list.clearChildren();
                 list.addAllTexts(paths);
                 list.setSelected(index);
@@ -206,7 +206,7 @@ public class ImagesSubPanel extends Panel {
             var index = list.getSelectedIndex();
 
             var path = list.getSelected().toString();
-            UndoManager.add(new ImagesRemoveUndoable(path, fileHandles.get(path), sprites.get(path), "Remove Image"));
+            UndoManager.add(new ImagesRemoveUndoable(selectedEmitter, path, fileHandles.get(path), sprites.get(path), "Remove Image"));
 
             list.clearChildren();
             list.addAllTexts(paths);

@@ -117,7 +117,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(checkBox);
         addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBox, () -> {
-            UndoManager.add(new SpawnEdgesUndoable(value, checkBox.isChecked(), "change Spawn Edges"));
+            UndoManager.add(new SpawnEdgesUndoable(selectedEmitter, value, checkBox.isChecked(), "change Spawn Edges"));
         });
 
         //Side
@@ -151,7 +151,7 @@ public class SpawnSubPanel extends Panel {
                     break;
             }
 
-            UndoManager.add(new SpawnSideUndoable(value, side, value.getSide(), "change Spawn Side"));
+            UndoManager.add(new SpawnSideUndoable(selectedEmitter, value, side, value.getSide(), "change Spawn Side"));
         });
 
         //Shape specific widgets
@@ -163,7 +163,7 @@ public class SpawnSubPanel extends Panel {
         onChange(shapeSelectBox, () -> {
             var spawnTypeOld = spawnType;
             spawnType = shapeSelectBox.getSelected();
-            UndoManager.add(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, "change Spawn Type"));
+            UndoManager.add(new SpawnTypeUndoable(selectedEmitter, value, spawnType, spawnTypeOld, "change Spawn Type"));
 
             updateShownTable();
         });
@@ -430,7 +430,7 @@ public class SpawnSubPanel extends Panel {
         updateShownTable();
 
         onChange(widthHighSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
@@ -441,7 +441,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthHighMinSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHighMin(widthHighMinSpinner.getValueAsInt());
@@ -451,7 +451,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthHighMaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHighMax(widthHighMaxSpinner.getValueAsInt());
@@ -461,7 +461,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthHighCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
@@ -472,7 +472,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthLowSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLow(widthLowSpinner.getValueAsInt());
@@ -483,7 +483,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthLowMinSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLowMin(widthLowMinSpinner.getValueAsInt());
@@ -493,7 +493,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthLowMaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLowMax(widthLowMaxSpinner.getValueAsInt());
@@ -503,7 +503,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(widthLowCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(valueWidth, "change Spawn Width");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLow(widthLowSpinner.getValueAsInt());
@@ -527,7 +527,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightHighSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
@@ -538,7 +538,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightHighMinSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHighMin(heightHighMinSpinner.getValueAsInt());
@@ -548,7 +548,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightHighMaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHighMax(heightHighMaxSpinner.getValueAsInt());
@@ -558,7 +558,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightHighCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
@@ -569,7 +569,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightLowSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLow(heightLowSpinner.getValueAsInt());
@@ -580,7 +580,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightLowMinSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLowMin(heightLowMinSpinner.getValueAsInt());
@@ -590,7 +590,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightLowMaxSpinner, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLowMax(heightLowMaxSpinner.getValueAsInt());
@@ -600,7 +600,7 @@ public class SpawnSubPanel extends Panel {
         });
 
         onChange(heightLowCollapseButton, () -> {
-            var undo = new ScaledNumericValueUndoable(valueHeight, "change Spawn Height");
+            var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLow(heightLowSpinner.getValueAsInt());
@@ -665,7 +665,7 @@ public class SpawnSubPanel extends Panel {
 
                 @Override
                 protected void end() {
-                    var undo = new ScaledNumericValueUndoable(value, description);
+                    var undo = new ScaledNumericValueUndoable(selectedEmitter, value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
                     UndoManager.add(undo);

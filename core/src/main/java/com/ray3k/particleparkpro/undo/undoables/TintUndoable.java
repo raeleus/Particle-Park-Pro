@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.GradientColorValue;
 import com.ray3k.particleparkpro.undo.Undoable;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
@@ -7,10 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 @Data
 @AllArgsConstructor
 public class TintUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private GradientColorValue value;
     private final GradientColorValue oldValue = new GradientColorValue();
     private final GradientColorValue newValue = new GradientColorValue();
@@ -19,6 +23,8 @@ public class TintUndoable implements Undoable {
 
     @Override
     public void undo() {
+        selectedEmitter = emitter;
+
         value.setTimeline(oldValue.getTimeline());
         value.setColors(oldValue.getColors());
         refreshDisplay();
@@ -26,6 +32,8 @@ public class TintUndoable implements Undoable {
 
     @Override
     public void redo() {
+        selectedEmitter = emitter;
+
         value.setTimeline(newValue.getTimeline());
         value.setColors(newValue.getColors());
         refreshDisplay();
@@ -43,6 +51,7 @@ public class TintUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro.undo.undoables;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -9,10 +10,11 @@ import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 @AllArgsConstructor
 public class ImagesAddUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private Array<FileHandle> selectedFileHandles;
     private String description;
     private final Array<String> newImagePaths = new Array<>();
@@ -22,21 +24,25 @@ public class ImagesAddUndoable implements Undoable {
 
     @Override
     public void undo() {
-        selectedEmitter.getImagePaths().removeRange(selectedEmitter.getImagePaths().size - newImagePaths.size, selectedEmitter.getImagePaths().size - 1);
+        selectedEmitter = emitter;
+
+        emitter.getImagePaths().removeRange(emitter.getImagePaths().size - newImagePaths.size, emitter.getImagePaths().size - 1);
         removeUnusedImageFiles();
         for (var newSprite : newSpriteMap) {
             sprites.remove(newSprite.key);
         }
-        selectedEmitter.getSprites().removeRange(selectedEmitter.getSprites().size - newSprites.size, selectedEmitter.getSprites().size - 1);
+        emitter.getSprites().removeRange(emitter.getSprites().size - newSprites.size, emitter.getSprites().size - 1);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        selectedEmitter.getImagePaths().addAll(newImagePaths);
+        selectedEmitter = emitter;
+
+        emitter.getImagePaths().addAll(newImagePaths);
         fileHandles.putAll(newFileHandles);
         sprites.putAll(newSpriteMap);
-        selectedEmitter.getSprites().addAll(newSprites);
+        emitter.getSprites().addAll(newSprites);
         refreshDisplay();
     }
 
@@ -51,10 +57,10 @@ public class ImagesAddUndoable implements Undoable {
             newSprites.add(sprite);
         }
 
-        selectedEmitter.getImagePaths().addAll(newImagePaths);
+        emitter.getImagePaths().addAll(newImagePaths);
         fileHandles.putAll(newFileHandles);
         sprites.putAll(newSpriteMap);
-        selectedEmitter.getSprites().addAll(newSprites);
+        emitter.getSprites().addAll(newSprites);
     }
 
     @Override
@@ -63,6 +69,7 @@ public class ImagesAddUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

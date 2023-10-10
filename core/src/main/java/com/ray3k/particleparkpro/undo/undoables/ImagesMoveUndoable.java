@@ -1,25 +1,25 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 @AllArgsConstructor
 public class ImagesMoveUndoable implements Undoable {
+    private ParticleEmitter emitter;
     private int oldIndex;
     private int newIndex;
     private String description;
 
     @Override
     public void undo() {
-        var paths = selectedEmitter.getImagePaths();
-        var sprites = selectedEmitter.getSprites();
+        selectedEmitter = emitter;
+
+        var paths = emitter.getImagePaths();
+        var sprites = emitter.getSprites();
         var path = paths.get(newIndex);
         var sprite = sprites.get(newIndex);
         paths.removeIndex(newIndex);
@@ -31,8 +31,10 @@ public class ImagesMoveUndoable implements Undoable {
 
     @Override
     public void redo() {
-        var paths = selectedEmitter.getImagePaths();
-        var sprites = selectedEmitter.getSprites();
+        selectedEmitter = emitter;
+
+        var paths = emitter.getImagePaths();
+        var sprites = emitter.getSprites();
         var path = paths.get(oldIndex);
         var sprite = sprites.get(oldIndex);
         paths.removeIndex(oldIndex);
@@ -44,8 +46,8 @@ public class ImagesMoveUndoable implements Undoable {
 
     @Override
     public void start() {
-        var paths = selectedEmitter.getImagePaths();
-        var sprites = selectedEmitter.getSprites();
+        var paths = emitter.getImagePaths();
+        var sprites = emitter.getSprites();
         var path = paths.get(oldIndex);
         var sprite = sprites.get(oldIndex);
         paths.removeIndex(oldIndex);
@@ -60,6 +62,7 @@ public class ImagesMoveUndoable implements Undoable {
     }
 
     private void refreshDisplay() {
+        effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

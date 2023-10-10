@@ -55,7 +55,7 @@ public class TintSubPanel extends Panel {
             public void added(Color color) {
                 setTimeLine();
 
-                var undo = new TintUndoable(value, colorGraph, "add Color");
+                var undo = new TintUndoable(selectedEmitter, value, colorGraph, "add Color");
                 undo.getOldValue().setTimeline(value.getTimeline());
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
@@ -67,7 +67,7 @@ public class TintSubPanel extends Panel {
             public void removed(Color color) {
                 setTimeLine();
 
-                var undo = new TintUndoable(value, colorGraph, "remove Color");
+                var undo = new TintUndoable(selectedEmitter, value, colorGraph, "remove Color");
                 undo.getOldValue().setTimeline(value.getTimeline());
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
@@ -92,7 +92,7 @@ public class TintSubPanel extends Panel {
                         protected void end() {
                             setTimeLine();
 
-                            var undo = new TintUndoable(value, colorGraph, "move Color");
+                            var undo = new TintUndoable(selectedEmitter, value, colorGraph, "move Color");
                             undo.getOldValue().setTimeline(oldTimeline);
                             undo.getOldValue().setColors(oldColors);
                             undo.getNewValue().setTimeline(newTimeline.toArray());
@@ -114,7 +114,7 @@ public class TintSubPanel extends Panel {
             public void changed(Color color) {
                 setTimeLine();
 
-                var undo = new TintUndoable(value, colorGraph, "change Color");
+                var undo = new TintUndoable(selectedEmitter, value, colorGraph, "change Color");
                 undo.getOldValue().setTimeline(value.getTimeline());
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
