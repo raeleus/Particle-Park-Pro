@@ -60,7 +60,7 @@ public class TintSubPanel extends Panel {
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
                 undo.getNewValue().setColors(newColors.toArray());
-                UndoManager.addUndoable(undo);
+                UndoManager.add(undo);
             }
 
             @Override
@@ -72,7 +72,7 @@ public class TintSubPanel extends Panel {
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
                 undo.getNewValue().setColors(newColors.toArray());
-                UndoManager.addUndoable(undo);
+                UndoManager.add(undo);
             }
 
             @Override
@@ -97,7 +97,7 @@ public class TintSubPanel extends Panel {
                             undo.getOldValue().setColors(oldColors);
                             undo.getNewValue().setTimeline(newTimeline.toArray());
                             undo.getNewValue().setColors(newColors.toArray());
-                            UndoManager.addUndoable(undo);
+                            UndoManager.add(undo);
 
                             graphUndoAction = null;
                         }
@@ -119,7 +119,7 @@ public class TintSubPanel extends Panel {
                 undo.getOldValue().setColors(value.getColors());
                 undo.getNewValue().setTimeline(newTimeline.toArray());
                 undo.getNewValue().setColors(newColors.toArray());
-                UndoManager.addUndoable(undo);
+                UndoManager.add(undo);
             }
 
             @Override

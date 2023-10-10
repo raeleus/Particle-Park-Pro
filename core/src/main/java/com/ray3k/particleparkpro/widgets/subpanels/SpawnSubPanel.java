@@ -117,7 +117,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(checkBox);
         addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBox, () -> {
-            UndoManager.addUndoable(new SpawnEdgesUndoable(value, checkBox.isChecked(), "change Spawn Edges"));
+            UndoManager.add(new SpawnEdgesUndoable(value, checkBox.isChecked(), "change Spawn Edges"));
         });
 
         //Side
@@ -151,7 +151,7 @@ public class SpawnSubPanel extends Panel {
                     break;
             }
 
-            UndoManager.addUndoable(new SpawnSideUndoable(value, side, value.getSide(), "change Spawn Side"));
+            UndoManager.add(new SpawnSideUndoable(value, side, value.getSide(), "change Spawn Side"));
         });
 
         //Shape specific widgets
@@ -163,7 +163,7 @@ public class SpawnSubPanel extends Panel {
         onChange(shapeSelectBox, () -> {
             var spawnTypeOld = spawnType;
             spawnType = shapeSelectBox.getSelected();
-            UndoManager.addUndoable(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, "change Spawn Type"));
+            UndoManager.add(new SpawnTypeUndoable(value, spawnType, spawnTypeOld, "change Spawn Type"));
 
             updateShownTable();
         });
@@ -434,7 +434,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
@@ -445,7 +445,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHighMin(widthHighMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthHighSpinner.setValue(widthHighMinSpinner.getValueAsInt());
         });
@@ -455,7 +455,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHighMax(widthHighMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthHighSpinner.setValue(widthHighMaxSpinner.getValueAsInt());
         });
@@ -465,7 +465,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setHigh(widthHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValueAsInt());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValueAsInt());
@@ -476,7 +476,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLow(widthLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
@@ -487,7 +487,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLowMin(widthLowMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthLowSpinner.setValue(widthLowMinSpinner.getValueAsInt());
         });
@@ -497,7 +497,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLowMax(widthLowMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthLowSpinner.setValue(widthLowMaxSpinner.getValueAsInt());
         });
@@ -507,7 +507,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
             undo.newValue.setLow(widthLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValueAsInt());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValueAsInt());
@@ -531,7 +531,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
@@ -542,7 +542,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHighMin(heightHighMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightHighSpinner.setValue(heightHighMinSpinner.getValueAsInt());
         });
@@ -552,7 +552,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHighMax(heightHighMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightHighSpinner.setValue(heightHighMaxSpinner.getValueAsInt());
         });
@@ -562,7 +562,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setHigh(heightHighSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValueAsInt());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValueAsInt());
@@ -573,7 +573,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLow(heightLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
@@ -584,7 +584,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLowMin(heightLowMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightLowSpinner.setValue(heightLowMinSpinner.getValueAsInt());
         });
@@ -594,7 +594,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLowMax(heightLowMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightLowSpinner.setValue(heightLowMaxSpinner.getValueAsInt());
         });
@@ -604,7 +604,7 @@ public class SpawnSubPanel extends Panel {
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
             undo.newValue.setLow(heightLowSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValueAsInt());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValueAsInt());
@@ -668,7 +668,7 @@ public class SpawnSubPanel extends Panel {
                     var undo = new ScaledNumericValueUndoable(value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
-                    UndoManager.addUndoable(undo);
+                    UndoManager.add(undo);
 
                     graphUndoAction = null;
                 }

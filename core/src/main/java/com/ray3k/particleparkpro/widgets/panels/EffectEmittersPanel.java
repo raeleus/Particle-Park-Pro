@@ -1,9 +1,6 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
-import com.badlogic.gdx.Files.FileType;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -71,7 +68,7 @@ public class EffectEmittersPanel extends Panel {
             public void removed(Actor actor, int index) {
                 if (particleEffect.getEmitters().size <= 1) return;
 
-                UndoManager.addUndoable(new DeleteEmitterUndoable(activeEmitters.orderedKeys().get(index), index, "Delete Emitter"));
+                UndoManager.add(new DeleteEmitterUndoable(activeEmitters.orderedKeys().get(index), index, "Delete Emitter"));
 
                 populateEmitters();
                 updateDeleteButton();
@@ -83,7 +80,7 @@ public class EffectEmittersPanel extends Panel {
                 if (particleEffect.getEmitters().size <= 1) return;
 
                 var emitter = activeEmitters.orderedKeys().get(indexBefore);
-                UndoManager.addUndoable(new MoveEmitterUndoable(emitter, indexBefore, indexAfter, "Move Emitter"));
+                UndoManager.add(new MoveEmitterUndoable(emitter, indexBefore, indexAfter, "Move Emitter"));
 
                 selectedEmitter = emitter;
                 populateEmitters();
@@ -113,7 +110,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            UndoManager.addUndoable(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
+            UndoManager.add(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
 
             populateEmitters();
             updateDeleteButton();
@@ -126,7 +123,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            UndoManager.addUndoable(new NewEmitterUndoable(new ParticleEmitter(selectedEmitter), "Duplicate Emitter"));
+            UndoManager.add(new NewEmitterUndoable(new ParticleEmitter(selectedEmitter), "Duplicate Emitter"));
 
             populateEmitters();
             updateDeleteButton();
@@ -140,7 +137,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(deleteButton);
         addHandListener(deleteButton);
         onChange(deleteButton, () -> {
-            UndoManager.addUndoable(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
+            UndoManager.add(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
 
             populateEmitters();
             updateDeleteButton();
@@ -202,6 +199,8 @@ public class EffectEmittersPanel extends Panel {
                 populateEmitters();
                 updateDeleteButton();
                 emitterPropertiesPanel.populateScrollTable(null);
+
+                UndoManager.clear();
             }
         });
 
@@ -225,7 +224,7 @@ public class EffectEmittersPanel extends Panel {
 
                 mergeParticle(fileHandle);
 
-                UndoManager.addUndoable(MergeEmitterUndoable
+                UndoManager.add(MergeEmitterUndoable
                     .builder()
                     .oldEmitters(oldEmitters)
                     .oldActiveEmitters(oldActiveEmitters)
@@ -253,7 +252,7 @@ public class EffectEmittersPanel extends Panel {
         onChange(textButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
             if (oldIndex <= 0) return;
-            UndoManager.addUndoable(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex - 1, "Move Up Emitter"));
+            UndoManager.add(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex - 1, "Move Up Emitter"));
             populateEmitters();
         });
 
@@ -265,7 +264,7 @@ public class EffectEmittersPanel extends Panel {
         onChange(textButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
             if (oldIndex >= activeEmitters.orderedKeys().size - 1) return;
-            UndoManager.addUndoable(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex + 1, "Move Down Emitter"));
+            UndoManager.add(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex + 1, "Move Down Emitter"));
             populateEmitters();
         });
     }
@@ -335,7 +334,7 @@ public class EffectEmittersPanel extends Panel {
             addIbeamListener(editableLabel.label);
             onChange(editableLabel, () -> {
                 addDelayedUndoAction(() -> {
-                    UndoManager.addUndoable(new RenameEmitterUndoable(emitter, emitter.getName(), editableLabel.getText(), "Rename Emitter"));
+                    UndoManager.add(new RenameEmitterUndoable(emitter, emitter.getName(), editableLabel.getText(), "Rename Emitter"));
                 });
             });
 

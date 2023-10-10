@@ -34,7 +34,7 @@ public class OptionsSubPanel extends Panel {
             Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(additiveCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ADDITIVE, additiveCheckBox.isChecked(), "change Additive option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
 
         //Attached
@@ -46,7 +46,7 @@ public class OptionsSubPanel extends Panel {
         addTooltip(attachedCheckBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(attachedCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ATTACHED, attachedCheckBox.isChecked(), "change Attached option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
 
         //Continuous
@@ -58,7 +58,7 @@ public class OptionsSubPanel extends Panel {
         addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(continuousCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.CONTINUOUS, continuousCheckBox.isChecked(), "change Continuous option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
 
         //Aligned
@@ -70,7 +70,7 @@ public class OptionsSubPanel extends Panel {
         addTooltip(alignedCheckBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(alignedCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ALIGNED, alignedCheckBox.isChecked(), "change Aligned option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
 
         //Behind
@@ -82,7 +82,7 @@ public class OptionsSubPanel extends Panel {
         addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(behindCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.BEHIND, behindCheckBox.isChecked(), "change Behind option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
 
         //Premultiplied alpha
@@ -94,7 +94,7 @@ public class OptionsSubPanel extends Panel {
         addTooltip(premultipliedAlphaCheckBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(premultipliedAlphaCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.PMA, premultipliedAlphaCheckBox.isChecked(), "change PremultipliedAlpha option");
-            UndoManager.addUndoable(undoable);
+            UndoManager.add(undoable);
         });
     }
 }

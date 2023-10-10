@@ -74,7 +74,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
         addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeCheckBox, () -> UndoManager.addUndoable(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
+        onChange(relativeCheckBox, () -> UndoManager.add(new DualScaledNumericValueRelativeUndoable(xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
         splitToggleWidget.table1.row();
@@ -222,7 +222,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
         addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeXcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
+        onChange(relativeXcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -353,7 +353,7 @@ public class SizeSubPanel extends Panel {
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
         addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(relativeYcheckBox, () -> UndoManager.addUndoable(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
+        onChange(relativeYcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High
         splitToggleWidget.table2.row();
@@ -544,7 +544,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setHigh(highSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             highMinSpinner.setValue(highSpinner.getValueAsInt());
             highMaxSpinner.setValue(highSpinner.getValueAsInt());
@@ -559,7 +559,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setHighMin(highMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             highSpinner.setValue(highMinSpinner.getValueAsInt());
         });
@@ -573,7 +573,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setHighMax(highMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             highSpinner.setValue(highMaxSpinner.getValueAsInt());
         });
@@ -587,7 +587,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setHigh(highSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             highMinSpinner.setValue(highSpinner.getValueAsInt());
             highMaxSpinner.setValue(highSpinner.getValueAsInt());
@@ -602,7 +602,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setLow(lowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             lowMinSpinner.setValue(lowSpinner.getValueAsInt());
             lowMaxSpinner.setValue(lowSpinner.getValueAsInt());
@@ -617,7 +617,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setLowMin(lowMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             lowSpinner.setValue(lowMinSpinner.getValueAsInt());
         });
@@ -631,7 +631,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setLowMax(lowMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             lowSpinner.setValue(lowMaxSpinner.getValueAsInt());
         });
@@ -645,7 +645,7 @@ public class SizeSubPanel extends Panel {
             undoData.oldYvalue.set(yValue);
             undoData.newYvalue.set(yValue);
             undoData.newYvalue.setLow(lowSpinner.getValueAsInt());
-            UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+            UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
             lowMinSpinner.setValue(lowSpinner.getValueAsInt());
             lowMaxSpinner.setValue(lowSpinner.getValueAsInt());
@@ -669,7 +669,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHigh(highXspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highXminSpinner.setValue(highXspinner.getValueAsInt());
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
@@ -680,7 +680,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHighMin(highXminSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highXspinner.setValue(highXminSpinner.getValueAsInt());
         });
@@ -690,7 +690,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHighMax(highXmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highSpinner.setValue(highXmaxSpinner.getValueAsInt());
         });
@@ -700,7 +700,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setHigh(highXspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
             highXmaxSpinner.setValue(highXspinner.getValueAsInt());
@@ -711,7 +711,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLow(lowXspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowXminSpinner.setValue(lowXspinner.getValueAsInt());
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
@@ -722,7 +722,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLowMin(lowXminSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowXspinner.setValue(lowXminSpinner.getValueAsInt());
         });
@@ -732,7 +732,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLowMax(lowXmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowSpinner.setValue(lowXmaxSpinner.getValueAsInt());
         });
@@ -742,7 +742,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
             undo.newValue.setLow(lowXspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
             lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
@@ -766,7 +766,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHigh(highYspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highYminSpinner.setValue(highYspinner.getValueAsInt());
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
@@ -777,7 +777,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHighMin(highYminSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highYspinner.setValue(highYminSpinner.getValueAsInt());
         });
@@ -787,7 +787,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHighMax(highYmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highSpinner.setValue(highYmaxSpinner.getValueAsInt());
         });
@@ -797,7 +797,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setHigh(highYspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
             highYmaxSpinner.setValue(highYspinner.getValueAsInt());
@@ -808,7 +808,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLow(lowYspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowYminSpinner.setValue(lowYspinner.getValueAsInt());
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
@@ -819,7 +819,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLowMin(lowYminSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowYspinner.setValue(lowYminSpinner.getValueAsInt());
         });
@@ -829,7 +829,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLowMax(lowYmaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowSpinner.setValue(lowYmaxSpinner.getValueAsInt());
         });
@@ -839,7 +839,7 @@ public class SizeSubPanel extends Panel {
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
             undo.newValue.setLow(lowYspinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
             lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
@@ -897,7 +897,7 @@ public class SizeSubPanel extends Panel {
                     var undo = new ScaledNumericValueUndoable(value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
-                    UndoManager.addUndoable(undo);
+                    UndoManager.add(undo);
 
                     graphUndoAction = null;
                 }
@@ -933,7 +933,7 @@ public class SizeSubPanel extends Panel {
                     undoData.newXvalue.set(xValue);
                     undoData.oldYvalue.set(oldYvalue);
                     undoData.newYvalue.set(yValue);
-                    UndoManager.addUndoable(new DualScaledNumericValueUndoable(undoData));
+                    UndoManager.add(new DualScaledNumericValueUndoable(undoData));
 
                     graphUndoAction = null;
                 }

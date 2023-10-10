@@ -7,7 +7,7 @@ public class UndoManager {
     public final static Array<Undoable> undoables = new Array<>();
     public static int undoIndex = -1;
 
-    public static void addUndoable(Undoable undoable) {
+    public static void add(Undoable undoable) {
         if (hasRedo()) undoables.removeRange(undoIndex + 1, undoables.size - 1);
 
         undoables.add(undoable);
@@ -39,6 +39,12 @@ public class UndoManager {
 
     public static void redo() {
         if (hasRedo()) undoables.get(++undoIndex).redo();
+        Core.refreshUndoButtons();
+    }
+
+    public static void clear() {
+        undoables.clear();
+        undoIndex = -1;
         Core.refreshUndoButtons();
     }
 }

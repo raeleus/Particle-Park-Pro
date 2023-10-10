@@ -34,7 +34,7 @@ public class RangeSubPanel extends Panel {
             var button = new Button(skin, "close");
             tabTable.add(button);
             addHandListener(button);
-            onChange(button, () -> UndoManager.addUndoable(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
+            onChange(button, () -> UndoManager.add(new SetPropertyUndoable(closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
         //Value
@@ -92,7 +92,7 @@ public class RangeSubPanel extends Panel {
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLow(valueSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             valueMinSpinner.setValue(valueSpinner.getValueAsInt());
             valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
@@ -103,7 +103,7 @@ public class RangeSubPanel extends Panel {
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMin(valueMinSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             valueSpinner.setValue(valueMinSpinner.getValueAsInt());
         });
@@ -113,7 +113,7 @@ public class RangeSubPanel extends Panel {
             undo.oldValue.set(value);
             undo.newValue.set(value);
             undo.newValue.setLowMax(valueMaxSpinner.getValueAsInt());
-            UndoManager.addUndoable(undo);
+            UndoManager.add(undo);
 
             valueSpinner.setValue(valueMaxSpinner.getValueAsInt());
         });
@@ -124,7 +124,7 @@ public class RangeSubPanel extends Panel {
                 undo.oldValue.set(value);
                 undo.newValue.set(value);
                 undo.newValue.setLow(valueSpinner.getValueAsInt());
-                UndoManager.addUndoable(undo);
+                UndoManager.add(undo);
 
                 valueMinSpinner.setValue(valueSpinner.getValueAsInt());
                 valueMaxSpinner.setValue(valueSpinner.getValueAsInt());

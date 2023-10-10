@@ -115,7 +115,7 @@ public class TransparencySubPanel extends Panel {
                     var undo = new ScaledNumericValueUndoable(value, description);
                     undo.oldValue.set(oldValue);
                     undo.newValue.set(value);
-                    UndoManager.addUndoable(undo);
+                    UndoManager.add(undo);
 
                     graphUndoAction = null;
                 }
