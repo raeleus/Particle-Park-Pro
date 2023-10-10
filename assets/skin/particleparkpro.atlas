@@ -594,21 +594,21 @@ divider
   index: -1
 draggable-list-divider
   rotate: false
-  xy: 184, 94
+  xy: 509, 789
   size: 11, 3
   orig: 11, 3
   offset: 0, 0
   index: -1
 draggable-list-divider-over
   rotate: false
-  xy: 184, 99
+  xy: 943, 970
   size: 11, 3
   orig: 11, 3
   offset: 0, 0
   index: -1
 draggable-list-drag-background
   rotate: false
-  xy: 516, 550
+  xy: 516, 538
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -671,16 +671,16 @@ graph-node-label-padding
   index: -1
 graph-node-over
   rotate: false
-  xy: 943, 967
-  size: 6, 6
-  orig: 6, 6
+  xy: 184, 92
+  size: 11, 10
+  orig: 11, 10
   offset: 0, 0
   index: -1
 graph-node-up
   rotate: false
-  xy: 951, 967
-  size: 6, 6
-  orig: 6, 6
+  xy: 516, 549
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 header
@@ -1105,7 +1105,7 @@ split-v
   index: -1
 subpanel-body-divider
   rotate: false
-  xy: 516, 524
+  xy: 1016, 924
   size: 1, 24
   orig: 1, 24
   offset: 0, 0
@@ -1126,7 +1126,7 @@ subpanel-body-right
   index: -1
 subpanel-bottom-divider
   rotate: false
-  xy: 940, 923
+  xy: 1022, 941
   size: 1, 7
   orig: 1, 7
   offset: 0, 0
@@ -1147,7 +1147,7 @@ subpanel-bottom-right
   index: -1
 subpanel-header-divider
   rotate: false
-  xy: 1016, 924
+  xy: 1019, 924
   size: 1, 24
   orig: 1, 24
   offset: 0, 0
@@ -1175,7 +1175,7 @@ subpanel2-body
   index: -1
 subpanel2-divider
   rotate: false
-  xy: 519, 528
+  xy: 1022, 919
   size: 1, 20
   orig: 1, 20
   offset: 0, 0
