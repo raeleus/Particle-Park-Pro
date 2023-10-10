@@ -283,6 +283,8 @@ public class DraggableList extends WidgetGroup {
 
             @Override
             public void drop(Source source, Payload payload, float x, float y, int pointer) {
+                if (actors.size <= 1) return;
+
                 Actor payloadActor = (Actor) payload.getObject();
                 int indexBefore = actors.indexOf(payloadActor, true);
 

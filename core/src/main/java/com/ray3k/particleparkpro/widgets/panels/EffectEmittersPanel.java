@@ -1,22 +1,25 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.StreamUtils;
+import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 
@@ -29,8 +32,12 @@ public class EffectEmittersPanel extends Panel {
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
     private TextButton deleteButton;
+    public static EffectEmittersPanel effectEmittersPanel;
+    private static final float DELAYED_UNDO_DELAY = .3f;
+    private Action delayedUndoAction;
 
     public EffectEmittersPanel() {
+        effectEmittersPanel = this;
         setTouchable(Touchable.enabled);
 
         var label = new Label("Effect Emitters", skin, "header");
@@ -55,20 +62,16 @@ public class EffectEmittersPanel extends Panel {
         label = new Label("Emitter", skin);
         headerTable.add(label).expandX().left();
 
+        //Draggable List
         table.row();
         emittersDraggableList = new DraggableList(true, draggableListStyle);
         emittersDraggableList.align(Align.top);
         emittersDraggableList.addListener(new DraggableListListener() {
             @Override
             public void removed(Actor actor, int index) {
-                if (particleEffect.getEmitters().size > 1) {
-                    var emitterIndex = particleEffect.getEmitters().indexOf(activeEmitters.orderedKeys().get(index),
-                        true);
-                    particleEffect.getEmitters().removeIndex(emitterIndex);
-                    activeEmitters.removeIndex(index);
-                    selectedEmitter = particleEffect.getEmitters().get(
-                        Math.min(index, activeEmitters.orderedKeys().size - 1));
-                }
+                if (particleEffect.getEmitters().size <= 1) return;
+
+                UndoManager.addUndoable(new DeleteEmitterUndoable(activeEmitters.orderedKeys().get(index), index, "Delete Emitter"));
 
                 populateEmitters();
                 updateDeleteButton();
@@ -77,14 +80,10 @@ public class EffectEmittersPanel extends Panel {
 
             @Override
             public void reordered(Actor actor, int indexBefore, int indexAfter) {
-                var emitter = activeEmitters.orderedKeys().get(indexBefore);
-                activeEmitters.orderedKeys().removeIndex(indexBefore);
-                activeEmitters.orderedKeys().insert(indexAfter, emitter);
+                if (particleEffect.getEmitters().size <= 1) return;
 
-                particleEffect.getEmitters().clear();
-                for (var entry : activeEmitters.entries()) {
-                    if (entry.value) particleEffect.getEmitters().add(entry.key);
-                }
+                var emitter = activeEmitters.orderedKeys().get(indexBefore);
+                UndoManager.addUndoable(new MoveEmitterUndoable(emitter, indexBefore, indexAfter, "Move Emitter"));
 
                 selectedEmitter = emitter;
                 populateEmitters();
@@ -108,48 +107,40 @@ public class EffectEmittersPanel extends Panel {
         table = new Table();
         bodyTable.add(table).padRight(5).growY();
 
+        //New
         table.defaults().space(5);
         var textButton = new TextButton("New", skin);
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var emitter = createNewEmitter();
-
-            particleEffect.getEmitters().add(emitter);
-            activeEmitters.put(emitter, true);
-            selectedEmitter = emitter;
+            UndoManager.addUndoable(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
 
             populateEmitters();
             updateDeleteButton();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
+        //Duplicate
         table.row();
         textButton = new TextButton("Duplicate", skin);
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var emitter = new ParticleEmitter(selectedEmitter);
-
-            particleEffect.getEmitters().add(emitter);
-            activeEmitters.put(emitter, activeEmitters.get(selectedEmitter));
-            selectedEmitter = emitter;
+            UndoManager.addUndoable(new NewEmitterUndoable(new ParticleEmitter(selectedEmitter), "Duplicate Emitter"));
 
             populateEmitters();
             updateDeleteButton();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
+        //Delete
         table.row();
         deleteButton = new TextButton("Delete", skin);
         updateDeleteButton();
         table.add(deleteButton);
         addHandListener(deleteButton);
         onChange(deleteButton, () -> {
-            var index = particleEffect.getEmitters().indexOf(selectedEmitter, true);
-            particleEffect.getEmitters().removeIndex(index);
-            activeEmitters.remove(selectedEmitter);
-            selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
+            UndoManager.addUndoable(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
 
             populateEmitters();
             updateDeleteButton();
@@ -161,6 +152,7 @@ public class EffectEmittersPanel extends Panel {
         image.setScaling(Scaling.stretchX);
         table.add(image).fillX();
 
+        //Save
         table.row();
         textButton = new TextButton("Save", skin);
         table.add(textButton);
@@ -193,6 +185,7 @@ public class EffectEmittersPanel extends Panel {
             }
         });
 
+        //Open
         table.row();
         textButton = new TextButton("Open", skin);
         table.add(textButton);
@@ -212,6 +205,7 @@ public class EffectEmittersPanel extends Panel {
             }
         });
 
+        //Merge
         table.row();
         textButton = new TextButton("Merge", skin);
         table.add(textButton);
@@ -222,60 +216,65 @@ public class EffectEmittersPanel extends Panel {
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
                 Settings.setDefaultSavePath(fileHandle.parent());
+
+                var oldEmitters = new Array<>(particleEffect.getEmitters());
+                var oldActiveEmitters = new ObjectMap<>(activeEmitters);
+                var oldFileHandles = new ObjectMap<>(fileHandles);
+                var oldSprites = new ObjectMap<>(sprites);
+                var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
+
                 mergeParticle(fileHandle);
 
+                UndoManager.addUndoable(MergeEmitterUndoable
+                    .builder()
+                    .oldEmitters(oldEmitters)
+                    .oldActiveEmitters(oldActiveEmitters)
+                    .oldFileHandles(oldFileHandles)
+                    .oldSprites(oldSprites)
+                    .oldSelectedIndex(oldSelectedIndex)
+                    .newEmitters(new Array<>(particleEffect.getEmitters()))
+                    .newActiveEmitters(new ObjectMap<>(activeEmitters))
+                    .newFileHandles(new ObjectMap<>(fileHandles))
+                    .newSprites(new ObjectMap<>(sprites))
+                    .newSelectedIndex(oldEmitters.indexOf(selectedEmitter, true))
+                    .description("Merge Particle Effect")
+                    .build());
                 populateEmitters();
                 updateDeleteButton();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
         });
 
+        //Up
         table.row();
         textButton = new TextButton("Up", skin);
         table.add(textButton).expandY().bottom();
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var index = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
-            if (index > 0) {
-                activeEmitters.orderedKeys().removeIndex(index);
-                index--;
-                activeEmitters.orderedKeys().insert(index, selectedEmitter);
-            }
-
-            particleEffect.getEmitters().clear();
-            for (var entry : activeEmitters.entries()) {
-                if (entry.value) particleEffect.getEmitters().add(entry.key);
-            }
-
+            var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
+            if (oldIndex <= 0) return;
+            UndoManager.addUndoable(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex - 1, "Move Up Emitter"));
             populateEmitters();
         });
 
+        //Down
         table.row();
         textButton = new TextButton("Down", skin);
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var index = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
-            if (index < activeEmitters.orderedKeys().size - 1) {
-                activeEmitters.orderedKeys().removeIndex(index);
-                index++;
-                activeEmitters.orderedKeys().insert(index, selectedEmitter);
-            }
-
-            particleEffect.getEmitters().clear();
-            for (var entry : activeEmitters.entries()) {
-                if (entry.value) particleEffect.getEmitters().add(entry.key);
-            }
-
+            var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
+            if (oldIndex >= activeEmitters.orderedKeys().size - 1) return;
+            UndoManager.addUndoable(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex + 1, "Move Down Emitter"));
             populateEmitters();
         });
     }
 
-    private void updateDeleteButton() {
+    public void updateDeleteButton() {
         deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
     }
 
-    private void populateEmitters() {
+    public void populateEmitters() {
         emittersDraggableList.clearChildren();
 
         var backgroundImages = new Array<Image>();
@@ -334,12 +333,24 @@ public class EffectEmittersPanel extends Panel {
             table.add(editableLabel).growX();
             addIbeamListener(editableLabel.textField);
             addIbeamListener(editableLabel.label);
-            onChange(editableLabel, () -> emitter.setName(editableLabel.getText()));
+            onChange(editableLabel, () -> {
+                addDelayedUndoAction(() -> {
+                    UndoManager.addUndoable(new RenameEmitterUndoable(emitter, emitter.getName(), editableLabel.getText(), "Rename Emitter"));
+                });
+            });
 
             var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
             var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
 
             emittersDraggableList.add(stack, removeLabel, dragLabel, removeLabel);
+        }
+    }
+
+    private void addDelayedUndoAction(Runnable runnable) {
+        if (delayedUndoAction != null) delayedUndoAction.restart();
+        else {
+            delayedUndoAction = Actions.sequence(Actions.delay(DELAYED_UNDO_DELAY), Actions.run(runnable), Actions.run(() -> delayedUndoAction = null));
+            stage.addAction(delayedUndoAction);
         }
     }
 }
