@@ -211,12 +211,25 @@ public class Core extends ApplicationAdapter {
             oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
         }
 
-        particleEffect.load(fileHandle, skin.getAtlas());
+        if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
+        else {
+            var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
+            particleEffect.load(fileHandle, textureAtlas);
+            var defaultImageHandle = Gdx.files.internal("particle.png");
+            fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+        }
 
         activeEmitters.clear();
         for (var emitter : particleEffect.getEmitters()) {
             emitter.setPosition(oldEmitters.first().getX(), oldEmitters.first().getY());
             activeEmitters.put(emitter, true);
+
+            for (int i = 0; i < emitter.getImagePaths().size; i++) {
+                var path = emitter.getImagePaths().get(i);
+                var imageHandle = fileHandle.parent().child(path);
+                fileHandles.put(path, imageHandle);
+                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
+            }
         }
 
         particleEffect.getEmitters().addAll(oldEmitters);
