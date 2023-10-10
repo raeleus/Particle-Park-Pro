@@ -9,56 +9,48 @@ import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
+@Builder(toBuilder = true)
 public class DualScaledNumericValueUndoable implements Undoable {
-    private DualScaledNumericValueUndoableData data;
-
-    public DualScaledNumericValueUndoable(DualScaledNumericValueUndoableData data) {
-        this.data = data;
-    }
+    private ParticleEmitter emitter;
+    public final ScaledNumericValue newXvalue = new ScaledNumericValue();
+    public final ScaledNumericValue oldXvalue = new ScaledNumericValue();
+    private ScaledNumericValue xValue;
+    public final ScaledNumericValue newYvalue = new ScaledNumericValue();
+    public final ScaledNumericValue oldYvalue = new ScaledNumericValue();
+    private ScaledNumericValue yValue;
+    private String description;
 
     @Override
     public void undo() {
-        selectedEmitter = data.emitter;
+        selectedEmitter = emitter;
 
-        data.xValue.set(data.oldXvalue);
-        data.yValue.set(data.oldYvalue);
+        xValue.set(oldXvalue);
+        yValue.set(oldYvalue);
         refreshDisplay();
     }
 
     @Override
     public void redo() {
-        selectedEmitter = data.emitter;
+        selectedEmitter = emitter;
 
-        data.xValue.set(data.newXvalue);
-        data.yValue.set(data.newYvalue);
+        xValue.set(newXvalue);
+        yValue.set(newYvalue);
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        data.xValue.set(data.newXvalue);
-        data.yValue.set(data.newYvalue);
+        xValue.set(newXvalue);
+        yValue.set(newYvalue);
     }
 
     @Override
     public String getDescription() {
-        return data.description;
+        return description;
     }
 
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
-    }
-
-    @Builder(toBuilder = true)
-    public static class DualScaledNumericValueUndoableData {
-        private ParticleEmitter emitter;
-        public final ScaledNumericValue newXvalue = new ScaledNumericValue();
-        public final ScaledNumericValue oldXvalue = new ScaledNumericValue();
-        private ScaledNumericValue xValue;
-        public final ScaledNumericValue newYvalue = new ScaledNumericValue();
-        public final ScaledNumericValue oldYvalue = new ScaledNumericValue();
-        private ScaledNumericValue yValue;
-        private String description;
     }
 }
