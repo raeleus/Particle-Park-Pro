@@ -16,7 +16,7 @@ import com.ray3k.particleparkpro.undo.undoables.SpawnSideUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SpawnTypeUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.ToggleGroup;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
@@ -25,8 +25,8 @@ import static com.ray3k.particleparkpro.widgets.subpanels.SpawnSubPanel.SpawnTyp
 
 public class SpawnSubPanel extends Panel {
     private SpawnType spawnType;
-    private ToggleWidget ellipseToggleWidget;
-    private ToggleWidget shapeToggleWidget;
+    private ToggleGroup ellipseToggleGroup;
+    private ToggleGroup shapeToggleGroup;
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
@@ -82,7 +82,7 @@ public class SpawnSubPanel extends Panel {
         var label = new Label("Spawn", skin, "header");
         tabTable.add(label).space(3);
 
-        var graphToggleWidget = new ToggleWidget();
+        var graphToggleWidget = new ToggleGroup();
         bodyTable.add(graphToggleWidget).grow();
 
         //Value
@@ -107,13 +107,13 @@ public class SpawnSubPanel extends Panel {
 
         //Edges
         graphToggleWidget.table1.row();
-        ellipseToggleWidget = new ToggleWidget();
-        graphToggleWidget.table1.add(ellipseToggleWidget);
+        ellipseToggleGroup = new ToggleGroup();
+        graphToggleWidget.table1.add(ellipseToggleGroup);
 
-        ellipseToggleWidget.table2.defaults().space(itemSpacing);
+        ellipseToggleGroup.table2.defaults().space(itemSpacing);
         var checkBox = new CheckBox("Edges", skin);
         checkBox.setChecked(value.isEdges());
-        ellipseToggleWidget.table2.add(checkBox).colspan(2).left();
+        ellipseToggleGroup.table2.add(checkBox).colspan(2).left();
         addHandListener(checkBox);
         addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBox, () -> {
@@ -121,9 +121,9 @@ public class SpawnSubPanel extends Panel {
         });
 
         //Side
-        ellipseToggleWidget.table2.row();
+        ellipseToggleGroup.table2.row();
         table = new Table();
-        ellipseToggleWidget.table2.add(table);
+        ellipseToggleGroup.table2.add(table);
 
         table.defaults().space(itemSpacing);
         label = new Label("Side:", skin);
@@ -157,8 +157,8 @@ public class SpawnSubPanel extends Panel {
         //Shape specific widgets
         graphToggleWidget.table1.row();
 
-        shapeToggleWidget = new ToggleWidget();
-        graphToggleWidget.table1.add(shapeToggleWidget);
+        shapeToggleGroup = new ToggleGroup();
+        graphToggleWidget.table1.add(shapeToggleGroup);
 
         onChange(shapeSelectBox, () -> {
             var spawnTypeOld = spawnType;
@@ -169,19 +169,19 @@ public class SpawnSubPanel extends Panel {
         });
 
         //Width
-        shapeToggleWidget.table2.defaults().space(itemSpacing);
+        shapeToggleGroup.table2.defaults().space(itemSpacing);
         label = new Label("Width", skin, "header");
-        shapeToggleWidget.table2.add(label).left().padTop(sectionPadding);
+        shapeToggleGroup.table2.add(label).left().padTop(sectionPadding);
 
         //High
-        shapeToggleWidget.table2.row();
+        shapeToggleGroup.table2.row();
         table = new Table();
-        shapeToggleWidget.table2.add(table).top();
+        shapeToggleGroup.table2.add(table).top();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
 
-        var widthHighToggleWidget = new ToggleWidget();
+        var widthHighToggleWidget = new ToggleGroup();
         table.add(widthHighToggleWidget);
 
         //High single
@@ -230,7 +230,7 @@ public class SpawnSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var widthLowToggleWidget = new ToggleWidget();
+        var widthLowToggleWidget = new ToggleGroup();
         table.add(widthLowToggleWidget);
 
         //Low single
@@ -278,10 +278,10 @@ public class SpawnSubPanel extends Panel {
         var graphWidth = new LineGraph("Duration", lineGraphStyle);
         graphWidth.setNodes(valueWidth.getTimeline(), valueWidth.getScaling());
         graphWidth.setNodeListener(handListener);
-        shapeToggleWidget.table2.add(graphWidth);
+        shapeToggleGroup.table2.add(graphWidth);
 
         var widthExpandGraphButton = new Button(skin, "plus");
-        shapeToggleWidget.table2.add(widthExpandGraphButton).bottom();
+        shapeToggleGroup.table2.add(widthExpandGraphButton).bottom();
         addHandListener(widthExpandGraphButton);
         addTooltip(widthExpandGraphButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
@@ -304,19 +304,19 @@ public class SpawnSubPanel extends Panel {
         onChange(collapseExpandedGraphButton, graphToggleWidget::swap);
 
         //Height
-        shapeToggleWidget.table2.row();
+        shapeToggleGroup.table2.row();
         label = new Label("Height", skin, "header");
-        shapeToggleWidget.table2.add(label).left().padTop(sectionPadding);
+        shapeToggleGroup.table2.add(label).left().padTop(sectionPadding);
 
         //High
-        shapeToggleWidget.table2.row();
+        shapeToggleGroup.table2.row();
         table = new Table();
-        shapeToggleWidget.table2.add(table).top();
+        shapeToggleGroup.table2.add(table).top();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
 
-        var heightHighToggleWidget = new ToggleWidget();
+        var heightHighToggleWidget = new ToggleGroup();
         table.add(heightHighToggleWidget);
 
         //High single
@@ -365,7 +365,7 @@ public class SpawnSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var heightLowToggleWidget = new ToggleWidget();
+        var heightLowToggleWidget = new ToggleGroup();
         table.add(heightLowToggleWidget);
 
         //Low single
@@ -414,10 +414,10 @@ public class SpawnSubPanel extends Panel {
         var graphHeight = new LineGraph("Life", lineGraphStyle);
         graphHeight.setNodes(valueHeight.getTimeline(), valueHeight.getScaling());
         graphHeight.setNodeListener(handListener);
-        shapeToggleWidget.table2.add(graphHeight);
+        shapeToggleGroup.table2.add(graphHeight);
 
         var heightExpandGraphButton = new Button(skin, "plus");
-        shapeToggleWidget.table2.add(heightExpandGraphButton).bottom();
+        shapeToggleGroup.table2.add(heightExpandGraphButton).bottom();
         addHandListener(heightExpandGraphButton);
         addTooltip(heightExpandGraphButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
@@ -642,11 +642,11 @@ public class SpawnSubPanel extends Panel {
     }
 
     private void updateShownTable() {
-        if (spawnType == ELLIPSE) ellipseToggleWidget.showTable2();
-        else ellipseToggleWidget.showTable1();
+        if (spawnType == ELLIPSE) ellipseToggleGroup.showTable2();
+        else ellipseToggleGroup.showTable1();
 
-        if (spawnType == POINT) shapeToggleWidget.showTable1();
-        else shapeToggleWidget.showTable2();
+        if (spawnType == POINT) shapeToggleGroup.showTable1();
+        else shapeToggleGroup.showTable2();
     }
 
     private void addGraphUpdateAction(ScaledNumericValue value, float[] newTimeline, float[] newScaling, String description) {

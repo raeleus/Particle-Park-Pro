@@ -11,7 +11,7 @@ import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.ToggleGroup;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -31,7 +31,7 @@ public class TransparencySubPanel extends Panel {
         var label = new Label("Transparency", skin, "header");
         tabTable.add(label);
 
-        var graphToggleWidget = new ToggleWidget();
+        var graphToggleWidget = new ToggleGroup();
         bodyTable.add(graphToggleWidget).grow();
 
         //Normal view

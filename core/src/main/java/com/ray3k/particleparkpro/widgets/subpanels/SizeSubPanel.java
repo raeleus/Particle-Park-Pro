@@ -17,7 +17,7 @@ import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoab
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.ToggleGroup;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
@@ -46,7 +46,7 @@ public class SizeSubPanel extends Panel {
         var label = new Label("Size", skin, "header");
         tabTable.add(label);
 
-        var graphToggleWidget = new ToggleWidget();
+        var graphToggleWidget = new ToggleGroup();
         bodyTable.add(graphToggleWidget).grow();
 
         //Normal view
@@ -59,9 +59,9 @@ public class SizeSubPanel extends Panel {
         addHandListener(splitXYcheckBox);
         addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        //Split ToggleWidget
+        //Split ToggleGroup
         graphToggleWidget.table1.row();
-        var splitToggleWidget = new ToggleWidget();
+        var splitToggleWidget = new ToggleGroup();
         graphToggleWidget.table1.add(splitToggleWidget);
 
         //Joined
@@ -84,7 +84,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("High:", skin);
         table.add(label);
 
-        var highToggleWidget = new ToggleWidget();
+        var highToggleWidget = new ToggleGroup();
         table.add(highToggleWidget);
 
         //High single
@@ -134,7 +134,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var lowToggleWidget = new ToggleWidget();
+        var lowToggleWidget = new ToggleGroup();
         table.add(lowToggleWidget);
 
         //Low single
@@ -232,7 +232,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("High:", skin);
         table.add(label);
 
-        var highXtoggleWidget = new ToggleWidget();
+        var highXtoggleWidget = new ToggleGroup();
         table.add(highXtoggleWidget);
 
         //High single
@@ -280,7 +280,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var lowXtoggleWidget = new ToggleWidget();
+        var lowXtoggleWidget = new ToggleGroup();
         table.add(lowXtoggleWidget);
 
         //Low single
@@ -363,7 +363,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("High:", skin);
         table.add(label);
 
-        var highYtoggleWidget = new ToggleWidget();
+        var highYtoggleWidget = new ToggleGroup();
         table.add(highYtoggleWidget);
 
         //High single
@@ -411,7 +411,7 @@ public class SizeSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var lowYtoggleWidget = new ToggleWidget();
+        var lowYtoggleWidget = new ToggleGroup();
         table.add(lowYtoggleWidget);
 
         //Low single

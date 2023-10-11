@@ -16,7 +16,7 @@ import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.ToggleGroup;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -45,7 +45,7 @@ public class GraphSubPanel extends Panel {
             onChange(button, () -> UndoManager.add(new SetPropertyUndoable(selectedEmitter, closeProperty, false, "set " + closeProperty.name + " property")));
         }
 
-        var graphToggleWidget = new ToggleWidget();
+        var graphToggleWidget = new ToggleGroup();
         bodyTable.add(graphToggleWidget).grow();
 
         //Normal view
@@ -83,7 +83,7 @@ public class GraphSubPanel extends Panel {
         label = new Label("High:", skin);
         table.add(label);
 
-        var highToggleWidget = new ToggleWidget();
+        var highToggleWidget = new ToggleGroup();
         table.add(highToggleWidget);
 
         //High single
@@ -133,7 +133,7 @@ public class GraphSubPanel extends Panel {
         label = new Label("Low:", skin);
         table.add(label);
 
-        var lowToggleWidget = new ToggleWidget();
+        var lowToggleWidget = new ToggleGroup();
         table.add(lowToggleWidget);
 
         //Low single

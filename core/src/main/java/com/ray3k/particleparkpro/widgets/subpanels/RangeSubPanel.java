@@ -11,7 +11,7 @@ import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.RangedNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.ToggleWidget;
+import com.ray3k.particleparkpro.widgets.ToggleGroup;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -44,7 +44,7 @@ public class RangeSubPanel extends Panel {
         label = new Label("Value:", skin);
         table.add(label);
 
-        var highToggleWidget = new ToggleWidget();
+        var highToggleWidget = new ToggleGroup();
         table.add(highToggleWidget);
 
         //Value single

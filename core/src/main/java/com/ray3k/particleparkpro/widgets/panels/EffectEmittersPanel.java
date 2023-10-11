@@ -16,7 +16,7 @@ import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.*;
-import com.ray3k.particleparkpro.widgets.CollapsibleWidget;
+import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.DraggableList;
@@ -108,7 +108,7 @@ public class EffectEmittersPanel extends Panel {
 
         populateEmitters();
 
-        var collapsibleWidget = new CollapsibleWidget(false);
+        var collapsibleWidget = new CollapsibleGroup(false);
         bodyTable.add(collapsibleWidget).padRight(5).growY();
 
         //Expanded

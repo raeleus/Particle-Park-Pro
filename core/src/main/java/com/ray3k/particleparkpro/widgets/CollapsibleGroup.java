@@ -4,15 +4,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
-public class CollapsibleWidget extends WidgetGroup {
+public class CollapsibleGroup extends WidgetGroup {
     private boolean horizontal;
     private Actor visibleActor;
 
-    public CollapsibleWidget(boolean horizontal) {
+    public CollapsibleGroup(boolean horizontal) {
         this.horizontal = horizontal;
     }
 
-    public CollapsibleWidget(boolean horizontal, Actor... actors) {
+    public CollapsibleGroup(boolean horizontal, Actor... actors) {
         super(actors);
         this.horizontal = horizontal;
     }

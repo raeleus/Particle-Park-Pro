@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import lombok.Getter;
 
-public class EditableLabel extends ToggleWidget {
+public class EditableLabel extends ToggleGroup {
     @Getter
     private String text;
     public Label label;
