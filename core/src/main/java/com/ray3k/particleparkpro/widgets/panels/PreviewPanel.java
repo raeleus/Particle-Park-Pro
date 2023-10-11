@@ -94,7 +94,9 @@ public class PreviewPanel extends Panel {
                     stack.localToScreenCoordinates(temp);
                     previewViewport.unproject(temp);
                     particleEffect.setPosition(temp.x, temp.y);
-                    selectedEmitter.reset();
+                    for (var emitter : particleEffect.getEmitters()) {
+                        emitter.reset();
+                    }
                 }
 
                 return super.touchDown(event, x, y, pointer, button);
