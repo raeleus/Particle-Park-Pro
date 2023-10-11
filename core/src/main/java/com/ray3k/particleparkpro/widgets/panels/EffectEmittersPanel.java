@@ -35,7 +35,7 @@ public class EffectEmittersPanel extends Panel {
     private final int col1Width = 40;
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
-    private final Array<TextButton> deleteButtons = new Array<>();
+    private final Array<TextButton> disableableButtons = new Array<>();
     public static EffectEmittersPanel effectEmittersPanel;
     private static final float DELAYED_UNDO_DELAY = .3f;
     private Action delayedUndoAction;
@@ -78,7 +78,7 @@ public class EffectEmittersPanel extends Panel {
                 UndoManager.add(new DeleteEmitterUndoable(activeEmitters.orderedKeys().get(index), index, "Delete Emitter"));
 
                 populateEmitters();
-                updateDeleteButton();
+                updateEmitterButtons();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
 
@@ -160,7 +160,7 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
 
             populateEmitters();
-            updateDeleteButton();
+            updateEmitterButtons();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -173,7 +173,7 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new NewEmitterUndoable(new ParticleEmitter(selectedEmitter), "Duplicate Emitter"));
 
             populateEmitters();
-            updateDeleteButton();
+            updateEmitterButtons();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -181,13 +181,13 @@ public class EffectEmittersPanel extends Panel {
         table.row();
         var deleteButton = new TextButton("Delete", skin);
         table.add(deleteButton);
-        deleteButtons.add(deleteButton);
+        disableableButtons.add(deleteButton);
         addHandListener(deleteButton);
         onChange(deleteButton, () -> {
             UndoManager.add(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
 
             populateEmitters();
-            updateDeleteButton();
+            updateEmitterButtons();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -244,7 +244,7 @@ public class EffectEmittersPanel extends Panel {
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 populateEmitters();
-                updateDeleteButton();
+                updateEmitterButtons();
                 emitterPropertiesPanel.populateScrollTable(null);
 
                 UndoManager.clear();
@@ -286,7 +286,7 @@ public class EffectEmittersPanel extends Panel {
                     .description("Merge Particle Effect")
                     .build());
                 populateEmitters();
-                updateDeleteButton();
+                updateEmitterButtons();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
         });
@@ -295,6 +295,7 @@ public class EffectEmittersPanel extends Panel {
         table.row();
         textButton = new TextButton("Up", skin);
         table.add(textButton).expandY().bottom();
+        disableableButtons.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
@@ -307,6 +308,7 @@ public class EffectEmittersPanel extends Panel {
         table.row();
         textButton = new TextButton("Down", skin);
         table.add(textButton);
+        disableableButtons.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
@@ -315,12 +317,12 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
         });
 
-        updateDeleteButton();
+        updateEmitterButtons();
     }
 
-    public void updateDeleteButton() {
-        for (var deleteButton : deleteButtons) {
-            deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
+    public void updateEmitterButtons() {
+        for (var button : disableableButtons) {
+            button.setDisabled(particleEffect.getEmitters().size <= 1);
         }
     }
 

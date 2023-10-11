@@ -1,14 +1,11 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.undo.Undoable;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -91,7 +88,7 @@ public class MergeEmitterUndoable implements Undoable {
 
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
-        effectEmittersPanel.updateDeleteButton();
+        effectEmittersPanel.updateEmitterButtons();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

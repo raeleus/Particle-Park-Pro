@@ -2,7 +2,6 @@ package com.ray3k.particleparkpro.undo.undoables;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.ray3k.particleparkpro.undo.Undoable;
-import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -44,7 +43,7 @@ public class NewEmitterUndoable implements Undoable {
 
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
-        effectEmittersPanel.updateDeleteButton();
+        effectEmittersPanel.updateEmitterButtons();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }
