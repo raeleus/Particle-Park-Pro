@@ -88,7 +88,7 @@ public class MergeEmitterUndoable implements Undoable {
 
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
-        effectEmittersPanel.updateEmitterButtons();
+        effectEmittersPanel.updateDisableableWidgets();
         emitterPropertiesPanel.populateScrollTable(null);
     }
 }

@@ -78,7 +78,7 @@ public class EffectEmittersPanel extends Panel {
                 UndoManager.add(new DeleteEmitterUndoable(activeEmitters.orderedKeys().get(index), index, "Delete Emitter"));
 
                 populateEmitters();
-                updateEmitterButtons();
+                updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
 
@@ -160,7 +160,7 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
 
             populateEmitters();
-            updateEmitterButtons();
+            updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -173,7 +173,7 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new NewEmitterUndoable(new ParticleEmitter(selectedEmitter), "Duplicate Emitter"));
 
             populateEmitters();
-            updateEmitterButtons();
+            updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -187,7 +187,7 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
 
             populateEmitters();
-            updateEmitterButtons();
+            updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -244,7 +244,7 @@ public class EffectEmittersPanel extends Panel {
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 populateEmitters();
-                updateEmitterButtons();
+                updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
 
                 UndoManager.clear();
@@ -286,7 +286,7 @@ public class EffectEmittersPanel extends Panel {
                     .description("Merge Particle Effect")
                     .build());
                 populateEmitters();
-                updateEmitterButtons();
+                updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
         });
@@ -317,13 +317,15 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
         });
 
-        updateEmitterButtons();
+        updateDisableableWidgets();
     }
 
-    public void updateEmitterButtons() {
+    public void updateDisableableWidgets() {
         for (var button : disableableButtons) {
             button.setDisabled(particleEffect.getEmitters().size <= 1);
         }
+
+        emittersDraggableList.setAllowRemoval(particleEffect.getEmitters().size > 1);
     }
 
     public void populateEmitters() {
