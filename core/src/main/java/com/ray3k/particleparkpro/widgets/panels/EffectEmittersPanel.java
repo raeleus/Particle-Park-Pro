@@ -126,15 +126,14 @@ public class EffectEmittersPanel extends Panel {
         table.add(emittersButton);
         addHandListener(emittersButton);
         onChange(emittersButton, () -> {
-            showPopEmitterControls(emittersButton, scrollPane);
+            showPopEmitterControls(emittersButton);
         });
     }
 
-    private void showPopEmitterControls(Actor attachToActor, Actor highlightActor) {
-        var pop = new PopTable(skin.get(WindowStyle.class));
+    private void showPopEmitterControls(Actor attachToActor) {
+        var pop = new PopTable(skin.get("side-pop", WindowStyle.class));
         pop.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
         pop.setHideOnUnfocus(true);
-        pop.setHighlightActor(highlightActor);
         addEmitterButtons(pop);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
         pop.addListener(new TableShowHideListener() {
