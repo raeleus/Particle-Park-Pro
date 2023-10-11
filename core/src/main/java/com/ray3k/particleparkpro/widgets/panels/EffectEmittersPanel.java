@@ -1,21 +1,28 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.*;
+import com.ray3k.particleparkpro.widgets.CollapsibleWidget;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
+import com.ray3k.stripe.PopTable;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 
 import java.io.FileWriter;
 import java.io.Writer;
@@ -28,7 +35,7 @@ public class EffectEmittersPanel extends Panel {
     private final int col1Width = 40;
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
-    private TextButton deleteButton;
+    private final Array<TextButton> deleteButtons = new Array<>();
     public static EffectEmittersPanel effectEmittersPanel;
     private static final float DELAYED_UNDO_DELAY = .3f;
     private Action delayedUndoAction;
@@ -101,9 +108,50 @@ public class EffectEmittersPanel extends Panel {
 
         populateEmitters();
 
-        table = new Table();
-        bodyTable.add(table).padRight(5).growY();
+        var collapsibleWidget = new CollapsibleWidget(false);
+        bodyTable.add(collapsibleWidget).padRight(5).growY();
 
+        //Expanded
+        table = new Table();
+        collapsibleWidget.addActor(table);
+
+        addEmitterButtons(table);
+
+        //Collapsed
+        table = new Table();
+        table.bottom();
+        collapsibleWidget.addActor(table);
+
+        var emittersButton = new TextButton("Emitters...", skin);
+        table.add(emittersButton);
+        addHandListener(emittersButton);
+        onChange(emittersButton, () -> {
+            showPopEmitterControls(emittersButton, scrollPane);
+        });
+    }
+
+    private void showPopEmitterControls(Actor attachToActor, Actor highlightActor) {
+        var pop = new PopTable(skin.get(WindowStyle.class));
+        pop.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
+        pop.setHideOnUnfocus(true);
+        pop.setHighlightActor(highlightActor);
+        addEmitterButtons(pop);
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        pop.addListener(new TableShowHideListener() {
+            @Override
+            public void tableShown(Event event) {
+                Gdx.input.setInputProcessor(foregroundStage);
+            }
+
+            @Override
+            public void tableHidden(Event event) {
+                Gdx.input.setInputProcessor(stage);
+            }
+        });
+        pop.show(foregroundStage);
+    }
+
+    private void addEmitterButtons(Table table) {
         //New
         table.defaults().space(5);
         var textButton = new TextButton("New", skin);
@@ -132,9 +180,9 @@ public class EffectEmittersPanel extends Panel {
 
         //Delete
         table.row();
-        deleteButton = new TextButton("Delete", skin);
-        updateDeleteButton();
+        var deleteButton = new TextButton("Delete", skin);
         table.add(deleteButton);
+        deleteButtons.add(deleteButton);
         addHandListener(deleteButton);
         onChange(deleteButton, () -> {
             UndoManager.add(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
@@ -145,7 +193,7 @@ public class EffectEmittersPanel extends Panel {
         });
 
         table.row();
-        image = new Image(skin, "divider-10");
+        var image = new Image(skin, "divider-10");
         image.setScaling(Scaling.stretchX);
         table.add(image).fillX();
 
@@ -267,10 +315,14 @@ public class EffectEmittersPanel extends Panel {
             UndoManager.add(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex + 1, "Move Down Emitter"));
             populateEmitters();
         });
+
+        updateDeleteButton();
     }
 
     public void updateDeleteButton() {
-        deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
+        for (var deleteButton : deleteButtons) {
+            deleteButton.setDisabled(particleEffect.getEmitters().size <= 1);
+        }
     }
 
     public void populateEmitters() {

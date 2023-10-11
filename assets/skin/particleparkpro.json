@@ -2084,6 +2084,10 @@
 	"tooltip-bottom-right-arrow": {
 		"background": "tooltip-bottom-right-arrow-10",
 		"titleFont": "font"
+	},
+	"side-pop": {
+		"background": "pop-table-10",
+		"titleFont": "font"
 	}
 }
 }

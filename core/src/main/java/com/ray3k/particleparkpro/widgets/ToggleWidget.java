@@ -8,7 +8,8 @@ public class ToggleWidget extends Container<Table> {
     public Table table2 = new Table();
     public boolean showingTable1;
 
-    public ToggleWidget() {showTable1();
+    public ToggleWidget() {
+        showTable1();
         fill();
     }
 
