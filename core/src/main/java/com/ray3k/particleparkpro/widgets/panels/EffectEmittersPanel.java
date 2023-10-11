@@ -373,26 +373,34 @@ public class EffectEmittersPanel extends Panel {
             image.setScaling(Scaling.none);
             table.add(image).fillY();
 
+            var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
+            var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
             var editableLabel = new EditableLabel(emitter.getName(), Core.editableLabelStyle) {
                 @Override
                 public void unfocused() {
                     if (getText().equals("")) {
                         setText("Untitled");
-                        emitter.setName(getText());
+                        UndoManager.add(new RenameEmitterUndoable(emitter, emitter.getName(), getText(), "Rename Emitter"));
+                        dragLabel.setText(emitter.getName());
+                        dragLabel.pack();
+                        removeLabel.setText(emitter.getName());
+                        removeLabel.pack();
                     }
                 }
             };
             table.add(editableLabel).growX();
             addIbeamListener(editableLabel.textField);
             addIbeamListener(editableLabel.label);
+
             onChange(editableLabel, () -> {
                 addDelayedUndoAction(() -> {
                     UndoManager.add(new RenameEmitterUndoable(emitter, emitter.getName(), editableLabel.getText(), "Rename Emitter"));
+                    dragLabel.setText(emitter.getName());
+                    dragLabel.pack();
+                    removeLabel.setText(emitter.getName());
+                    removeLabel.pack();
                 });
             });
-
-            var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
-            var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
 
             emittersDraggableList.add(stack, removeLabel, dragLabel, removeLabel);
         }
