@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.Panel;
@@ -87,6 +89,7 @@ public class PreviewPanel extends Panel {
         });
 
         var dragListener = new DragListener() {
+            final Array<ParticleEmitter> resetEmitters = new Array<>();
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (button == Buttons.RIGHT) {
@@ -95,11 +98,25 @@ public class PreviewPanel extends Panel {
                     previewViewport.unproject(temp);
                     particleEffect.setPosition(temp.x, temp.y);
                     for (var emitter : particleEffect.getEmitters()) {
+                        if (!emitter.isContinuous()) {
+                            emitter.setContinuous(true);
+                            resetEmitters.add(emitter);
+                        }
                         emitter.reset();
                     }
                 }
 
                 return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+
+                for (var emitter : resetEmitters) {
+                    emitter.setContinuous(false);
+                }
+                resetEmitters.clear();
             }
 
             @Override
