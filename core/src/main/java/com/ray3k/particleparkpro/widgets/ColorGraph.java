@@ -239,7 +239,7 @@ public class ColorGraph extends Table {
                             cp.setButtonListener(handListener);
                             cp.setTextFieldListener(ibeamListener);
                             cp.setDraggable(true);
-                            cp.show(stage);
+                            cp.setKeepCenteredInWindow(false);
                             cp.addListener(new PopColorPickerListener() {
                                 @Override
                                 public void picked(Color color) {

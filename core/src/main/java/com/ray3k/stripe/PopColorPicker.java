@@ -148,6 +148,7 @@ public class PopColorPicker extends PopTable {
 
         Label label = new Label("CHOOSE COLOR", style.labelStyle);
         table.add(label).left().expandX();
+        label.setTouchable(Touchable.disabled);
 
         table.defaults().space(5);
         ButtonGroup<TextButton> buttonGroup = new ButtonGroup<TextButton>();
@@ -716,6 +717,7 @@ public class PopColorPicker extends PopTable {
 
         Label label = new Label("CHOOSE COLOR", style.labelStyle);
         table.add(label).left().expandX();
+        label.setTouchable(Touchable.disabled);
 
         table.defaults().space(5);
         ButtonGroup<TextButton> buttonGroup = new ButtonGroup<TextButton>();
