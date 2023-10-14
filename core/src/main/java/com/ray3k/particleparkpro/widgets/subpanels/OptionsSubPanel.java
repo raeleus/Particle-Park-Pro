@@ -31,7 +31,7 @@ public class OptionsSubPanel extends Panel {
         bodyTable.add(additiveCheckBox);
         addHandListener(additiveCheckBox);
         addTooltip(additiveCheckBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white.",
-            Align.top, tooltipWidth, tooltipBottomArrowStyle);
+            Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(additiveCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ADDITIVE, additiveCheckBox.isChecked(), "change Additive option");
             UndoManager.add(undoable);
@@ -43,7 +43,7 @@ public class OptionsSubPanel extends Panel {
         attachedCheckBox.setChecked(selectedEmitter.isAttached());
         bodyTable.add(attachedCheckBox);
         addHandListener(attachedCheckBox);
-        addTooltip(attachedCheckBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(attachedCheckBox,  "An attached particle emitter draws its particles relative to its origin. This makes existing particles move with the emitter when the particle effect's position is changed.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(attachedCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ATTACHED, attachedCheckBox.isChecked(), "change Attached option");
             UndoManager.add(undoable);
@@ -55,7 +55,7 @@ public class OptionsSubPanel extends Panel {
         continuousCheckBox.setChecked(selectedEmitter.isContinuous());
         bodyTable.add(continuousCheckBox);
         addHandListener(continuousCheckBox);
-        addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(continuousCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.CONTINUOUS, continuousCheckBox.isChecked(), "change Continuous option");
             UndoManager.add(undoable);
@@ -79,7 +79,7 @@ public class OptionsSubPanel extends Panel {
         behindCheckBox.setChecked(selectedEmitter.isBehind());
         bodyTable.add(behindCheckBox);
         addHandListener(behindCheckBox);
-        addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(behindCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.BEHIND, behindCheckBox.isChecked(), "change Behind option");
             UndoManager.add(undoable);
@@ -91,7 +91,7 @@ public class OptionsSubPanel extends Panel {
         premultipliedAlphaCheckBox.setChecked(selectedEmitter.isPremultipliedAlpha());
         bodyTable.add(premultipliedAlphaCheckBox);
         addHandListener(premultipliedAlphaCheckBox);
-        addTooltip(premultipliedAlphaCheckBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(premultipliedAlphaCheckBox, "Premultiplied alpha is an alternative blending mode that expects RGB values to be multiplied by their transparency. Enable this value if your texture atlas is also set to premultiplied alpha.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(premultipliedAlphaCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.PMA, premultipliedAlphaCheckBox.isChecked(), "change PremultipliedAlpha option");
             UndoManager.add(undoable);
