@@ -133,6 +133,43 @@ public class PopTable extends Table {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 if (canDrag) {
                     setPosition(startX + x - offsetX, startY + y - offsetY);
+
+                    if (keepSizedWithinStage && getX() < 0) {
+                        temp.set(Gdx.input.getX(), Gdx.input.getY());
+                        getStage().getViewport().unproject(temp);
+
+                        offsetX = temp.x;
+                        if (offsetX < 0) offsetX = 0;
+                        setX(0);
+                    }
+
+                    if (keepSizedWithinStage && getX() + getWidth() > getStage().getWidth()) {
+                        temp.set(Gdx.input.getX(), Gdx.input.getY());
+                        getStage().getViewport().unproject(temp);
+
+                        offsetX = getWidth() - (stage.getWidth() - temp.x);
+                        if (offsetX > getWidth()) offsetX = getWidth();
+                        setX(getStage().getWidth() - getWidth());
+                    }
+
+                    if (keepSizedWithinStage && getY() < 0) {
+                        temp.set(Gdx.input.getX(), Gdx.input.getY());
+                        getStage().getViewport().unproject(temp);
+
+                        offsetY = temp.y;
+                        if (offsetY < 0) offsetY = 0;
+                        setY(0);
+                    }
+
+                    if (keepSizedWithinStage && getY() + getHeight() > getStage().getHeight()) {
+                        temp.set(Gdx.input.getX(), Gdx.input.getY());
+                        getStage().getViewport().unproject(temp);
+
+                        offsetY = getHeight() - (stage.getHeight() - temp.y);
+                        if (offsetY > getHeight()) offsetY = getHeight();
+                        setY(getStage().getHeight() - getHeight());
+                    }
+
                     startX = PopTable.this.getX();
                     startY = PopTable.this.getY();
                 }
