@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import lombok.Getter;
 
 public class EditableLabel extends ToggleGroup {
@@ -47,22 +48,6 @@ public class EditableLabel extends ToggleGroup {
     @Override
     protected void setStage(Stage stage) {
         super.setStage(stage);
-        if (stage != null) {
-            var listener = new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    if (getStage() != null && event.getTarget() != textField) {
-                        if (stage.getKeyboardFocus() == textField) {
-                            stage.setKeyboardFocus(null);
-                            showTable1();
-                            unfocused();
-                        }
-                    }
-                    return false;
-                }
-            };
-            stage.addListener(listener);
-        }
     }
 
     public void setText(String text) {

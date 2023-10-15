@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
@@ -153,6 +154,16 @@ public class Core extends ApplicationAdapter {
         root.setFillParent(true);
         root.fill();
         stage.addActor(root);
+
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (stage.getKeyboardFocus() != null
+                    && event.getTarget() != stage.getKeyboardFocus()
+                    && !event.getTarget().isDescendantOf(stage.getKeyboardFocus())) stage.setKeyboardFocus(null);
+                return false;
+            }
+        });
 
         var welcomeTable = new WelcomeTable();
         root.setActor(welcomeTable);
