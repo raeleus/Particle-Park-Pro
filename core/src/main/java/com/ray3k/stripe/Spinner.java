@@ -25,13 +25,13 @@ package com.ray3k.stripe;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
@@ -54,6 +54,10 @@ public class Spinner extends Table implements Disableable {
     }
     private Orientation orientation;
     private SpinnerStyle style;
+    private Action holdAction;
+    private static final float HOLD_ACTION_START_DELAY = .2f;
+    private static final float HOLD_ACTION_REPEAT_DELAY = .075f;
+    private boolean stopNormalPress;
 
     public Spinner(double value, double increment, boolean round, Orientation orientation, SpinnerStyle style) {
         this.value = BigDecimal.valueOf(value);
@@ -186,14 +190,50 @@ public class Spinner extends Table implements Disableable {
         buttonMinus.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                subtractValue();
+                if (!stopNormalPress) subtractValue();
+            }
+        });
+
+        buttonMinus.addListener(new InputListener() {
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                removeHoldAction();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                addHoldAction(false);
+                return false;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                removeHoldAction();
             }
         });
 
         buttonPlus.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                addValue();
+                if (!stopNormalPress) addValue();
+            }
+        });
+
+        buttonPlus.addListener(new InputListener() {
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                removeHoldAction();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                addHoldAction(true);
+                return false;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                removeHoldAction();
             }
         });
 
@@ -239,6 +279,25 @@ public class Spinner extends Table implements Disableable {
                 event.setTarget(spinner);
             }
         });
+    }
+
+    private void addHoldAction(boolean increase) {
+        stopNormalPress = false;
+        holdAction = Actions.delay(HOLD_ACTION_START_DELAY, Actions.forever(Actions.delay(HOLD_ACTION_REPEAT_DELAY, Actions.run(() -> {
+            fire(new ChangeEvent());
+            stopNormalPress = true;
+            if (increase) addValue();
+            else subtractValue();
+        }))));
+        addAction(holdAction);
+    }
+
+    private void removeHoldAction() {
+        stopNormalPress = false;
+        if (holdAction == null) return;
+
+        removeAction(holdAction);
+        holdAction = null;
     }
 
     private void subtractValue() {
