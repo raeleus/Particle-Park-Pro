@@ -145,7 +145,28 @@ public class DraggableList extends WidgetGroup {
         for (final Actor actor : actors) {
             if (vertical) table.row();
             table.add(actor).growX();
-            if (draggable) dragAndDrop.addSource(new Source(actor) {
+        }
+        if (vertical) table.row();
+
+        for (int i = 0; i < actors.size + 1; i++) {
+            Button button = new Button(dividerStyle);
+            button.setProgrammaticChangeEvents(false);
+            button.setVisible(false);
+            addActor(button);
+            dividers.add(button);
+        }
+
+        updateDragAndDrop();
+    }
+
+    private void updateDragAndDrop() {
+        dragAndDrop.clear();
+        dragAndDrop.setDragTime(0);
+
+        if (!draggable) return;
+
+        for (final Actor actor : actors) {
+            dragAndDrop.addSource(new Source(actor) {
                 Color previousColor;
                 @Override
                 public Payload dragStart(InputEvent event, float x, float y, int pointer) {
@@ -234,16 +255,11 @@ public class DraggableList extends WidgetGroup {
                 }
             });
         }
-        if (vertical) table.row();
 
-        for (int i = 0; i < actors.size + 1; i++) {
-            Button button = new Button(dividerStyle);
-            button.setProgrammaticChangeEvents(false);
-            button.setVisible(false);
-            addActor(button);
-            dividers.add(button);
+        for (int i = 0; i < dividers.size; i++) {
+            Button divider = dividers.get(i);
             final int index = i;
-            dragAndDrop.addTarget(new Target(button) {
+            dragAndDrop.addTarget(new Target(divider) {
                 @Override
                 public boolean drag(Source source, Payload payload, float x, float y, int pointer) {
                     return true;
@@ -413,7 +429,8 @@ public class DraggableList extends WidgetGroup {
 
     public void setDraggable(boolean draggable) {
         this.draggable = draggable;
-        updateTable();
+
+        updateDragAndDrop();
     }
 
     public boolean isAllowRemoval() {
