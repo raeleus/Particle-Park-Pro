@@ -407,7 +407,7 @@ public class EffectEmittersPanel extends Panel {
                 }
             });
 
-            table.add(editableLabel).growX();
+            table.add(editableLabel).growX().minWidth(0);
             addIbeamListener(editableLabel.textField);
             addIbeamListener(editableLabel.label);
 

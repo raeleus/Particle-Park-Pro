@@ -34,7 +34,7 @@ public class EditableLabel extends ToggleGroup {
         });
 
         textField = new TextField(text, style.textFieldStyle);
-        table2.add(textField).grow();
+        table2.add(textField).grow().minWidth(0);
         textField.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
