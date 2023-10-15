@@ -528,4 +528,8 @@ public class DraggableList extends WidgetGroup {
     public int getAlign() {
         return table.getAlign();
     }
+
+    public DragAndDrop getDragAndDrop() {
+        return dragAndDrop;
+    }
 }

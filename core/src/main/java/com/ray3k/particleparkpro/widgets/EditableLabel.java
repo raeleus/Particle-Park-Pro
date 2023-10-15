@@ -52,9 +52,11 @@ public class EditableLabel extends ToggleGroup {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     if (getStage() != null && event.getTarget() != textField) {
-                        if (stage.getKeyboardFocus() == textField) stage.setKeyboardFocus(null);
-                        showTable1();
-                        unfocused();
+                        if (stage.getKeyboardFocus() == textField) {
+                            stage.setKeyboardFocus(null);
+                            showTable1();
+                            unfocused();
+                        }
                     }
                     return false;
                 }

@@ -1,12 +1,10 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -39,6 +37,9 @@ public class EffectEmittersPanel extends Panel {
     public static EffectEmittersPanel effectEmittersPanel;
     private static final float DELAYED_UNDO_DELAY = .3f;
     private Action delayedUndoAction;
+    private static final float TAP_SQUARE = 5;
+    private static final float TAP_WIDTH_RENAMING = 2000;
+    private static final float TAP_HEIGHT_RENAMING = 12;
 
     public EffectEmittersPanel() {
         effectEmittersPanel = this;
@@ -69,6 +70,7 @@ public class EffectEmittersPanel extends Panel {
         //Draggable List
         table.row();
         emittersDraggableList = new DraggableList(true, draggableListStyle);
+        emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);
         emittersDraggableList.align(Align.top);
         emittersDraggableList.addListener(new DraggableListListener() {
             @Override
@@ -380,6 +382,8 @@ public class EffectEmittersPanel extends Panel {
             var editableLabel = new EditableLabel(emitter.getName(), Core.editableLabelStyle) {
                 @Override
                 public void unfocused() {
+                    emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);
+
                     if (getText().equals("")) {
                         setText("Untitled");
                         UndoManager.add(new RenameEmitterUndoable(emitter, emitter.getName(), getText(), "Rename Emitter"));
@@ -390,6 +394,19 @@ public class EffectEmittersPanel extends Panel {
                     }
                 }
             };
+
+            editableLabel.textField.addListener(new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER) {
+                        stage.setKeyboardFocus(null);
+                        editableLabel.showTable1();
+                        editableLabel.unfocused();
+                    }
+                    return false;
+                }
+            });
+
             table.add(editableLabel).growX();
             addIbeamListener(editableLabel.textField);
             addIbeamListener(editableLabel.label);
@@ -402,6 +419,11 @@ public class EffectEmittersPanel extends Panel {
                     removeLabel.setText(emitter.getName());
                     removeLabel.pack();
                 });
+            });
+
+            onClick(editableLabel, () -> {
+                emittersDraggableList.getDragAndDrop().setTapWidth(TAP_WIDTH_RENAMING);
+                emittersDraggableList.getDragAndDrop().setTapHeight(TAP_HEIGHT_RENAMING);
             });
 
             emittersDraggableList.add(stack, removeLabel, dragLabel, removeLabel);
