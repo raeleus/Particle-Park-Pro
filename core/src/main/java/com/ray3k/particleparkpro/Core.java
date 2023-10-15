@@ -512,13 +512,19 @@ public class Core extends ApplicationAdapter {
             }
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 dismissed = true;
                 popTable.hide();
                 if (showTableAction != null) {
                     actor.removeAction(showTableAction);
                     showTableAction = null;
                 }
+                return false;
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
             }
         };
         actor.addListener(inputListener);
