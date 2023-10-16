@@ -75,6 +75,9 @@ public class SpawnSubPanel extends Panel {
         var valueWidth = selectedEmitter.getSpawnWidth();
         var valueHeight = selectedEmitter.getSpawnHeight();
 
+        var sliderIncrement = 25f;
+        var sliderInterval = .1f;
+
         setTouchable(Touchable.enabled);
 
         tabTable.padRight(7);
@@ -192,7 +195,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighSpinner.getTextField());
         addHandListener(widthHighSpinner.getButtonPlus());
         addHandListener(widthHighSpinner.getButtonMinus());
-        addTooltip(widthHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighSpinner, "The high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthHighExpandButton = new Button(skin, "moveright");
         widthHighToggleWidget.table1.add(widthHighExpandButton);
@@ -208,7 +212,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMinSpinner.getTextField());
         addHandListener(widthHighMinSpinner.getButtonPlus());
         addHandListener(widthHighMinSpinner.getButtonMinus());
-        addTooltip(widthHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighMinSpinner, "The minimum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthHighMaxSpinner = new Spinner(valueWidth.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -216,7 +221,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMaxSpinner.getTextField());
         addHandListener(widthHighMaxSpinner.getButtonPlus());
         addHandListener(widthHighMaxSpinner.getButtonMinus());
-        addTooltip(widthHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthHighMaxSpinner, "The maximum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthHighCollapseButton = new Button(skin, "moveleft");
         widthHighToggleWidget.table2.add(widthHighCollapseButton);
@@ -241,7 +247,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowSpinner.getTextField());
         addHandListener(widthLowSpinner.getButtonPlus());
         addHandListener(widthLowSpinner.getButtonMinus());
-        addTooltip(widthLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowSpinner, "The low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthLowExpandButton = new Button(skin, "moveright");
         widthLowToggleWidget.table1.add(widthLowExpandButton);
@@ -257,7 +264,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMinSpinner.getTextField());
         addHandListener(widthLowMinSpinner.getButtonPlus());
         addHandListener(widthLowMinSpinner.getButtonMinus());
-        addTooltip(widthLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowMinSpinner, "The minimum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthLowMaxSpinner = new Spinner(valueWidth.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -265,7 +273,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMaxSpinner.getTextField());
         addHandListener(widthLowMaxSpinner.getButtonPlus());
         addHandListener(widthLowMaxSpinner.getButtonMinus());
-        addTooltip(widthLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(widthLowMaxSpinner, "The maximum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderInterval, 10);
 
         var widthLowCollapseButton = new Button(skin, "moveleft");
         widthLowToggleWidget.table2.add(widthLowCollapseButton);
@@ -327,7 +336,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighSpinner.getTextField());
         addHandListener(heightHighSpinner.getButtonPlus());
         addHandListener(heightHighSpinner.getButtonMinus());
-        addTooltip(heightHighSpinner, "The high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighSpinner, "The high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightHighExpandButton = new Button(skin, "moveright");
         heightHighToggleWidget.table1.add(heightHighExpandButton);
@@ -343,7 +353,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMinSpinner.getTextField());
         addHandListener(heightHighMinSpinner.getButtonPlus());
         addHandListener(heightHighMinSpinner.getButtonMinus());
-        addTooltip(heightHighMinSpinner, "The minimum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighMinSpinner, "The minimum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -351,7 +362,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMaxSpinner.getTextField());
         addHandListener(heightHighMaxSpinner.getButtonPlus());
         addHandListener(heightHighMaxSpinner.getButtonMinus());
-        addTooltip(heightHighMaxSpinner, "The maximum high value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightHighMaxSpinner, "The maximum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightHighCollapseButton = new Button(skin, "moveleft");
         heightHighToggleWidget.table2.add(heightHighCollapseButton);
@@ -376,7 +388,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowSpinner.getTextField());
         addHandListener(heightLowSpinner.getButtonPlus());
         addHandListener(heightLowSpinner.getButtonMinus());
-        addTooltip(heightLowSpinner, "The low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowSpinner, "The low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightLowExpandButton = new Button(skin, "moveright");
         heightLowToggleWidget.table1.add(heightLowExpandButton);
@@ -392,7 +405,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMinSpinner.getTextField());
         addHandListener(heightLowMinSpinner.getButtonPlus());
         addHandListener(heightLowMinSpinner.getButtonMinus());
-        addTooltip(heightLowMinSpinner, "The minimum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowMinSpinner, "The minimum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightLowMaxSpinner = new Spinner(valueHeight.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -400,7 +414,8 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMaxSpinner.getTextField());
         addHandListener(heightLowMaxSpinner.getButtonPlus());
         addHandListener(heightLowMaxSpinner.getButtonMinus());
-        addTooltip(heightLowMaxSpinner, "The maximum low value for the number of particles emitted per second", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(heightLowMaxSpinner, "The maximum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
+        addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderInterval, 10);
 
         var heightLowCollapseButton = new Button(skin, "moveleft");
         heightLowToggleWidget.table2.add(heightLowCollapseButton);
