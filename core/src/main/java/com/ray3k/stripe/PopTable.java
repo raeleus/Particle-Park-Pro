@@ -34,7 +34,6 @@ public class PopTable extends Table {
     private Actor attachToActor;
     private float attachOffsetX;
     private float attachOffsetY;
-    private final HideListener hideListener;
     private boolean modal;
     private boolean hidden;
     private PopTableStyle style;
@@ -69,7 +68,6 @@ public class PopTable extends Table {
 
     public PopTable(PopTableStyle style) {
         setTouchable(Touchable.enabled);
-        hideListener = new HideListener();
 
         stageBackground = new Image(style.stageBackground);
         stageBackground.setFillParent(true);
@@ -304,7 +302,6 @@ public class PopTable extends Table {
         if (!hidden) {
             group.setTouchable(Touchable.disabled);
             hidden = true;
-            stage.removeCaptureListener(hideListener);
             group.addAction(sequence(action, Actions.removeActor()));
             fire(new TableHiddenEvent());
             for (InputListener inputListener : keyInputListeners) {
@@ -337,9 +334,18 @@ public class PopTable extends Table {
         group = new WidgetGroup();
         group.setColor(1, 1, 1, 0);
         group.setFillParent(true);
-        group.setTouchable(Touchable.childrenOnly);
+        group.setTouchable(Touchable.enabled);
+        group.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (hideOnUnfocus && event.getTarget() == group) {
+                    System.out.println("hide");
+                    hide();
+                }
+                return false;
+            }
+        });
         stage.addActor(group);
-        stage.addCaptureListener(hideListener);
 
         group.addActor(stageBackground);
         group.addActor(this);
@@ -363,18 +369,6 @@ public class PopTable extends Table {
         actor = stage.getScrollFocus();
         if (actor != null && !actor.isDescendantOf(this)) previousScrollFocus = actor;
         stage.addListener(focusListener);
-    }
-
-    private class HideListener extends InputListener {
-        @Override
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            if (hideOnUnfocus) {
-                Actor target = event.getTarget();
-                if (isAscendantOf(target)) return false;
-                hide();
-            }
-            return false;
-        }
     }
 
     public static class PopTableStyle {
