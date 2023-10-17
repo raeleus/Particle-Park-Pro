@@ -8,6 +8,7 @@ import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
 
 public class ClassicTable extends Table {
@@ -44,6 +45,7 @@ public class ClassicTable extends Table {
         var button = new Button(skin, "home");
         table.add(button).expandX().right();
         addHandListener(button);
+        onChange(button, () -> transition(this, new WelcomeTable(), Align.bottom));
 
         button = new Button(skin, "settings");
         table.add(button);
