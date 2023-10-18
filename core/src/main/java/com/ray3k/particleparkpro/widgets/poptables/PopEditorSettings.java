@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.poptables;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
@@ -45,8 +47,17 @@ public class PopEditorSettings extends PopTable {
     public static final int[] DEFAULT_SECONDARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT};
     public static final int DEFAULT_SECONDARY_REDO_SHORTCUT = Keys.Z;
 
+    private static final Array<TextField> textFields = new Array<>();
+
     public PopEditorSettings() {
         super(skin.get(WindowStyle.class));
+
+        populate();
+    }
+
+    private void populate() {
+        textFields.clear();
+        clearChildren();
 
         pad(20).padTop(10);
         setHideOnUnfocus(true);
@@ -136,6 +147,7 @@ public class PopEditorSettings extends PopTable {
         var primaryUndoTextField = new TextField("", skin);
         setShortcutTextFieldText(primaryUndoTextField, NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_MODIFIERS, DEFAULT_PRIMARY_UNDO_SHORTCUT);
         shortcutTable.add(primaryUndoTextField);
+        textFields.add(primaryUndoTextField);
         addIbeamListener(primaryUndoTextField);
         addTooltip(primaryUndoTextField, "Primary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(primaryUndoTextField, () -> {
@@ -146,6 +158,7 @@ public class PopEditorSettings extends PopTable {
         var secondaryUndoTextField = new TextField("", skin);
         setShortcutTextFieldText(secondaryUndoTextField, NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_MODIFIERS, DEFAULT_SECONDARY_UNDO_SHORTCUT);
         shortcutTable.add(secondaryUndoTextField);
+        textFields.add(secondaryUndoTextField);
         addIbeamListener(secondaryUndoTextField);
         addTooltip(secondaryUndoTextField, "Secondary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(secondaryUndoTextField, () -> {
@@ -160,6 +173,7 @@ public class PopEditorSettings extends PopTable {
         var primaryRedoTextField = new TextField("", skin);
         setShortcutTextFieldText(primaryRedoTextField, NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_MODIFIERS, DEFAULT_PRIMARY_REDO_SHORTCUT);
         shortcutTable.add(primaryRedoTextField);
+        textFields.add(primaryRedoTextField);
         addIbeamListener(primaryRedoTextField);
         addTooltip(primaryRedoTextField, "Primary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(primaryRedoTextField, () -> {
@@ -170,6 +184,7 @@ public class PopEditorSettings extends PopTable {
         var secondaryRedoTextField = new TextField("", skin);
         setShortcutTextFieldText(secondaryRedoTextField, NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_MODIFIERS, DEFAULT_SECONDARY_REDO_SHORTCUT);
         shortcutTable.add(secondaryRedoTextField);
+        textFields.add(secondaryRedoTextField);
         addIbeamListener(secondaryRedoTextField);
         addTooltip(secondaryRedoTextField, "Secondary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(secondaryRedoTextField, () -> {
@@ -199,7 +214,7 @@ public class PopEditorSettings extends PopTable {
         buttonTable.add(subButton);
         addHandListener(subButton);
         addTooltip(subButton, "Reset all settings to their defaults.", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(subButton, PopEditorSettings::resetSettingsToDefaults);
+        onChange(subButton, this::resetSettingsToDefaults);
 
         buttonTable.row();
         subButton = new TextButton("Open GitHub Page", skin);
@@ -209,6 +224,8 @@ public class PopEditorSettings extends PopTable {
         onChange(subButton, () -> {
             Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });
+
+        checkForDuplicateShortcuts();
     }
 
     public static void openFileExplorer(FileHandle startDirectory) throws IOException {
@@ -256,7 +273,7 @@ public class PopEditorSettings extends PopTable {
         return stringBuilder.toString();
     }
 
-    public static void resetSettingsToDefaults() {
+    public void resetSettingsToDefaults() {
         preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
         preferences.putString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
         preferences.putInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
@@ -268,9 +285,11 @@ public class PopEditorSettings extends PopTable {
         preferences.putInteger(NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_SHORTCUT);
         preferences.putString(NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
         preferences.flush();
+
+        populate();
     }
 
-    private static void setShortcutTextFieldText(TextField textField, String modifiersKey, String shortcutKey, int[] defaultModifiers, int defaultShortcut) {
+    private void setShortcutTextFieldText(TextField textField, String modifiersKey, String shortcutKey, int[] defaultModifiers, int defaultShortcut) {
         if (preferences.contains(modifiersKey) && preferences.contains(shortcutKey)) {
             textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
         } else {
@@ -278,7 +297,7 @@ public class PopEditorSettings extends PopTable {
         }
     }
 
-    private static void showKeyBindPop(TextField textField, String name, Stage stage, String modifiersKey, String shortcutKey) {
+    private void showKeyBindPop(TextField textField, String name, Stage stage, String modifiersKey, String shortcutKey) {
         var pop = new PopTable(skin.get("key-bind", WindowStyle.class));
         pop.setHideOnUnfocus(true);
 
@@ -304,6 +323,7 @@ public class PopEditorSettings extends PopTable {
                     textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
 
                     pop.hide();
+                    checkForDuplicateShortcuts();
                     return false;
                 }
 
@@ -313,11 +333,30 @@ public class PopEditorSettings extends PopTable {
                 textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
 
                 pop.hide();
+                checkForDuplicateShortcuts();
                 return false;
             }
         });
 
         pop.show(stage);
         stage.setKeyboardFocus(label);
+    }
+
+    private void checkForDuplicateShortcuts() {
+        var texts = new Array<String>();
+        for (int i = 0; i < textFields.size; i++) {
+            var textField = textFields.get(i);
+            var text = textField.getText();
+
+            var index = texts.indexOf(text, false);
+            if (!text.equals("") && index != -1) {
+                textFields.get(index).setColor(Color.RED);
+                textField.setColor(Color.RED);
+            } else {
+                textField.setColor(Color.WHITE);
+            }
+
+            texts.add(text);
+        }
     }
 }
