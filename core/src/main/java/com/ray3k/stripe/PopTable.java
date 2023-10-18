@@ -339,7 +339,6 @@ public class PopTable extends Table {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (hideOnUnfocus && event.getTarget() == group) {
-                    System.out.println("hide");
                     hide();
                 }
                 return false;

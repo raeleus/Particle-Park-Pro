@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
+import com.ray3k.particleparkpro.widgets.poptables.PopPreviewSettings;
 import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -57,7 +57,7 @@ public class PreviewPanel extends Panel {
         table.add(settingsButton).expandX().left();
         addHandListener(settingsButton);
         onChange(settingsButton, () -> {
-            var pop = new PopEditorSettings();
+            var pop = new PopPreviewSettings();
             pop.attachToActor(settingsButton, Align.topLeft, Align.topRight);
             pop.show(foregroundStage);
             Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);

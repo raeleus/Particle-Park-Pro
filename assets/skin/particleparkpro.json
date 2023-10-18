@@ -92,6 +92,12 @@
 		"b": 0,
 		"a": 0.5674157
 	},
+	"stage-background-dark": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 0.89325845
+	},
 	"white": {
 		"r": 1,
 		"g": 1,
@@ -137,6 +143,10 @@
 	"editable-label-selection": {
 		"name": "white-pixel",
 		"color": "editable-label-selection"
+	},
+	"stage-background-dark": {
+		"name": "white-pixel",
+		"color": "stage-background-dark"
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
@@ -2114,6 +2124,10 @@
 	"side-pop": {
 		"background": "pop-table-10",
 		"titleFont": "font"
+	},
+	"key-bind": {
+		"titleFont": "font",
+		"stageBackground": "stage-background-dark"
 	}
 }
 }

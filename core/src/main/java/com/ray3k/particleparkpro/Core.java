@@ -403,6 +403,16 @@ public class Core extends ApplicationAdapter {
         });
     }
 
+    public static void onTouchDown(Actor actor, Runnable runnable) {
+        actor.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                runnable.run();
+                return false;
+            }
+        });
+    }
+
 
     public static void addHandListener(Actor actor) {
         actor.addListener(handListener);
@@ -475,7 +485,6 @@ public class Core extends ApplicationAdapter {
 
             {
                 popTable.setModal(false);
-                popTable.setHideOnUnfocus(true);
                 popTable.setTouchable(Touchable.disabled);
 
                 var label = new Label(text, skin);

@@ -1,11 +1,20 @@
 package com.ray3k.particleparkpro.widgets.tables;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
+import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
+import com.ray3k.stripe.PopTable;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
+import com.ray3k.stripe.Spinner;
+import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
@@ -50,6 +59,12 @@ public class ClassicTable extends Table {
         button = new Button(skin, "settings");
         table.add(button);
         addHandListener(button);
+        onChange(button, () -> {
+            Gdx.input.setInputProcessor(foregroundStage);
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+            var pop = new PopEditorSettings();
+            pop.show(foregroundStage);
+        });
 
         undoTable = new Table();
         table.add(undoTable);

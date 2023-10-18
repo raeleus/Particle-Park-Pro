@@ -67,7 +67,7 @@ public class OptionsSubPanel extends Panel {
         alignedCheckBox.setChecked(selectedEmitter.isAligned());
         bodyTable.add(alignedCheckBox);
         addHandListener(alignedCheckBox);
-        addTooltip(alignedCheckBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(alignedCheckBox,"An aligned particle emitter will rotate it's particles relative to the angle of the particle effect. If the particle effect rotates, the particles rotate as well.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(alignedCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ALIGNED, alignedCheckBox.isChecked(), "change Aligned option");
             UndoManager.add(undoable);

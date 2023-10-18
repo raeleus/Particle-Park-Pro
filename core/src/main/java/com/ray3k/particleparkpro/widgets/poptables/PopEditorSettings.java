@@ -1,38 +1,60 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.badlogic.gdx.utils.Scaling;
-import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.stripe.PopColorPicker;
-import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.ParticlePreview.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
-import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
-import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 
 public class PopEditorSettings extends PopTable {
-    public PopEditorSettings() {
-        super(Core.skin.get(WindowStyle.class));
+    public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
+    public static final String NAME_OPEN_TO_SCREEN = "Open to screen";
+    public static final String NAME_PRIMARY_UNDO_MODIFIERS = "Primary undo modifiers";
+    public static final String NAME_PRIMARY_UNDO_SHORTCUT = "Primary undo shortcut";
+    public static final String NAME_SECONDARY_UNDO_MODIFIERS = "Secondary undo modifiers";
+    public static final String NAME_SECONDARY_UNDO_SHORTCUT = "Secondary undo shortcut";
+    public static final String NAME_PRIMARY_REDO_MODIFIERS = "Primary redo modifiers";
+    public static final String NAME_PRIMARY_REDO_SHORTCUT = "Primary redo shortcut";
+    public static final String NAME_SECONDARY_REDO_MODIFIERS = "Secondary redo modifiers";
+    public static final String NAME_SECONDARY_REDO_SHORTCUT = "Secondary redo shortcut";
+    public static final int DEFAULT_MAXIMUM_UNDOS = 100;
+    public static final String DEFAULT_OPEN_TO_SCREEN = "Welcome";
+    public static final int[] DEFAULT_PRIMARY_UNDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
+    public static final int DEFAULT_PRIMARY_UNDO_SHORTCUT = Keys.Z;
+    public static final int[] DEFAULT_SECONDARY_UNDO_MODIFIERS = new int[] {};
+    public static final int DEFAULT_SECONDARY_UNDO_SHORTCUT = Keys.ANY_KEY;
+    public static final int[] DEFAULT_PRIMARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
+    public static final int DEFAULT_PRIMARY_REDO_SHORTCUT = Keys.Y;
+    public static final int[] DEFAULT_SECONDARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT};
+    public static final int DEFAULT_SECONDARY_REDO_SHORTCUT = Keys.Z;
 
-        setDraggable(false);
+    public PopEditorSettings() {
+        super(skin.get(WindowStyle.class));
+
+        pad(20).padTop(10);
         setHideOnUnfocus(true);
-        setKeepSizedWithinStage(true);
+        setKeepCenteredInWindow(true);
         addListener(new TableShowHideListener() {
             @Override
             public void tableShown(Event event) {
-                Gdx.input.setInputProcessor(foregroundStage);
+
             }
 
             @Override
@@ -41,584 +63,261 @@ public class PopEditorSettings extends PopTable {
             }
         });
 
-        final int sectionPadding = 10;
-        final int tabWidth = 5;
-        final int itemSpacing = 5;
-        final int spinnerWidth = 70;
-        final int seperationWidth = 30;
+        var subLabel = new Label("SETTINGS", skin, "bold");
+        add(subLabel).padBottom(10);
 
-        var scrollTable = new Table();
-        var scrollPane = new ScrollPane(scrollTable, skin);
-        scrollPane.setFlickScroll(false);
-        add(scrollPane).grow();
-        addForegroundScrollFocusListener(scrollPane);
+        row();
+        var settingsTable = new Table();
+        settingsTable.columnDefaults(0).right().uniformX();
+        settingsTable.columnDefaults(1).left().uniformX().width(80);
+        settingsTable.defaults().space(5);
+        add(settingsTable);
 
-        scrollTable.top().pad(5);
+        subLabel = new Label("Maximum Undos:", skin);
+        settingsTable.add(subLabel);
 
-        //Pixels per meter
-        var label = new Label("Pixels per meter", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        var table = new Table();
-        scrollTable.add(table).space(itemSpacing).left();
-
-        label = new Label("Value:", skin);
-        table.add(label).padLeft(tabWidth);
-
-        var pixelsPerMeterSpinner = new Spinner(pixelsPerMeter, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(pixelsPerMeterSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
-        addHandListener(pixelsPerMeterSpinner.getButtonMinus());
-        addHandListener(pixelsPerMeterSpinner.getButtonPlus());
-        addIbeamListener(pixelsPerMeterSpinner.getTextField());
-        onChange(pixelsPerMeterSpinner, () -> pixelsPerMeter = (float) pixelsPerMeterSpinner.getValue());
-
-        scrollTable.row();
-        var image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
-
-        //Delta multiplier
-        scrollTable.row();
-        label = new Label("Delta multiplier", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        table = new Table();
-        scrollTable.add(table).space(itemSpacing).left();
-
-        label = new Label("Value:", skin);
-        table.add(label).padLeft(tabWidth);
-
-        var deltaMultiplierSpinner = new Spinner(deltaMultiplier, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        table.add(deltaMultiplierSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
-        addHandListener(deltaMultiplierSpinner.getButtonMinus());
-        addHandListener(deltaMultiplierSpinner.getButtonPlus());
-        addIbeamListener(deltaMultiplierSpinner.getTextField());
-        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = (float) deltaMultiplierSpinner.getValue());
-
-        scrollTable.row();
-        image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
-
-        //Background color
-        scrollTable.row();
-        label = new Label("Background color", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        var stack = new Stack();
-        scrollTable.add(stack).left().padLeft(tabWidth);
-
-        image = new Image(skin, "swatch-bg");
-        image.setScaling(Scaling.none);
-        stack.add(image);
-
-        var backgroundColorImage = new Image(skin, "swatch-fill");
-        backgroundColorImage.setColor(backgroundColor);
-        backgroundColorImage.setScaling(Scaling.none);
-        stack.add(backgroundColorImage);
-        addHandListener(stack);
-        onClick(backgroundColorImage, () -> {
-            var cp = new PopColorPicker(backgroundColor, popColorPickerStyle);
-            cp.setHideOnUnfocus(true);
-            cp.setButtonListener(handListener);
-            cp.setTextFieldListener(ibeamListener);
-            cp.addListener(new TableShowHideListener() {
-                @Override
-                public void tableShown(Event event) {
-                    setHideOnUnfocus(false);
-                }
-
-                @Override
-                public void tableHidden(Event event) {
-                    setHideOnUnfocus(true);
-                }
-            });
-            cp.addListener(new PopColorPickerListener() {
-                @Override
-                public void picked(Color color) {
-                    backgroundColorImage.setColor(color);
-                    backgroundColor.set(color);
-                    previewBackgroundImage.setColor(color);
-                }
-
-                @Override
-                public void updated(Color color) {
-                    backgroundColorImage.setColor(color);
-                    backgroundColor.set(color);
-                    previewBackgroundImage.setColor(color);
-                }
-
-                @Override
-                public void cancelled(Color oldColor) {
-                    backgroundColorImage.setColor(oldColor);
-                    backgroundColor.set(oldColor);
-                    previewBackgroundImage.setColor(oldColor);
-                }
-            });
-            cp.show(foregroundStage);
+        var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        spinner.setValue(preferences.getInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS));
+        spinner.setProgrammaticChangeEvents(false);
+        settingsTable.add(spinner);
+        addIbeamListener(spinner.getTextField());
+        addHandListener(spinner.getButtonMinus());
+        addHandListener(spinner.getButtonPlus());
+        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(spinner, () -> {
+            preferences.putInteger(NAME_MAXIMUM_UNDOS, spinner.getValueAsInt());
+            preferences.flush();
         });
 
-        scrollTable.row();
-        image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
+        settingsTable.row();
+        subLabel = new Label("Open to screen:", skin);
+        settingsTable.add(subLabel);
 
-        //Statistics
-        scrollTable.row();
-        label = new Label("Statistics", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        var checkBox = new CheckBox("Statistics enabled", skin);
-        checkBox.setChecked(statisticsEnabled);
-        scrollTable.add(checkBox).padLeft(tabWidth).left();
-        addHandListener(checkBox);
-        onChange(checkBox, () -> {
-            statisticsEnabled = checkBox.isChecked();
-            statsLabel.setVisible(statisticsEnabled);
+        var selectBox = new SelectBox<String>(skin);
+        selectBox.setItems("Welcome", "Classic", "Wizard");
+        selectBox.setSelected(preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN));
+        settingsTable.add(selectBox);
+        addHandListener(selectBox);
+        addHandListener(selectBox.getList());
+        onChange(selectBox, () -> {
+            preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
+            preferences.flush();
         });
 
-        scrollTable.row();
-        image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
+        row();
+        var shortcutTable = new Table();
+        shortcutTable.columnDefaults(0).right().uniformX();
+        shortcutTable.columnDefaults(1).width(90);
+        shortcutTable.columnDefaults(2).width(90);
+        shortcutTable.columnDefaults(3).uniformX();
+        shortcutTable.defaults().space(5);
+        add(shortcutTable).padTop(20);
 
-        //Preview image
-        scrollTable.row();
-        label = new Label("Preview image", skin, "header");
-        scrollTable.add(label).left();
+        subLabel = new Label("SHORTCUTS", skin, "header");
+        shortcutTable.add(subLabel).colspan(4).align(Align.center);
 
-        scrollTable.row();
-        table = new Table();
-        scrollTable.add(table).space(itemSpacing).left().padLeft(tabWidth);
+        shortcutTable.row();
+        shortcutTable.add();
 
-        table.defaults().space(itemSpacing);
-        var selectPreviewTextButton = new TextButton("Select preview", skin);
-        table.add(selectPreviewTextButton);
-        addHandListener(selectPreviewTextButton);
+        subLabel = new Label("Primary:", skin);
+        subLabel.setAlignment(Align.center);
+        shortcutTable.add(subLabel);
 
-        var removePreviewTextButton = new TextButton("Remove preview", skin);
-        table.add(removePreviewTextButton);
-        addHandListener(removePreviewTextButton);
+        subLabel = new Label("Secondary:", skin);
+        subLabel.setAlignment(Align.center);
+        shortcutTable.add(subLabel);
 
-        scrollTable.row();
-        var previewSizeTable = new Table();
-        scrollTable.add(previewSizeTable).space(itemSpacing).left().padLeft(tabWidth);
+        shortcutTable.add();
 
-        if (previewImageTexture != null) {
-            previewSizeTable.setColor(Color.WHITE);
-            previewSizeTable.setTouchable(Touchable.childrenOnly);
+        shortcutTable.row();
+        subLabel = new Label("Undo:", skin);
+        shortcutTable.add(subLabel);
+
+        var primaryUndoTextField = new TextField("", skin);
+        setShortcutTextFieldText(primaryUndoTextField, NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_MODIFIERS, DEFAULT_PRIMARY_UNDO_SHORTCUT);
+        shortcutTable.add(primaryUndoTextField);
+        addIbeamListener(primaryUndoTextField);
+        addTooltip(primaryUndoTextField, "Primary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(primaryUndoTextField, () -> {
+            getStage().setKeyboardFocus(null);
+            showKeyBindPop(primaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT);
+        });
+
+        var secondaryUndoTextField = new TextField("", skin);
+        setShortcutTextFieldText(secondaryUndoTextField, NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_MODIFIERS, DEFAULT_SECONDARY_UNDO_SHORTCUT);
+        shortcutTable.add(secondaryUndoTextField);
+        addIbeamListener(secondaryUndoTextField);
+        addTooltip(secondaryUndoTextField, "Secondary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(secondaryUndoTextField, () -> {
+            getStage().setKeyboardFocus(null);
+            showKeyBindPop(secondaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT);
+        });
+
+        shortcutTable.row();
+        subLabel = new Label("Redo:", skin);
+        shortcutTable.add(subLabel);
+
+        var primaryRedoTextField = new TextField("", skin);
+        setShortcutTextFieldText(primaryRedoTextField, NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_MODIFIERS, DEFAULT_PRIMARY_REDO_SHORTCUT);
+        shortcutTable.add(primaryRedoTextField);
+        addIbeamListener(primaryRedoTextField);
+        addTooltip(primaryRedoTextField, "Primary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(primaryRedoTextField, () -> {
+            getStage().setKeyboardFocus(null);
+            showKeyBindPop(primaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT);
+        });
+
+        var secondaryRedoTextField = new TextField("", skin);
+        setShortcutTextFieldText(secondaryRedoTextField, NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_MODIFIERS, DEFAULT_SECONDARY_REDO_SHORTCUT);
+        shortcutTable.add(secondaryRedoTextField);
+        addIbeamListener(secondaryRedoTextField);
+        addTooltip(secondaryRedoTextField, "Secondary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(secondaryRedoTextField, () -> {
+            getStage().setKeyboardFocus(null);
+            showKeyBindPop(secondaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT);
+        });
+
+        row();
+        var buttonTable = new Table();
+        buttonTable.defaults().space(5);
+        add(buttonTable).padTop(20);
+
+        var subButton = new TextButton("Open Preferences Directory", skin);
+        buttonTable.add(subButton);
+        addHandListener(subButton);
+        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, () -> {
+            try {
+                openFileExplorer(Gdx.files.external(".prefs/"));
+            } catch (Exception e) {
+                Gdx.app.error(getClass().getName(), "Error opening preferences folder", e);
+            }
+        });
+
+        buttonTable.row();
+        subButton = new TextButton("Reset to Defaults", skin);
+        buttonTable.add(subButton);
+        addHandListener(subButton);
+        addTooltip(subButton, "Reset all settings to their defaults.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, PopEditorSettings::resetSettingsToDefaults);
+
+        buttonTable.row();
+        subButton = new TextButton("Open GitHub Page", skin);
+        buttonTable.add(subButton);
+        addHandListener(subButton);
+        addTooltip(subButton, "Open the GitHub page for Particle Park Pro.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, () -> {
+            Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
+        });
+    }
+
+    public static void openFileExplorer(FileHandle startDirectory) throws IOException {
+        if (startDirectory.exists()) {
+            File file = startDirectory.file();
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
         } else {
-            previewSizeTable.setColor(skin.getColor("disabled"));
-            previewSizeTable.setTouchable(Touchable.disabled);
+            throw new IOException("Directory doesn't exist: " + startDirectory.path());
         }
+    }
 
-        var showResizeInterfaceCheckBox = new CheckBox("Show resize interface", skin);
-        showResizeInterfaceCheckBox.setChecked(showResizeInterface);
-        previewSizeTable.add(showResizeInterfaceCheckBox).left().space(itemSpacing).colspan(4);
-        addHandListener(showResizeInterfaceCheckBox);
-        onChange(showResizeInterfaceCheckBox, () -> {
-            showResizeInterface = showResizeInterfaceCheckBox.isChecked();
-            resizeWidget.setVisible(showResizeInterface);
-        });
+    private static String constructShortcutText(int[] modifiers, int shortcut) {
+        if (shortcut == Keys.ANY_KEY) return "";
 
-        previewSizeTable.row();
-        previewSizeTable.defaults().right().space(itemSpacing);
-
-        label = new Label("X:", skin);
-        previewSizeTable.add(label).padLeft(tabWidth);
-
-        var xSpinner = new Spinner(previewImageX, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        previewSizeTable.add(xSpinner).width(spinnerWidth);
-        addHandListener(xSpinner.getButtonMinus());
-        addHandListener(xSpinner.getButtonPlus());
-        addIbeamListener(xSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
-
-        label = new Label("Y:", skin);
-        previewSizeTable.add(label).padLeft(tabWidth);
-
-        var ySpinner = new Spinner(previewImageY, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        previewSizeTable.add(ySpinner).width(spinnerWidth);
-        addHandListener(ySpinner.getButtonMinus());
-        addHandListener(ySpinner.getButtonPlus());
-        addIbeamListener(ySpinner.getTextField());
-        onChange(ySpinner, () -> previewImageY = (float) ySpinner.getValue());
-
-        previewSizeTable.row();
-        label = new Label("Width:", skin);
-        previewSizeTable.add(label).padLeft(tabWidth);
-
-        var widthSpinner = new Spinner(previewImageWidth, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        previewSizeTable.add(widthSpinner).width(spinnerWidth);
-        addHandListener(widthSpinner.getButtonMinus());
-        addHandListener(widthSpinner.getButtonPlus());
-        addIbeamListener(widthSpinner.getTextField());
-        onChange(widthSpinner, () -> previewImageWidth = (float) widthSpinner.getValue());
-
-        label = new Label("Height:", skin);
-        previewSizeTable.add(label).padLeft(tabWidth);
-
-        var heightSpinner = new Spinner(previewImageHeight, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        previewSizeTable.add(heightSpinner).width(spinnerWidth);
-        addHandListener(heightSpinner.getButtonMinus());
-        addHandListener(heightSpinner.getButtonPlus());
-        addIbeamListener(heightSpinner.getTextField());
-        onChange(heightSpinner, () -> previewImageHeight = (float) heightSpinner.getValue());
-
-        onChange(selectPreviewTextButton, () -> {
-            var fileHandle = FileDialogs.openDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
-            if (fileHandle != null) {
-                setDefaultImagePath(fileHandle.parent());
-                previewImageTexture = new Texture(fileHandle);
-
-                previewImageX = 0;
-                previewImageY = 0;
-                previewImageWidth = previewImageTexture.getWidth();
-                previewImageHeight = previewImageTexture.getHeight();
-
-                xSpinner.setValue(previewImageX);
-                ySpinner.setValue(previewImageY);
-                widthSpinner.setValue(previewImageWidth);
-                heightSpinner.setValue(previewImageHeight);
-
-                previewSizeTable.setColor(Color.WHITE);
-                previewSizeTable.setTouchable(Touchable.childrenOnly);
-            }
-        });
-        onChange(removePreviewTextButton, () -> {
-            if (previewImageTexture != null) {
-                previewImageTexture.dispose();
-                previewImageTexture = null;
-            }
-
-            previewSizeTable.setColor(skin.getColor("disabled"));
-            previewSizeTable.setTouchable(Touchable.disabled);
-            showResizeInterfaceCheckBox.setChecked(false);
-        });
-
-        scrollTable.row();
-        image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
-
-        //Render grid
-        scrollTable.row();
-        label = new Label("Render Grid", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        var renderGridTable = new Table();
-        scrollTable.add(renderGridTable).left().padLeft(tabWidth);
-
-        renderGridTable.defaults().spaceLeft(seperationWidth).spaceTop(itemSpacing);
-        var gridCheckBox = new CheckBox("Grid enabled", skin);
-        gridCheckBox.setChecked(gridEnabled);
-        renderGridTable.add(gridCheckBox).left().expandX();
-        addHandListener(gridCheckBox);
-        onChange(gridCheckBox, () -> gridEnabled = gridCheckBox.isChecked());
-
-        var axesCheckBox = new CheckBox("Axes enabled", skin);
-        axesCheckBox.setChecked(axesEnabled);
-        renderGridTable.add(axesCheckBox).left().expandX();
-        addHandListener(axesCheckBox);
-        onChange(axesCheckBox, () -> axesEnabled = axesCheckBox.isChecked());
-
-        //Grid
-        renderGridTable.row();
-        var gridTable = new Table();
-        renderGridTable.add(gridTable).left();
-
-        gridTable.defaults().space(itemSpacing);
-        gridTable.columnDefaults(0).right();
-        gridTable.columnDefaults(1).left();
-        label = new Label("Major gridlines:", skin);
-        gridTable.add(label).padLeft(tabWidth);
-
-        var majorGridlinesSpinner = new Spinner(gridMajorGridlines, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        gridTable.add(majorGridlinesSpinner).width(spinnerWidth);
-        addHandListener(majorGridlinesSpinner.getButtonMinus());
-        addHandListener(majorGridlinesSpinner.getButtonPlus());
-        addIbeamListener(majorGridlinesSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
-        onChange(majorGridlinesSpinner, () -> {
-            float value = (float) majorGridlinesSpinner.getValue();
-            if (value > 0) gridMajorGridlines = value;
-        });
-
-        gridTable.row();
-        label = new Label("Minor gridlines:", skin);
-        gridTable.add(label).padLeft(tabWidth);
-
-        var minorGridlinesSpinner = new Spinner(gridMinorGridlines, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
-        gridTable.add(minorGridlinesSpinner).width(spinnerWidth);
-        addHandListener(minorGridlinesSpinner.getButtonMinus());
-        addHandListener(minorGridlinesSpinner.getButtonPlus());
-        addIbeamListener(minorGridlinesSpinner.getTextField());
-        onChange(minorGridlinesSpinner, () -> {
-            float value = (float) minorGridlinesSpinner.getValue();
-            if (value > 0) gridMinorGridlines = value;
-        });
-
-        gridTable.row();
-        label = new Label("Grid color:", skin);
-        gridTable.add(label).padLeft(tabWidth);
-
-        stack = new Stack();
-        gridTable.add(stack).space(itemSpacing);
-
-        image = new Image(skin, "swatch-bg");
-        image.setScaling(Scaling.none);
-        stack.add(image);
-
-        var gridColorImage = new Image(skin, "swatch-fill");
-        gridColorImage.setColor(gridColor);
-        gridColorImage.setScaling(Scaling.none);
-        stack.add(gridColorImage);
-        addHandListener(stack);
-        onClick(gridColorImage, () -> {
-            var cp = new PopColorPicker(gridColor, popColorPickerStyle);
-            cp.setHideOnUnfocus(true);
-            cp.setButtonListener(handListener);
-            cp.setTextFieldListener(ibeamListener);
-            cp.addListener(new TableShowHideListener() {
-                @Override
-                public void tableShown(Event event) {
-                    setHideOnUnfocus(false);
-                }
-
-                @Override
-                public void tableHidden(Event event) {
-                    setHideOnUnfocus(true);
-                }
-            });
-            cp.addListener(new PopColorPickerListener() {
-                @Override
-                public void picked(Color color) {
-                    gridColorImage.setColor(color);
-                    gridColor.set(color);
-                }
-
-                @Override
-                public void updated(Color color) {
-                    gridColorImage.setColor(color);
-                    gridColor.set(color);
-                }
-
-                @Override
-                public void cancelled(Color oldColor) {
-                    gridColorImage.setColor(oldColor);
-                    gridColor.set(oldColor);
-                }
-            });
-            cp.show(foregroundStage);
-        });
-
-        onChange(gridCheckBox, () -> {
-            if (gridCheckBox.isChecked()) {
-                gridTable.setTouchable(Touchable.enabled);
-                gridTable.setColor(Color.WHITE);
-            } else {
-                gridTable.setTouchable(Touchable.disabled);
-                gridTable.setColor(skin.getColor("disabled"));
-                foregroundStage.setKeyboardFocus(null);
-            }
-        });
-        if (!gridEnabled) {
-            gridTable.setTouchable(Touchable.disabled);
-            gridTable.setColor(skin.getColor("disabled"));
+        var stringBuilder = new StringBuilder();
+        for (var modifier : modifiers) {
+            var text = Keys.toString(modifier);
+            if (text.startsWith("L-")) text = text.substring(2);
+            stringBuilder.append(text);
+            stringBuilder.append("+");
         }
+        stringBuilder.append(Keys.toString(shortcut));
+        return stringBuilder.toString();
+    }
 
-        //Axes
-        var axesTable = new Table();
-        renderGridTable.add(axesTable).left().top();
+    private static int[] readModifierText(String modifiersText) {
+        if (modifiersText.isEmpty()) return new int[0];
 
-        axesTable.defaults().space(itemSpacing);
-        axesTable.columnDefaults(0).right();
-        axesTable.columnDefaults(1).left();
-        label = new Label("Axes color:", skin);
-        axesTable.add(label).padLeft(tabWidth);
+        var returnValue = new IntArray();
+        var strings = modifiersText.split(",");
+        for (var string : strings) {
+            returnValue.add(Integer.parseInt(string));
+        }
+        return returnValue.toArray();
+    }
 
-        stack = new Stack();
-        axesTable.add(stack).space(itemSpacing);
+    private static String modifiersToText(int[] modifiers) {
+        var stringBuilder = new StringBuilder();
+        for (int i = 0; i < modifiers.length; i++) {
+            var modifier = modifiers[i];
+            stringBuilder.append(modifier);
+            if (i < modifiers.length - 1) stringBuilder.append(",");
+        }
+        return stringBuilder.toString();
+    }
 
-        image = new Image(skin, "swatch-bg");
-        image.setScaling(Scaling.none);
-        stack.add(image);
+    public static void resetSettingsToDefaults() {
+        preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
+        preferences.putString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
+        preferences.putInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
+        preferences.putString(NAME_PRIMARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_UNDO_MODIFIERS));
+        preferences.putInteger(NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_SHORTCUT);
+        preferences.putString(NAME_SECONDARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_UNDO_MODIFIERS));
+        preferences.putInteger(NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_SHORTCUT);
+        preferences.putString(NAME_PRIMARY_REDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_REDO_MODIFIERS));
+        preferences.putInteger(NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_SHORTCUT);
+        preferences.putString(NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
+        preferences.flush();
+    }
 
-        var axesColorImage = new Image(skin, "swatch-fill");
-        axesColorImage.setColor(axesColor);
-        axesColorImage.setScaling(Scaling.none);
-        stack.add(axesColorImage);
-        addHandListener(stack);
-        onClick(axesColorImage, () -> {
-            var cp = new PopColorPicker(gridColor, popColorPickerStyle);
-            cp.setHideOnUnfocus(true);
-            cp.setButtonListener(handListener);
-            cp.setTextFieldListener(ibeamListener);
-            cp.addListener(new TableShowHideListener() {
-                @Override
-                public void tableShown(Event event) {
-                    setHideOnUnfocus(false);
+    private static void setShortcutTextFieldText(TextField textField, String modifiersKey, String shortcutKey, int[] defaultModifiers, int defaultShortcut) {
+        if (preferences.contains(modifiersKey) && preferences.contains(shortcutKey)) {
+            textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
+        } else {
+            textField.setText(constructShortcutText(defaultModifiers, defaultShortcut));
+        }
+    }
+
+    private static void showKeyBindPop(TextField textField, String name, Stage stage, String modifiersKey, String shortcutKey) {
+        var pop = new PopTable(skin.get("key-bind", WindowStyle.class));
+        pop.setHideOnUnfocus(true);
+
+        var label = new Label("Press a key combination for\n" + name + "\nPress ESCAPE to clear", skin, "bold");
+        label.setAlignment(Align.center);
+        pop.add(label);
+        label.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT) return false;
+                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) return false;
+                if (keycode == Keys.ALT_LEFT || keycode == Keys.ALT_RIGHT) return false;
+
+                var intArray = new IntArray();
+                if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT)) intArray.add(Keys.CONTROL_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) intArray.add(Keys.ALT_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) intArray.add(Keys.SHIFT_LEFT);
+
+                if (keycode == Keys.ESCAPE) {
+                    preferences.putInteger(shortcutKey, Keys.ANY_KEY);
+                    preferences.putString(modifiersKey, "");
+                    preferences.flush();
+                    textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
+
+                    pop.hide();
+                    return false;
                 }
 
-                @Override
-                public void tableHidden(Event event) {
-                    setHideOnUnfocus(true);
-                }
-            });
-            cp.addListener(new PopColorPickerListener() {
-                @Override
-                public void picked(Color color) {
-                    axesColorImage.setColor(color);
-                    axesColor.set(color);
-                }
+                preferences.putInteger(shortcutKey, keycode);
+                preferences.putString(modifiersKey, modifiersToText(intArray.toArray()));
+                preferences.flush();
+                textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
 
-                @Override
-                public void updated(Color color) {
-                    axesColorImage.setColor(color);
-                    axesColor.set(color);
-                }
-
-                @Override
-                public void cancelled(Color oldColor) {
-                    axesColorImage.setColor(oldColor);
-                    axesColor.set(oldColor);
-                }
-            });
-            cp.show(foregroundStage);
-        });
-
-        onChange(axesCheckBox, () -> {
-            if (axesCheckBox.isChecked()) {
-                axesTable.setTouchable(Touchable.enabled);
-                axesTable.setColor(Color.WHITE);
-            } else {
-                axesTable.setTouchable(Touchable.disabled);
-                axesTable.setColor(skin.getColor("disabled"));
-                foregroundStage.setKeyboardFocus(null);
+                pop.hide();
+                return false;
             }
         });
-        if (!axesEnabled) {
-            axesTable.setTouchable(Touchable.disabled);
-            axesTable.setColor(skin.getColor("disabled"));
-        }
 
-        scrollTable.row();
-        image = new Image(skin, "divider-10");
-        image.setScaling(Scaling.stretchX);
-        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
-
-        //Shading
-        scrollTable.row();
-        label = new Label("Shading", skin, "header");
-        scrollTable.add(label).left();
-
-        scrollTable.row();
-        table = new Table();
-        scrollTable.add(table).space(itemSpacing).left();
-
-        //Vertex Shader
-        table.defaults().top().space(itemSpacing);
-        var subtable = new Table();
-        table.add(subtable);
-
-        subtable.defaults().space(itemSpacing);
-        label = new Label("Vertex Shader", skin);
-        subtable.add(label).padLeft(tabWidth);
-
-        subtable.row();
-        var textButton = new TextButton("Default", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Set", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Reload", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Show", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        //Frag. Shader
-        subtable = new Table();
-        table.add(subtable);
-
-        subtable.defaults().space(itemSpacing);
-        label = new Label("Frag. Shader", skin);
-        subtable.add(label).padLeft(tabWidth);
-
-        subtable.row();
-        textButton = new TextButton("Default", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Set", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Reload", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Show", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        //Extra Texture Units
-        subtable = new Table();
-        table.add(subtable).padLeft(seperationWidth);
-
-        subtable.defaults().space(itemSpacing);
-        label = new Label("Extra Texture Units", skin);
-        subtable.add(label).padLeft(tabWidth).colspan(2);
-
-        subtable.row();
-        var list = new List<String>(skin);
-        scrollPane = new ScrollPane(list, skin);
-        subtable.add(scrollPane).growY().width(100);
-        addHandListener(list);
-        addScrollFocusListener(scrollPane);
-
-        var textureUnitsTable = new Table();
-        subtable.add(textureUnitsTable);
-
-        textureUnitsTable.defaults().space(itemSpacing);
-        textButton = new TextButton("Add", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Up", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Down", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Delete", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Reload", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
+        pop.show(stage);
+        stage.setKeyboardFocus(label);
     }
 }
