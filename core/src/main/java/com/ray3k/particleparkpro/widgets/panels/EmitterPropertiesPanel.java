@@ -1,5 +1,7 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -55,6 +57,7 @@ public class EmitterPropertiesPanel extends Panel {
         bodyTable.add(addPropertyTextButton).right();
         addHandListener(addPropertyTextButton);
         onChange(addPropertyTextButton, () -> {
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
             var pop = new PopAddProperty();
             pop.attachToActor(addPropertyTextButton, Align.top, Align.top);
             pop.show(foregroundStage);
