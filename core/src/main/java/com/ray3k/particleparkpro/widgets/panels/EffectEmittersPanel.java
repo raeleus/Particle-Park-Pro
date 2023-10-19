@@ -27,6 +27,7 @@ import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class EffectEmittersPanel extends Panel {
     private DraggableList emittersDraggableList;

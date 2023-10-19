@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 @AllArgsConstructor
 public class DeleteEmitterUndoable implements Undoable {

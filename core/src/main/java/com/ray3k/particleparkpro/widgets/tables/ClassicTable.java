@@ -2,23 +2,18 @@ package com.ray3k.particleparkpro.widgets.tables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
-import com.ray3k.stripe.PopTable;
-import com.ray3k.stripe.PopTable.TableShowHideListener;
-import com.ray3k.stripe.Spinner;
-import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class ClassicTable extends Table {
     public static ClassicTable classicTable;
@@ -29,11 +24,12 @@ public class ClassicTable extends Table {
 
         var effectEmittersPanel = new EffectEmittersPanel();
         var previewPanel = new PreviewPanel();
+        var emitterPropertiesPanel = new EmitterPropertiesPanel();
+
         var leftSplitPane = new SplitPane(effectEmittersPanel, previewPanel, true, skin);
         leftSplitPane.setSplitAmount(.7f);
         addSplitPaneVerticalSystemCursorListener(leftSplitPane);
 
-        emitterPropertiesPanel = new EmitterPropertiesPanel();
         var horizontalSplitPane = new SplitPane(leftSplitPane, emitterPropertiesPanel, false, skin);
         add(horizontalSplitPane).grow();
         horizontalSplitPane.setSplitAmount(.4f);

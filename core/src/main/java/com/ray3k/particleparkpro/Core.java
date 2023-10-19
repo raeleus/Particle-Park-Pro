@@ -39,6 +39,7 @@ import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
+import com.ray3k.particleparkpro.widgets.tables.WizardTable;
 import com.ray3k.stripe.DraggableList.DraggableListStyle;
 import com.ray3k.stripe.DraggableTextList.DraggableTextListStyle;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerStyle;
@@ -101,7 +102,6 @@ public class Core extends ApplicationAdapter {
 //    public static float time;
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
-    public static EmitterPropertiesPanel emitterPropertiesPanel;
     public static String defaultFileName;
 
     @Override
@@ -342,6 +342,7 @@ public class Core extends ApplicationAdapter {
 
     public static void refreshUndoButtons() {
         if (ClassicTable.classicTable != null) ClassicTable.classicTable.refreshUndo();
+        if (WizardTable.wizardTable != null) WizardTable.wizardTable.refreshUndo();
     }
 
     @Override

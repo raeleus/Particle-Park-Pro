@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.Builder;
 
-import static com.ray3k.particleparkpro.Core.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 @Builder(toBuilder = true)
 public class DualScaledNumericValueUndoable implements Undoable {
