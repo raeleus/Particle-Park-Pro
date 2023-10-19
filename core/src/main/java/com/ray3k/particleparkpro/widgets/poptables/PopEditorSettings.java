@@ -27,6 +27,7 @@ import static com.ray3k.particleparkpro.Core.*;
 
 public class PopEditorSettings extends PopTable {
     public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
+    public static final String NAME_CHECK_FOR_UPDATES = "Check for updates";
     public static final String NAME_OPEN_TO_SCREEN = "Open to screen";
     public static final String NAME_PRIMARY_UNDO_MODIFIERS = "Primary undo modifiers";
     public static final String NAME_PRIMARY_UNDO_SHORTCUT = "Primary undo shortcut";
@@ -37,6 +38,7 @@ public class PopEditorSettings extends PopTable {
     public static final String NAME_SECONDARY_REDO_MODIFIERS = "Secondary redo modifiers";
     public static final String NAME_SECONDARY_REDO_SHORTCUT = "Secondary redo shortcut";
     public static final int DEFAULT_MAXIMUM_UNDOS = 100;
+    public static final boolean DEFAULT_CHECK_FOR_UPDATES = true;
     public static final String DEFAULT_OPEN_TO_SCREEN = "Welcome";
     public static final int[] DEFAULT_PRIMARY_UNDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
     public static final int DEFAULT_PRIMARY_UNDO_SHORTCUT = Keys.Z;
@@ -114,6 +116,13 @@ public class PopEditorSettings extends PopTable {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
         });
+
+        settingsTable.row();
+        var checkBox = new CheckBox("Check for updates", skin);
+        checkBox.setChecked(preferences.getBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES));
+        settingsTable.add(checkBox).colspan(2).center();
+        addHandListener(checkBox);
+        addTooltip(checkBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, tooltipBottomArrowStyle);
 
         row();
         var shortcutTable = new Table();

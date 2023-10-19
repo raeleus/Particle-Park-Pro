@@ -3,6 +3,9 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
+import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -31,6 +35,7 @@ import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocus;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
+import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
@@ -59,6 +64,7 @@ public class Core extends ApplicationAdapter {
     public static OrthographicCamera previewCamera;
     public static Container<Actor> root;
     public static String version;
+    public static String versionRaw;
     private Color bgColor = new Color();
     public static PopColorPickerStyle popColorPickerStyle;
     public static LineGraphStyle lineGraphStyle;
@@ -100,7 +106,8 @@ public class Core extends ApplicationAdapter {
 
     @Override
     public void create() {
-        version = "ver " + Gdx.files.classpath("version").readString();
+        versionRaw = Gdx.files.classpath("version").readString();
+        version = "ver " + versionRaw;
         defaultFileName = "particle.p";
 
         preferences = Gdx.app.getPreferences("Particle Park Pro");
@@ -581,5 +588,42 @@ public class Core extends ApplicationAdapter {
                 else sliderPop.hide();
             }
         });
+    }
+
+    public static void checkVersion(VersionUpdateRunnable updater) {
+        if (!preferences.getBoolean(PopEditorSettings.NAME_CHECK_FOR_UPDATES, PopEditorSettings.DEFAULT_CHECK_FOR_UPDATES)) return;
+
+        Thread thread = new Thread(() -> {
+            HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+            HttpRequest httpRequest =
+                requestBuilder.newRequest()
+                              .method(HttpMethods.GET)
+                              .url("https://raw.githubusercontent.com/raeleus/Particle-Park-Pro/master/core/src/main/resources/version")
+                              .build();
+
+            Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+                @Override
+                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                    var newVersion = httpResponse.getResultAsString();
+                    Gdx.app.postRunnable(() -> updater.versionUpdateAvailable(newVersion));
+                }
+
+                @Override
+                public void failed(Throwable t) {
+                    updater.versionUpdateAvailable(version);
+                }
+
+                @Override
+                public void cancelled() {
+                    updater.versionUpdateAvailable(version);
+                }
+            });
+        });
+
+        thread.start();
+    }
+
+    public interface VersionUpdateRunnable {
+        void versionUpdateAvailable(String newVersion);
     }
 }

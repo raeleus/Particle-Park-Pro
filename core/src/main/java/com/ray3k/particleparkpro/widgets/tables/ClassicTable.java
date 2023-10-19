@@ -47,9 +47,14 @@ public class ClassicTable extends Table {
         table.add(label);
 
         var textButton = new TextButton("-Update Available-", skin, "no-bg");
+        textButton.setVisible(false);
         table.add(textButton).spaceLeft(10);
         addHandListener(textButton);
         addTooltip(textButton, "Open browser to download page", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(textButton, () -> Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro/releases"));
+        checkVersion((String newVersion) -> {
+            if (!versionRaw.equals(newVersion)) textButton.setVisible(true);
+        });
 
         var button = new Button(skin, "home");
         table.add(button).expandX().right();
