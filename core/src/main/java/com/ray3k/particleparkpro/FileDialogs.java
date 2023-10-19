@@ -17,7 +17,6 @@ import static org.lwjgl.util.nfd.NativeFileDialog.*;
 
 public class FileDialogs {
     public static Array<FileHandle> openMultipleDialog(String defaultPath, String[] filterPatterns, String[] filterDescriptions) {
-        System.out.println(defaultPath);
         //fix file path characters
         if (isWindows()) {
             defaultPath = defaultPath.replace("/", "\\");
@@ -35,7 +34,7 @@ public class FileDialogs {
 
             var pp = stack.mallocPointer(1);
 
-            var status = NativeFileDialog.NFD_OpenDialogMultiple(pp, filters, defaultPath);
+            var status = NativeFileDialog.NFD_OpenDialogMultiple(pp, filters, stack.UTF8(defaultPath));
 
             if (status == NFD_CANCEL) return null;
             if (status != NFD_OKAY) System.err.format("Error: %s\n", NFD_GetError());
@@ -61,7 +60,6 @@ public class FileDialogs {
     }
 
     public static FileHandle openDialog(String defaultPath, String[] filterPatterns, String[] filterDescriptions) {
-        System.out.println(defaultPath);
         //fix file path characters
         if (isWindows()) {
             defaultPath = defaultPath.replace("/", "\\");
@@ -78,7 +76,7 @@ public class FileDialogs {
             }
 
             PointerBuffer pp = stack.mallocPointer(1);
-            var status = NFD_OpenDialog(pp, filters, defaultPath);
+            var status = NFD_OpenDialog(pp, filters, stack.UTF8(defaultPath));
 
             if (status == NativeFileDialog.NFD_CANCEL) return null;
             else if (status == NFD_OKAY) {
