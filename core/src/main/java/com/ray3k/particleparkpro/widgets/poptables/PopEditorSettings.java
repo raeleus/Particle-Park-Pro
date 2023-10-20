@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
+import com.ray3k.particleparkpro.Settings;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -24,31 +25,9 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class PopEditorSettings extends PopTable {
-    public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
-    public static final String NAME_CHECK_FOR_UPDATES = "Check for updates";
-    public static final String NAME_OPEN_TO_SCREEN = "Open to screen";
-    public static final String NAME_PRIMARY_UNDO_MODIFIERS = "Primary undo modifiers";
-    public static final String NAME_PRIMARY_UNDO_SHORTCUT = "Primary undo shortcut";
-    public static final String NAME_SECONDARY_UNDO_MODIFIERS = "Secondary undo modifiers";
-    public static final String NAME_SECONDARY_UNDO_SHORTCUT = "Secondary undo shortcut";
-    public static final String NAME_PRIMARY_REDO_MODIFIERS = "Primary redo modifiers";
-    public static final String NAME_PRIMARY_REDO_SHORTCUT = "Primary redo shortcut";
-    public static final String NAME_SECONDARY_REDO_MODIFIERS = "Secondary redo modifiers";
-    public static final String NAME_SECONDARY_REDO_SHORTCUT = "Secondary redo shortcut";
-    public static final int DEFAULT_MAXIMUM_UNDOS = 100;
-    public static final boolean DEFAULT_CHECK_FOR_UPDATES = true;
-    public static final String DEFAULT_OPEN_TO_SCREEN = "Welcome";
-    public static final int[] DEFAULT_PRIMARY_UNDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
-    public static final int DEFAULT_PRIMARY_UNDO_SHORTCUT = Keys.Z;
-    public static final int[] DEFAULT_SECONDARY_UNDO_MODIFIERS = new int[] {};
-    public static final int DEFAULT_SECONDARY_UNDO_SHORTCUT = Keys.ANY_KEY;
-    public static final int[] DEFAULT_PRIMARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
-    public static final int DEFAULT_PRIMARY_REDO_SHORTCUT = Keys.Y;
-    public static final int[] DEFAULT_SECONDARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT};
-    public static final int DEFAULT_SECONDARY_REDO_SHORTCUT = Keys.Z;
-
     private static final Array<TextField> textFields = new Array<>();
 
     public PopEditorSettings() {
@@ -112,6 +91,7 @@ public class PopEditorSettings extends PopTable {
         settingsTable.add(selectBox);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
+        addTooltip(spinner, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
@@ -286,13 +266,17 @@ public class PopEditorSettings extends PopTable {
         preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
         preferences.putString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
         preferences.putInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
-        preferences.putString(NAME_PRIMARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_UNDO_MODIFIERS));
+        preferences.putString(
+            NAME_PRIMARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_UNDO_MODIFIERS));
         preferences.putInteger(NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_SHORTCUT);
-        preferences.putString(NAME_SECONDARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_UNDO_MODIFIERS));
+        preferences.putString(
+            NAME_SECONDARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_UNDO_MODIFIERS));
         preferences.putInteger(NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_SHORTCUT);
-        preferences.putString(NAME_PRIMARY_REDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_REDO_MODIFIERS));
+        preferences.putString(
+            NAME_PRIMARY_REDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_REDO_MODIFIERS));
         preferences.putInteger(NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_SHORTCUT);
-        preferences.putString(NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
+        preferences.putString(
+            NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
         preferences.flush();
 
         populate();

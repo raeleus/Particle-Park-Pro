@@ -34,8 +34,6 @@ import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocus;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
-import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
@@ -592,7 +590,7 @@ public class Core extends ApplicationAdapter {
     }
 
     public static void checkVersion(VersionUpdateRunnable updater) {
-        if (!preferences.getBoolean(PopEditorSettings.NAME_CHECK_FOR_UPDATES, PopEditorSettings.DEFAULT_CHECK_FOR_UPDATES)) return;
+        if (!preferences.getBoolean(Settings.NAME_CHECK_FOR_UPDATES, Settings.DEFAULT_CHECK_FOR_UPDATES)) return;
 
         Thread thread = new Thread(() -> {
             HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
