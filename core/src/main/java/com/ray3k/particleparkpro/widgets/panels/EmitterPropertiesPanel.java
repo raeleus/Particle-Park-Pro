@@ -2,22 +2,21 @@ package com.ray3k.particleparkpro.widgets.panels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.FloatArray;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
 import com.ray3k.particleparkpro.widgets.subpanels.*;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.PresetActions.fadeInEmitterProperty;
-import static com.ray3k.particleparkpro.PresetActions.hideEmitterProperty;
+import static com.ray3k.particleparkpro.PresetActions.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 
 public class EmitterPropertiesPanel extends Panel {
@@ -204,20 +203,60 @@ public class EmitterPropertiesPanel extends Panel {
         if (scrollToActor != null) {
             scrollTable.layout();
             scrollPane.layout();
+
             temp.set(0, 0);
             scrollToActor.localToActorCoordinates(scrollTable, temp);
-            scrollPane.scrollTo(0, temp.y + scrollToActor.getHeight(), scrollToActor.getWidth(), scrollToActor.getHeight());
+            scrollPane.scrollTo(0, temp.y + scrollToActor.getHeight(), scrollToActor.getWidth(),
+                scrollToActor.getHeight());
 
-            scrollToActor.addAction(fadeInEmitterProperty(scrollToActor));
+            scrollToActor.addAction(showEmitterPropertyInTable(scrollToActor));
+
+            var foundScrollToActor = false;
+            float distance = 0;
+            var children = scrollTable.getChildren();
+
+            for (int i = 0; i < children.size; i++) {
+                var child = children.get(i);
+                if (child == scrollToActor) {
+                    foundScrollToActor = true;
+
+                    if (i < children.size - 1) {
+                        var nextActor = children.get(i + 1);
+                        distance = scrollToActor.getY() + scrollToActor.getHeight() - nextActor.getY() - nextActor.getHeight();
+                    }
+                    continue;
+                }
+                if (!foundScrollToActor) continue;
+                child.addAction(Actions.sequence(Actions.moveBy(0, distance), Actions.moveTo(child.getX(), child.getY(), .5f, Interpolation.smooth)));
+            }
         }
     }
 
     public void removeProperty(ShownProperty shownProperty) {
-        for (var child : scrollTable.getChildren()) {
+        var foundProperty = false;
+        float distance = 0;
+        var children = scrollTable.getChildren();
+
+        for (int i = 0; i < children.size; i++) {
+            var child = children.get(i);
             if (child.getUserObject() == shownProperty) {
-                child.addAction(Actions.sequence(hideEmitterProperty(child), Actions.run(() -> populateScrollTable(null))));
-                break;
+                temp.set(0, 0);
+                child.localToActorCoordinates(scrollTable, temp);
+                scrollPane.scrollTo(0, temp.y + child.getHeight(), child.getWidth(), child.getHeight());
+
+                child.addAction(Actions.sequence(hideEmitterPropertyInTable(child), Actions.run(() -> populateScrollTable(null))));
+                foundProperty = true;
+
+                if (i < children.size - 1) {
+                    var nextActor = children.get(i + 1);
+                    distance = child.getY() + child.getHeight() - nextActor.getY() - nextActor.getHeight();
+                }
+                continue;
             }
+
+            if (!foundProperty) continue;
+
+            child.addAction(Actions.sequence(Actions.moveBy(0, distance, .5f, Interpolation.smooth)));
         }
     }
 }

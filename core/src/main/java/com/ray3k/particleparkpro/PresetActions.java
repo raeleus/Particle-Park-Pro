@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
@@ -91,14 +92,33 @@ public class PresetActions {
         second.addAction(moveInAction(second, alignDirection));
     }
 
-    public static Action fadeInEmitterProperty(Actor actor) {
-        var transitionTime = .5f;
-        var moveAction = sequence(moveTo(actor.getX() + actor.getWidth(), actor.getY()), moveTo(actor.getX(), actor.getY(), transitionTime, Interpolation.smooth));
-        var fadeAction = sequence(color(CLEAR_WHITE), fadeIn(transitionTime));
+    public static Action showEmitterPropertyInTable(Actor actor) {
+        var duration = .5f;
+        var moveAction = sequence(moveTo(actor.getX() + actor.getWidth(), actor.getY()), moveTo(actor.getX(), actor.getY(), duration, Interpolation.smooth));
+        var fadeAction = sequence(color(CLEAR_WHITE), fadeIn(duration));
         return parallel(moveAction, fadeAction);
     }
 
-    public static Action hideEmitterProperty(Actor actor) {
-        return sequence(moveTo(actor.getX() + actor.getWidth(), actor.getY(), .5f, Interpolation.smooth));
+    public static Action showEmitterPropertyInHorizontalGroup(Actor actor) {
+        if (actor instanceof Group) ((Group) actor).setTransform(true);
+
+        var duration = .5f;
+        actor.setOrigin(Align.center);
+        actor.setScale(1.5f);
+        actor.setColor(1, 1, 1, 0);
+        return parallel(scaleTo(1, 1, duration, Interpolation.smooth), fadeIn(duration, Interpolation.smooth));
+    }
+
+    public static Action hideEmitterPropertyInTable(Actor actor) {
+        return moveTo(actor.getX() + actor.getWidth(), actor.getY(), .5f, Interpolation.smooth);
+    }
+
+    public static Action hideEmitterPropertyInHorizontalGroup(Actor actor) {
+        if (actor instanceof Group) ((Group) actor).setTransform(true);
+
+        var duration = .25f;
+        var scaleTarget = 1.5f;
+        actor.setOrigin(Align.center);
+        return parallel(scaleTo(scaleTarget, scaleTarget, duration), fadeOut(duration));
     }
 }
