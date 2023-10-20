@@ -124,12 +124,18 @@ public class TintSubPanel extends Panel {
 
             @Override
             public void changeCancelled(Color color) {
+                setTimeLine();
 
+                value.setTimeline(newTimeline.toArray());
+                value.setColors(newColors.toArray());
             }
 
             @Override
             public void previewed(Color color) {
+                setTimeLine();
 
+                value.setTimeline(newTimeline.toArray());
+                value.setColors(newColors.toArray());
             }
         });
     }
