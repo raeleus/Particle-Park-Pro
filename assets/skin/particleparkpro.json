@@ -1868,6 +1868,14 @@
 		"down": "icon-redo-down",
 		"over": "icon-redo-over",
 		"disabled": "icon-redo-up"
+	},
+	"pager-dot": {
+		"up": "pager-dot",
+		"down": "pager-dot-pressed",
+		"over": "pager-dot-over",
+		"checked": "pager-dot-selected",
+		"checkedOver": "pager-dot-selected-over",
+		"checkedDown": "pager-dot-selected-pressed"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {

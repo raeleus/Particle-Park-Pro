@@ -538,7 +538,7 @@ cp-slider-background
   index: -1
 cp-slider-knob-horizontal
   rotate: false
-  xy: 414, 427
+  xy: 314, 354
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
@@ -615,7 +615,7 @@ draggable-list-drag-background
   index: -1
 draggable-list-drag-remove
   rotate: false
-  xy: 414, 404
+  xy: 516, 525
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -678,7 +678,7 @@ graph-node-over
   index: -1
 graph-node-up
   rotate: false
-  xy: 414, 415
+  xy: 428, 390
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -872,6 +872,48 @@ list-selection
   orig: 15, 15
   offset: 0, 0
   index: -1
+pager-dot
+  rotate: false
+  xy: 428, 430
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+pager-dot-over
+  rotate: false
+  xy: 414, 413
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+pager-dot-pressed
+  rotate: false
+  xy: 414, 397
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+pager-dot-selected
+  rotate: false
+  xy: 414, 381
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+pager-dot-selected-over
+  rotate: false
+  xy: 414, 429
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+pager-dot-selected-pressed
+  rotate: false
+  xy: 428, 414
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
 panel-body
   rotate: false
   xy: 509, 891
@@ -1007,7 +1049,7 @@ resize-knob-up
   index: -1
 scrollbar
   rotate: false
-  xy: 314, 360
+  xy: 428, 402
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -1112,7 +1154,7 @@ split-h
   index: -1
 split-v
   rotate: false
-  xy: 426, 418
+  xy: 538, 701
   size: 7, 26
   orig: 7, 26
   offset: 0, 0
@@ -1161,7 +1203,7 @@ subpanel-bottom-right
   index: -1
 subpanel-header-divider
   rotate: false
-  xy: 538, 703
+  xy: 574, 739
   size: 1, 24
   orig: 1, 24
   offset: 0, 0

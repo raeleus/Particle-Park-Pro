@@ -5,13 +5,16 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.CardGroup;
+import com.ray3k.particleparkpro.widgets.Pager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
+import com.ray3k.particleparkpro.widgets.panels.SummaryPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -29,10 +32,16 @@ public class WizardTable extends Table {
         var previewPanel = new PreviewPanel();
         var effectEmittersPanel = new EffectEmittersPanel();
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
+        var summaryPanel = new SummaryPanel();
 
-        var cardGroup = new CardGroup(effectEmittersPanel, emitterPropertiesPanel);
+        var pager = new Pager(effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
+        pager.setTouchable(Touchable.enabled);
+        addHandListener(pager.previousButton);
+        addHandListener(pager.nextButton);
+        for (var button : pager.buttonGroup.getButtons()) addHandListener(button);
+        pager.buttonTable.padTop(10).padBottom(20);
 
-        var verticalSplitPane = new SplitPane(previewPanel, cardGroup, true, skin);
+        var verticalSplitPane = new SplitPane(previewPanel, pager, true, skin);
         add(verticalSplitPane).grow();
         verticalSplitPane.setSplitAmount(.5f);
         addSplitPaneVerticalSystemCursorListener(verticalSplitPane);
@@ -75,17 +84,6 @@ public class WizardTable extends Table {
         refreshUndo();
 
         stage.setKeyboardFocus(this);
-
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                System.out.println("hit");
-                if (keycode == Keys.NUM_1) cardGroup.showIndex(0);
-                if (keycode == Keys.NUM_2) cardGroup.showIndex(1);
-//                if (keycode == Keys.NUM_3) cardGroup.showIndex(2);
-                return super.keyDown(event, keycode);
-            }
-        });
     }
 
     public void refreshUndo() {
