@@ -87,6 +87,8 @@ public class PresetActions {
     }
 
     public static void transition(Actor first, Actor second, int alignDirection) {
+        particleEffect.setPosition(0, 0);
+
         stage.addActor(first);
         first.addAction(moveOutAction(first, alignDirection));
 
