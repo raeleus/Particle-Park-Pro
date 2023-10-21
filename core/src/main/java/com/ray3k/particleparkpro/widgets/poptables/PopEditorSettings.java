@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
-import com.ray3k.particleparkpro.Settings;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -241,27 +240,6 @@ public class PopEditorSettings extends PopTable {
         return stringBuilder.toString();
     }
 
-    private static int[] readModifierText(String modifiersText) {
-        if (modifiersText.isEmpty()) return new int[0];
-
-        var returnValue = new IntArray();
-        var strings = modifiersText.split(",");
-        for (var string : strings) {
-            returnValue.add(Integer.parseInt(string));
-        }
-        return returnValue.toArray();
-    }
-
-    private static String modifiersToText(int[] modifiers) {
-        var stringBuilder = new StringBuilder();
-        for (int i = 0; i < modifiers.length; i++) {
-            var modifier = modifiers[i];
-            stringBuilder.append(modifier);
-            if (i < modifiers.length - 1) stringBuilder.append(",");
-        }
-        return stringBuilder.toString();
-    }
-
     public void resetSettingsToDefaults() {
         preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
         preferences.putString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
@@ -317,6 +295,7 @@ public class PopEditorSettings extends PopTable {
 
                     pop.hide();
                     checkForDuplicateShortcuts();
+                    initialize();
                     return false;
                 }
 
@@ -327,6 +306,7 @@ public class PopEditorSettings extends PopTable {
 
                 pop.hide();
                 checkForDuplicateShortcuts();
+                initialize();
                 return false;
             }
         });

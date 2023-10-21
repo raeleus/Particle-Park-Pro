@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
@@ -114,6 +115,8 @@ public class Core extends ApplicationAdapter {
         fileHandles = new ObjectMap<>();
         sprites = new ObjectMap<>();
 
+        Settings.initialize();
+
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();
         previewViewport = new ScreenViewport(previewCamera);
@@ -179,6 +182,24 @@ public class Core extends ApplicationAdapter {
             }
         });
 
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Settings.undoPrimaryShortcut && holdingModifiers(Settings.undoPrimaryModifiers) && UndoManager.hasUndo()) {
+                    UndoManager.undo();
+                } else if (keycode == Settings.undoSecondaryShortcut && holdingModifiers(Settings.undoSecondaryModifiers) && UndoManager.hasUndo()) {
+                    UndoManager.undo();
+                }
+
+                if (keycode == Settings.redoPrimaryShortcut && holdingModifiers(Settings.redoPrimaryModifiers) && UndoManager.hasRedo()) {
+                    UndoManager.redo();
+                } else if (keycode == Settings.redoSecondaryShortcut && holdingModifiers(Settings.redoSecondaryModifiers) && UndoManager.hasRedo()) {
+                    UndoManager.redo();
+                }
+                return false;
+            }
+        });
+
         switch (preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN)) {
             case "Welcome":
                 var welcomeTable = new WelcomeTable();
@@ -202,6 +223,13 @@ public class Core extends ApplicationAdapter {
 //            System.out.println(shader.getLog());
 //        }
 //        ShaderProgram.pedantic = false;
+    }
+
+    private boolean holdingModifiers(IntArray array) {
+        for (int i = 0; i < array.size; i++) {
+            if (!Gdx.input.isKeyPressed(array.get(i))) return false;
+        }
+        return true;
     }
 
     public static void loadParticle(FileHandle fileHandle) {
