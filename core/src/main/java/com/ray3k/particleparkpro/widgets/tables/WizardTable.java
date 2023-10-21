@@ -11,10 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.CardGroup;
 import com.ray3k.particleparkpro.widgets.Pager;
-import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
-import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
-import com.ray3k.particleparkpro.widgets.panels.SummaryPanel;
+import com.ray3k.particleparkpro.widgets.panels.*;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -29,12 +26,13 @@ public class WizardTable extends Table {
         wizardTable = this;
         pad(20).padBottom(5);
 
+        var startPanel = new StartPanel();
         var previewPanel = new PreviewPanel();
         var effectEmittersPanel = new EffectEmittersPanel();
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
         var summaryPanel = new SummaryPanel();
 
-        var pager = new Pager(effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
+        var pager = new Pager(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
         pager.setTouchable(Touchable.enabled);
         addHandListener(pager.previousButton);
         addHandListener(pager.nextButton);
