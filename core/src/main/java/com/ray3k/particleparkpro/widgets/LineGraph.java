@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -50,6 +51,7 @@ public class LineGraph extends Table {
         backgroundLabel = new Label(text, this.style.backgroundLabelStyle);
         var container = new Container<>(backgroundLabel);
         stack.add(container);
+        container.addAction(Actions.sequence(Actions.color(new Color(1, 1, 1, 0)), Actions.delay(1.25f), Actions.fadeIn(.25f)));
 
         shapeDrawerDrawable = createShapeDrawerDrawable();
         shapeDrawerImage = new Image(shapeDrawerDrawable);
