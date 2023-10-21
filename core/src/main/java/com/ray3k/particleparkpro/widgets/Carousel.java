@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
-public class Pager extends Table {
+public class Carousel extends Table {
     public CardGroup cardGroup;
     public TextButton previousButton;
     public TextButton nextButton;
@@ -29,7 +29,7 @@ public class Pager extends Table {
     private boolean transitioning;
     private final Array<Button> queuedButtons = new Array<>();
 
-    public Pager(Actor... actors) {
+    public Carousel(Actor... actors) {
         initialize(actors);
     }
 
