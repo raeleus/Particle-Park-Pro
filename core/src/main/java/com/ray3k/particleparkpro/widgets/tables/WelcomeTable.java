@@ -9,6 +9,8 @@ import com.ray3k.particleparkpro.widgets.WelcomeCard;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
+import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
+import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
 
 public class WelcomeTable extends Table {
     public WelcomeTable() {
@@ -27,19 +29,34 @@ public class WelcomeTable extends Table {
         add(table).spaceTop(100);
 
         table.row().spaceRight(70);
-        var card = new WelcomeCard("Classic", "The classic Particle Editor experience", skin.getDrawable("thumb-classic"), "Open Classic Mode");
-        table.add(card);
-        addHandListener(card);
-        onChange(card, () -> transition(this, new ClassicTable(), Align.top));
+        var classicCard = new WelcomeCard("Classic", "The classic Particle Editor experience", skin.getDrawable("thumb-classic"), "Open Classic Mode");
+        table.add(classicCard);
+        addHandListener(classicCard);
 
-        card = new WelcomeCard("Wizard", "Simple with a large preview", skin.getDrawable("thumb-wizard"), "Open Wizard Mode");
-        table.add(card);
-        addHandListener(card);
-        onChange(card, () -> transition(this, new WizardTable(), Align.top));
+        var wizardCard = new WelcomeCard("Wizard", "Simple with a large preview", skin.getDrawable("thumb-wizard"), "Open Wizard Mode");
+        table.add(wizardCard);
+        addHandListener(wizardCard);
 
         table.row();
         var checkbox = new CheckBox("Remember my choice", skin);
+        checkbox.setChecked(!preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN).equals(DEFAULT_OPEN_TO_SCREEN));
         table.add(checkbox).space(25).right().colspan(2);
         addHandListener(checkbox);
+
+        onChange(classicCard, () -> {
+            if (checkbox.isChecked()) {
+                preferences.putString(NAME_OPEN_TO_SCREEN, "Classic");
+                preferences.flush();
+            }
+            transition(this, new ClassicTable(), Align.top);
+        });
+
+        onChange(wizardCard, () -> {
+            if (checkbox.isChecked()) {
+                preferences.putString(NAME_OPEN_TO_SCREEN, "Wizard");
+                preferences.flush();
+            }
+            transition(this, new WizardTable(), Align.top);
+        });
     }
 }

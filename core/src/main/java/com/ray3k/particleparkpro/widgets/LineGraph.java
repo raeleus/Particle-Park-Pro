@@ -125,13 +125,17 @@ public class LineGraph extends Table {
     }
 
     private ShapeDrawerDrawable createShapeDrawerDrawable() {
+        final Color color = new Color();
         return new ShapeDrawerDrawable(shapeDrawer) {
             @Override
             public void drawShapes(ShapeDrawer shapeDrawer, float x, float y, float width, float height) {
                 for (int i = 0; i < nodes.size; i++) {
                     var node = nodes.get(i);
 
-                    shapeDrawer.setColor(style.lineColor);
+                    var batchColor = shapeDrawer.getBatch().getColor();
+                    color.set(style.lineColor);
+                    color.mul(batchColor);
+                    shapeDrawer.setColor(color);
                     shapeDrawer.setDefaultLineWidth(style.lineWidth);
 
                     if (i == nodes.size - 1) shapeDrawer.line(x + node.percentX * width, y + node.percentY * height, x + width, y + node.percentY * height);

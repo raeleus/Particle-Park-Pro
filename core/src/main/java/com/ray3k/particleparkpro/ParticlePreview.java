@@ -33,6 +33,7 @@ public class ParticlePreview {
     public static String shaderFrag;
     public static final Array<String> shaderExtraTextureUnits = new Array<>();
     private static final Vector2 temp = new Vector2();
+    public static boolean pause;
 
     public void render() {
         spriteBatch.setProjectionMatrix(previewViewport.getCamera().combined);
@@ -83,8 +84,10 @@ public class ParticlePreview {
             if (left <= 0) shapeDrawer.line(0, bottom, 0, top);
         }
 
-        particleEffect.update(Gdx.graphics.getDeltaTime());
-        particleEffect.draw(spriteBatch);
+        if (!pause) {
+            particleEffect.update(Gdx.graphics.getDeltaTime());
+            particleEffect.draw(spriteBatch);
+        }
 
         spriteBatch.end();
     }

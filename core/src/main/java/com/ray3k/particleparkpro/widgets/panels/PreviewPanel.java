@@ -230,7 +230,6 @@ public class PreviewPanel extends Panel {
                         }
                     }
 
-
                     setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
                         "\nCount: " + count +
                         "\nMax: " +  max +

@@ -70,6 +70,7 @@ public class PresetActions {
     }
 
     public static Action welcomeAction(Table table) {
+        ParticlePreview.pause = true;
         Gdx.app.postRunnable(() -> {
             table.setTransform(true);
             table.setOrigin(Align.center);
@@ -79,7 +80,10 @@ public class PresetActions {
             scaleTo(1.1f, 1.1f),
             delay(.5f),
             parallel(fadeIn(1f), scaleTo(1f, 1f, .75f, Interpolation.smooth)),
-            run(() -> table.setTransform(false)));
+            run(() -> {
+                table.setTransform(false);
+                ParticlePreview.pause = false;
+            }));
     }
 
     public static void transition(Actor first, Actor second, int alignDirection) {

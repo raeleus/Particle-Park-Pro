@@ -51,6 +51,8 @@ import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
+import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
+import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
@@ -177,9 +179,23 @@ public class Core extends ApplicationAdapter {
             }
         });
 
-        var welcomeTable = new WelcomeTable();
-        root.setActor(welcomeTable);
-        welcomeTable.addAction(welcomeAction(welcomeTable));
+        switch (preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN)) {
+            case "Welcome":
+                var welcomeTable = new WelcomeTable();
+                root.setActor(welcomeTable);
+                welcomeTable.addAction(welcomeAction(welcomeTable));
+                break;
+            case "Classic":
+                var classicTable = new ClassicTable();
+                root.setActor(classicTable);
+                classicTable.addAction(welcomeAction(classicTable));
+                break;
+            case "Wizard":
+                var wizardTable = new WizardTable();
+                root.setActor(wizardTable);
+                wizardTable.addAction(welcomeAction(wizardTable));
+                break;
+        }
 
 //        shader = new ShaderProgram(spriteBatch.getShader().getVertexShaderSource(), Gdx.files.internal("test.frag").readString());
 //        if (!shader.isCompiled()){
