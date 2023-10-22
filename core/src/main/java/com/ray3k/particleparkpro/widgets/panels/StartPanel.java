@@ -58,6 +58,7 @@ public class StartPanel extends Panel {
         scrollTable.add(table).padTop(10);
 
         var titleLabel = new Label("Effect Emitters:", skin, "header");
+        titleLabel.setColor(skin.getColor("selection"));
         table.add(titleLabel);
 
         label = new Label(" load and create the emitters that comprise your particle effect", skin);
@@ -65,6 +66,7 @@ public class StartPanel extends Panel {
 
         table.row();
         titleLabel = new Label("Emitter Properties:", skin, "header");
+        titleLabel.setColor(skin.getColor("selection"));
         table.add(titleLabel);
 
         label = new Label(" edit the behavior and appearance of the selected emitter", skin);
@@ -72,6 +74,7 @@ public class StartPanel extends Panel {
 
         table.row();
         titleLabel = new Label("Summary:", skin, "header");
+        titleLabel.setColor(skin.getColor("selection"));
         table.add(titleLabel);
 
         label = new Label(" save your particle effect to a file that can be loaded in libGDX", skin);
