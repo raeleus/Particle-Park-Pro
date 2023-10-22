@@ -97,11 +97,30 @@ public class PopEditorSettings extends PopTable {
         });
 
         settingsTable.row();
-        var checkBox = new CheckBox("Check for updates", skin);
-        checkBox.setChecked(preferences.getBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES));
-        settingsTable.add(checkBox).colspan(2).center();
-        addHandListener(checkBox);
-        addTooltip(checkBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, tooltipBottomArrowStyle);
+        var checkBoxTable = new Table();
+        checkBoxTable.defaults().left().space(5);
+        settingsTable.add(checkBoxTable).colspan(2).center();
+
+        var checkForUpdatesCheckBox = new CheckBox("Check for updates", skin);
+        checkForUpdatesCheckBox.setChecked(preferences.getBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES));
+        checkBoxTable.add(checkForUpdatesCheckBox);
+        addHandListener(checkForUpdatesCheckBox);
+        addTooltip(checkForUpdatesCheckBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(checkForUpdatesCheckBox, () -> {
+            preferences.putBoolean(NAME_CHECK_FOR_UPDATES, checkForUpdatesCheckBox.isChecked());
+            preferences.flush();
+        });
+
+        checkBoxTable.row();
+        var presumeFileExtensionCheckBox = new CheckBox("Presume file extension is .p", skin);
+        presumeFileExtensionCheckBox.setChecked(preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION));
+        checkBoxTable.add(presumeFileExtensionCheckBox);
+        addHandListener(presumeFileExtensionCheckBox);
+        addTooltip(presumeFileExtensionCheckBox, "Whether or not the app defaults all particle file dialogs to use the \".p\" file extension", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(presumeFileExtensionCheckBox, () -> {
+            preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, presumeFileExtensionCheckBox.isChecked());
+            preferences.flush();
+        });
 
         row();
         var shortcutTable = new Table();
@@ -182,7 +201,7 @@ public class PopEditorSettings extends PopTable {
 
         row();
         var buttonTable = new Table();
-        buttonTable.defaults().space(5);
+        buttonTable.defaults().space(5).uniformX().fillX();
         add(buttonTable).padTop(20);
 
         var subButton = new TextButton("Open Preferences Directory", skin);
@@ -255,6 +274,8 @@ public class PopEditorSettings extends PopTable {
         preferences.putInteger(NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_SHORTCUT);
         preferences.putString(
             NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
+        preferences.putBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES);
+        preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
         preferences.flush();
 
         populate();

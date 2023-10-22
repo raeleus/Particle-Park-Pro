@@ -219,7 +219,7 @@ public class Core extends ApplicationAdapter {
                 wizardTable.addAction(welcomeAction(wizardTable));
                 break;
         }
-        
+
         initShaderProgram();
     }
 

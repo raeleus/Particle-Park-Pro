@@ -26,7 +26,7 @@ import java.io.FileWriter;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
+import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class EffectEmittersPanel extends Panel {
@@ -205,7 +205,9 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, new String[] {"p"}, new String[] {"Particle Files"});
+            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
+            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
+            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, filterPatterns, new String[] {"Particle Files"});
 
             if (saveHandle != null) {
                 Settings.setDefaultSavePath(saveHandle.parent());
@@ -238,7 +240,9 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
+            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
+            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
+            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), filterPatterns, new String[] {"Particle Files"});
 
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
@@ -260,7 +264,9 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[] {"p"}, new String[] {"Particle Files"});
+            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
+            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
+            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), filterPatterns, new String[] {"Particle Files"});
 
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();

@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class SummaryPanel extends Panel {
     private Table scrollTable;
@@ -52,7 +52,9 @@ public class SummaryPanel extends Panel {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, new String[] {"p"}, new String[] {"Particle Files"});
+            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
+            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
+            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, filterPatterns, new String[] {"Particle Files"});
 
             if (saveHandle != null) {
                 Settings.setDefaultSavePath(saveHandle.parent());
