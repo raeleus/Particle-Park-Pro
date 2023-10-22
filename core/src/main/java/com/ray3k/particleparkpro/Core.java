@@ -99,8 +99,10 @@ public class Core extends ApplicationAdapter {
     public static ParticleEffect particleEffect;
     public static OrderedMap<ParticleEmitter, Boolean> activeEmitters;
     public static ParticleEmitter selectedEmitter;
-    public static ShaderProgram shader;
-//    public static float time;
+    public static FileHandle vertShaderFile;
+    public static FileHandle fragShaderFile;
+    public static ShaderProgram shaderProgram;
+    public static float time;
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
@@ -217,12 +219,15 @@ public class Core extends ApplicationAdapter {
                 wizardTable.addAction(welcomeAction(wizardTable));
                 break;
         }
+        
+        initShaderProgram();
+    }
 
-//        shader = new ShaderProgram(spriteBatch.getShader().getVertexShaderSource(), Gdx.files.internal("test.frag").readString());
-//        if (!shader.isCompiled()){
-//            System.out.println(shader.getLog());
-//        }
-//        ShaderProgram.pedantic = false;
+    public static void initShaderProgram() {
+        var vertex = vertShaderFile == null ? spriteBatch.getShader().getVertexShaderSource() : vertShaderFile.readString();
+        var frag = fragShaderFile == null ? spriteBatch.getShader().getFragmentShaderSource() : fragShaderFile.readString();
+        shaderProgram = new ShaderProgram(vertex, frag);
+        ShaderProgram.pedantic = false;
     }
 
     private boolean holdingModifiers(IntArray array) {
@@ -403,15 +408,17 @@ public class Core extends ApplicationAdapter {
         viewport.apply();
         stage.draw();
 
-//        time += Gdx.graphics.getDeltaTime();
-//        spriteBatch.setShader(shader);
-//        shader.bind();
-//        shader.setUniformf("u_amount", 10);
-//        shader.setUniformf("u_speed", .5f);
-//        shader.setUniformf("u_time", time);
+        time += Gdx.graphics.getDeltaTime();
+        spriteBatch.setShader(shaderProgram);
+        if (shaderProgram != null) {
+            shaderProgram.bind();
+            shaderProgram.setUniformf("u_amount", 10);
+            shaderProgram.setUniformf("u_speed", .5f);
+            shaderProgram.setUniformf("u_time", time);
+        }
         viewportWidget.updateViewport(false);
         particlePreview.render();
-//        spriteBatch.setShader(null);
+        spriteBatch.setShader(null);
 
         foregroundStage.act();
         viewport.apply();

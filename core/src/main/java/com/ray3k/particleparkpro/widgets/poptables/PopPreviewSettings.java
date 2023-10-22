@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
+import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -18,8 +20,8 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
-import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 
 public class PopPreviewSettings extends PopTable {
@@ -534,19 +536,13 @@ public class PopPreviewSettings extends PopTable {
         var textButton = new TextButton("Default", skin);
         subtable.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            vertShaderFile = null;
+            initShaderProgram();
+        });
 
         subtable.row();
         textButton = new TextButton("Set", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Reload", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        subtable.row();
-        textButton = new TextButton("Show", skin);
         subtable.add(textButton);
         addHandListener(textButton);
 
@@ -562,63 +558,74 @@ public class PopPreviewSettings extends PopTable {
         textButton = new TextButton("Default", skin);
         subtable.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            fragShaderFile = null;
+            initShaderProgram();
+        });
 
         subtable.row();
         textButton = new TextButton("Set", skin);
         subtable.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> {
+            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[0], new String[] {"Shader Files"});
+
+            if (fileHandle != null) {
+                defaultFileName = fileHandle.name();
+                Settings.setDefaultSavePath(fileHandle.parent());
+
+                fragShaderFile = fileHandle;
+                initShaderProgram();
+            }
+        });
 
         subtable.row();
         textButton = new TextButton("Reload", skin);
         subtable.add(textButton);
         addHandListener(textButton);
+        onChange(textButton, () -> initShaderProgram());
 
-        subtable.row();
-        textButton = new TextButton("Show", skin);
-        subtable.add(textButton);
-        addHandListener(textButton);
-
-        //Extra Texture Units
-        subtable = new Table();
-        table.add(subtable).padLeft(seperationWidth);
-
-        subtable.defaults().space(itemSpacing);
-        label = new Label("Extra Texture Units", skin);
-        subtable.add(label).padLeft(tabWidth).colspan(2);
-
-        subtable.row();
-        var list = new List<String>(skin);
-        scrollPane = new ScrollPane(list, skin);
-        subtable.add(scrollPane).growY().width(100);
-        addHandListener(list);
-        addScrollFocusListener(scrollPane);
-
-        var textureUnitsTable = new Table();
-        subtable.add(textureUnitsTable);
-
-        textureUnitsTable.defaults().space(itemSpacing);
-        textButton = new TextButton("Add", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Up", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Down", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Delete", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
-
-        textureUnitsTable.row();
-        textButton = new TextButton("Reload", skin);
-        textureUnitsTable.add(textButton);
-        addHandListener(textButton);
+//        //Extra Texture Units
+//        subtable = new Table();
+//        table.add(subtable).padLeft(seperationWidth);
+//
+//        subtable.defaults().space(itemSpacing);
+//        label = new Label("Extra Texture Units", skin);
+//        subtable.add(label).padLeft(tabWidth).colspan(2);
+//
+//        subtable.row();
+//        var list = new List<String>(skin);
+//        scrollPane = new ScrollPane(list, skin);
+//        subtable.add(scrollPane).growY().width(100);
+//        addHandListener(list);
+//        addScrollFocusListener(scrollPane);
+//
+//        var textureUnitsTable = new Table();
+//        subtable.add(textureUnitsTable);
+//
+//        textureUnitsTable.defaults().space(itemSpacing);
+//        textButton = new TextButton("Add", skin);
+//        textureUnitsTable.add(textButton);
+//        addHandListener(textButton);
+//
+//        textureUnitsTable.row();
+//        textButton = new TextButton("Up", skin);
+//        textureUnitsTable.add(textButton);
+//        addHandListener(textButton);
+//
+//        textureUnitsTable.row();
+//        textButton = new TextButton("Down", skin);
+//        textureUnitsTable.add(textButton);
+//        addHandListener(textButton);
+//
+//        textureUnitsTable.row();
+//        textButton = new TextButton("Delete", skin);
+//        textureUnitsTable.add(textButton);
+//        addHandListener(textButton);
+//
+//        textureUnitsTable.row();
+//        textButton = new TextButton("Reload", skin);
+//        textureUnitsTable.add(textButton);
+//        addHandListener(textButton);
     }
 }
