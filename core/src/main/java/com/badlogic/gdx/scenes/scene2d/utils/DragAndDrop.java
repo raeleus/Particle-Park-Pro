@@ -38,8 +38,8 @@ public class DragAndDrop {
     boolean removeDragActor;
     Target target;
     boolean isValidTarget;
-    final Array<Target> targets = new Array(8);
-    final ObjectMap<Source, DragListener> sourceListeners = new ObjectMap(8);
+    final Array<Target> targets = new Array<>(8);
+    final ObjectMap<Source, DragListener> sourceListeners = new ObjectMap<>(8);
     private float tapWidth = 8;
     private float tapHeight = 8;
     private int button;
