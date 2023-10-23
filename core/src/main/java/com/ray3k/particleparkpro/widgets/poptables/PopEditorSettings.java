@@ -57,6 +57,7 @@ public class PopEditorSettings extends PopTable {
         var subLabel = new Label("SETTINGS", skin, "bold");
         add(subLabel).padBottom(10);
 
+        //misc settings
         row();
         var settingsTable = new Table();
         settingsTable.columnDefaults(0).right().uniformX();
@@ -96,6 +97,7 @@ public class PopEditorSettings extends PopTable {
             preferences.flush();
         });
 
+        //checkboxes
         settingsTable.row();
         var checkBoxTable = new Table();
         checkBoxTable.defaults().left().space(5);
@@ -122,6 +124,7 @@ public class PopEditorSettings extends PopTable {
             preferences.flush();
         });
 
+        //shortcuts
         row();
         var shortcutTable = new Table();
         shortcutTable.columnDefaults(0).right().uniformX();
@@ -199,6 +202,7 @@ public class PopEditorSettings extends PopTable {
             showKeyBindPop(secondaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT);
         });
 
+        //buttons
         row();
         var buttonTable = new Table();
         buttonTable.defaults().space(5).uniformX().fillX();
@@ -208,6 +212,19 @@ public class PopEditorSettings extends PopTable {
         buttonTable.add(subButton);
         addHandListener(subButton);
         addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, () -> {
+            try {
+                openFileExplorer(Gdx.files.external(".prefs/"));
+            } catch (Exception e) {
+                Gdx.app.error(getClass().getName(), "Error opening preferences folder", e);
+            }
+        });
+
+        buttonTable.row();
+        subButton = new TextButton("Open Log Directory", skin);
+        buttonTable.add(subButton);
+        addHandListener(subButton);
+        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".prefs/"));

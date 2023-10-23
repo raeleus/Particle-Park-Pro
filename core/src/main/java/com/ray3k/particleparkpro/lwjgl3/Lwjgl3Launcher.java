@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.lwjgl3;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.ray3k.particleparkpro.Core;
@@ -7,7 +8,11 @@ import com.ray3k.particleparkpro.Core;
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
         if (StartupHelper.startNewJvmIfRequired()) return;
-        createApplication();
+        try {
+            createApplication();
+        } catch (Throwable throwable) {
+            Gdx.app.error(Lwjgl3Launcher.class.getName(), "Error while running application", throwable);
+        }
     }
 
     private static Lwjgl3Application createApplication() {
