@@ -35,6 +35,7 @@ import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocus;
+import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
@@ -51,9 +52,12 @@ import com.ray3k.stripe.Spinner.SpinnerStyle;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
-import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
-import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
@@ -116,6 +120,9 @@ public class Core extends ApplicationAdapter {
         preferences = Gdx.app.getPreferences("Particle Park Pro");
         fileHandles = new ObjectMap<>();
         sprites = new ObjectMap<>();
+
+        logFile = Gdx.files.external(".particleparkpro/log.txt");
+        Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
 
         Settings.initialize();
 
@@ -238,20 +245,30 @@ public class Core extends ApplicationAdapter {
     }
 
     public static void loadParticle(FileHandle fileHandle) {
+        var newParticleEffect = new ParticleEffect();
+        try {
+            if (fileHandle.type() != FileType.Internal) newParticleEffect.load(fileHandle, fileHandle.parent());
+            else {
+                var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
+                newParticleEffect.load(fileHandle, textureAtlas);
+                var defaultImageHandle = Gdx.files.internal("particle.png");
+                fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+            }
+            newParticleEffect.setPosition(0, 0);
+        } catch (Exception e) {
+            var pop = new PopError("Error loading particle file. Ensure that all associated images are saved locally.", e.getMessage());
+            pop.show(stage);
+
+            Gdx.app.error(Core.class.getName(), "Error loading particle file.", e);
+            return;
+        }
+
         disposeParticleEffect();
         sprites.clear();
         fileHandles.clear();
         activeEmitters.clear();
 
-        particleEffect = new ParticleEffect();
-        if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
-        else {
-            var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
-            particleEffect.load(fileHandle, textureAtlas);
-            var defaultImageHandle = Gdx.files.internal("particle.png");
-            fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
-        }
-        particleEffect.setPosition(0, 0);
+        particleEffect = newParticleEffect;
 
         for (var emitter : particleEffect.getEmitters()) {
             activeEmitters.put(emitter, true);
@@ -675,5 +692,15 @@ public class Core extends ApplicationAdapter {
 
     public interface VersionUpdateRunnable {
         void versionUpdateAvailable(String newVersion);
+    }
+
+    public static void openFileExplorer(FileHandle startDirectory) throws IOException {
+        if (startDirectory.exists()) {
+            File file = startDirectory.file();
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
+        } else {
+            throw new IOException("Directory doesn't exist: " + startDirectory.path());
+        }
     }
 }
