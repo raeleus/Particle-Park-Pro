@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -215,8 +216,12 @@ public class PopEditorSettings extends PopTable {
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".prefs/"));
-            } catch (Exception e) {
-                Gdx.app.error(getClass().getName(), "Error opening preferences folder", e);
+            } catch (IOException e) {
+                var error = "Error opening preferences directory.";
+                var pop = new PopError(error, e.getMessage());
+                pop.show(stage);
+
+                Gdx.app.error(Core.class.getName(), error, e);
             }
         });
 
@@ -228,8 +233,12 @@ public class PopEditorSettings extends PopTable {
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".prefs/"));
-            } catch (Exception e) {
-                Gdx.app.error(getClass().getName(), "Error opening preferences folder", e);
+            } catch (IOException e) {
+                var error = "Error opening log directory.";
+                var pop = new PopError(error, e.getMessage());
+                pop.show(stage);
+
+                Gdx.app.error(Core.class.getName(), error, e);
             }
         });
 

@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.nfd.NFDFilterItem;
@@ -11,6 +12,7 @@ import org.lwjgl.util.nfd.NativeFileDialog;
 
 import java.io.File;
 
+import static com.ray3k.particleparkpro.Core.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.util.nfd.NativeFileDialog.*;
@@ -54,7 +56,11 @@ public class FileDialogs {
             NFD_PathSet_Free(pathSet);
             return paths;
         } catch (Exception e) {
-            e.printStackTrace();
+            var error = "Error creating open dialog.";
+            var pop = new PopError(error, e.getMessage());
+            pop.show(stage);
+
+            Gdx.app.error(Core.class.getName(), error, e);
             return null;
         }
     }
@@ -87,6 +93,11 @@ public class FileDialogs {
                 return null;
             }
         } catch (Exception e) {
+            var error = "Error creating open dialog.";
+            var pop = new PopError(error, e.getMessage());
+            pop.show(stage);
+
+            Gdx.app.error(Core.class.getName(), error, e);
             return null;
         }
     }
@@ -119,6 +130,11 @@ public class FileDialogs {
                 return null;
             }
         } catch (Exception e) {
+            var error = "Error creating save dialog.";
+            var pop = new PopError(error, e.getMessage());
+            pop.show(stage);
+
+            Gdx.app.error(Core.class.getName(), error, e);
             return null;
         }
     }

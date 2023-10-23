@@ -17,12 +17,14 @@ import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -217,8 +219,12 @@ public class EffectEmittersPanel extends Panel {
                 try {
                     fileWriter = new FileWriter(saveHandle.file());
                     particleEffect.save(fileWriter);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (IOException e) {
+                    var error = "Error saving particle file.";
+                    var pop = new PopError(error, e.getMessage());
+                    pop.show(stage);
+
+                    Gdx.app.error(Core.class.getName(), error, e);
                 } finally {
                     StreamUtils.closeQuietly(fileWriter);
                 }
@@ -227,8 +233,12 @@ public class EffectEmittersPanel extends Panel {
                     if (fileHandle.parent().equals(saveHandle.parent())) break;
                     try {
                         fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (GdxRuntimeException e) {
+                        var error = "Error copying files to save location.";
+                        var pop = new PopError(error, e.getMessage());
+                        pop.show(stage);
+
+                        Gdx.app.error(Core.class.getName(), error, e);
                     }
                 }
             }
