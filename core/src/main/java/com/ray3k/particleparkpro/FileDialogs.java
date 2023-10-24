@@ -3,140 +3,102 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.util.nfd.NFDFilterItem;
-import org.lwjgl.util.nfd.NFDPathSetEnum;
-import org.lwjgl.util.nfd.NativeFileDialog;
-
-import java.io.File;
-
-import static com.ray3k.particleparkpro.Core.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
-import static org.lwjgl.system.MemoryUtil.NULL;
-import static org.lwjgl.util.nfd.NativeFileDialog.*;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 public class FileDialogs {
-    public static Array<FileHandle> openMultipleDialog(String defaultPath, String[] filterPatterns, String[] filterDescriptions) {
+    public static Array<FileHandle> openMultipleDialog(String title, String defaultPath, String[] filterPatterns, String filterDescription) {
         //fix file path characters
         if (isWindows()) {
             defaultPath = defaultPath.replace("/", "\\");
+            if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
             defaultPath = defaultPath.replace("\\", "/");
+            if (!defaultPath.endsWith("/")) defaultPath += "/";
         }
 
-        try (MemoryStack stack = stackPush()) {
-            var filters = NFDFilterItem.malloc(filterPatterns.length);
+        MemoryStack stack = MemoryStack.stackPush();
+
+        PointerBuffer filtersPointerBuffer = null;
+        if (filterPatterns != null) {
+            filtersPointerBuffer = stack.mallocPointer(filterPatterns.length);
+
             for (int i = 0; i < filterPatterns.length; i++) {
-                filters.get(i)
-                    .name(stack.UTF8(filterDescriptions[i]))
-                    .spec(stack.UTF8(filterPatterns[i]));
+                filtersPointerBuffer.put(stack.UTF8("*." + filterPatterns[i]));
             }
-
-            var pp = stack.mallocPointer(1);
-
-            var status = NativeFileDialog.NFD_OpenDialogMultiple(pp, filters, stack.UTF8(defaultPath));
-
-            if (status == NFD_CANCEL) return null;
-            if (status != NFD_OKAY) System.err.format("Error: %s\n", NFD_GetError());
-
-            long pathSet = pp.get(0);
-            var psEnum = NFDPathSetEnum.calloc(stack);
-            NFD_PathSet_GetEnum(pathSet, psEnum);
-
-            var paths = new Array<FileHandle>();
-            while (NFD_PathSet_EnumNext(psEnum, pp) == NFD_OKAY && pp.get(0) != NULL) {
-                var path = pp.getStringUTF8(0);
-                paths.add(Gdx.files.absolute(path));
-                NFD_PathSet_FreePath(pp.get(0));
-            }
-
-            NFD_PathSet_FreeEnum(psEnum);
-            NFD_PathSet_Free(pathSet);
-            return paths;
-        } catch (Exception e) {
-            var error = "Error creating open dialog.";
-            var pop = new PopError(error, e.getMessage());
-            pop.show(stage);
-
-            Gdx.app.error(Core.class.getName(), error, e);
-            return null;
+            filtersPointerBuffer.flip();
         }
+
+        var response = TinyFileDialogs.tinyfd_openFileDialog(title, defaultPath, filtersPointerBuffer, filterDescription, true);
+
+        if (response == null) return null;
+
+        var strings = response.split("\\|");
+        var returnValue = new Array<FileHandle>();
+        for (var string : strings) {
+            returnValue.add(Gdx.files.absolute(string));
+        }
+
+        return returnValue;
     }
 
-    public static FileHandle openDialog(String defaultPath, String[] filterPatterns, String[] filterDescriptions) {
+    public static FileHandle openDialog(String title, String defaultPath, String[] filterPatterns, String filterDescription) {
         //fix file path characters
         if (isWindows()) {
             defaultPath = defaultPath.replace("/", "\\");
+            if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
             defaultPath = defaultPath.replace("\\", "/");
+            if (!defaultPath.endsWith("/")) defaultPath += "/";
         }
 
-        try (MemoryStack stack = stackPush()) {
-            var filters = NFDFilterItem.malloc(filterPatterns.length);
+        MemoryStack stack = MemoryStack.stackPush();
+
+        PointerBuffer filtersPointerBuffer = null;
+        if (filterPatterns != null) {
+            filtersPointerBuffer = stack.mallocPointer(filterPatterns.length);
+
             for (int i = 0; i < filterPatterns.length; i++) {
-                filters.get(i)
-                    .name(stack.UTF8(filterDescriptions[i]))
-                    .spec(stack.UTF8(filterPatterns[i]));
+                filtersPointerBuffer.put(stack.UTF8("*." + filterPatterns[i]));
             }
-
-            PointerBuffer pp = stack.mallocPointer(1);
-            var status = NFD_OpenDialog(pp, filters, stack.UTF8(defaultPath));
-
-            if (status == NativeFileDialog.NFD_CANCEL) return null;
-            else if (status == NFD_OKAY) {
-                var file = Gdx.files.absolute(pp.getStringUTF8(0));
-                NFD_FreePath(pp.get(0));
-                return file;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            var error = "Error creating open dialog.";
-            var pop = new PopError(error, e.getMessage());
-            pop.show(stage);
-
-            Gdx.app.error(Core.class.getName(), error, e);
-            return null;
+            filtersPointerBuffer.flip();
         }
+
+        var response = TinyFileDialogs.tinyfd_openFileDialog(title, defaultPath, filtersPointerBuffer, filterDescription, true);
+
+        if (response == null) return null;
+
+        return Gdx.files.absolute(response);
     }
 
-    public static FileHandle saveDialog(String defaultPath, String defaultName, String[] filterPatterns, String[] filterDescriptions) {
+    public static FileHandle saveDialog(String title, String defaultPath, String defaultName, String[] filterPatterns, String filterDescription) {
         //fix file path characters
         if (isWindows()) {
             defaultPath = defaultPath.replace("/", "\\");
+            if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
             defaultPath = defaultPath.replace("\\", "/");
+            if (!defaultPath.endsWith("/")) defaultPath += "/";
         }
 
-        try (MemoryStack stack = stackPush()) {
-            var filters = NFDFilterItem.malloc(filterPatterns.length);
+        MemoryStack stack = MemoryStack.stackPush();
+
+        PointerBuffer filtersPointerBuffer = null;
+        if (filterPatterns != null) {
+            filtersPointerBuffer = stack.mallocPointer(filterPatterns.length);
+
             for (int i = 0; i < filterPatterns.length; i++) {
-                filters.get(i)
-                    .name(stack.UTF8(filterDescriptions[i]))
-                    .spec(stack.UTF8(filterPatterns[i]));
+                filtersPointerBuffer.put(stack.UTF8("*." + filterPatterns[i]));
             }
-
-            PointerBuffer pp = stack.mallocPointer(1);
-            var status = NFD_SaveDialog(pp, filters, defaultPath, defaultName);
-
-            if (status == NativeFileDialog.NFD_CANCEL) return null;
-            else if (status == NFD_OKAY) {
-                var file = Gdx.files.absolute(pp.getStringUTF8(0));
-                NFD_FreePath(pp.get(0));
-                return file;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            var error = "Error creating save dialog.";
-            var pop = new PopError(error, e.getMessage());
-            pop.show(stage);
-
-            Gdx.app.error(Core.class.getName(), error, e);
-            return null;
+            filtersPointerBuffer.flip();
         }
+
+        var response = TinyFileDialogs.tinyfd_saveFileDialog(title, defaultPath, filtersPointerBuffer, filterDescription);
+
+        if (response == null) return null;
+
+        return Gdx.files.absolute(response);
     }
 
     public static String os;

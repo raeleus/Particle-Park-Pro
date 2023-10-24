@@ -208,8 +208,8 @@ public class EffectEmittersPanel extends Panel {
         addHandListener(textButton);
         onChange(textButton, () -> {
             var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
-            var saveHandle = FileDialogs.saveDialog(getDefaultSavePath(), defaultFileName, filterPatterns, new String[] {"Particle Files"});
+            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
+            var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
 
             if (saveHandle != null) {
                 Settings.setDefaultSavePath(saveHandle.parent());
@@ -251,8 +251,8 @@ public class EffectEmittersPanel extends Panel {
         addHandListener(textButton);
         onChange(textButton, () -> {
             var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
-            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), filterPatterns, new String[] {"Particle Files"});
+            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
+            var fileHandle = FileDialogs.openDialog("Open", getDefaultSavePath(), filterPatterns, "Particle files (*.p)");
 
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
@@ -275,8 +275,8 @@ public class EffectEmittersPanel extends Panel {
         addHandListener(textButton);
         onChange(textButton, () -> {
             var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : new String[0];
-            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), filterPatterns, new String[] {"Particle Files"});
+            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
+            var fileHandle = FileDialogs.openDialog("Merge", getDefaultSavePath(), filterPatterns, "Particle files (*.p)");
 
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();

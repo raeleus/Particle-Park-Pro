@@ -53,7 +53,7 @@ public class ImagesSubPanel extends Panel {
         addHandListener(textButton);
         addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
-            var selectedFileHandles = FileDialogs.openMultipleDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            var selectedFileHandles = FileDialogs.openMultipleDialog("Add images", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
             if (selectedFileHandles == null) return;
             if (selectedFileHandles.size > 0) setDefaultImagePath(selectedFileHandles.first().parent());
 

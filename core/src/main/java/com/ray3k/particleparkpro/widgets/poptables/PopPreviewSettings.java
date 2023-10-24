@@ -272,7 +272,7 @@ public class PopPreviewSettings extends PopTable {
         onChange(heightSpinner, () -> previewImageHeight = (float) heightSpinner.getValue());
 
         onChange(selectPreviewTextButton, () -> {
-            var fileHandle = FileDialogs.openDialog(getDefaultImagePath(), new String[] {"png,jpg,jpeg"}, new String[]{"Image files"});
+            var fileHandle = FileDialogs.openDialog("Open preview image", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
             if (fileHandle != null) {
                 setDefaultImagePath(fileHandle.parent());
                 previewImageTexture = new Texture(fileHandle);
@@ -568,7 +568,7 @@ public class PopPreviewSettings extends PopTable {
         subtable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            var fileHandle = FileDialogs.openDialog(getDefaultSavePath(), new String[0], new String[] {"Shader Files"});
+            var fileHandle = FileDialogs.openDialog("Open shader", getDefaultSavePath(), null, null);
 
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
