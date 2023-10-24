@@ -232,7 +232,7 @@ public class PopEditorSettings extends PopTable {
         addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
-                openFileExplorer(Gdx.files.external(".prefs/"));
+                openFileExplorer(Gdx.files.external(".particleparkpro/"));
             } catch (IOException e) {
                 var error = "Error opening log directory.";
                 var pop = new PopError(error, e.getMessage());
