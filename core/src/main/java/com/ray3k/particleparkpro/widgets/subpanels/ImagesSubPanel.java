@@ -187,7 +187,7 @@ public class ImagesSubPanel extends Panel {
         onChange(button, () -> {
             var paths = selectedEmitter.getImagePaths();
             var index = list.getSelectedIndex();
-            if (index > 0) {
+            if (index < list.getTexts().size - 1) {
                 UndoManager.add(new ImagesMoveUndoable(selectedEmitter, index, ++index, "Move Image"));
                 list.clearChildren();
                 list.addAllTexts(paths);
