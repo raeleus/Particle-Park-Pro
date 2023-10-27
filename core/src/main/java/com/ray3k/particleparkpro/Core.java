@@ -704,7 +704,7 @@ public class Core extends ApplicationAdapter {
         viewport.setUnitsPerPixel(uiScale.multiplier);
         previewViewport.setUnitsPerPixel(uiScale.multiplier);
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-        if (viewportWidget.getStage() != null) viewportWidget.updateViewport(false);
+        viewportWidget.updateViewport(false);
     }
 
     public enum UIscale {
