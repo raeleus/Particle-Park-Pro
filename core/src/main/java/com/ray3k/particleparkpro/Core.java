@@ -123,6 +123,8 @@ public class Core extends ApplicationAdapter {
         sprites = new ObjectMap<>();
 
         logFile = Gdx.files.external(".particleparkpro/log.txt");
+        logFile.mkdirs();
+        logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
 
         Settings.initialize();
