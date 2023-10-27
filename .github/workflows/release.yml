@@ -18,7 +18,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build jar
-      run: ./gradlew core:dist
+      run: ./gradlew core:jar
 
     - name: Upload jar artifact
       uses: actions/upload-artifact@v2
@@ -54,6 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: particleparkpro.jar
+          asset_path: particleparkpro.jar/particleparkpro.jar
           asset_name: particleparkpro.jar
           asset_content_type: application/x-java-archive
