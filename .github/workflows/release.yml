@@ -1,4 +1,4 @@
-name: Build skin-composer and create a draft release
+name: Build Particle Park Pro and create a draft release
 
 on:
   create
@@ -27,6 +27,7 @@ jobs:
         path: core/build/lib/particleparkpro.jar
 
   release:
+    permissions: write-all
     needs: [jar]
     runs-on: ubuntu-latest
     steps:
