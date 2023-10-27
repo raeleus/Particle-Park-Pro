@@ -12,6 +12,7 @@ public class Settings {
     public static final String NAME_CHECK_FOR_UPDATES = "Check for updates";
     public static final String NAME_PRESUME_FILE_EXTENSION = "Presume file extension";
     public static final String NAME_OPEN_TO_SCREEN = "Open to screen";
+    public static final String NAME_SCALE = "Scale";
     public static final String NAME_PRIMARY_UNDO_MODIFIERS = "Primary undo modifiers";
     public static final String NAME_PRIMARY_UNDO_SHORTCUT = "Primary undo shortcut";
     public static final String NAME_SECONDARY_UNDO_MODIFIERS = "Secondary undo modifiers";
@@ -24,6 +25,7 @@ public class Settings {
     public static final boolean DEFAULT_CHECK_FOR_UPDATES = true;
     public static final boolean DEFAULT_PRESUME_FILE_EXTENSION = true;
     public static final String DEFAULT_OPEN_TO_SCREEN = "Welcome";
+    public static final float DEFAULT_SCALE = 1f;
     public static final int[] DEFAULT_PRIMARY_UNDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT};
     public static final int DEFAULT_PRIMARY_UNDO_SHORTCUT = Keys.Z;
     public static final int[] DEFAULT_SECONDARY_UNDO_MODIFIERS = new int[] {};

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -133,6 +134,8 @@ public class Core extends ApplicationAdapter {
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport, spriteBatch);
         foregroundStage = new Stage(viewport, spriteBatch);
+
+        updateViewportScale(valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE)));
 
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         popColorPickerStyle = new PPcolorPickerStyle();
@@ -688,6 +691,32 @@ public class Core extends ApplicationAdapter {
         });
 
         thread.start();
+    }
+
+    public static UIscale valueToUIscale(float value) {
+        for (var scale : UIscale.values()) {
+            if (MathUtils.isEqual(scale.multiplier, value)) return scale;
+        }
+        return UIscale.SCALE_1X;
+    }
+
+    public static void updateViewportScale(UIscale uiScale) {
+        viewport.setUnitsPerPixel(uiScale.multiplier);
+        previewViewport.setUnitsPerPixel(uiScale.multiplier);
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        if (viewportWidget.getStage() != null) viewportWidget.updateViewport(false);
+    }
+
+    public enum UIscale {
+        SCALE_1X("1x", 1f), SCALE_1_5X("1.5x", 1/1.5f), SCALE_2X("2x", 1/2f), SCALE_3X("3x", 1/3f), SCALE_4X("4x", 1/4f);
+
+        public String text;
+        public float multiplier;
+
+        UIscale(String text, float multiplier) {
+            this.text = text;
+            this.multiplier = multiplier;
+        }
     }
 
     public interface VersionUpdateRunnable {

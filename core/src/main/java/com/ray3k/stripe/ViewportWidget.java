@@ -25,7 +25,9 @@ public class ViewportWidget extends Widget {
      * @param centerCamera
      */
     public void updateViewport(boolean centerCamera) {
-        viewport.update(MathUtils.round(getWidth()), MathUtils.round(getHeight()), centerCamera);
+        temp.set(MathUtils.round(getWidth()), MathUtils.round(getHeight()));
+        getStage().getViewport().project(temp);
+        viewport.update(MathUtils.round(temp.x), MathUtils.round(temp.y), centerCamera);
         int viewportOriginalX = viewport.getScreenX();
         int viewportOriginalY = viewport.getScreenY();
         temp.set(0, 0);

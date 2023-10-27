@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -29,6 +31,7 @@ import static com.ray3k.particleparkpro.Settings.*;
 
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
+    private UIscale uiScale;
 
     public PopEditorSettings() {
         super(skin.get(WindowStyle.class));
@@ -55,8 +58,8 @@ public class PopEditorSettings extends PopTable {
             }
         });
 
-        var subLabel = new Label("SETTINGS", skin, "bold");
-        add(subLabel).padBottom(10);
+        var label = new Label("SETTINGS", skin, "bold");
+        add(label).padBottom(10);
 
         //misc settings
         row();
@@ -66,8 +69,8 @@ public class PopEditorSettings extends PopTable {
         settingsTable.defaults().space(5);
         add(settingsTable);
 
-        subLabel = new Label("Maximum Undos:", skin);
-        settingsTable.add(subLabel);
+        label = new Label("Maximum Undos:", skin);
+        settingsTable.add(label);
 
         var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         spinner.setValue(preferences.getInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS));
@@ -83,8 +86,8 @@ public class PopEditorSettings extends PopTable {
         });
 
         settingsTable.row();
-        subLabel = new Label("Open to screen:", skin);
-        settingsTable.add(subLabel);
+        label = new Label("Open to screen:", skin);
+        settingsTable.add(label);
 
         var selectBox = new SelectBox<String>(skin);
         selectBox.setItems("Welcome", "Classic", "Wizard");
@@ -125,6 +128,40 @@ public class PopEditorSettings extends PopTable {
             preferences.flush();
         });
 
+        //sliders
+        settingsTable.row();
+        var sliderTable = new Table();
+        sliderTable.defaults().space(5);
+        settingsTable.add(sliderTable).colspan(2).center();
+
+        label = new Label("UI Scale:", skin);
+        sliderTable.add(label);
+
+        var slider = new Slider(0, 4, 1, false, skin);
+        uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+        var scaleArray = new Array<>(UIscale.values());
+        slider.setValue(scaleArray.indexOf(uiScale, true));
+        sliderTable.add(slider).width(80);
+        addHandListener(slider);
+        addTooltip(slider, "Increase the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+
+        var scaleLabel = new Label(uiScale.text, skin);
+        sliderTable.add(scaleLabel).padRight(5).width(20);
+        onChange(slider, () -> {
+            var index = MathUtils.round(slider.getValue());
+            uiScale = UIscale.values()[index];
+            scaleLabel.setText(uiScale.text);
+        });
+
+        var textButton = new TextButton("Apply", skin);
+        sliderTable.add(textButton);
+        addHandListener(textButton);
+        addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(textButton, () -> {
+            updateViewportScale(uiScale);
+            showConfirmScalePop();
+        });
+
         //shortcuts
         row();
         var shortcutTable = new Table();
@@ -135,25 +172,25 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.defaults().space(5);
         add(shortcutTable).padTop(20);
 
-        subLabel = new Label("SHORTCUTS", skin, "header");
-        shortcutTable.add(subLabel).colspan(4).align(Align.center);
+        label = new Label("SHORTCUTS", skin, "header");
+        shortcutTable.add(label).colspan(4).align(Align.center);
 
         shortcutTable.row();
         shortcutTable.add();
 
-        subLabel = new Label("Primary:", skin);
-        subLabel.setAlignment(Align.center);
-        shortcutTable.add(subLabel);
+        label = new Label("Primary:", skin);
+        label.setAlignment(Align.center);
+        shortcutTable.add(label);
 
-        subLabel = new Label("Secondary:", skin);
-        subLabel.setAlignment(Align.center);
-        shortcutTable.add(subLabel);
+        label = new Label("Secondary:", skin);
+        label.setAlignment(Align.center);
+        shortcutTable.add(label);
 
         shortcutTable.add();
 
         shortcutTable.row();
-        subLabel = new Label("Undo:", skin);
-        shortcutTable.add(subLabel);
+        label = new Label("Undo:", skin);
+        shortcutTable.add(label);
 
         var primaryUndoTextField = new TextField("", skin);
         setShortcutTextFieldText(primaryUndoTextField, NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_MODIFIERS, DEFAULT_PRIMARY_UNDO_SHORTCUT);
@@ -178,8 +215,8 @@ public class PopEditorSettings extends PopTable {
         });
 
         shortcutTable.row();
-        subLabel = new Label("Redo:", skin);
-        shortcutTable.add(subLabel);
+        label = new Label("Redo:", skin);
+        shortcutTable.add(label);
 
         var primaryRedoTextField = new TextField("", skin);
         setShortcutTextFieldText(primaryRedoTextField, NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_MODIFIERS, DEFAULT_PRIMARY_REDO_SHORTCUT);
@@ -259,6 +296,38 @@ public class PopEditorSettings extends PopTable {
         });
 
         checkForDuplicateShortcuts();
+    }
+
+    int confirmTime;
+
+    private void showConfirmScalePop() {
+        var pop = new PopTable(skin.get("confirm-scale", WindowStyle.class));
+        pop.setModal(true);
+
+         confirmTime = 5;
+
+        var label = new Label("", skin, "confirm-scale");
+        label.setAlignment(Align.center);
+        pop.add(label).size(200, 100);
+        label.addAction(Actions.sequence(
+            Actions.repeat(confirmTime, Actions.sequence(Actions.run(() -> label.setText("Click to confirm scale.\nResetting in " + (--confirmTime + 1) + "...")), Actions.delay(1f))),
+            Actions.run(() -> {
+                pop.hide();
+                label.remove();
+                uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+                updateViewportScale(uiScale);
+                populate();
+            })));
+
+        pop.show(foregroundStage);
+
+        onClick(pop.getParentGroup(), () -> {
+            preferences.putFloat(NAME_SCALE, uiScale.multiplier);
+            preferences.flush();
+            label.remove();
+            pop.hide();
+        });
+
     }
 
     public static void openFileExplorer(FileHandle startDirectory) throws IOException {

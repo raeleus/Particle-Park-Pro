@@ -1953,6 +1953,10 @@
 	"emitter-remove": {
 		"font": "font-black",
 		"background": "draggable-list-drag-remove-10"
+	},
+	"confirm-scale": {
+		"font": "bold",
+		"background": "stage-background-dark"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
@@ -2136,6 +2140,10 @@
 	"key-bind": {
 		"titleFont": "font",
 		"stageBackground": "stage-background-dark"
+	},
+	"confirm-scale": {
+		"titleFont": "font",
+		"stageBackground": "stage-background"
 	}
 }
 }
