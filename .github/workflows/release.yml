@@ -54,26 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: particleparkpro.jar/particleparkpro.jar
+          asset_path: particleparkpro.jar
           asset_name: particleparkpro.jar
           asset_content_type: application/x-java-archive
-
-      - name: Upload linux tar.gz release artifacts
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: skin-composer-linux.tar.gz/skin-composer-linux.tar.gz
-          asset_name: skin-composer-linux.tar.gz
-          asset_content_type: application/gzip
-
-      - name: Upload windows exe release artifacts
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: skin-composer-windows.zip/skin-composer-windows.zip
-          asset_name: skin-composer-windows.zip
-          asset_content_type: application/zip
