@@ -19,7 +19,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 import static com.ray3k.particleparkpro.Core.*;
 
 public class RangeSubPanel extends Panel {
-    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderInterval) {
+    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -56,7 +56,7 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
         addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -73,7 +73,7 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
         addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange);
 
         var valueMaxSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         valueMaxSpinner.setProgrammaticChangeEvents(false);
@@ -82,7 +82,7 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
         addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);

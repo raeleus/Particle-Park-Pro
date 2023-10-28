@@ -20,7 +20,6 @@ import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.InfiniteSlider;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -34,8 +33,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
+import com.ray3k.particleparkpro.widgets.InfSlider;
+import com.ray3k.particleparkpro.widgets.InfSlider.InfSliderStyle;
 import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
-import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocus;
+import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.styles.*;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
@@ -86,6 +87,7 @@ public class Core extends ApplicationAdapter {
     public static DraggableListStyle draggableListStyle;
     public static DraggableTextListStyle draggableTextListStyle;
     public static DraggableTextListStyle draggableTextListNoBgStyle;
+    public static InfSliderStyle infSliderStyle;
     public static SystemCursorListener handListener;
     public static SystemCursorListener ibeamListener;
     public static SystemCursorListener horizontalResizeListener;
@@ -111,6 +113,7 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
+    public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
 
     @Override
     public void create() {
@@ -151,12 +154,15 @@ public class Core extends ApplicationAdapter {
         draggableListStyle = new PPdraggableListStyle();
         draggableTextListStyle = new PPdraggableTextListStyle();
         draggableTextListNoBgStyle = new PPdraggableTextListNoBGStyle();
+        infSliderStyle = new PPinfSliderStyle();
         tooltipBottomArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-arrow", WindowStyle.class));
         tooltipBottomRightArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-right-arrow", WindowStyle.class));
         tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
         tooltipLeftArrowStyle = new PopTableStyle(skin.get("tooltip-left-arrow", WindowStyle.class));
         editableLabelStyle = new PPeditableLabelStyle();
+
+        noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
 
         activeEmitters = new OrderedMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
@@ -186,7 +192,7 @@ public class Core extends ApplicationAdapter {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (event.getTarget() instanceof NoCaptureKeyboardFocus) return false;
+                if (event.getTarget().getListeners().contains(noCaptureKeyboardFocusListener, true)) return false;
                 if (stage.getKeyboardFocus() == null) return false;
                 if (event.getTarget() == stage.getKeyboardFocus()) return false;
                 if (event.getTarget().isDescendantOf(stage.getKeyboardFocus())) return false;
@@ -637,18 +643,22 @@ public class Core extends ApplicationAdapter {
         return popTable;
     }
 
-    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float interval, int notches) {
+    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range) {
         var sliderPop = new PopTable();
         sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
 
-        var slider = new InfiniteSlider(10, false, skin);
-        slider.setValue(valueSpinner.getValueAsInt());
+        var slider = new InfSlider(infSliderStyle);
+        slider.setRange(range);
         slider.setIncrement(increment);
-        slider.setInterval(interval);
-        slider.setNotches(notches);
+        slider.addListener(noCaptureKeyboardFocusListener);
+        slider.getKnob().addListener(noCaptureKeyboardFocusListener);
+        slider.getBackground().addListener(noCaptureKeyboardFocusListener);
+
+        slider.setValue(valueSpinner.getValueAsInt());
         sliderPop.add(slider).width(100);
-        addHandListener(slider);
+        addHandListener(slider.getKnob());
         onChange(slider, () -> {
+            System.out.println(slider.getValue());
             valueSpinner.setValue(slider.getValue());
             valueSpinner.fire(new ChangeEvent());
         });
@@ -656,7 +666,10 @@ public class Core extends ApplicationAdapter {
         valueSpinner.addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
-                if (event.isFocused()) sliderPop.show(stage);
+                if (event.isFocused()) {
+                    sliderPop.show(stage);
+                    slider.setValue(valueSpinner.getValueAsInt());
+                }
                 else sliderPop.hide();
             }
         });

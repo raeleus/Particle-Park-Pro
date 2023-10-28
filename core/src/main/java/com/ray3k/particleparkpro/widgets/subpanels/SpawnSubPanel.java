@@ -76,7 +76,7 @@ public class SpawnSubPanel extends Panel {
         var valueHeight = selectedEmitter.getSpawnHeight();
 
         var sliderIncrement = 25f;
-        var sliderInterval = .1f;
+        var sliderRange = 300f;
 
         setTouchable(Touchable.enabled);
 
@@ -196,7 +196,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighSpinner.getButtonPlus());
         addHandListener(widthHighSpinner.getButtonMinus());
         addTooltip(widthHighSpinner, "The high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderRange);
 
         var widthHighExpandButton = new Button(skin, "moveright");
         widthHighToggleWidget.table1.add(widthHighExpandButton);
@@ -213,7 +213,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighMinSpinner.getButtonPlus());
         addHandListener(widthHighMinSpinner.getButtonMinus());
         addTooltip(widthHighMinSpinner, "The minimum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderRange);
 
         var widthHighMaxSpinner = new Spinner(valueWidth.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -222,7 +222,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighMaxSpinner.getButtonPlus());
         addHandListener(widthHighMaxSpinner.getButtonMinus());
         addTooltip(widthHighMaxSpinner, "The maximum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderRange);
 
         var widthHighCollapseButton = new Button(skin, "moveleft");
         widthHighToggleWidget.table2.add(widthHighCollapseButton);
@@ -248,7 +248,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowSpinner.getButtonPlus());
         addHandListener(widthLowSpinner.getButtonMinus());
         addTooltip(widthLowSpinner, "The low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderRange);
 
         var widthLowExpandButton = new Button(skin, "moveright");
         widthLowToggleWidget.table1.add(widthLowExpandButton);
@@ -265,7 +265,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowMinSpinner.getButtonPlus());
         addHandListener(widthLowMinSpinner.getButtonMinus());
         addTooltip(widthLowMinSpinner, "The minimum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderRange);
 
         var widthLowMaxSpinner = new Spinner(valueWidth.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         widthLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -274,7 +274,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowMaxSpinner.getButtonPlus());
         addHandListener(widthLowMaxSpinner.getButtonMinus());
         addTooltip(widthLowMaxSpinner, "The maximum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderRange);
 
         var widthLowCollapseButton = new Button(skin, "moveleft");
         widthLowToggleWidget.table2.add(widthLowCollapseButton);
@@ -337,7 +337,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighSpinner.getButtonPlus());
         addHandListener(heightHighSpinner.getButtonMinus());
         addTooltip(heightHighSpinner, "The high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderRange);
 
         var heightHighExpandButton = new Button(skin, "moveright");
         heightHighToggleWidget.table1.add(heightHighExpandButton);
@@ -354,7 +354,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMinSpinner.getButtonPlus());
         addHandListener(heightHighMinSpinner.getButtonMinus());
         addTooltip(heightHighMinSpinner, "The minimum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderRange);
 
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -363,7 +363,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMaxSpinner.getButtonPlus());
         addHandListener(heightHighMaxSpinner.getButtonMinus());
         addTooltip(heightHighMaxSpinner, "The maximum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderRange);
 
         var heightHighCollapseButton = new Button(skin, "moveleft");
         heightHighToggleWidget.table2.add(heightHighCollapseButton);
@@ -389,7 +389,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowSpinner.getButtonPlus());
         addHandListener(heightLowSpinner.getButtonMinus());
         addTooltip(heightLowSpinner, "The low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderRange);
 
         var heightLowExpandButton = new Button(skin, "moveright");
         heightLowToggleWidget.table1.add(heightLowExpandButton);
@@ -406,7 +406,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowMinSpinner.getButtonPlus());
         addHandListener(heightLowMinSpinner.getButtonMinus());
         addTooltip(heightLowMinSpinner, "The minimum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderRange);
 
         var heightLowMaxSpinner = new Spinner(valueHeight.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         heightLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -415,7 +415,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowMaxSpinner.getButtonPlus());
         addHandListener(heightLowMaxSpinner.getButtonMinus());
         addTooltip(heightLowMaxSpinner, "The maximum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderRange);
 
         var heightLowCollapseButton = new Button(skin, "moveleft");
         heightLowToggleWidget.table2.add(heightLowCollapseButton);

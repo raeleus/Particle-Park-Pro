@@ -27,7 +27,7 @@ public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
-    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderInterval) {
+    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -95,7 +95,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
         addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
@@ -112,7 +112,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
         addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange);
 
         var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -121,7 +121,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
         addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);
@@ -148,7 +148,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
         addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange);
 
         var lowExpandButton = new Button(skin, "moveright");
         lowToggleWidget.table1.add(lowExpandButton);
@@ -165,7 +165,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
         addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange);
 
         var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -174,7 +174,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
         addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderInterval, 10);
+        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange);
 
         var lowCollapseButton = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(lowCollapseButton);

@@ -26,11 +26,6 @@ public class ParticlePreview {
     public static float gridMajorGridlines = 100;
     public static float gridMinorGridlines = 25;
     public static final Color gridColor = new Color(Color.LIGHT_GRAY);
-    public static String shaderVertexText;
-    public static Shader shaderVertex;
-    public static String shaderFragText;
-    public static String shaderFrag;
-    public static final Array<String> shaderExtraTextureUnits = new Array<>();
     private static final Vector2 temp = new Vector2();
     public static boolean pause;
 
