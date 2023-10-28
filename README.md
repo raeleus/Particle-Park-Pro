@@ -28,5 +28,6 @@ A tutorial on using Particle Park Pro is in development.
 ## How to contribute
 
 This is a project created by Raymond "Raeleus" Buckley.
-* You may create an [issue](https://github.com/raeleus/Particle-Park-Pro/issues) in GitHub if you encountered a crash or have a feature request. Please include a crash log typically found in the path `C:\Users\<User Folder>\.particleparkpro\`
+* You may create an [issue](https://github.com/raeleus/Particle-Park-Pro/issues) in GitHub if you encountered a crash or have a feature request. Please include a crash log. This is typically found in the user path ex. `C:\Users\<User Folder>\.particleparkpro\`
+* See [CHANGES](https://github.com/raeleus/Particle-Park-Pro/blob/master/CHANGES.md) and [KNOWN_ISSUES](https://github.com/raeleus/Particle-Park-Pro/blob/master/KNOWN_ISSUES.md) for more details on development
 * Please target the `dev` branch for all PR's
