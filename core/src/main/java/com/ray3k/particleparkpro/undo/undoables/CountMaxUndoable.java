@@ -1,14 +1,12 @@
 package com.ray3k.particleparkpro.undo.undoables;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.undo.Undoable;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.*;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 @AllArgsConstructor
 public class CountMaxUndoable implements Undoable {

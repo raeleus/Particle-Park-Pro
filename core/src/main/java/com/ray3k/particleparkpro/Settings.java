@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.IntArray;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.preferences;
 
 public class Settings {
     public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
