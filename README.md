@@ -1,4 +1,7 @@
 # Particle Park Pro
+[![License](https://img.shields.io/github/license/raeleus/Particle-Park-Pro)](https://github.com/raeleus/Particle-Park-Pro/blob/master/LICENSE)
+[![Downloads](https://img.shields.io/github/v/release/raeleus/Particle-Park-Pro
+)](https://github.com/raeleus/Particle-Park-Pro/releases)
 
 ![box-art](https://github.com/raeleus/Particle-Park-Pro/assets/12948924/dc7ad3c9-69fd-4099-bfb0-89cd5878b8ab)
 
@@ -14,7 +17,9 @@ The purpose of Particle Park Pro is to replace the official libGDX Particle Edit
 
 ## How to run
 
-You can't run it yet. I haven't made any releases.
+* Download the latest release from here: [releases](https://github.com/raeleus/Particle-Park-Pro/releases)
+* Ensure you have at least JDK 11 installed on your system: [download](https://bell-sw.com/pages/downloads/)
+* Run the jar file: `java -jar particleparkpro.jar`
 
 ## How to create particles
 
@@ -22,4 +27,6 @@ A tutorial on using Particle Park Pro is in development.
 
 ## How to contribute
 
-This is a project created by Raymond "Raeleus" Buckley. We are in the design phase. I am not accepting any PR's at this time. You may create an issue in GitHub if there is a feature you want to include. However, I reserve the right to deny all requests.
+This is a project created by Raymond "Raeleus" Buckley.
+* You may create an [issue](https://github.com/raeleus/Particle-Park-Pro/issues) in GitHub if you encountered a crash or have a feature request. Please include a crash log typically found in the path `C:\Users\<User Folder>\.particleparkpro\`
+* Please target the `dev` branch for all PR's
