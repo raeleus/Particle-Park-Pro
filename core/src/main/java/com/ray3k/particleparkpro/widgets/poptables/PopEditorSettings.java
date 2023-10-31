@@ -95,7 +95,7 @@ public class PopEditorSettings extends PopTable {
         settingsTable.add(selectBox);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
-        addTooltip(spinner, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(selectBox, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
