@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
@@ -234,7 +235,7 @@ public class ColorGraph extends Table {
                             colorPickerAction = null;
                             allowDrag = false;
                             Gdx.input.setInputProcessor(foregroundStage);
-                            var cp = new PopColorPicker(nodeData.color, popColorPickerStyle);
+                            var cp = new PopColorPicker(nodeData.color, Styles.popColorPickerStyle);
                             cp.setHideOnUnfocus(true);
                             cp.setButtonListener(handListener);
                             cp.setTextFieldListener(ibeamListener);

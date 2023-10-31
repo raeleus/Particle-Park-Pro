@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopPreviewSettings;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -176,7 +177,7 @@ public class PreviewPanel extends Panel {
         //Resize widget
         var container = new Container<>();
         container.setTouchable(Touchable.enabled);
-        resizeWidget = new ResizeWidget(container, resizeWidgetStyle) {
+        resizeWidget = new ResizeWidget(container, Styles.resizeWidgetStyle) {
             @Override
             public void act(float delta) {
                 super.act(delta);

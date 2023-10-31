@@ -9,10 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.particleparkpro.widgets.subpanels.*;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -61,7 +60,7 @@ public class EmitterPropertiesPanel extends Panel {
             pop.attachToActor(addPropertyTextButton, Align.top, Align.top);
             pop.show(foregroundStage);
         });
-        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, Align.left, tooltipRightArrowStyle);
+        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, Align.left, Styles.tooltipRightArrowStyle);
     }
 
     public void populateScrollTable(ShownProperty newProperty) {

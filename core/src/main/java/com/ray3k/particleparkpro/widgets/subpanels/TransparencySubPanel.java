@@ -12,6 +12,7 @@ import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.widgets.LineGraph;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.ToggleGroup;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -39,7 +40,7 @@ public class TransparencySubPanel extends Panel {
         graphToggleWidget.table1.left();
 
         //Graph small
-        var graph = new LineGraph("Life", lineGraphStyle);
+        var graph = new LineGraph("Life", Styles.lineGraphStyle);
         graph.setNodes(value.getTimeline(), value.getScaling());
         graph.setNodeListener(handListener);
         graphToggleWidget.table1.add(graph);
@@ -47,11 +48,11 @@ public class TransparencySubPanel extends Panel {
         var button = new Button(skin, "plus");
         graphToggleWidget.table1.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to large graph view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
-        var graphExpanded = new LineGraph("Life", lineGraphBigStyle);
+        var graphExpanded = new LineGraph("Life", Styles.lineGraphBigStyle);
         graphExpanded.setNodeListener(handListener);
         graphToggleWidget.table2.add(graphExpanded).grow();
 
@@ -63,7 +64,7 @@ public class TransparencySubPanel extends Panel {
         button = new Button(skin, "minus");
         graphToggleWidget.table2.add(button).bottom();
         addHandListener(button);
-        addTooltip(button, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to normal view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(button, () -> {
             graphToggleWidget.swap();
             graph.setNodes(value.getTimeline(), value.getScaling());

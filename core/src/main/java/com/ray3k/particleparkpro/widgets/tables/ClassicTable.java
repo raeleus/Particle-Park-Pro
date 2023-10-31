@@ -9,11 +9,11 @@ import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class ClassicTable extends Table {
     public static ClassicTable classicTable;
@@ -46,7 +46,7 @@ public class ClassicTable extends Table {
         textButton.setVisible(false);
         table.add(textButton).spaceLeft(10);
         addHandListener(textButton);
-        addTooltip(textButton, "Open browser to download page", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(textButton, "Open browser to download page", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(textButton, () -> Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro/releases"));
         checkVersion((String newVersion) -> {
             if (!versionRaw.equals(newVersion)) textButton.setVisible(true);
@@ -81,7 +81,7 @@ public class ClassicTable extends Table {
         undoTable.add(button);
         addHandListener(button);
         if (hasUndo()) {
-            var pop = addTooltip(button, "Undo " + getUndoDescription(), Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
+            var pop = addTooltip(button, "Undo " + getUndoDescription(), Align.top, Align.topLeft, Styles.tooltipBottomRightArrowStyle, false);
             pop.setAttachOffsetX(8);
         }
         onChange(button, UndoManager::undo);
@@ -91,7 +91,7 @@ public class ClassicTable extends Table {
         undoTable.add(button);
         addHandListener(button);
         if (hasRedo()) {
-            var pop = addTooltip(button, "Redo " + getRedoDescription(), Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
+            var pop = addTooltip(button, "Redo " + getRedoDescription(), Align.top, Align.topLeft, Styles.tooltipBottomRightArrowStyle, false);
             pop.setAttachOffsetX(8);
         }
         onChange(button, UndoManager::redo);

@@ -12,6 +12,7 @@ import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphListener;
 import com.ray3k.particleparkpro.widgets.ColorGraph.NodeData;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 
 import static com.ray3k.particleparkpro.Core.*;
 
@@ -29,7 +30,7 @@ public class TintSubPanel extends Panel {
         var label = new Label("Tint", skin, "header");
         tabTable.add(label).spaceRight(3);
 
-        var colorGraph = new ColorGraph(colorGraphStyle);
+        var colorGraph = new ColorGraph(Styles.colorGraphStyle);
         colorGraph.setNodes(value.getTimeline(), value.getColors());
         bodyTable.add(colorGraph).growX();
         colorGraph.setNodeListener(handListener);

@@ -18,6 +18,7 @@ import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
@@ -72,7 +73,7 @@ public class EffectEmittersPanel extends Panel {
 
         //Draggable List
         table.row();
-        emittersDraggableList = new DraggableList(true, draggableListStyle);
+        emittersDraggableList = new DraggableList(true, Styles.draggableListStyle);
         emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);
         emittersDraggableList.align(Align.top);
         emittersDraggableList.addListener(new DraggableListListener() {
@@ -396,7 +397,7 @@ public class EffectEmittersPanel extends Panel {
 
             var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
             var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
-            var editableLabel = new EditableLabel(emitter.getName(), Core.editableLabelStyle) {
+            var editableLabel = new EditableLabel(emitter.getName(), Styles.editableLabelStyle) {
                 @Override
                 public void unfocused() {
                     emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);

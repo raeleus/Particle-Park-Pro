@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -72,14 +73,14 @@ public class PopEditorSettings extends PopTable {
         label = new Label("Maximum Undos:", skin);
         settingsTable.add(label);
 
-        var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
         spinner.setValue(preferences.getInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS));
         spinner.setProgrammaticChangeEvents(false);
         settingsTable.add(spinner);
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonMinus());
         addHandListener(spinner.getButtonPlus());
-        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(spinner, () -> {
             preferences.putInteger(NAME_MAXIMUM_UNDOS, spinner.getValueAsInt());
             preferences.flush();
@@ -95,7 +96,7 @@ public class PopEditorSettings extends PopTable {
         settingsTable.add(selectBox);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
-        addTooltip(selectBox, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(selectBox, "The default screen that the app opens to.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
@@ -111,7 +112,7 @@ public class PopEditorSettings extends PopTable {
         checkForUpdatesCheckBox.setChecked(preferences.getBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES));
         checkBoxTable.add(checkForUpdatesCheckBox);
         addHandListener(checkForUpdatesCheckBox);
-        addTooltip(checkForUpdatesCheckBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(checkForUpdatesCheckBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(checkForUpdatesCheckBox, () -> {
             preferences.putBoolean(NAME_CHECK_FOR_UPDATES, checkForUpdatesCheckBox.isChecked());
             preferences.flush();
@@ -122,7 +123,7 @@ public class PopEditorSettings extends PopTable {
         presumeFileExtensionCheckBox.setChecked(preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION));
         checkBoxTable.add(presumeFileExtensionCheckBox);
         addHandListener(presumeFileExtensionCheckBox);
-        addTooltip(presumeFileExtensionCheckBox, "Whether or not the app defaults all particle file dialogs to use the \".p\" file extension", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(presumeFileExtensionCheckBox, "Whether or not the app defaults all particle file dialogs to use the \".p\" file extension", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(presumeFileExtensionCheckBox, () -> {
             preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, presumeFileExtensionCheckBox.isChecked());
             preferences.flush();
@@ -143,7 +144,7 @@ public class PopEditorSettings extends PopTable {
         slider.setValue(scaleArray.indexOf(uiScale, true));
         sliderTable.add(slider).width(80);
         addHandListener(slider);
-        addTooltip(slider, "Increase the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(slider, "Increase the UI Scale for high DPI displays.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
 
         var scaleLabel = new Label(uiScale.text, skin);
         sliderTable.add(scaleLabel).padRight(5).width(20);
@@ -156,7 +157,7 @@ public class PopEditorSettings extends PopTable {
         var textButton = new TextButton("Apply", skin);
         sliderTable.add(textButton);
         addHandListener(textButton);
-        addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             updateViewportScale(uiScale);
             showConfirmScalePop();
@@ -197,7 +198,7 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.add(primaryUndoTextField);
         textFields.add(primaryUndoTextField);
         addIbeamListener(primaryUndoTextField);
-        addTooltip(primaryUndoTextField, "Primary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(primaryUndoTextField, "Primary keyboard shortcut for the Undo action.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onTouchDown(primaryUndoTextField, () -> {
             getStage().setKeyboardFocus(null);
             showKeyBindPop(primaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT);
@@ -208,7 +209,7 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.add(secondaryUndoTextField);
         textFields.add(secondaryUndoTextField);
         addIbeamListener(secondaryUndoTextField);
-        addTooltip(secondaryUndoTextField, "Secondary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(secondaryUndoTextField, "Secondary keyboard shortcut for the Undo action.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onTouchDown(secondaryUndoTextField, () -> {
             getStage().setKeyboardFocus(null);
             showKeyBindPop(secondaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT);
@@ -223,7 +224,7 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.add(primaryRedoTextField);
         textFields.add(primaryRedoTextField);
         addIbeamListener(primaryRedoTextField);
-        addTooltip(primaryRedoTextField, "Primary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(primaryRedoTextField, "Primary keyboard shortcut for the Redo action.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onTouchDown(primaryRedoTextField, () -> {
             getStage().setKeyboardFocus(null);
             showKeyBindPop(primaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT);
@@ -234,7 +235,7 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.add(secondaryRedoTextField);
         textFields.add(secondaryRedoTextField);
         addIbeamListener(secondaryRedoTextField);
-        addTooltip(secondaryRedoTextField, "Secondary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(secondaryRedoTextField, "Secondary keyboard shortcut for the Redo action.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onTouchDown(secondaryRedoTextField, () -> {
             getStage().setKeyboardFocus(null);
             showKeyBindPop(secondaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT);
@@ -249,7 +250,7 @@ public class PopEditorSettings extends PopTable {
         var subButton = new TextButton("Open Preferences Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".prefs/"));
@@ -266,7 +267,7 @@ public class PopEditorSettings extends PopTable {
         subButton = new TextButton("Open Log Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".particleparkpro/"));
@@ -283,14 +284,14 @@ public class PopEditorSettings extends PopTable {
         subButton = new TextButton("Reset to Defaults", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Reset all settings to their defaults.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Reset all settings to their defaults.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(subButton, this::resetSettingsToDefaults);
 
         buttonTable.row();
         subButton = new TextButton("Open GitHub Page", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the GitHub page for Particle Park Pro.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the GitHub page for Particle Park Pro.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });
