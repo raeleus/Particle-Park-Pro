@@ -44,7 +44,7 @@ public class Settings {
     public static final IntArray redoSecondaryModifiers = new IntArray();
     public static FileHandle logFile;
 
-    public static void initialize() {
+    public static void initializeSettings() {
         undoPrimaryShortcut = preferences.getInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
 
         undoPrimaryModifiers.clear();
