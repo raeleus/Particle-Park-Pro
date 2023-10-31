@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.DualScaledNumericValueUndoable;
@@ -23,6 +24,7 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 
 public class SizeSubPanel extends Panel {
     private enum ExpandedType {

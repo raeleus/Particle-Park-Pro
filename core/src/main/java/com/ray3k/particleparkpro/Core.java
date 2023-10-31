@@ -49,6 +49,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
 
@@ -69,15 +70,6 @@ public class Core extends ApplicationAdapter {
     public static ViewportWidget viewportWidget;
     public static ParticlePreview particlePreview;
     public static Preferences preferences;
-    public static SystemCursorListener handListener;
-    public static SystemCursorListener ibeamListener;
-    public static SystemCursorListener horizontalResizeListener;
-    public static SystemCursorListener verticalResizeListener;
-    public static SystemCursorListener neswResizeListener;
-    public static SystemCursorListener nwseResizeListener;
-    public static SystemCursorListener allResizeListener;
-    public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
-    public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
     public static ParticleEffect particleEffect;
     public static OrderedMap<ParticleEmitter, Boolean> activeEmitters;
     public static ParticleEmitter selectedEmitter;
@@ -130,17 +122,7 @@ public class Core extends ApplicationAdapter {
 
         Gdx.input.setInputProcessor(stage);
 
-        handListener = new SystemCursorListener(SystemCursor.Hand);
-        ibeamListener = new SystemCursorListener(SystemCursor.Ibeam);
-        neswResizeListener = new SystemCursorListener(SystemCursor.NESWResize);
-        nwseResizeListener = new SystemCursorListener(SystemCursor.NWSEResize);
-        horizontalResizeListener = new SystemCursorListener(SystemCursor.HorizontalResize);
-        verticalResizeListener = new SystemCursorListener(SystemCursor.VerticalResize);
-        allResizeListener = new SystemCursorListener(SystemCursor.AllResize);
-        splitPaneHorizontalSystemCursorListener = new SplitPaneSystemCursorListener(SystemCursor.HorizontalResize);
-        splitPaneVerticalSystemCursorListener = new SplitPaneSystemCursorListener(SystemCursor.VerticalResize);
-        scrollFocusListener = new ScrollFocusListener(stage);
-        foregroundScrollFocusListener = new ScrollFocusListener(foregroundStage);
+        Listeners.initialize();
 
         bgColor.set(skin.getColor("bg"));
 
@@ -474,9 +456,6 @@ public class Core extends ApplicationAdapter {
     public static void addIbeamListener(Actor actor) {
         actor.addListener(ibeamListener);
     }
-
-    private static ScrollFocusListener scrollFocusListener;
-    private static ScrollFocusListener foregroundScrollFocusListener;
 
     public static void addScrollFocusListener(Actor actor) {
         actor.addListener(scrollFocusListener);
