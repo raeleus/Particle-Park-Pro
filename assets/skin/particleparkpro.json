@@ -1782,12 +1782,14 @@
 	"moveup": {
 		"up": "button-moveup-up",
 		"down": "button-moveup-down",
-		"over": "button-moveup-over"
+		"over": "button-moveup-over",
+		"disabled": "button-moveup-disabled"
 	},
 	"movedown": {
 		"up": "button-movedown-up",
 		"down": "button-movedown-down",
-		"over": "button-movedown-over"
+		"over": "button-movedown-over",
+		"disabled": "button-movedown-disabled"
 	},
 	"cancel": {
 		"up": "button-cancel-up",
