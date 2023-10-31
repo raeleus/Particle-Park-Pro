@@ -1,28 +1,14 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
-import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.Listeners;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.stripe.PopTable;
-import com.ray3k.stripe.Spinner;
-import com.ray3k.stripe.Spinner.Orientation;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -69,17 +55,17 @@ public class PopError extends PopTable {
 
         var textButton = new TextButton("Close", skin);
         table.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
+        Listeners.addHandListener(textButton);
+        Listeners.onChange(textButton, () -> {
             hide();
         });
 
         textButton = new TextButton("Open log", skin);
         table.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
+        Listeners.addHandListener(textButton);
+        Listeners.onChange(textButton, () -> {
             try {
-                Core.openFileExplorer(logFile);
+                Utils.openFileExplorer(logFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }

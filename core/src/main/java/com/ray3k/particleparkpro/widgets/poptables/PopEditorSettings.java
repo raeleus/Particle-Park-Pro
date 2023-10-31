@@ -18,7 +18,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
+import com.ray3k.particleparkpro.Listeners;
+import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.Utils.UIscale;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -28,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
@@ -140,8 +143,8 @@ public class PopEditorSettings extends PopTable {
         sliderTable.add(label);
 
         var slider = new Slider(0, 4, 1, false, skin);
-        uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
-        var scaleArray = new Array<>(UIscale.values());
+        uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+        var scaleArray = new Array<>(Utils.UIscale.values());
         slider.setValue(scaleArray.indexOf(uiScale, true));
         sliderTable.add(slider).width(80);
         addHandListener(slider);
@@ -151,7 +154,7 @@ public class PopEditorSettings extends PopTable {
         sliderTable.add(scaleLabel).padRight(5).width(20);
         onChange(slider, () -> {
             var index = MathUtils.round(slider.getValue());
-            uiScale = UIscale.values()[index];
+            uiScale = Utils.UIscale.values()[index];
             scaleLabel.setText(uiScale.text);
         });
 
@@ -160,7 +163,7 @@ public class PopEditorSettings extends PopTable {
         addHandListener(textButton);
         addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
-            updateViewportScale(uiScale);
+            Utils.updateViewportScale(uiScale);
             showConfirmScalePop();
         });
 
@@ -316,8 +319,8 @@ public class PopEditorSettings extends PopTable {
             Actions.run(() -> {
                 pop.hide();
                 label.remove();
-                uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
-                updateViewportScale(uiScale);
+                uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+                Utils.updateViewportScale(uiScale);
                 populate();
             })));
 

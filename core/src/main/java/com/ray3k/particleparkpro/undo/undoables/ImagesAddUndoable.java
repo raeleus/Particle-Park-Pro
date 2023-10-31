@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
@@ -28,7 +29,7 @@ public class ImagesAddUndoable implements Undoable {
         selectedEmitter = emitter;
 
         emitter.getImagePaths().removeRange(emitter.getImagePaths().size - newImagePaths.size, emitter.getImagePaths().size - 1);
-        removeUnusedImageFiles();
+        Utils.removeUnusedImageFiles();
         for (var newSprite : newSpriteMap) {
             sprites.remove(newSprite.key);
         }

@@ -1,7 +1,7 @@
 package com.ray3k.particleparkpro.undo;
 
 import com.badlogic.gdx.utils.Array;
-import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.Utils;
 
 public class UndoManager {
     public final static Array<Undoable> undoables = new Array<>();
@@ -13,7 +13,7 @@ public class UndoManager {
         undoables.add(undoable);
         undoable.start();
         undoIndex = undoables.size - 1;
-        Core.refreshUndoButtons();
+        Utils.refreshUndoButtons();
     }
 
     public static String getUndoDescription() {
@@ -34,17 +34,17 @@ public class UndoManager {
 
     public static void undo() {
         if (hasUndo()) undoables.get(undoIndex--).undo();
-        Core.refreshUndoButtons();
+        Utils.refreshUndoButtons();
     }
 
     public static void redo() {
         if (hasRedo()) undoables.get(++undoIndex).redo();
-        Core.refreshUndoButtons();
+        Utils.refreshUndoButtons();
     }
 
     public static void clear() {
         undoables.clear();
         undoIndex = -1;
-        Core.refreshUndoButtons();
+        Utils.refreshUndoButtons();
     }
 }

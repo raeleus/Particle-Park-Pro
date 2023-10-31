@@ -1,56 +1,40 @@
 package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Net;
-import com.badlogic.gdx.Net.HttpMethods;
-import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.net.HttpRequestBuilder;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.widgets.InfSlider;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
-import com.ray3k.stripe.PopTable;
-import com.ray3k.stripe.PopTable.PopTableStyle;
-import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
-import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.Utils.*;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
@@ -182,13 +166,6 @@ public class Core extends ApplicationAdapter {
         initShaderProgram();
     }
 
-    public static void initShaderProgram() {
-        var vertex = vertShaderFile == null ? spriteBatch.getShader().getVertexShaderSource() : vertShaderFile.readString();
-        var frag = fragShaderFile == null ? spriteBatch.getShader().getFragmentShaderSource() : fragShaderFile.readString();
-        shaderProgram = new ShaderProgram(vertex, frag);
-        ShaderProgram.pedantic = false;
-    }
-
     private boolean holdingModifiers(IntArray modifiers) {
         var doNotInclude = new IntArray(new int[]{Keys.SHIFT_LEFT, Keys.CONTROL_LEFT, Keys.ALT_LEFT});
         for (int i = 0; i < modifiers.size; i++) {
@@ -202,171 +179,6 @@ public class Core extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(modifier)) return false;
         }
         return true;
-    }
-
-    public static void loadParticle(FileHandle fileHandle) {
-        var newParticleEffect = new ParticleEffect();
-        try {
-            if (fileHandle.type() != FileType.Internal) newParticleEffect.load(fileHandle, fileHandle.parent());
-            else {
-                var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
-                newParticleEffect.load(fileHandle, textureAtlas);
-                var defaultImageHandle = Gdx.files.internal("particle.png");
-                fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
-            }
-            newParticleEffect.setPosition(0, 0);
-        } catch (Exception e) {
-            var pop = new PopError("Error loading particle file. Ensure that all associated images are saved locally.", e.getMessage());
-            pop.show(stage);
-
-            Gdx.app.error(Core.class.getName(), "Error loading particle file.", e);
-            return;
-        }
-
-        disposeParticleEffect();
-        sprites.clear();
-        fileHandles.clear();
-        activeEmitters.clear();
-
-        particleEffect = newParticleEffect;
-
-        for (var emitter : particleEffect.getEmitters()) {
-            activeEmitters.put(emitter, true);
-            for (int i = 0; i < emitter.getImagePaths().size; i++) {
-                var path = emitter.getImagePaths().get(i);
-                var imageHandle = fileHandle.parent().child(path);
-                fileHandles.put(path, imageHandle);
-                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
-            }
-        }
-    }
-
-    public static void disposeParticleEffect() {
-        if (particleEffect == null) return;
-        for (int i = 0, n = particleEffect.getEmitters().size; i < n; i++) {
-            ParticleEmitter emitter = particleEffect.getEmitters().get(i);
-            for (Sprite sprite : emitter.getSprites()) {
-                sprite.getTexture().dispose();
-            }
-        }
-    }
-
-    public static void mergeParticle(FileHandle fileHandle) {
-        var oldEmitters = new Array<ParticleEmitter>();
-        var oldActiveEmitters = new ObjectMap<ParticleEmitter, Boolean>();
-        for (var emitter : particleEffect.getEmitters()) {
-            var oldEmitter = new ParticleEmitter(emitter);
-            oldEmitters.add(oldEmitter);
-            oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
-        }
-
-        if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
-        else {
-            var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
-            particleEffect.load(fileHandle, textureAtlas);
-            var defaultImageHandle = Gdx.files.internal("particle.png");
-            fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
-        }
-
-        activeEmitters.clear();
-        for (var emitter : particleEffect.getEmitters()) {
-            emitter.setPosition(oldEmitters.first().getX(), oldEmitters.first().getY());
-            activeEmitters.put(emitter, true);
-
-            for (int i = 0; i < emitter.getImagePaths().size; i++) {
-                var path = emitter.getImagePaths().get(i);
-                var imageHandle = fileHandle.parent().child(path);
-                fileHandles.put(path, imageHandle);
-                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
-            }
-        }
-
-        particleEffect.getEmitters().addAll(oldEmitters);
-        for (var emitter : oldEmitters) {
-            activeEmitters.put(emitter, oldActiveEmitters.get(emitter));
-        }
-    }
-
-    public static ParticleEmitter createNewEmitter() {
-        var emitter = new ParticleEmitter();
-        emitter.setName("Untitled");
-
-        var fileHandle = Gdx.files.internal("particle.png");
-        var path = fileHandle.name();
-        emitter.getImagePaths().add(path);
-        fileHandles.put(path, fileHandle);
-        var sprite = new Sprite(new Texture(fileHandle));
-        sprites.put(path, sprite);
-        emitter.getSprites().add(sprite);
-
-        emitter.setMaxParticleCount(200);
-
-        emitter.getDuration().setActive(true);
-        emitter.getDuration().setLow(3000);
-
-        emitter.getEmission().setActive(true);
-        emitter.getEmission().setHigh(40);
-
-        emitter.getLife().setActive(true);
-        emitter.getLife().setHigh(500);
-
-        emitter.getSpawnShape().setActive(true);
-        emitter.getSpawnWidth().setActive(true);
-        emitter.getSpawnHeight().setActive(true);
-
-        emitter.getXScale().setActive(true);
-        emitter.getXScale().setHigh(32);
-        emitter.getYScale().setActive(false);
-
-        emitter.getVelocity().setActive(true);
-        emitter.getVelocity().setHigh(100);
-
-        emitter.getAngle().setActive(true);
-        emitter.getAngle().setHighMin(0);
-        emitter.getAngle().setHighMax(360);
-
-        emitter.getTint().setActive(true);
-        emitter.getTint().getColors()[0] = 1;
-        emitter.getTint().getColors()[1] = 0;
-        emitter.getTint().getColors()[2] = 0;
-
-        emitter.getTransparency().setActive(true);
-        emitter.getTransparency().setHigh(1);
-        emitter.getTransparency().setTimeline(new float[] {0, 1});
-        emitter.getTransparency().setScaling(new float[] {1, 0});
-
-        emitter.setAdditive(true);
-        emitter.setContinuous(true);
-        emitter.setSpriteMode(SpriteMode.single);
-        emitter.setPosition(selectedEmitter.getX(), selectedEmitter.getY());
-
-        return emitter;
-    }
-
-    public static int calcParticleCount() {
-        var count = 0;
-        for (var emitter : particleEffect.getEmitters()) {
-            count += emitter.getActiveCount();
-        }
-        return count;
-    }
-
-    public static void removeUnusedImageFiles() {
-        var names = new ObjectSet<String>();
-        for (var emitter : particleEffect.getEmitters()) {
-            names.addAll(emitter.getImagePaths());
-        }
-
-        var iter = fileHandles.iterator();
-        while (iter.hasNext) {
-            var entry = iter.next();
-            if (!names.contains(entry.value.name())) iter.remove();
-        }
-    }
-
-    public static void refreshUndoButtons() {
-        if (ClassicTable.classicTable != null) ClassicTable.classicTable.refreshUndo();
-        if (WizardTable.wizardTable != null) WizardTable.wizardTable.refreshUndo();
     }
 
     @Override
@@ -402,295 +214,5 @@ public class Core extends ApplicationAdapter {
         foregroundStage.draw();
 
         windowResized = false;
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public static void onChange(Actor actor, Runnable runnable) {
-        actor.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                runnable.run();
-            }
-        });
-    }
-
-    public static void onClick(Actor actor, Runnable runnable) {
-        actor.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                runnable.run();
-            }
-        });
-    }
-
-    public static void onTouchDown(Actor actor, Runnable runnable) {
-        actor.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                runnable.run();
-                return false;
-            }
-        });
-    }
-
-
-    public static void addHandListener(Actor actor) {
-        actor.addListener(handListener);
-    }
-
-    public static void addIbeamListener(Actor actor) {
-        actor.addListener(ibeamListener);
-    }
-
-    public static void addScrollFocusListener(Actor actor) {
-        actor.addListener(scrollFocusListener);
-    }
-
-    public static void addForegroundScrollFocusListener(Actor actor) {
-        actor.addListener(foregroundScrollFocusListener);
-    }
-
-    public static void addHorizontalResizeListener(Actor actor) {
-        actor.addListener(horizontalResizeListener);
-    }
-
-    public static void addVerticalResizeListener(Actor actor) {
-        actor.addListener(verticalResizeListener);
-    }
-
-    public static void addNESWresizeListener(Actor actor) {
-        actor.addListener(neswResizeListener);
-    }
-
-    public static void addNWSEresizeListener(Actor actor) {
-        actor.addListener(nwseResizeListener);
-    }
-
-    public static void addAllResizeListener(Actor actor) {
-        actor.addListener(allResizeListener);
-    }
-
-    public static void addSplitPaneHorizontalSystemCursorListener(Actor actor) {
-        actor.addListener(splitPaneHorizontalSystemCursorListener);
-    }
-
-    public static void addSplitPaneVerticalSystemCursorListener(Actor actor) {
-        actor.addListener(splitPaneVerticalSystemCursorListener);
-    }
-
-    public static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, PopTableStyle popTableStyle) {
-        return addTooltip(actor, text, edge, align, width, true, popTableStyle);
-    }
-
-    public static PopTable addTooltip(Actor actor, String text, int edge, int align, PopTableStyle popTableStyle) {
-        return addTooltip(actor, text, edge, align, 0, false, popTableStyle);
-    }
-
-    public static PopTable addTooltip(Actor actor, String text, int edge, int align, PopTableStyle popTableStyle, boolean foreground) {
-        return addTooltip(actor, text, edge, align, 0, false, popTableStyle, foreground);
-    }
-
-    private static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, boolean defineWidth, PopTableStyle popTableStyle) {
-        return addTooltip(actor, text, edge, align, width, defineWidth, popTableStyle, true);
-    }
-
-    private static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, boolean defineWidth, PopTableStyle popTableStyle, boolean foreground) {
-        PopTable popTable = new PopTable(popTableStyle);
-        var inputListener = new ClickListener() {
-            boolean dismissed;
-            Action showTableAction;
-
-            {
-                popTable.setModal(false);
-                popTable.setTouchable(Touchable.disabled);
-
-                var label = new Label(text, skin);
-                if (defineWidth) {
-                    label.setWrap(true);
-                    popTable.add(label).width(width);
-                } else {
-                    popTable.add(label);
-                }
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1 && popTable.isHidden() && !dismissed) {
-                    if (fromActor == null || !event.getListenerActor().isAscendantOf(fromActor)) {
-                        if (showTableAction == null) {
-                            showTableAction = Actions.delay(.5f,
-                                Actions.run(() -> {
-                                    showTable(actor);
-                                    showTableAction = null;
-                                }));
-                            actor.addAction(showTableAction);
-                        }
-                    }
-                }
-            }
-
-            private void showTable(Actor actor) {
-                if (actor instanceof Disableable) {
-                    if (((Disableable) actor).isDisabled()) return;
-                }
-
-                popTable.show(foreground ? foregroundStage : stage);
-                popTable.attachToActor(actor, edge, align);
-
-                popTable.moveToInsideStage();
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    if (toActor == null || !toActor.isDescendantOf(event.getListenerActor())) {
-                        if (!popTable.isHidden()) popTable.hide();
-                        dismissed = false;
-                        if (showTableAction != null) {
-                            actor.removeAction(showTableAction);
-                            showTableAction = null;
-                        }
-                    }
-
-                }
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                dismissed = true;
-                popTable.hide();
-                if (showTableAction != null) {
-                    actor.removeAction(showTableAction);
-                    showTableAction = null;
-                }
-                return false;
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        };
-        actor.addListener(inputListener);
-        return popTable;
-    }
-
-    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range) {
-        var sliderPop = new PopTable();
-        sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
-
-        var slider = new InfSlider(infSliderStyle);
-        slider.setRange(range);
-        slider.setIncrement(increment);
-        slider.addListener(noCaptureKeyboardFocusListener);
-        slider.getKnob().addListener(noCaptureKeyboardFocusListener);
-        slider.getBackground().addListener(noCaptureKeyboardFocusListener);
-
-        slider.setValue(valueSpinner.getValueAsInt());
-        sliderPop.add(slider).width(100);
-        addHandListener(slider.getKnob());
-        onChange(slider, () -> {
-            System.out.println(slider.getValue());
-            valueSpinner.setValue(slider.getValue());
-            valueSpinner.fire(new ChangeEvent());
-        });
-
-        valueSpinner.addListener(new FocusListener() {
-            @Override
-            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
-                if (event.isFocused()) {
-                    sliderPop.show(stage);
-                    slider.setValue(valueSpinner.getValueAsInt());
-                }
-                else sliderPop.hide();
-            }
-        });
-    }
-
-    public static void checkVersion(VersionUpdateRunnable updater) {
-        if (!preferences.getBoolean(Settings.NAME_CHECK_FOR_UPDATES, Settings.DEFAULT_CHECK_FOR_UPDATES)) return;
-
-        Thread thread = new Thread(() -> {
-            HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-            HttpRequest httpRequest =
-                requestBuilder.newRequest()
-                              .method(HttpMethods.GET)
-                              .url("https://raw.githubusercontent.com/raeleus/Particle-Park-Pro/master/core/src/main/resources/version")
-                              .build();
-
-            Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-                @Override
-                public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                    var newVersion = httpResponse.getResultAsString();
-                    Gdx.app.postRunnable(() -> updater.versionUpdateAvailable(newVersion));
-                }
-
-                @Override
-                public void failed(Throwable t) {
-                    updater.versionUpdateAvailable(version);
-                }
-
-                @Override
-                public void cancelled() {
-                    updater.versionUpdateAvailable(version);
-                }
-            });
-        });
-
-        thread.start();
-    }
-
-    public static UIscale valueToUIscale(float value) {
-        for (var scale : UIscale.values()) {
-            if (MathUtils.isEqual(scale.multiplier, value)) return scale;
-        }
-        return UIscale.SCALE_1X;
-    }
-
-    public static void updateViewportScale(UIscale uiScale) {
-        viewport.setUnitsPerPixel(uiScale.multiplier);
-        previewViewport.setUnitsPerPixel(uiScale.multiplier);
-        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-        viewportWidget.updateViewport(false);
-    }
-
-    public enum UIscale {
-        SCALE_1X("1x", 1f), SCALE_1_5X("1.5x", 1/1.5f), SCALE_2X("2x", 1/2f), SCALE_3X("3x", 1/3f), SCALE_4X("4x", 1/4f);
-
-        public String text;
-        public float multiplier;
-
-        UIscale(String text, float multiplier) {
-            this.text = text;
-            this.multiplier = multiplier;
-        }
-    }
-
-    public interface VersionUpdateRunnable {
-        void versionUpdateAvailable(String newVersion);
-    }
-
-    public static void openFileExplorer(FileHandle startDirectory) throws IOException {
-        if (startDirectory.exists()) {
-            File file = startDirectory.file();
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(file);
-        } else {
-            throw new IOException("Directory doesn't exist: " + startDirectory.path());
-        }
     }
 }

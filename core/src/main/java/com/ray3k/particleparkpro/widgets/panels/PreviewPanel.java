@@ -14,13 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
-import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.Listeners;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopPreviewSettings;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
@@ -221,7 +222,7 @@ public class PreviewPanel extends Panel {
             public void act(float delta) {
                 super.act(delta);
                 if (isVisible()) {
-                    var count = Core.calcParticleCount();
+                    var count = Utils.calcParticleCount();
                     max = Math.max(max, count);
                     if (count >= max) countdown = MAX_TIME;
                     else {

@@ -4,14 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Listeners;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
@@ -49,7 +51,7 @@ public class ClassicTable extends Table {
         addHandListener(textButton);
         addTooltip(textButton, "Open browser to download page", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro/releases"));
-        checkVersion((String newVersion) -> {
+        Utils.checkVersion((String newVersion) -> {
             if (!versionRaw.equals(newVersion)) textButton.setVisible(true);
         });
 

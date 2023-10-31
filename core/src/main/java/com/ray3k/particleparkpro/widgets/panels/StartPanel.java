@@ -6,16 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.StreamUtils;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.widgets.Panel;
 
-import java.io.FileWriter;
-import java.io.Writer;
-
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
+import static com.ray3k.particleparkpro.Listeners.*;
 
 public class StartPanel extends Panel {
     private Table scrollTable;

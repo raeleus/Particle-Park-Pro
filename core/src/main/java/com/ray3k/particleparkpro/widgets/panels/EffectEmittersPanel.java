@@ -9,16 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.*;
-import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.*;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
@@ -29,6 +26,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
@@ -164,7 +162,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            UndoManager.add(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
+            UndoManager.add(new NewEmitterUndoable(Utils.createNewEmitter(), "New Emitter"));
 
             populateEmitters();
             updateDisableableWidgets();
@@ -259,7 +257,7 @@ public class EffectEmittersPanel extends Panel {
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
                 Settings.setDefaultSavePath(fileHandle.parent());
-                loadParticle(fileHandle);
+                Utils.loadParticle(fileHandle);
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 populateEmitters();
@@ -290,7 +288,7 @@ public class EffectEmittersPanel extends Panel {
                 var oldSprites = new ObjectMap<>(sprites);
                 var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
 
-                mergeParticle(fileHandle);
+                Utils.mergeParticle(fileHandle);
 
                 UndoManager.add(MergeEmitterUndoable
                     .builder()

@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.Settings;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -540,7 +539,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> {
             vertShaderFile = null;
-            initShaderProgram();
+            Utils.initShaderProgram();
         });
 
         subtable.row();
@@ -562,7 +561,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> {
             fragShaderFile = null;
-            initShaderProgram();
+            Utils.initShaderProgram();
         });
 
         subtable.row();
@@ -577,7 +576,7 @@ public class PopPreviewSettings extends PopTable {
                 Settings.setDefaultSavePath(fileHandle.parent());
 
                 fragShaderFile = fileHandle;
-                initShaderProgram();
+                Utils.initShaderProgram();
             }
         });
 
@@ -585,7 +584,7 @@ public class PopPreviewSettings extends PopTable {
         textButton = new TextButton("Reload", skin);
         subtable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> initShaderProgram());
+        onChange(textButton, () -> Utils.initShaderProgram());
 
 //        //Extra Texture Units
 //        subtable = new Table();
