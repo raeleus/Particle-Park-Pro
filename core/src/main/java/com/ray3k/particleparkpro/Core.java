@@ -67,6 +67,8 @@ public class Core extends ApplicationAdapter {
 
     @Override
     public void create() {
+        sizeWindowToScreenHeight(950/1080f, 1000/950f);
+
         versionRaw = Gdx.files.classpath("version").readString();
         version = "ver " + versionRaw;
         defaultFileName = "particle.p";

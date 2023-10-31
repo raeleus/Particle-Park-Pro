@@ -2,9 +2,11 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -273,5 +275,28 @@ public class Utils {
 
     public interface VersionUpdateRunnable {
         void versionUpdateAvailable(String newVersion);
+    }
+
+    public static void centerWindow() {
+        var graphics = (Lwjgl3Graphics) Gdx.graphics;
+        var displayMode = graphics.getDisplayMode();
+        var window = graphics.getWindow();
+        var monitor = graphics.getMonitor();
+        window.setPosition(monitor.virtualX + displayMode.width / 2 - graphics.getWidth() / 2, monitor.virtualY + displayMode.height / 2 - graphics.getHeight() / 2);
+    }
+
+    public static void sizeWindowToFit(int maxWidth, int maxHeight, int displayBorder) {
+        var displayMode = Gdx.graphics.getDisplayMode();
+        int width = Math.min(displayMode.width - displayBorder * 2, maxWidth);
+        int height = Math.min(displayMode.height - displayBorder * 2, maxHeight);
+        Gdx.graphics.setWindowedMode(width, height);
+        centerWindow();
+    }
+
+    public static void sizeWindowToScreenHeight(float percentageOfScreenHeight, float widthRatio) {
+        var displayMode = Gdx.graphics.getDisplayMode();
+        var height = MathUtils.floor(displayMode.height * percentageOfScreenHeight);
+        var width = MathUtils.floor(widthRatio * height);
+        sizeWindowToFit(Math.min(width, displayMode.width), Math.min(height, displayMode.height), 0);
     }
 }
