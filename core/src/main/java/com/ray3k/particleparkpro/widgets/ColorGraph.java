@@ -30,6 +30,7 @@ import lombok.Getter;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphEventType.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class ColorGraph extends Table {
     private ColorGraphStyle style;
@@ -237,7 +238,7 @@ public class ColorGraph extends Table {
                             colorPickerAction = null;
                             allowDrag = false;
                             Gdx.input.setInputProcessor(foregroundStage);
-                            var cp = new PopColorPicker(nodeData.color, Styles.popColorPickerStyle);
+                            var cp = new PopColorPicker(nodeData.color, popColorPickerStyle);
                             cp.setHideOnUnfocus(true);
                             cp.setButtonListener(handListener);
                             cp.setTextFieldListener(ibeamListener);

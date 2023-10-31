@@ -18,7 +18,7 @@ public class Listeners {
     static ScrollFocusListener scrollFocusListener;
     static ScrollFocusListener foregroundScrollFocusListener;
 
-    public static void initialize() {
+    public static void initializeListeners() {
         handListener = new SystemCursorListener(SystemCursor.Hand);
         ibeamListener = new SystemCursorListener(SystemCursor.Ibeam);
         neswResizeListener = new SystemCursorListener(SystemCursor.NESWResize);

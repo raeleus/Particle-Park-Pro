@@ -10,7 +10,6 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -40,7 +39,6 @@ import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.PopTableStyle;
-import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -52,6 +50,7 @@ import java.io.IOException;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
@@ -112,7 +111,7 @@ public class Core extends ApplicationAdapter {
         skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         particlePreview = new ParticlePreview();
-        Styles.initialize();
+        Styles.initializeStyles();
 
         noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
 
@@ -122,7 +121,7 @@ public class Core extends ApplicationAdapter {
 
         Gdx.input.setInputProcessor(stage);
 
-        Listeners.initialize();
+        Listeners.initializeListeners();
 
         bgColor.set(skin.getColor("bg"));
 
@@ -594,7 +593,7 @@ public class Core extends ApplicationAdapter {
         var sliderPop = new PopTable();
         sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
 
-        var slider = new InfSlider(Styles.infSliderStyle);
+        var slider = new InfSlider(infSliderStyle);
         slider.setRange(range);
         slider.setIncrement(increment);
         slider.addListener(noCaptureKeyboardFocusListener);

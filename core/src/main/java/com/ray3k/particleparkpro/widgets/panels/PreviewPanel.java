@@ -22,6 +22,7 @@ import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class PreviewPanel extends Panel {
     private final FloatArray zoomLevels = new FloatArray(new float[] {1/6f, 1/4f, 1/3f, .5f, 2/3f, 1f, 1.5f, 2f, 3f, 4f, 6f});
@@ -177,7 +178,7 @@ public class PreviewPanel extends Panel {
         //Resize widget
         var container = new Container<>();
         container.setTouchable(Touchable.enabled);
-        resizeWidget = new ResizeWidget(container, Styles.resizeWidgetStyle) {
+        resizeWidget = new ResizeWidget(container, resizeWidgetStyle) {
             @Override
             public void act(float delta) {
                 super.act(delta);

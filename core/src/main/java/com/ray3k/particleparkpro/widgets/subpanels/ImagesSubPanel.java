@@ -21,6 +21,7 @@ import com.ray3k.stripe.DraggableTextList.DraggableTextListListener;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class ImagesSubPanel extends Panel {
     private DraggableTextList list;
@@ -52,7 +53,7 @@ public class ImagesSubPanel extends Panel {
         var textButton = new TextButton("Add", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
-        addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             var selectedFileHandles = FileDialogs.openMultipleDialog("Add images", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
             if (selectedFileHandles == null) return;
@@ -67,7 +68,7 @@ public class ImagesSubPanel extends Panel {
         textButton = new TextButton("Default", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
-        addTooltip(textButton, "Set the image to the default round-faded image", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(textButton, "Set the image to the default round-faded image", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             var selectedFileHandles = new Array<FileHandle>();
             selectedFileHandles.add(Gdx.files.internal("particle.png"));
@@ -80,7 +81,7 @@ public class ImagesSubPanel extends Panel {
         textButton = new TextButton("Default PMA", skin, "small");
         table.add(textButton);
         addHandListener(textButton);
-        addTooltip(textButton, "Set the image to the default for premultiplied alpha", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(textButton, "Set the image to the default for premultiplied alpha", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             var selectedFileHandles = new Array<FileHandle>();
             selectedFileHandles.add(Gdx.files.internal("pre_particle.png"));
@@ -106,7 +107,7 @@ public class ImagesSubPanel extends Panel {
         table.add(checkBoxSingle).spaceTop(5);
         buttonGroup.add(checkBoxSingle);
         addHandListener(checkBoxSingle);
-        addTooltip(checkBoxSingle, "Only the selected image will be drawn", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(checkBoxSingle, "Only the selected image will be drawn", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBoxSingle, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.single, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         table.row();
@@ -116,7 +117,7 @@ public class ImagesSubPanel extends Panel {
         table.add(checkBoxRandom);
         buttonGroup.add(checkBoxRandom);
         addHandListener(checkBoxRandom);
-        addTooltip(checkBoxRandom, "A randomly selected image will be chosen for each particle", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(checkBoxRandom, "A randomly selected image will be chosen for each particle", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBoxRandom, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.random, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         table.row();
@@ -126,11 +127,11 @@ public class ImagesSubPanel extends Panel {
         table.add(checkBoxAnimated);
         buttonGroup.add(checkBoxAnimated);
         addHandListener(checkBoxAnimated);
-        addTooltip(checkBoxAnimated, "All images will be displayed in sequence over the life of each particle", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(checkBoxAnimated, "All images will be displayed in sequence over the life of each particle", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkBoxAnimated, () -> UndoManager.add(new ImagesSpriteModeUndoable(selectedEmitter, SpriteMode.animated, selectedEmitter.getSpriteMode(), "change Image Sprite Mode")));
 
         //draggable text list
-        list = new DraggableTextList(true, Styles.draggableTextListNoBgStyle);
+        list = new DraggableTextList(true, draggableTextListNoBgStyle);
         list.setProgrammaticChangeEvents(false);
         list.setTextAlignment(Align.left);
         list.align(Align.top);

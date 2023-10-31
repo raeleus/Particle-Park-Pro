@@ -25,6 +25,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
@@ -62,7 +63,7 @@ public class GraphSubPanel extends Panel {
             checkBox.setChecked(value.isRelative());
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
-            addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+            addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
             onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
@@ -73,7 +74,7 @@ public class GraphSubPanel extends Panel {
             checkBox.setProgrammaticChangeEvents(false);
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
-            addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+            addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
             onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Independent")));
         }
 
@@ -91,45 +92,45 @@ public class GraphSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highValueSpinner).width(spinnerWidth);
         addIbeamListener(highValueSpinner.getTextField());
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
-        addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
         addHandListener(highExpandButton);
-        addTooltip(highExpandButton, "Expand to define a range for the high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highExpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highExpandButton, highToggleWidget::swap);
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMinValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinValueSpinner).width(spinnerWidth);
         addIbeamListener(highMinValueSpinner.getTextField());
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
-        addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange);
 
-        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(highMaxValueSpinner.getTextField());
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
-        addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);
         addHandListener(highCollapseButton);
-        addTooltip(highCollapseButton, "Collapse to define a single high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highCollapseButton, highToggleWidget::swap);
 
         if (!MathUtils.isEqual(value.getHighMin(), value.getHighMax())) highToggleWidget.swap();
@@ -144,51 +145,51 @@ public class GraphSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowValueSpinner).width(spinnerWidth);
         addIbeamListener(lowValueSpinner.getTextField());
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
-        addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange);
 
         var lowExpandButton = new Button(skin, "moveright");
         lowToggleWidget.table1.add(lowExpandButton);
         addHandListener(lowExpandButton);
-        addTooltip(lowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowExpandButton, lowToggleWidget::swap);
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMinValueSpinner.getTextField());
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
-        addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange);
 
-        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxValueSpinner.getTextField());
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
-        addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange);
 
         var lowCollapseButton = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(lowCollapseButton);
         addHandListener(lowCollapseButton);
-        addTooltip(lowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowCollapseButton, lowToggleWidget::swap);
 
         if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) lowToggleWidget.swap();
 
         //Graph small
-        var graph = new LineGraph(graphText, Styles.lineGraphStyle);
+        var graph = new LineGraph(graphText, lineGraphStyle);
         graph.setNodes(value.getTimeline(), value.getScaling());
         graph.setNodeListener(handListener);
         graphToggleWidget.table1.add(graph);
@@ -196,11 +197,11 @@ public class GraphSubPanel extends Panel {
         var graphPlusButton = new Button(skin, "plus");
         graphToggleWidget.table1.add(graphPlusButton).bottom();
         addHandListener(graphPlusButton);
-        addTooltip(graphPlusButton, "Expand to large graph view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(graphPlusButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
-        var graphExpanded = new LineGraph(graphText, Styles.lineGraphBigStyle);
+        var graphExpanded = new LineGraph(graphText, lineGraphBigStyle);
         graphExpanded.setNodeListener(handListener);
         graphToggleWidget.table2.add(graphExpanded).grow();
 
@@ -212,7 +213,7 @@ public class GraphSubPanel extends Panel {
         var graphMinusButton = new Button(skin, "minus");
         graphToggleWidget.table2.add(graphMinusButton).bottom();
         addHandListener(graphMinusButton);
-        addTooltip(graphMinusButton, "Collapse to normal view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(graphMinusButton, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(graphMinusButton, () -> {
             graphToggleWidget.swap();
             graph.setNodes(value.getTimeline(), value.getScaling());

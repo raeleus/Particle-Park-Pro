@@ -31,6 +31,7 @@ import java.io.Writer;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class EffectEmittersPanel extends Panel {
     private DraggableList emittersDraggableList;
@@ -73,7 +74,7 @@ public class EffectEmittersPanel extends Panel {
 
         //Draggable List
         table.row();
-        emittersDraggableList = new DraggableList(true, Styles.draggableListStyle);
+        emittersDraggableList = new DraggableList(true, draggableListStyle);
         emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);
         emittersDraggableList.align(Align.top);
         emittersDraggableList.addListener(new DraggableListListener() {
@@ -397,7 +398,7 @@ public class EffectEmittersPanel extends Panel {
 
             var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
             var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
-            var editableLabel = new EditableLabel(emitter.getName(), Styles.editableLabelStyle) {
+            var editableLabel = new EditableLabel(emitter.getName(), editableLabelStyle) {
                 @Override
                 public void unfocused() {
                     emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);

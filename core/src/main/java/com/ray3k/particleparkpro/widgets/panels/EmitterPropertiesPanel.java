@@ -17,6 +17,7 @@ import com.ray3k.particleparkpro.widgets.subpanels.*;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PresetActions.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {
@@ -60,7 +61,7 @@ public class EmitterPropertiesPanel extends Panel {
             pop.attachToActor(addPropertyTextButton, Align.top, Align.top);
             pop.show(foregroundStage);
         });
-        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, Align.left, Styles.tooltipRightArrowStyle);
+        addTooltip(addPropertyTextButton, "Activate an optional emitter property", Align.left, Align.left, tooltipRightArrowStyle);
     }
 
     public void populateScrollTable(ShownProperty newProperty) {

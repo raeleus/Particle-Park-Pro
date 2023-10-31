@@ -25,6 +25,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class SizeSubPanel extends Panel {
     private enum ExpandedType {
@@ -63,7 +64,7 @@ public class SizeSubPanel extends Panel {
         var splitXYcheckBox = new CheckBox("Split X and Y", skin);
         graphToggleWidget.table1.add(splitXYcheckBox).left();
         addHandListener(splitXYcheckBox);
-        addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Split ToggleGroup
         graphToggleWidget.table1.row();
@@ -78,7 +79,7 @@ public class SizeSubPanel extends Panel {
         relativeCheckBox.setChecked(xValue.isRelative());
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
-        addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeCheckBox, () -> UndoManager.add(new DualScaledNumericValueRelativeUndoable(selectedEmitter, xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
@@ -95,45 +96,45 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highSpinner).width(spinnerWidth);
         addIbeamListener(highSpinner.getTextField());
         addHandListener(highSpinner.getButtonPlus());
         addHandListener(highSpinner.getButtonMinus());
-        addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highSpinner, sliderIncrement, sliderRange);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
         addHandListener(highExpandButton);
-        addTooltip(highExpandButton, "Expand to define a range for the high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highExpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highExpandButton, highToggleWidget::swap);
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMinSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinSpinner).width(spinnerWidth);
         addIbeamListener(highMinSpinner.getTextField());
         addHandListener(highMinSpinner.getButtonPlus());
         addHandListener(highMinSpinner.getButtonMinus());
-        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highMinSpinner, sliderIncrement, sliderRange);
 
-        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxSpinner).width(spinnerWidth);
         addIbeamListener(highMaxSpinner.getTextField());
         addHandListener(highMaxSpinner.getButtonPlus());
         addHandListener(highMaxSpinner.getButtonMinus());
-        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highMaxSpinner, sliderIncrement, sliderRange);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);
         addHandListener(highCollapseButton);
-        addTooltip(highCollapseButton, "Collapse to define a single high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highCollapseButton, highToggleWidget::swap);
 
         if (!MathUtils.isEqual(xValue.getHighMin(), xValue.getHighMax())) highToggleWidget.swap();
@@ -148,51 +149,51 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowSpinner).width(spinnerWidth);
         addIbeamListener(lowSpinner.getTextField());
         addHandListener(lowSpinner.getButtonPlus());
         addHandListener(lowSpinner.getButtonMinus());
-        addTooltip(lowSpinner, "The low value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowSpinner, "The low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowSpinner, sliderIncrement, sliderRange);
 
         var lowExpandButton = new Button(skin, "moveright");
         lowToggleWidget.table1.add(lowExpandButton);
         addHandListener(lowExpandButton);
-        addTooltip(lowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowExpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowExpandButton, lowToggleWidget::swap);
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinSpinner).width(spinnerWidth);
         addIbeamListener(lowMinSpinner.getTextField());
         addHandListener(lowMinSpinner.getButtonPlus());
         addHandListener(lowMinSpinner.getButtonMinus());
-        addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowMinSpinner, sliderIncrement, sliderRange);
 
-        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxSpinner.getTextField());
         addHandListener(lowMaxSpinner.getButtonPlus());
         addHandListener(lowMaxSpinner.getButtonMinus());
-        addTooltip(lowMaxSpinner, "The maximum low value for the particle size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowMaxSpinner, "The maximum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowMaxSpinner, sliderIncrement, sliderRange);
 
         var lowCollapseButton = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(lowCollapseButton);
         addHandListener(lowCollapseButton);
-        addTooltip(lowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowCollapseButton, lowToggleWidget::swap);
 
         if (!MathUtils.isEqual(xValue.getLowMin(), xValue.getLowMax())) lowToggleWidget.swap();
 
         //Graph small
-        var graph = new LineGraph("Life", Styles.lineGraphStyle);
+        var graph = new LineGraph("Life", lineGraphStyle);
         graph.setNodes(xValue.getTimeline(), xValue.getScaling());
         graph.setNodeListener(handListener);
         splitToggleWidget.table1.add(graph);
@@ -200,11 +201,11 @@ public class SizeSubPanel extends Panel {
         var graphExpandButton = new Button(skin, "plus");
         splitToggleWidget.table1.add(graphExpandButton).bottom();
         addHandListener(graphExpandButton);
-        addTooltip(graphExpandButton, "Expand to large graph view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(graphExpandButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Expanded graph view
         graphToggleWidget.table2.defaults().space(itemSpacing);
-        var graphExpanded = new LineGraph("Life", Styles.lineGraphBigStyle);
+        var graphExpanded = new LineGraph("Life", lineGraphBigStyle);
         graph.setNodes(xValue.getTimeline(), xValue.getScaling());
         graphExpanded.setNodeListener(handListener);
         graphToggleWidget.table2.add(graphExpanded).grow();
@@ -218,7 +219,7 @@ public class SizeSubPanel extends Panel {
         var graphCollapseButton = new Button(skin, "minus");
         graphToggleWidget.table2.add(graphCollapseButton).bottom();
         addHandListener(graphCollapseButton);
-        addTooltip(graphCollapseButton, "Collapse to normal view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(graphCollapseButton, "Collapse to normal view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         //Separate
         //X size
@@ -232,7 +233,7 @@ public class SizeSubPanel extends Panel {
         relativeXcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
-        addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeXcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
@@ -249,45 +250,45 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highXtoggleWidget.table1.defaults().space(itemSpacing);
-        var highXspinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highXspinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highXspinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table1.add(highXspinner).width(spinnerWidth);
         addIbeamListener(highXspinner.getTextField());
         addHandListener(highXspinner.getButtonPlus());
         addHandListener(highXspinner.getButtonMinus());
-        addTooltip(highXspinner, "The high value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highXspinner, "The high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highXspinner, sliderIncrement, sliderRange);
 
         var highXexpandButton = new Button(skin, "moveright");
         highXtoggleWidget.table1.add(highXexpandButton);
         addHandListener(highXexpandButton);
-        addTooltip(highXexpandButton, "Expand to define a range for the high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highXexpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highXexpandButton, highXtoggleWidget::swap);
 
         //High range
         highXtoggleWidget.table2.defaults().space(itemSpacing);
-        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highXminSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXminSpinner).width(spinnerWidth);
         addIbeamListener(highXminSpinner.getTextField());
         addHandListener(highXminSpinner.getButtonPlus());
         addHandListener(highXminSpinner.getButtonMinus());
-        addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highXminSpinner, sliderIncrement, sliderRange);
 
-        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highXmaxSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXmaxSpinner).width(spinnerWidth);
         addIbeamListener(highXmaxSpinner.getTextField());
         addHandListener(highXmaxSpinner.getButtonPlus());
         addHandListener(highXmaxSpinner.getButtonMinus());
-        addTooltip(highXmaxSpinner, "The maximum high value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highXmaxSpinner, "The maximum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highXmaxSpinner, sliderIncrement, sliderRange);
 
         var highXcollapseButton = new Button(skin, "moveleft");
         highXtoggleWidget.table2.add(highXcollapseButton);
         addHandListener(highXcollapseButton);
-        addTooltip(highXcollapseButton, "Collapse to define a single high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highXcollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highXcollapseButton, highXtoggleWidget::swap);
 
         //Low
@@ -300,49 +301,49 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowXtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowXspinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowXspinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowXspinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table1.add(lowXspinner).width(spinnerWidth);
         addIbeamListener(lowXspinner.getTextField());
         addHandListener(lowXspinner.getButtonPlus());
         addHandListener(lowXspinner.getButtonMinus());
-        addTooltip(lowXspinner, "The low value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXspinner, "The low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowXspinner, sliderIncrement, sliderRange);
 
         var lowXexpandButton = new Button(skin, "moveright");
         lowXtoggleWidget.table1.add(lowXexpandButton);
         addHandListener(lowXexpandButton);
-        addTooltip(lowXexpandButton, "Expand to define a range for the low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXexpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowXexpandButton, lowXtoggleWidget::swap);
 
         //Low range
         lowXtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowXminSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXminSpinner).width(spinnerWidth);
         addIbeamListener(lowXminSpinner.getTextField());
         addHandListener(lowXminSpinner.getButtonPlus());
         addHandListener(lowXminSpinner.getButtonMinus());
-        addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowXminSpinner, sliderIncrement, sliderRange);
 
-        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowXmaxSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowXmaxSpinner.getTextField());
         addHandListener(lowXmaxSpinner.getButtonPlus());
         addHandListener(lowXmaxSpinner.getButtonMinus());
-        addTooltip(lowXmaxSpinner, "The maximum low value for the particle X size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXmaxSpinner, "The maximum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowXmaxSpinner, sliderIncrement, sliderRange);
 
         var lowXcollapseButton = new Button(skin, "moveleft");
         lowXtoggleWidget.table2.add(lowXcollapseButton);
         addHandListener(lowXcollapseButton);
-        addTooltip(lowXcollapseButton, "Collapse to define a single low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXcollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowXcollapseButton, lowXtoggleWidget::swap);
 
         //Graph small
-        var graphX = new LineGraph("Life", Styles.lineGraphStyle);
+        var graphX = new LineGraph("Life", lineGraphStyle);
         graphX.setNodes(xValue.getTimeline(), xValue.getScaling());
         graphX.setNodeListener(handListener);
         splitToggleWidget.table2.add(graphX);
@@ -350,7 +351,7 @@ public class SizeSubPanel extends Panel {
         var lowXGraphExpandButton = new Button(skin, "plus");
         splitToggleWidget.table2.add(lowXGraphExpandButton).bottom();
         addHandListener(lowXGraphExpandButton);
-        addTooltip(lowXGraphExpandButton, "Expand to large graph view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowXGraphExpandButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(lowXGraphExpandButton, () -> {
             graphToggleWidget.swap();
@@ -369,7 +370,7 @@ public class SizeSubPanel extends Panel {
         relativeYcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
-        addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeYcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High
@@ -386,45 +387,45 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highYtoggleWidget.table1.defaults().space(itemSpacing);
-        var highYspinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highYspinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highYspinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table1.add(highYspinner).width(spinnerWidth);
         addIbeamListener(highYspinner.getTextField());
         addHandListener(highYspinner.getButtonPlus());
         addHandListener(highYspinner.getButtonMinus());
-        addTooltip(highYspinner, "The high value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highYspinner, "The high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highYspinner, sliderIncrement, sliderRange);
 
         var highYexpandButton = new Button(skin, "moveright");
         highYtoggleWidget.table1.add(highYexpandButton);
         addHandListener(highYexpandButton);
-        addTooltip(highYexpandButton, "Expand to define a range for the high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highYexpandButton, "Expand to define a range for the high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highYexpandButton, highYtoggleWidget::swap);
 
         //High range
         highYtoggleWidget.table2.defaults().space(itemSpacing);
-        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highYminSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYminSpinner).width(spinnerWidth);
         addIbeamListener(highYminSpinner.getTextField());
         addHandListener(highYminSpinner.getButtonPlus());
         addHandListener(highYminSpinner.getButtonMinus());
-        addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highYminSpinner, sliderIncrement, sliderRange);
 
-        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         highYmaxSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYmaxSpinner).width(spinnerWidth);
         addIbeamListener(highYmaxSpinner.getTextField());
         addHandListener(highYmaxSpinner.getButtonPlus());
         addHandListener(highYmaxSpinner.getButtonMinus());
-        addTooltip(highYmaxSpinner, "The maximum high value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highYmaxSpinner, "The maximum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highYmaxSpinner, sliderIncrement, sliderRange);
 
         var highYcollapseButton = new Button(skin, "moveleft");
         highYtoggleWidget.table2.add(highYcollapseButton);
         addHandListener(highYcollapseButton);
-        addTooltip(highYcollapseButton, "Collapse to define a single high value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(highYcollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(highYcollapseButton, highYtoggleWidget::swap);
 
         //Low
@@ -437,49 +438,49 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowYtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowYspinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowYspinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowYspinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table1.add(lowYspinner).width(spinnerWidth);
         addIbeamListener(lowYspinner.getTextField());
         addHandListener(lowYspinner.getButtonPlus());
         addHandListener(lowYspinner.getButtonMinus());
-        addTooltip(lowYspinner, "The low value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYspinner, "The low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowYspinner, sliderIncrement, sliderRange);
 
         var lowYexpandButton = new Button(skin, "moveright");
         lowYtoggleWidget.table1.add(lowYexpandButton);
         addHandListener(lowYexpandButton);
-        addTooltip(lowYexpandButton, "Expand to define a range for the low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYexpandButton, "Expand to define a range for the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowYexpandButton, lowYtoggleWidget::swap);
 
         //Low range
         lowYtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowYminSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYminSpinner).width(spinnerWidth);
         addIbeamListener(lowYminSpinner.getTextField());
         addHandListener(lowYminSpinner.getButtonPlus());
         addHandListener(lowYminSpinner.getButtonMinus());
-        addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowYminSpinner, sliderIncrement, sliderRange);
 
-        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         lowYmaxSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowYmaxSpinner.getTextField());
         addHandListener(lowYmaxSpinner.getButtonPlus());
         addHandListener(lowYmaxSpinner.getButtonMinus());
-        addTooltip(lowYmaxSpinner, "The maximum low value for the particle Y size in world units.", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYmaxSpinner, "The maximum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowYmaxSpinner, sliderIncrement, sliderRange);
 
         var lowYcollapseButton = new Button(skin, "moveleft");
         lowYtoggleWidget.table2.add(lowYcollapseButton);
         addHandListener(lowYcollapseButton);
-        addTooltip(lowYcollapseButton, "Collapse to define a single low value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYcollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(lowYcollapseButton, lowYtoggleWidget::swap);
 
         //Graph small
-        var graphY = new LineGraph("Life", Styles.lineGraphStyle);
+        var graphY = new LineGraph("Life", lineGraphStyle);
         graphY.setNodes(yValue.getTimeline(), yValue.getScaling());
         graphY.setNodeListener(handListener);
         splitToggleWidget.table2.add(graphY);
@@ -487,7 +488,7 @@ public class SizeSubPanel extends Panel {
         var lowYgraphExpandButton = new Button(skin, "plus");
         splitToggleWidget.table2.add(lowYgraphExpandButton).bottom();
         addHandListener(lowYgraphExpandButton);
-        addTooltip(lowYgraphExpandButton, "Expand to large graph view", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(lowYgraphExpandButton, "Expand to large graph view", Align.top, Align.top, tooltipBottomArrowStyle);
 
         onChange(lowYgraphExpandButton, () -> {
             graphToggleWidget.swap();

@@ -18,6 +18,7 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 public class RangeSubPanel extends Panel {
     public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
@@ -50,45 +51,45 @@ public class RangeSubPanel extends Panel {
 
         //Value single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var valueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var valueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         valueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(valueSpinner).width(spinnerWidth);
         addIbeamListener(valueSpinner.getTextField());
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
-        addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
         addHandListener(button);
-        addTooltip(button, "Expand to define a range for the value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(button, "Expand to define a range for the value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         //Value range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var valueMinSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var valueMinSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         valueMinSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(valueMinSpinner).width(spinnerWidth);
         addIbeamListener(valueMinSpinner.getTextField());
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
-        addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange);
 
-        var valueMaxSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, Styles.spinnerStyle);
+        var valueMaxSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
         valueMaxSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(valueMaxSpinner).width(spinnerWidth);
         addIbeamListener(valueMaxSpinner.getTextField());
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
-        addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
         addHandListener(button);
-        addTooltip(button, "Collapse to define a single value", Align.top, Align.top, Styles.tooltipBottomArrowStyle);
+        addTooltip(button, "Collapse to define a single value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
         onChange(valueSpinner, () -> {
