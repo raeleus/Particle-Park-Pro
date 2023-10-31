@@ -28,7 +28,7 @@ public class DeleteEmitterUndoable implements Undoable {
     public void redo() {
         particleEffect.getEmitters().removeValue(emitter, true);
         activeEmitters.remove(emitter);
-        selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
+        selectedEmitter = activeEmitters.orderedKeys().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
         refreshDisplay();
     }
 
@@ -36,7 +36,7 @@ public class DeleteEmitterUndoable implements Undoable {
     public void start() {
         particleEffect.getEmitters().removeValue(emitter, true);
         activeEmitters.remove(emitter);
-        selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
+        selectedEmitter = activeEmitters.orderedKeys().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
     }
 
     @Override
