@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
@@ -248,9 +249,17 @@ public class Core extends ApplicationAdapter {
         ShaderProgram.pedantic = false;
     }
 
-    private boolean holdingModifiers(IntArray array) {
-        for (int i = 0; i < array.size; i++) {
-            if (!Gdx.input.isKeyPressed(array.get(i))) return false;
+    private boolean holdingModifiers(IntArray modifiers) {
+        var doNotInclude = new IntArray(new int[]{Keys.SHIFT_LEFT, Keys.CONTROL_LEFT, Keys.ALT_LEFT});
+        for (int i = 0; i < modifiers.size; i++) {
+            var modifier = modifiers.get(i);
+            if (!Gdx.input.isKeyPressed(modifier)) return false;
+            doNotInclude.removeValue(modifier);
+        }
+
+        for (int i = 0; i < doNotInclude.size; i++) {
+            var modifier = doNotInclude.get(i);
+            if (Gdx.input.isKeyPressed(modifier)) return false;
         }
         return true;
     }
