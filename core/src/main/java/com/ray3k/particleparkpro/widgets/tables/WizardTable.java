@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.Carousel;
@@ -16,7 +15,8 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
 public class WizardTable extends Table {
 

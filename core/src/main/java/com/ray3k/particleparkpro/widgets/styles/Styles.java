@@ -12,7 +12,7 @@ import com.ray3k.stripe.PopTable.PopTableStyle;
 import com.ray3k.stripe.ResizeWidget.ResizeWidgetStyle;
 import com.ray3k.stripe.Spinner.SpinnerStyle;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.skin;
 
 public class Styles {
     public static LineGraphStyle lineGraphStyle;

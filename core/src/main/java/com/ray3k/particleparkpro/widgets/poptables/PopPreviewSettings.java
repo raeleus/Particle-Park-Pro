@@ -23,7 +23,8 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 
 public class PopPreviewSettings extends PopTable {
     public PopPreviewSettings() {

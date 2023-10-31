@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.RangedNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
@@ -17,9 +16,11 @@ import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProp
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.Core.skin;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
 public class RangeSubPanel extends Panel {
     public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {

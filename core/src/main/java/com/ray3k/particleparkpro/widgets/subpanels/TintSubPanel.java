@@ -6,18 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.FloatArray;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.TintUndoable;
 import com.ray3k.particleparkpro.widgets.ColorGraph;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphListener;
 import com.ray3k.particleparkpro.widgets.ColorGraph.NodeData;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.Listeners.handListener;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.colorGraphStyle;
 
 public class TintSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .5f;

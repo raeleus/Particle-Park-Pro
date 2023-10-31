@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.widgets.WelcomeCard;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.Listeners.addHandListener;
+import static com.ray3k.particleparkpro.Listeners.onChange;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
 import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;

@@ -18,8 +18,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
-import com.ray3k.particleparkpro.Listeners;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
@@ -27,10 +25,12 @@ import com.ray3k.tenpatch.TenPatchDrawable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.Core.foregroundStage;
+import static com.ray3k.particleparkpro.Core.stage;
+import static com.ray3k.particleparkpro.Listeners.handListener;
+import static com.ray3k.particleparkpro.Listeners.ibeamListener;
 import static com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphEventType.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
 
 public class ColorGraph extends Table {
     private ColorGraphStyle style;

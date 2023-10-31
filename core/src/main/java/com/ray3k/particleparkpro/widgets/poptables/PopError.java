@@ -3,7 +3,8 @@ package com.ray3k.particleparkpro.widgets.poptables;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.Utils;
@@ -11,8 +12,8 @@ import com.ray3k.stripe.PopTable;
 
 import java.io.IOException;
 
-import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Core.skin;
+import static com.ray3k.particleparkpro.Settings.logFile;
 
 public class PopError extends PopTable {
     private String message;

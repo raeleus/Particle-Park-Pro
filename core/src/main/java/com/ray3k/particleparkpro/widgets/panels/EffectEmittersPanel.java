@@ -9,7 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.*;
-import com.ray3k.particleparkpro.*;
+import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.FileDialogs;
+import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
@@ -29,7 +32,8 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableListStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.editableLabelStyle;
 
 public class EffectEmittersPanel extends Panel {
     private DraggableList emittersDraggableList;

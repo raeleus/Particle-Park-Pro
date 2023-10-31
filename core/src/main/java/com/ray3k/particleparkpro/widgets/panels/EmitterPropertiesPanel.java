@@ -7,18 +7,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopAddProperty;
 import com.ray3k.particleparkpro.widgets.subpanels.*;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.PresetActions.*;
+import static com.ray3k.particleparkpro.PresetActions.hideEmitterPropertyInTable;
+import static com.ray3k.particleparkpro.PresetActions.showEmitterPropertyInTable;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipRightArrowStyle;
 
 public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {

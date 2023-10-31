@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.Utils.UIscale;
 import com.ray3k.stripe.PopTable;
@@ -32,7 +31,8 @@ import java.io.IOException;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
