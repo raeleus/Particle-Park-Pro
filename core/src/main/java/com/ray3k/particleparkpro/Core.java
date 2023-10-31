@@ -80,7 +80,7 @@ public class Core extends ApplicationAdapter {
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
 
-        Settings.initialize();
+        Settings.initializeSettings();
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();

@@ -416,7 +416,7 @@ public class PopEditorSettings extends PopTable {
 
                     pop.hide();
                     checkForDuplicateShortcuts();
-                    initialize();
+                    initializeSettings();
                     return false;
                 }
 
@@ -427,7 +427,7 @@ public class PopEditorSettings extends PopTable {
 
                 pop.hide();
                 checkForDuplicateShortcuts();
-                initialize();
+                initializeSettings();
                 return false;
             }
         });
