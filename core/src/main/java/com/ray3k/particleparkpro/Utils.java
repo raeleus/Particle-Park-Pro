@@ -17,18 +17,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class Utils {
 
@@ -298,5 +299,43 @@ public class Utils {
         var height = MathUtils.floor(displayMode.height * percentageOfScreenHeight);
         var width = MathUtils.floor(widthRatio * height);
         sizeWindowToFit(Math.min(width, displayMode.width), Math.min(height, displayMode.height), 0);
+    }
+
+    public static void saveParticleEffect() {
+        var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
+        var filterPatterns = useFileExtension ? new String[] {"p"} : null;
+        var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
+
+        if (saveHandle != null) {
+            Settings.setDefaultSavePath(saveHandle.parent());
+            defaultFileName = saveHandle.name();
+
+            Writer fileWriter = null;
+            try {
+                fileWriter = new FileWriter(saveHandle.file());
+                particleEffect.save(fileWriter);
+            } catch (IOException e) {
+                var error = "Error saving particle file.";
+                var pop = new PopError(error, e.getMessage());
+                pop.show(stage);
+
+                Gdx.app.error(Core.class.getName(), error, e);
+            } finally {
+                StreamUtils.closeQuietly(fileWriter);
+            }
+
+            for (var fileHandle : fileHandles.values()) {
+                if (fileHandle.parent().equals(saveHandle.parent())) break;
+                try {
+                    fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
+                } catch (GdxRuntimeException e) {
+                    var error = "Error copying files to save location.";
+                    var pop = new PopError(error, e.getMessage());
+                    pop.show(stage);
+
+                    Gdx.app.error(Core.class.getName(), error, e);
+                }
+            }
+        }
     }
 }

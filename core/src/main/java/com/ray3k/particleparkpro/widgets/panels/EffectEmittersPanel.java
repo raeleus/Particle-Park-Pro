@@ -212,43 +212,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-            var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
-
-            if (saveHandle != null) {
-                Settings.setDefaultSavePath(saveHandle.parent());
-                defaultFileName = saveHandle.name();
-
-                Writer fileWriter = null;
-                try {
-                    fileWriter = new FileWriter(saveHandle.file());
-                    particleEffect.save(fileWriter);
-                } catch (IOException e) {
-                    var error = "Error saving particle file.";
-                    var pop = new PopError(error, e.getMessage());
-                    pop.show(stage);
-
-                    Gdx.app.error(Core.class.getName(), error, e);
-                } finally {
-                    StreamUtils.closeQuietly(fileWriter);
-                }
-
-                for (var fileHandle : fileHandles.values()) {
-                    if (fileHandle.parent().equals(saveHandle.parent())) break;
-                    try {
-                        fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
-                    } catch (GdxRuntimeException e) {
-                        var error = "Error copying files to save location.";
-                        var pop = new PopError(error, e.getMessage());
-                        pop.show(stage);
-
-                        Gdx.app.error(Core.class.getName(), error, e);
-                    }
-                }
-            }
-        });
+        onChange(textButton, Utils::saveParticleEffect);
 
         //Open
         table.row();
