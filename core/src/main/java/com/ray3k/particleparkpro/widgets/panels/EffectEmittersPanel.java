@@ -336,6 +336,7 @@ public class EffectEmittersPanel extends Panel {
             stack.add(backgroundImage);
             backgroundImages.add(backgroundImage);
 
+            //Emitter row item
             var table = new Table();
             table.setTouchable(Touchable.enabled);
             stack.add(table);
@@ -352,6 +353,7 @@ public class EffectEmittersPanel extends Panel {
             container.right();
             table.add(container).width(col1Width).padLeft(col1PadLeft);
 
+            //Enable/Disable
             var button = new Button(skin, "checkbox");
             container.setActor(button);
             addHandListener(button);

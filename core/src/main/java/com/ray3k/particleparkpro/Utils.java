@@ -310,6 +310,12 @@ public class Utils {
             Settings.setDefaultSavePath(saveHandle.parent());
             defaultFileName = saveHandle.name();
 
+            //enable all emitters for export
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                particleEffect.getEmitters().add(entry.key);
+            }
+
             Writer fileWriter = null;
             try {
                 fileWriter = new FileWriter(saveHandle.file());
@@ -335,6 +341,12 @@ public class Utils {
 
                     Gdx.app.error(Core.class.getName(), error, e);
                 }
+            }
+
+            //reset enabled/disabled emitters
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                if (entry.value) particleEffect.getEmitters().add(entry.key);
             }
         }
     }

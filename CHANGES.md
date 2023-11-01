@@ -1,6 +1,7 @@
 # Changelog
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time
+* Fixed disabled emitters not being exported when saving
 * Window size is initialized to a percentage of the available screen size
 * Minor bugfixes and code cleanup
 ### Version 0.0.2
