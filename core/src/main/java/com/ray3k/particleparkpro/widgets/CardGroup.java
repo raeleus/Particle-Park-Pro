@@ -29,6 +29,10 @@ public class CardGroup extends Container<Actor> {
         return shownIndex;
     }
 
+    public Actor getShownActor() {
+        return actors.get(shownIndex);
+    }
+
     public void add(Actor actor) {
         actors.add(actor);
         if (shownIndex == -1) showIndex(0);

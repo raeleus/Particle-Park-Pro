@@ -3,6 +3,7 @@
 * Fixed certain keyboard shortcuts being triggered at the same time
 * Fixed disabled emitters not being exported when saving
 * Window size is initialized to a percentage of the available screen size
+* Added more details to the summary of the Wizard mode
 * Minor bugfixes and code cleanup
 ### Version 0.0.2
 * Initial release version

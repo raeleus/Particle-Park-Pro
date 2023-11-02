@@ -211,32 +211,29 @@ public class PreviewPanel extends Panel {
         addAllResizeListener(resizeWidget.getActor());
         stack.add(resizeWidget);
 
-        //label
+        //stats
         statsLabel = new Label("", skin) {
-            int max;
             float countdown = -1f;
             final float MAX_TIME = 5f;
 
             @Override
             public void act(float delta) {
                 super.act(delta);
-                if (isVisible()) {
-                    var count = Utils.calcParticleCount();
-                    max = Math.max(max, count);
-                    if (count >= max) countdown = MAX_TIME;
-                    else {
-                        countdown -= delta;
-                        if (countdown < 0) {
-                            countdown = MAX_TIME;
-                            max = count;
-                        }
+                var count = Utils.calcParticleCount();
+                maxParticleCount = Math.max(maxParticleCount, count);
+                if (count >= maxParticleCount) countdown = MAX_TIME;
+                else {
+                    countdown -= delta;
+                    if (countdown < 0) {
+                        countdown = MAX_TIME;
+                        maxParticleCount = count;
                     }
-
-                    setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
-                        "\nCount: " + count +
-                        "\nMax: " +  max +
-                        "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
                 }
+
+                if (isVisible()) setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
+                    "\nCount: " + count +
+                    "\nMax: " + maxParticleCount +
+                    "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
             }
         };
         statsLabel.setLayoutEnabled(false);

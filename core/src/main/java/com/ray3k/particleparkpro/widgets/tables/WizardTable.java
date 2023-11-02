@@ -32,14 +32,17 @@ public class WizardTable extends Table {
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
         var summaryPanel = new SummaryPanel();
 
-        var pager = new Carousel(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
-        pager.setTouchable(Touchable.enabled);
-        addHandListener(pager.previousButton);
-        addHandListener(pager.nextButton);
-        for (var button : pager.buttonGroup.getButtons()) addHandListener(button);
-        pager.buttonTable.padTop(10).padBottom(20);
+        var carousel = new Carousel(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
+        carousel.setTouchable(Touchable.enabled);
+        addHandListener(carousel.previousButton);
+        addHandListener(carousel.nextButton);
+        for (var button : carousel.buttonGroup.getButtons()) addHandListener(button);
+        carousel.buttonTable.padTop(10).padBottom(20);
+        onChange(carousel, () -> {
+            if (carousel.getShownActor() == summaryPanel) summaryPanel.populateScrollTable();
+        });
 
-        var verticalSplitPane = new SplitPane(previewPanel, pager, true, skin);
+        var verticalSplitPane = new SplitPane(previewPanel, carousel, true, skin);
         add(verticalSplitPane).grow();
         verticalSplitPane.setSplitAmount(.5f);
         addSplitPaneVerticalSystemCursorListener(verticalSplitPane);

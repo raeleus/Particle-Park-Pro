@@ -64,6 +64,7 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
     public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
+    public static int maxParticleCount;
 
     @Override
     public void create() {

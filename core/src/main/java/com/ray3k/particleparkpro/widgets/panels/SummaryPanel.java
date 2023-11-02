@@ -51,8 +51,42 @@ public class SummaryPanel extends Panel {
         scrollTable.clearChildren(true);
         scrollTable.defaults().space(10);
 
-        var label = new Label("Save Particle Effect?", skin, "bold");
+        var label = new Label("Congratulations! You have created a particle effect. It looks great!", skin);
         scrollTable.add(label);
+
+        scrollTable.row();
+        var table = new Table();
+        scrollTable.add(table);
+
+        table.defaults().spaceRight(10).uniformX();
+        table.columnDefaults(0).right();
+        table.columnDefaults(1).left();
+        label = new Label("Emitters:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(activeEmitters.size), skin);
+        table.add(label);
+
+        table.row();
+        label = new Label("Images:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(fileHandles.size), skin);
+        table.add(label);
+
+        table.row();
+        label = new Label("Max particle count:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(maxParticleCount), skin);
+        table.add(label);
+
+        scrollTable.row();
+        label = new Label("Save Particle Effect?", skin, "bold");
+        scrollTable.add(label).padTop(20);
 
         scrollTable.row();
         var textButton = new TextButton("Save", skin);
