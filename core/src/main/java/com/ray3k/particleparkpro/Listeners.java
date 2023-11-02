@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.InfSlider;
+import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.PopTableStyle;
 import com.ray3k.stripe.ScrollFocusListener;
@@ -29,6 +30,7 @@ public class Listeners {
     public static SystemCursorListener allResizeListener;
     public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
     public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
+    public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
     static ScrollFocusListener scrollFocusListener;
     static ScrollFocusListener foregroundScrollFocusListener;
 
@@ -44,6 +46,7 @@ public class Listeners {
         splitPaneVerticalSystemCursorListener = new SplitPaneSystemCursorListener(SystemCursor.VerticalResize);
         scrollFocusListener = new ScrollFocusListener(stage);
         foregroundScrollFocusListener = new ScrollFocusListener(foregroundStage);
+        noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
     }
 
     public static void onChange(Actor actor, Runnable runnable) {

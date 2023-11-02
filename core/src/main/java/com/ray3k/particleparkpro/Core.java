@@ -63,7 +63,6 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
-    public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
     public static int maxParticleCount;
 
     @Override
@@ -100,8 +99,6 @@ public class Core extends ApplicationAdapter {
         particlePreview = new ParticlePreview();
         Styles.initializeStyles();
 
-        noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
-
         activeEmitters = new OrderedMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
         selectedEmitter = particleEffect.getEmitters().first();
@@ -120,7 +117,7 @@ public class Core extends ApplicationAdapter {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (event.getTarget().getListeners().contains(noCaptureKeyboardFocusListener, true)) return false;
+                if (event.getTarget().getListeners().contains(Listeners.noCaptureKeyboardFocusListener, true)) return false;
                 if (stage.getKeyboardFocus() == null) return false;
                 if (event.getTarget() == stage.getKeyboardFocus()) return false;
                 if (event.getTarget().isDescendantOf(stage.getKeyboardFocus())) return false;
