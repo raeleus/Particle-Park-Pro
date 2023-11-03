@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.IntArray;
 
+import java.util.Map;
+
 import static com.ray3k.particleparkpro.Core.preferences;
 
 public class Settings {
@@ -34,6 +36,8 @@ public class Settings {
     public static final int DEFAULT_PRIMARY_REDO_SHORTCUT = Keys.Y;
     public static final int[] DEFAULT_SECONDARY_REDO_MODIFIERS = new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT};
     public static final int DEFAULT_SECONDARY_REDO_SHORTCUT = Keys.Z;
+    public static final int[] DEFAULT_UNDO_KEYBIND = new int[] {Keys.CONTROL_LEFT, Keys.Z};
+    public static final int[] DEFAULT_REDO_KEYBIND = new int[] {Keys.CONTROL_LEFT, Keys.Y};
     public static int undoPrimaryShortcut;
     public static int undoSecondaryShortcut;
     public static int redoPrimaryShortcut;
@@ -43,8 +47,10 @@ public class Settings {
     public static final IntArray undoSecondaryModifiers = new IntArray();
     public static final IntArray redoSecondaryModifiers = new IntArray();
     public static FileHandle logFile;
+    public static Map<String, ?> preferenceMap;
 
     public static void initialize() {
+        preferenceMap = preferences.get();
         undoPrimaryShortcut = preferences.getInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
 
         undoPrimaryModifiers.clear();
@@ -68,6 +74,10 @@ public class Settings {
         redoSecondaryModifiers.clear();
         if (preferences.contains(NAME_SECONDARY_REDO_MODIFIERS)) redoSecondaryModifiers.addAll(readModifierText(preferences.getString(NAME_SECONDARY_REDO_MODIFIERS)));
         else redoSecondaryModifiers.addAll(DEFAULT_SECONDARY_REDO_MODIFIERS);
+    }
+
+    public static int getInt(String key) {
+        return (int) preferenceMap.get(key);
     }
 
     public static String getDefaultImagePath() {

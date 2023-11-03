@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.shortcuts.DefaultKeyMap;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
@@ -18,9 +19,12 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.em
 public class ClassicTable extends Table {
     public static ClassicTable classicTable;
     private Table undoTable;
+    private DefaultKeyMap keyMap;
     public ClassicTable() {
         classicTable = this;
         pad(20).padBottom(5);
+
+        createClassicTableKeyMap();
 
         var effectEmittersPanel = new EffectEmittersPanel();
         var previewPanel = new PreviewPanel();
@@ -63,7 +67,7 @@ public class ClassicTable extends Table {
         onChange(button, () -> {
             Gdx.input.setInputProcessor(foregroundStage);
             Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
-            var pop = new PopEditorSettings();
+            var pop = new PopEditorSettings(keyMap);
             pop.show(foregroundStage);
         });
 
@@ -95,5 +99,12 @@ public class ClassicTable extends Table {
             pop.setAttachOffsetX(8);
         }
         onChange(button, UndoManager::redo);
+    }
+
+    public void createClassicTableKeyMap() {
+       keyMap = new DefaultKeyMap("ClassicKeyMap");
+       keyMap.addAll(defaultShortcuts);
+       shortcutManager.setKeyMap(keyMap);
+//       PopEditorSettings.popEditorSettings.populateShortcutOptions(keyMap.getShortcuts());
     }
 }

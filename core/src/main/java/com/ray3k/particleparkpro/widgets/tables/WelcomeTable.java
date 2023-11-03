@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.WelcomeCard;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -14,6 +15,8 @@ import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
 
 public class WelcomeTable extends Table {
     public WelcomeTable() {
+        shortcutManager.setKeyMap(null);
+
         var table = new Table();
         add(table);
 

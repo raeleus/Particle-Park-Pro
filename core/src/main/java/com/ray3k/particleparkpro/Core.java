@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
@@ -30,7 +31,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.shortcuts.Shortcut;
+import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
+import com.ray3k.particleparkpro.shortcuts.runnables.RedoShortcutRunnable;
+import com.ray3k.particleparkpro.shortcuts.runnables.SaveAsShortcutRunnable;
+import com.ray3k.particleparkpro.shortcuts.runnables.SaveShortcutRunnable;
+import com.ray3k.particleparkpro.shortcuts.runnables.UndoShortcutRunnable;
 import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
 import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
 import com.ray3k.particleparkpro.widgets.InfSlider;
@@ -113,7 +119,10 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
+    public static FileHandle saveFileHandle;
     public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
+    public static ShortcutManager shortcutManager;
+    public static Array<Shortcut> defaultShortcuts;
 
     @Override
     public void create() {
@@ -202,23 +211,28 @@ public class Core extends ApplicationAdapter {
             }
         });
 
-        stage.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Settings.undoPrimaryShortcut && holdingModifiers(Settings.undoPrimaryModifiers) && UndoManager.hasUndo()) {
-                    UndoManager.undo();
-                } else if (keycode == Settings.undoSecondaryShortcut && holdingModifiers(Settings.undoSecondaryModifiers) && UndoManager.hasUndo()) {
-                    UndoManager.undo();
-                }
 
-                if (keycode == Settings.redoPrimaryShortcut && holdingModifiers(Settings.redoPrimaryModifiers) && UndoManager.hasRedo()) {
-                    UndoManager.redo();
-                } else if (keycode == Settings.redoSecondaryShortcut && holdingModifiers(Settings.redoSecondaryModifiers) && UndoManager.hasRedo()) {
-                    UndoManager.redo();
-                }
-                return false;
-            }
-        });
+        createDefaultShortcuts();
+        shortcutManager = new ShortcutManager();
+        stage.addListener(shortcutManager);
+
+//        stage.addListener(new InputListener() {
+//            @Override
+//            public boolean keyDown(InputEvent event, int keycode) {
+//                if (keycode == Settings.undoPrimaryShortcut && holdingModifiers(Settings.undoPrimaryModifiers) && UndoManager.hasUndo()) {
+//                    UndoManager.undo();
+//                } else if (keycode == Settings.undoSecondaryShortcut && holdingModifiers(Settings.undoSecondaryModifiers) && UndoManager.hasUndo()) {
+//                    UndoManager.undo();
+//                }
+//
+//                if (keycode == Settings.redoPrimaryShortcut && holdingModifiers(Settings.redoPrimaryModifiers) && UndoManager.hasRedo()) {
+//                    UndoManager.redo();
+//                } else if (keycode == Settings.redoSecondaryShortcut && holdingModifiers(Settings.redoSecondaryModifiers) && UndoManager.hasRedo()) {
+//                    UndoManager.redo();
+//                }
+//                return false;
+//            }
+//        });
 
         switch (preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN)) {
             case "Welcome":
@@ -239,6 +253,24 @@ public class Core extends ApplicationAdapter {
         }
 
         initShaderProgram();
+    }
+
+    private void createDefaultShortcuts() {
+        defaultShortcuts = new Array<>();
+//        preferences.putInteger("UndoShortcut",)
+        SaveAsShortcutRunnable runnable = new SaveAsShortcutRunnable();
+        defaultShortcuts.add(createShortcut("Undo", "Undo things", preferences.getInteger("UndoShortcut", ShortcutManager.packKeybindUnsorted(DEFAULT_UNDO_KEYBIND)), new UndoShortcutRunnable()));
+        defaultShortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_REDO_KEYBIND, new RedoShortcutRunnable()));
+        defaultShortcuts.add(createShortcut("SaveAs", "Save as things", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S}, runnable));
+        defaultShortcuts.add(createShortcut("Save", "Save things", new int[] {Keys.CONTROL_LEFT, Keys.S}, new SaveShortcutRunnable(runnable)));
+    }
+
+    public Shortcut createShortcut(String name, String desc, int[] primaryKeybind, Runnable runnable) {
+       return new Shortcut(name, desc, runnable).setPrimaryKeybind(primaryKeybind);
+    }
+
+    public Shortcut createShortcut(String name, String desc, int primaryKeybindPacked, Runnable runnable) {
+       return new Shortcut(name, desc, runnable).setPrimaryKeybindPacked(primaryKeybindPacked);
     }
 
     public static void initShaderProgram() {
