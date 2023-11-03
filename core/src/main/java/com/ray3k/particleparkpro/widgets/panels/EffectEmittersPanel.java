@@ -35,6 +35,12 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.em
 import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableListStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.editableLabelStyle;
 
+/**
+ * A widget that displays the emitters attached to the loaded particle effect. User may make new emitters or duplicate
+ * existing ones. They can drag the emitters to reorder them or use the buttons to move them up and down. Each emitter
+ * can be deleted by selecting and clicking delete or dragging it off the panel. Options to save the particle effect,
+ * open a particle file, or merge a file with the open one are available as well.
+ */
 public class EffectEmittersPanel extends Panel {
     private DraggableList emittersDraggableList;
     private final int col1Width = 40;

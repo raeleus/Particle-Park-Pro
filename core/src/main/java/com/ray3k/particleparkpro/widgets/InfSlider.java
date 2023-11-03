@@ -16,6 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Scaling;
 
+/**
+ * A slider that automatically repositions back to the center when the knob is released. When the knob is moved beyond
+ * its normal limits, it continues to receive input. This enables the user to input values in any direction and without
+ * any maximum/minimum value.
+ */
 public class InfSlider extends WidgetGroup implements Disableable {
     private float internalMinimum;
     private float internalMaximum;

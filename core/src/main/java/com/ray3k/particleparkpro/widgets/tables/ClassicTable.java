@@ -18,6 +18,9 @@ import static com.ray3k.particleparkpro.undo.UndoManager.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
+/**
+ * The widget layout for classic mode that mimics the original Particle Editor.
+ */
 public class ClassicTable extends Table {
     public static ClassicTable classicTable;
     private Table undoTable;

@@ -20,6 +20,9 @@ import com.ray3k.stripe.Spinner;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.infSliderStyle;
 
+/**
+ * A convenience class to organize and initialize the custom listeners for Particle Park Pro.
+ */
 public class Listeners {
     public static SystemCursorListener handListener;
     public static SystemCursorListener ibeamListener;

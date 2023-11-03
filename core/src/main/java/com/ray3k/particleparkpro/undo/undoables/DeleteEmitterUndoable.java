@@ -8,6 +8,9 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to delete the selected emitter.
+ */
 @AllArgsConstructor
 public class DeleteEmitterUndoable implements Undoable {
     private ParticleEmitter emitter;

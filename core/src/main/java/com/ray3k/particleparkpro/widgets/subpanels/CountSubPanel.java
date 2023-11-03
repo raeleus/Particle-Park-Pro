@@ -16,6 +16,10 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows the user to modify the Count value of the particle effect specifically. Numeric spinners for min
+ * and max.
+ */
 public class CountSubPanel extends Panel {
     public CountSubPanel() {
         setTouchable(Touchable.enabled);

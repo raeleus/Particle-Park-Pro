@@ -9,6 +9,9 @@ import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effec
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the active/disabled status of an emitter.
+ */
 @AllArgsConstructor
 public class SetPropertyUndoable implements Undoable {
     private ParticleEmitter emitter;

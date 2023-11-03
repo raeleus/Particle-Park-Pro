@@ -34,6 +34,11 @@ import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * PopTable used to change the app settings. These include options for the UndoManager, default screen, checking for
+ * updates, UI scale, keyboard shortcuts, and more. Links to related directories in the user folder are provided for
+ * convenience.
+ */
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
     private UIscale uiScale;

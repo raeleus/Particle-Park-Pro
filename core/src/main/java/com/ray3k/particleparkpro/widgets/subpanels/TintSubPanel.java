@@ -21,6 +21,9 @@ public class TintSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .5f;
     private Action graphUndoAction;
 
+    /**
+     * A widget that allows modification of the tint value of the currently selected emitter.
+     */
     public TintSubPanel() {
         var value = selectedEmitter.getTint();
         setTouchable(Touchable.enabled);

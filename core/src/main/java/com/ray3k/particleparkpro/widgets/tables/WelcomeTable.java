@@ -14,6 +14,9 @@ import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
 import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
 
+/**
+ * The introductory table which highlights the app title and buttons to open the classic or wizard modes.
+ */
 public class WelcomeTable extends Table {
     public WelcomeTable() {
         var table = new Table();

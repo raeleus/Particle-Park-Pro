@@ -25,6 +25,10 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 import static com.ray3k.particleparkpro.widgets.subpanels.SpawnSubPanel.SpawnType.*;
 
+/**
+ * A widget that changes the spawn property of the currently selected emitter. Controls for shape, edges, side, width,
+ * and height are provided.
+ */
 public class SpawnSubPanel extends Panel {
     private SpawnType spawnType;
     private ToggleGroup ellipseToggleGroup;

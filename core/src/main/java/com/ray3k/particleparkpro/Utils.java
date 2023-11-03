@@ -31,6 +31,9 @@ import java.io.Writer;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
 
+/**
+ * A convenience class with various static methods that perform various utility tasks throughout Particle Park Pro.
+ */
 public class Utils {
 
     public static void openFileExplorer(FileHandle startDirectory) throws IOException {

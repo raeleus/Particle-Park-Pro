@@ -22,6 +22,9 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows modification of an emitter value that only has a min/max. Numeric spinners.
+ */
 public class RangeSubPanel extends Panel {
     public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
         final int spinnerWidth = 70;

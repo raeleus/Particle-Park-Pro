@@ -36,33 +36,126 @@ import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.Utils.*;
 
+/**
+ * The primary ApplicationAdapter for the app. It also holds static variables for the utility objects shared by all
+ * classes.
+ */
 public class Core extends ApplicationAdapter {
     public static Skin skin;
+
+    /**
+     * The stage used for all UI elements except for pop up dialogs and tooltips. This is to ensure that anything that
+     * can overlap the ParticleEffect preview is rendered above it correctly.
+     */
     public static Stage stage;
+
+    /**
+     * The stage used for pop up dialogs and tooltips. This is to ensure that anything that can overlap the
+     * ParticleEffect preview is rendered above it correctly.
+     */
     public static Stage foregroundStage;
+
     public static SpriteBatch spriteBatch;
+
+    /***
+     * Indicates if a screen resize has happened during this frame. Used for transitions to ensure positions are correct.
+     */
     public static boolean windowResized;
+
+    /**
+     * Viewport used for the UI encompassing the entire window.
+     */
     public static ScreenViewport viewport;
+
+    /**
+     * Used for the ParticleEffect preview. This viewport is repositioned and scaled based on the viewport widget
+     * embedded in the UI.
+     */
     public static ScreenViewport previewViewport;
+
+    /**
+     * Camera for the ParticleEffect preview. This is repositionable by the user.
+     */
     public static OrthographicCamera previewCamera;
+
     public static Container<Actor> root;
+
+    /**
+     * The version number prepended with "ver " to be used throughout the app.
+     */
     public static String version;
+
+    /**
+     *  The version number read directly from file.
+     */
     public static String versionRaw;
-    private Color bgColor = new Color();
+
+    /**
+     * The background color of the app.
+     */
+    private final Color bgColor = new Color();
+
     public static ShapeDrawer shapeDrawer;
     public static ViewportWidget viewportWidget;
+
+    /**
+     * The object that handles the drawing of the ParticleEffect preview.
+     */
     public static ParticlePreview particlePreview;
     public static Preferences preferences;
     public static ParticleEffect particleEffect;
+
+    /**
+     * The collection of all emitters for the particle effect. When an emitter is disabled, it is marked as false in
+     * this map and removed from the particleEffect. All active emitters are exported when the user clicks "Save".
+     */
     public static OrderedMap<ParticleEmitter, Boolean> activeEmitters;
+
+    /**
+     * The currently selected emitter. The user can edit the properties of this emitter in the EmitterPropertiesPanel.
+     */
     public static ParticleEmitter selectedEmitter;
+
+    /**
+     * The currently loaded vert shader for the ParticleEffect preview.
+     */
     public static FileHandle vertShaderFile;
+
+    /**
+     * The currently loaded frag shader for the ParticleEffect preview.
+     */
     public static FileHandle fragShaderFile;
+
+    /**
+     * The shader program for the ParticleEffect preview.
+     */
     public static ShaderProgram shaderProgram;
+
+    /**
+     * The time that has passed since the last frame. This is passed to the shader.
+     */
     public static float time;
+
+    /**
+     * The collection of all the image fileHandles loaded for the ParticleEffect. The FileHandles are keyed by the name
+     * of the file.
+     */
     public static ObjectMap<String, FileHandle> fileHandles;
+
+    /**
+     * The collection of all sprites created for the ParticleEffect. A sprite is created for every image loaded. Each
+     * sprite is keyed by its associated file name.
+     */
     public static ObjectMap<String, Sprite> sprites;
+
+    /**
+     * The default name to be used when the user saves the ParticleEffect.
+     */
     public static String defaultFileName;
+
+    /**
+     * The maximum number of particles recorded in 5 second intervals. Used for the preview stats and the SummaryPanel.
+     */
     public static int maxParticleCount;
 
     @Override

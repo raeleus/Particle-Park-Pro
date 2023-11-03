@@ -26,6 +26,9 @@ import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 
+/**
+ * PopTable used to change the settings of the PreviewPanel and ParticlePreview.
+ */
 public class PopPreviewSettings extends PopTable {
     public PopPreviewSettings() {
         super(Core.skin.get(WindowStyle.class));

@@ -32,6 +32,11 @@ import static com.ray3k.particleparkpro.Listeners.ibeamListener;
 import static com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphEventType.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
 
+/**
+ * A widget that allows the user to modify colors over a timeline. Nodes can be added and removed from the timeline,
+ * with each being able to be individually repositioned. Clicking a node opens a color pop that allows the user to
+ * select a new color.
+ */
 public class ColorGraph extends Table {
     private ColorGraphStyle style;
     private ImageButtonStyle nodeStartStyle;

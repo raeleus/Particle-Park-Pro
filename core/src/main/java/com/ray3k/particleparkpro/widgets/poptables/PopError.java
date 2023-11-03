@@ -15,6 +15,11 @@ import java.io.IOException;
 import static com.ray3k.particleparkpro.Core.skin;
 import static com.ray3k.particleparkpro.Settings.logFile;
 
+/**
+ * PopTable used to display errors during runtime that can be recovered from. These are typically file errors when
+ * saving or opening particles and images. A link to the log directory enables users to retrieve the crash log file
+ * through their OS file explorer.
+ */
 public class PopError extends PopTable {
     private String message;
     private String error;

@@ -18,6 +18,9 @@ import static com.ray3k.particleparkpro.undo.UndoManager.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
+/**
+ * The widget layout that attempts to simplify the process of creating a particle effect.
+ */
 public class WizardTable extends Table {
 
     public static WizardTable wizardTable;

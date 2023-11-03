@@ -24,6 +24,10 @@ import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableTextListNoBgStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows the user to add images to the particle emitter. Default image options are available. Also allows
+ * the user to specify the sprite mode.
+ */
 public class ImagesSubPanel extends Panel {
     private DraggableTextList list;
     private Button removeButton;

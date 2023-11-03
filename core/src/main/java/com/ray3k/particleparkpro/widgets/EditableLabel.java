@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import lombok.Getter;
 
+/**
+ * A label that shows ellipses when its size is decreased below its preferred dimensions. If the user clicks the label,
+ * the label is converted to a textfield, allowing the text to be modified.
+ */
 public class EditableLabel extends ToggleGroup {
     @Getter
     private String text;

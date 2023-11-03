@@ -25,6 +25,10 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
+/**
+ * A widget that modifies a particle effect property that requires a graph representation. High/low with optional
+ * min/max values per each. Optional fields for relative and independent.
+ */
 public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;

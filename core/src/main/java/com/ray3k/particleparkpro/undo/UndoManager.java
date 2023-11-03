@@ -3,6 +3,12 @@ package com.ray3k.particleparkpro.undo;
 import com.badlogic.gdx.utils.Array;
 import com.ray3k.particleparkpro.Utils;
 
+/**
+ * The UndoManager is a system to handle undo/redo in the app. The description of the currently primed undo/redo is
+ * provided. The undoIndex indicates where in the history that the user is currently at. Certain actions will wipe the
+ * undo history, such as loading a new effect. Adding a new undoable will erase all undoables in the history past the
+ * current undoIndex.
+ */
 public class UndoManager {
     public final static Array<Undoable> undoables = new Array<>();
     public static int undoIndex = -1;

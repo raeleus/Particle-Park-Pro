@@ -24,6 +24,12 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.resizeWidgetStyle;
 
+/**
+ * The UI controls to accompany the particle effect preview. The viewport of the ParticlePreview is adjusted to match
+ * the dimensions of this widget. Controls effect the zoom, position of the camera, placement of the particle effect,
+ * and playing the effect in the preview. There are various options controlling grid, shaders, preview image, live
+ * statistics, background color, PPM, and delta multiplier.
+ */
 public class PreviewPanel extends Panel {
     private final FloatArray zoomLevels = new FloatArray(new float[] {1/6f, 1/4f, 1/3f, .5f, 2/3f, 1f, 1.5f, 2f, 3f, 4f, 6f});
     private int zoomLevelIndex = 5;

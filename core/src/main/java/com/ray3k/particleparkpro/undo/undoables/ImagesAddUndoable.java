@@ -14,6 +14,9 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to add images to the emitter.
+ */
 @AllArgsConstructor
 public class ImagesAddUndoable implements Undoable {
     private ParticleEmitter emitter;

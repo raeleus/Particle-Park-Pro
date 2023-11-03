@@ -11,6 +11,9 @@ import com.ray3k.particleparkpro.widgets.Panel;
 import static com.ray3k.particleparkpro.Core.skin;
 import static com.ray3k.particleparkpro.Listeners.*;
 
+/**
+ * An introductory screen used exclusively in Wizard mode to help introduce users to Particle Park Pro.
+ */
 public class StartPanel extends Panel {
     private Table scrollTable;
     public static StartPanel summaryPanel;

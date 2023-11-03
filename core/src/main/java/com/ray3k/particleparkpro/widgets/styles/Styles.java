@@ -14,6 +14,9 @@ import com.ray3k.stripe.Spinner.SpinnerStyle;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
+/**
+ * Collection of styles for custom widgets that are not provided in the skin JSON.
+ */
 public class Styles {
     public static LineGraphStyle lineGraphStyle;
     public static LineGraphStyle lineGraphBigStyle;

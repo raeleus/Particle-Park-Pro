@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
+/**
+ * A clickable button to be used with the welcome screen. It consists of a title, an image, description, and a child
+ * TextButton.
+ */
 public class WelcomeCard extends Button {
     public WelcomeCard(String title, String subtitle, Drawable drawable, String buttonText) {
         super(skin, "card");

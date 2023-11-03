@@ -1,29 +1,21 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StreamUtils;
-import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.Settings.*;
 
+/**
+ * A summary screen used exclusively in wizard mode that displays some emitter statistics and gives the user an option
+ * to save.
+ */
 public class SummaryPanel extends Panel {
     private Table scrollTable;
     public static SummaryPanel summaryPanel;

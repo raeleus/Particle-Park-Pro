@@ -10,6 +10,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the independent value of a scaled numeric value.
+ */
 @Data
 @AllArgsConstructor
 public class ScaledNumericValueIndependentUndoable implements Undoable {

@@ -21,6 +21,9 @@ public class TransparencySubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
+    /**
+     * A widget that provides a graph that modifies the transparency value of the currently selected emitter.
+     */
     public TransparencySubPanel() {
         final int itemSpacing = 5;
 

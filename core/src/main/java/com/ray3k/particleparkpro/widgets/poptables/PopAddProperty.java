@@ -17,6 +17,9 @@ import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipRightArrowStyle;
 
+/**
+ * PopTable used to add more properties to the EmitterPropertiesPanel.
+ */
 public class PopAddProperty extends PopTable {
     public PopAddProperty() {
         super(Core.skin.get(WindowStyle.class));

@@ -10,6 +10,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Change the relative value of a scaled numeric value.
+ */
 @Data
 @AllArgsConstructor
 public class ScaledNumericValueRelativeUndoable implements Undoable {

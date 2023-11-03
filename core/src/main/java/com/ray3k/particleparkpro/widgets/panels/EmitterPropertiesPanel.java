@@ -23,6 +23,11 @@ import static com.ray3k.particleparkpro.PresetActions.showEmitterPropertyInTable
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipRightArrowStyle;
 
+/**
+ * A widget to display the properties of the selected emitter. A set of default properties are always available while
+ * additional properties must be added manually. Each property is represented by a subpanel and have their own controls
+ * used to display and modify their values.
+ */
 public class EmitterPropertiesPanel extends Panel {
     public enum ShownProperty {
         DELAY("Delay"), LIFE_OFFSET("Life Offset"), X_OFFSET("X Offset"), Y_OFFSET("Y Offset"), VELOCITY("Velocity"),

@@ -7,6 +7,9 @@ import lombok.Data;
 
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the options of the particle effect.
+ */
 @Data
 @AllArgsConstructor
 public class OptionsUndoable implements Undoable {

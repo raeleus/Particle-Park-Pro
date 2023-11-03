@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import static com.ray3k.particleparkpro.Core.*;
 
+/**
+ * This class renders the particle preview.
+ */
 public class ParticlePreview {
     public static float pixelsPerMeter;
     public static float deltaMultiplier;

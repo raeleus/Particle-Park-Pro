@@ -25,6 +25,10 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
+/**
+ * A widget to modify the size value of the emitter specifially. Very much like a RangeSubPanel, but allows editing the
+ * x and y values simultaneously.
+ */
 public class SizeSubPanel extends Panel {
     private enum ExpandedType {
         EXPANDED_X, EXPANDED_Y, EXPANDED_BOTH

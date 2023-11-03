@@ -25,6 +25,10 @@ import space.earlygrey.shapedrawer.scene2d.ShapeDrawerDrawable;
 
 import static com.ray3k.particleparkpro.Core.shapeDrawer;
 
+/**
+ * A widget that displays an editable line graph. Nodes can be added and repositioned by clicking the plot area. To
+ * remove a node, the user can double-click a node or drag it off of the plot area.
+ */
 public class LineGraph extends Table {
     private LineGraphStyle style;
     private String text;

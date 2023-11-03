@@ -14,6 +14,10 @@ import static com.ray3k.particleparkpro.Core.skin;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows modification of the emitter properties additive, attached, continuous, aligned, behind, and
+ * premultiplied alpha.
+ */
 public class OptionsSubPanel extends Panel {
     public OptionsSubPanel() {
         setTouchable(Touchable.enabled);

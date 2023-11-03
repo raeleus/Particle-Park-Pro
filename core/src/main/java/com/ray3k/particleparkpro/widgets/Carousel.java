@@ -15,6 +15,11 @@ import com.badlogic.gdx.utils.Array;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
+/**
+ * A widget that allows the user to flip through its children, displaying only one at a time. It transitions between
+ * each widget with a smoother Interpolation horizontally. Buttons to go to the next and previous screens are provided,
+ * as well as radio buttons for every page.
+ */
 public class Carousel extends Table {
     public CardGroup cardGroup;
     public TextButton previousButton;
