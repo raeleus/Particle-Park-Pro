@@ -102,7 +102,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(deltaMultiplierSpinner.getButtonMinus());
         addHandListener(deltaMultiplierSpinner.getButtonPlus());
         addIbeamListener(deltaMultiplierSpinner.getTextField());
-        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = (float) deltaMultiplierSpinner.getValue());
+        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = Math.max(0, (float) deltaMultiplierSpinner.getValue()));
 
         scrollTable.row();
         image = new Image(skin, "divider-10");

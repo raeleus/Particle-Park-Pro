@@ -12,7 +12,7 @@ import static com.ray3k.particleparkpro.Core.*;
  */
 public class ParticlePreview {
     public static float pixelsPerMeter;
-    public static float deltaMultiplier;
+    public static float deltaMultiplier = 1f;
     public static final Color backgroundColor = new Color(Color.BLACK);
     public static boolean statisticsEnabled;
     public static Texture previewImageTexture;
@@ -80,7 +80,7 @@ public class ParticlePreview {
         }
 
         if (!pause) {
-            particleEffect.update(Gdx.graphics.getDeltaTime());
+            particleEffect.update(Gdx.graphics.getDeltaTime() * deltaMultiplier);
             particleEffect.draw(spriteBatch);
         }
 
