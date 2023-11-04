@@ -305,6 +305,13 @@ public class PopEditorSettings extends PopTable {
             Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });
 
+        buttonTable.row();
+        subButton = new TextButton("Close", skin);
+        buttonTable.add(subButton).padTop(20);
+        addHandListener(subButton);
+        addTooltip(subButton, "Close the settings dialog.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, this::hide);
+
         checkForDuplicateShortcuts();
     }
 
