@@ -98,7 +98,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highSpinner).width(spinnerWidth);
         addIbeamListener(highSpinner.getTextField());
@@ -115,7 +115,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highMinSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinSpinner).width(spinnerWidth);
         addIbeamListener(highMinSpinner.getTextField());
@@ -124,7 +124,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highMinSpinner, sliderIncrement, sliderRange);
 
-        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxSpinner).width(spinnerWidth);
         addIbeamListener(highMaxSpinner.getTextField());
@@ -151,7 +151,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowSpinner).width(spinnerWidth);
         addIbeamListener(lowSpinner.getTextField());
@@ -168,7 +168,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinSpinner).width(spinnerWidth);
         addIbeamListener(lowMinSpinner.getTextField());
@@ -177,7 +177,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowMinSpinner, sliderIncrement, sliderRange);
 
-        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxSpinner.getTextField());
@@ -252,7 +252,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highXtoggleWidget.table1.defaults().space(itemSpacing);
-        var highXspinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXspinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highXspinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table1.add(highXspinner).width(spinnerWidth);
         addIbeamListener(highXspinner.getTextField());
@@ -269,7 +269,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highXtoggleWidget.table2.defaults().space(itemSpacing);
-        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highXminSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXminSpinner).width(spinnerWidth);
         addIbeamListener(highXminSpinner.getTextField());
@@ -278,7 +278,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highXminSpinner, sliderIncrement, sliderRange);
 
-        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highXmaxSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXmaxSpinner).width(spinnerWidth);
         addIbeamListener(highXmaxSpinner.getTextField());
@@ -303,7 +303,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowXtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowXspinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXspinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowXspinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table1.add(lowXspinner).width(spinnerWidth);
         addIbeamListener(lowXspinner.getTextField());
@@ -320,7 +320,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowXtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowXminSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXminSpinner).width(spinnerWidth);
         addIbeamListener(lowXminSpinner.getTextField());
@@ -329,7 +329,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowXminSpinner, sliderIncrement, sliderRange);
 
-        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowXmaxSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowXmaxSpinner.getTextField());
@@ -389,7 +389,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highYtoggleWidget.table1.defaults().space(itemSpacing);
-        var highYspinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYspinner = new Spinner(yValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highYspinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table1.add(highYspinner).width(spinnerWidth);
         addIbeamListener(highYspinner.getTextField());
@@ -406,7 +406,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highYtoggleWidget.table2.defaults().space(itemSpacing);
-        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highYminSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYminSpinner).width(spinnerWidth);
         addIbeamListener(highYminSpinner.getTextField());
@@ -415,7 +415,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(highYminSpinner, sliderIncrement, sliderRange);
 
-        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         highYmaxSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYmaxSpinner).width(spinnerWidth);
         addIbeamListener(highYmaxSpinner.getTextField());
@@ -440,7 +440,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowYtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowYspinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYspinner = new Spinner(yValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowYspinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table1.add(lowYspinner).width(spinnerWidth);
         addIbeamListener(lowYspinner.getTextField());
@@ -457,7 +457,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowYtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowYminSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYminSpinner).width(spinnerWidth);
         addIbeamListener(lowYminSpinner.getTextField());
@@ -466,7 +466,7 @@ public class SizeSubPanel extends Panel {
         addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
         addInfiniteSlider(lowYminSpinner, sliderIncrement, sliderRange);
 
-        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         lowYmaxSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowYmaxSpinner.getTextField());
@@ -566,116 +566,116 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHigh(highSpinner.getValueAsInt());
+            undo.newXvalue.setHigh((float) (float) highSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHigh(highSpinner.getValueAsInt());
+            undo.newYvalue.setHigh((float) highSpinner.getValue());
             UndoManager.add(undo);
 
-            highMinSpinner.setValue(highSpinner.getValueAsInt());
-            highMaxSpinner.setValue(highSpinner.getValueAsInt());
+            highMinSpinner.setValue(highSpinner.getValue());
+            highMaxSpinner.setValue(highSpinner.getValue());
         });
 
         onChange(highMinSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHighMin(highMinSpinner.getValueAsInt());
+            undo.newXvalue.setHighMin((float) highMinSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHighMin(highMinSpinner.getValueAsInt());
+            undo.newYvalue.setHighMin((float) highMinSpinner.getValue());
             UndoManager.add(undo);
 
-            highSpinner.setValue(highMinSpinner.getValueAsInt());
+            highSpinner.setValue(highMinSpinner.getValue());
         });
 
         onChange(highMaxSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHighMax(highMaxSpinner.getValueAsInt());
+            undo.newXvalue.setHighMax((float) highMaxSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHighMax(highMaxSpinner.getValueAsInt());
+            undo.newYvalue.setHighMax((float) highMaxSpinner.getValue());
             UndoManager.add(undo);
 
-            highSpinner.setValue(highMaxSpinner.getValueAsInt());
+            highSpinner.setValue(highMaxSpinner.getValue());
         });
 
         onChange(highCollapseButton, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHigh(highSpinner.getValueAsInt());
+            undo.newXvalue.setHigh((float) highSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHigh(highSpinner.getValueAsInt());
+            undo.newYvalue.setHigh((float) highSpinner.getValue());
             UndoManager.add(undo);
 
-            highMinSpinner.setValue(highSpinner.getValueAsInt());
-            highMaxSpinner.setValue(highSpinner.getValueAsInt());
+            highMinSpinner.setValue(highSpinner.getValue());
+            highMaxSpinner.setValue(highSpinner.getValue());
         });
 
         onChange(lowSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLow(lowSpinner.getValueAsInt());
+            undo.newXvalue.setLow((float) lowSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLow(lowSpinner.getValueAsInt());
+            undo.newYvalue.setLow((float) lowSpinner.getValue());
             UndoManager.add(undo);
 
-            lowMinSpinner.setValue(lowSpinner.getValueAsInt());
-            lowMaxSpinner.setValue(lowSpinner.getValueAsInt());
+            lowMinSpinner.setValue(lowSpinner.getValue());
+            lowMaxSpinner.setValue(lowSpinner.getValue());
         });
 
         onChange(lowMinSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLowMin(lowMinSpinner.getValueAsInt());
+            undo.newXvalue.setLowMin((float) lowMinSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLowMin(lowMinSpinner.getValueAsInt());
+            undo.newYvalue.setLowMin((float) lowMinSpinner.getValue());
             UndoManager.add(undo);
 
-            lowSpinner.setValue(lowMinSpinner.getValueAsInt());
+            lowSpinner.setValue(lowMinSpinner.getValue());
         });
 
         onChange(lowMaxSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLowMax(lowMaxSpinner.getValueAsInt());
+            undo.newXvalue.setLowMax((float) lowMaxSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLowMax(lowMaxSpinner.getValueAsInt());
+            undo.newYvalue.setLowMax((float) lowMaxSpinner.getValue());
             UndoManager.add(undo);
 
-            lowSpinner.setValue(lowMaxSpinner.getValueAsInt());
+            lowSpinner.setValue(lowMaxSpinner.getValue());
         });
 
         onChange(lowCollapseButton, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLow(lowSpinner.getValueAsInt());
+            undo.newXvalue.setLow((float) lowSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLow(lowSpinner.getValueAsInt());
+            undo.newYvalue.setLow((float) lowSpinner.getValue());
             UndoManager.add(undo);
 
-            lowMinSpinner.setValue(lowSpinner.getValueAsInt());
-            lowMaxSpinner.setValue(lowSpinner.getValueAsInt());
+            lowMinSpinner.setValue(lowSpinner.getValue());
+            lowMaxSpinner.setValue(lowSpinner.getValue());
         });
 
         onChange(graph, () -> {
@@ -695,84 +695,84 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHigh(highXspinner.getValueAsInt());
+            undo.newValue.setHigh((float) highXspinner.getValue());
             UndoManager.add(undo);
 
-            highXminSpinner.setValue(highXspinner.getValueAsInt());
-            highXmaxSpinner.setValue(highXspinner.getValueAsInt());
+            highXminSpinner.setValue(highXspinner.getValue());
+            highXmaxSpinner.setValue(highXspinner.getValue());
         });
 
         onChange(highXminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHighMin(highXminSpinner.getValueAsInt());
+            undo.newValue.setHighMin((float) highXminSpinner.getValue());
             UndoManager.add(undo);
 
-            highXspinner.setValue(highXminSpinner.getValueAsInt());
+            highXspinner.setValue(highXminSpinner.getValue());
         });
 
         onChange(highXmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHighMax(highXmaxSpinner.getValueAsInt());
+            undo.newValue.setHighMax((float) highXmaxSpinner.getValue());
             UndoManager.add(undo);
 
-            highSpinner.setValue(highXmaxSpinner.getValueAsInt());
+            highSpinner.setValue(highXmaxSpinner.getValue());
         });
 
         onChange(highXcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHigh(highXspinner.getValueAsInt());
+            undo.newValue.setHigh((float) highXspinner.getValue());
             UndoManager.add(undo);
 
-            highXmaxSpinner.setValue(highXspinner.getValueAsInt());
-            highXmaxSpinner.setValue(highXspinner.getValueAsInt());
+            highXmaxSpinner.setValue(highXspinner.getValue());
+            highXmaxSpinner.setValue(highXspinner.getValue());
         });
 
         onChange(lowXspinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLow(lowXspinner.getValueAsInt());
+            undo.newValue.setLow((float) lowXspinner.getValue());
             UndoManager.add(undo);
 
-            lowXminSpinner.setValue(lowXspinner.getValueAsInt());
-            lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
+            lowXminSpinner.setValue(lowXspinner.getValue());
+            lowXmaxSpinner.setValue(lowXspinner.getValue());
         });
 
         onChange(lowXminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLowMin(lowXminSpinner.getValueAsInt());
+            undo.newValue.setLowMin((float) lowXminSpinner.getValue());
             UndoManager.add(undo);
 
-            lowXspinner.setValue(lowXminSpinner.getValueAsInt());
+            lowXspinner.setValue(lowXminSpinner.getValue());
         });
 
         onChange(lowXmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLowMax(lowXmaxSpinner.getValueAsInt());
+            undo.newValue.setLowMax((float) lowXmaxSpinner.getValue());
             UndoManager.add(undo);
 
-            lowSpinner.setValue(lowXmaxSpinner.getValueAsInt());
+            lowSpinner.setValue(lowXmaxSpinner.getValue());
         });
 
         onChange(lowXcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLow(lowXspinner.getValueAsInt());
+            undo.newValue.setLow((float) lowXspinner.getValue());
             UndoManager.add(undo);
 
-            lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
-            lowXmaxSpinner.setValue(lowXspinner.getValueAsInt());
+            lowXmaxSpinner.setValue(lowXspinner.getValue());
+            lowXmaxSpinner.setValue(lowXspinner.getValue());
         });
 
         onChange(graphX, () -> {
@@ -792,84 +792,84 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHigh(highYspinner.getValueAsInt());
+            undo.newValue.setHigh((float) highYspinner.getValue());
             UndoManager.add(undo);
 
-            highYminSpinner.setValue(highYspinner.getValueAsInt());
-            highYmaxSpinner.setValue(highYspinner.getValueAsInt());
+            highYminSpinner.setValue(highYspinner.getValue());
+            highYmaxSpinner.setValue(highYspinner.getValue());
         });
 
         onChange(highYminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHighMin(highYminSpinner.getValueAsInt());
+            undo.newValue.setHighMin((float) highYminSpinner.getValue());
             UndoManager.add(undo);
 
-            highYspinner.setValue(highYminSpinner.getValueAsInt());
+            highYspinner.setValue(highYminSpinner.getValue());
         });
 
         onChange(highYmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHighMax(highYmaxSpinner.getValueAsInt());
+            undo.newValue.setHighMax((float) highYmaxSpinner.getValue());
             UndoManager.add(undo);
 
-            highSpinner.setValue(highYmaxSpinner.getValueAsInt());
+            highSpinner.setValue(highYmaxSpinner.getValue());
         });
 
         onChange(highYcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHigh(highYspinner.getValueAsInt());
+            undo.newValue.setHigh((float) highYspinner.getValue());
             UndoManager.add(undo);
 
-            highYmaxSpinner.setValue(highYspinner.getValueAsInt());
-            highYmaxSpinner.setValue(highYspinner.getValueAsInt());
+            highYmaxSpinner.setValue(highYspinner.getValue());
+            highYmaxSpinner.setValue(highYspinner.getValue());
         });
 
         onChange(lowYspinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLow(lowYspinner.getValueAsInt());
+            undo.newValue.setLow((float) lowYspinner.getValue());
             UndoManager.add(undo);
 
-            lowYminSpinner.setValue(lowYspinner.getValueAsInt());
-            lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
+            lowYminSpinner.setValue(lowYspinner.getValue());
+            lowYmaxSpinner.setValue(lowYspinner.getValue());
         });
 
         onChange(lowYminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLowMin(lowYminSpinner.getValueAsInt());
+            undo.newValue.setLowMin((float) lowYminSpinner.getValue());
             UndoManager.add(undo);
 
-            lowYspinner.setValue(lowYminSpinner.getValueAsInt());
+            lowYspinner.setValue(lowYminSpinner.getValue());
         });
 
         onChange(lowYmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLowMax(lowYmaxSpinner.getValueAsInt());
+            undo.newValue.setLowMax((float) lowYmaxSpinner.getValue());
             UndoManager.add(undo);
 
-            lowSpinner.setValue(lowYmaxSpinner.getValueAsInt());
+            lowSpinner.setValue(lowYmaxSpinner.getValue());
         });
 
         onChange(lowYcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLow(lowYspinner.getValueAsInt());
+            undo.newValue.setLow((float) lowYspinner.getValue());
             UndoManager.add(undo);
 
-            lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
-            lowYmaxSpinner.setValue(lowYspinner.getValueAsInt());
+            lowYmaxSpinner.setValue(lowYspinner.getValue());
+            lowYmaxSpinner.setValue(lowYspinner.getValue());
         });
 
         onChange(graphY, () -> {
