@@ -11,7 +11,7 @@ import static com.ray3k.particleparkpro.Core.*;
  * This class renders the particle preview.
  */
 public class ParticlePreview {
-    public static float pixelsPerMeter;
+    public static float pixelsPerMeter = 1f;
     public static float deltaMultiplier = 1f;
     public static final Color backgroundColor = new Color(Color.BLACK);
     public static boolean statisticsEnabled;

@@ -78,7 +78,10 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(pixelsPerMeterSpinner.getButtonMinus());
         addHandListener(pixelsPerMeterSpinner.getButtonPlus());
         addIbeamListener(pixelsPerMeterSpinner.getTextField());
-        onChange(pixelsPerMeterSpinner, () -> pixelsPerMeter = (float) pixelsPerMeterSpinner.getValue());
+        onChange(pixelsPerMeterSpinner, () -> {
+            pixelsPerMeter = Math.max(0, (float) pixelsPerMeterSpinner.getValue());
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+        });
 
         scrollTable.row();
         var image = new Image(skin, "divider-10");
