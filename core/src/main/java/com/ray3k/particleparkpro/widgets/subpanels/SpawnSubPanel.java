@@ -186,6 +186,7 @@ public class SpawnSubPanel extends Panel {
         shapeToggleGroup.table2.row();
         table = new Table();
         shapeToggleGroup.table2.add(table).top();
+        shapeToggleGroup.table2.add(table).top().left();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
@@ -329,6 +330,7 @@ public class SpawnSubPanel extends Panel {
         shapeToggleGroup.table2.row();
         table = new Table();
         shapeToggleGroup.table2.add(table).top();
+        shapeToggleGroup.table2.add(table).top().left();
         table.defaults().space(itemSpacing).left();
         label = new Label("High:", skin);
         table.add(label);
@@ -436,6 +438,7 @@ public class SpawnSubPanel extends Panel {
 
         //Graph small
         var graphHeight = new LineGraph("Life", lineGraphStyle);
+        var graphHeight = new LineGraph("Duration", lineGraphStyle);
         graphHeight.setNodes(valueHeight.getTimeline(), valueHeight.getScaling());
         graphHeight.setNodeListener(handListener);
         shapeToggleGroup.table2.add(graphHeight);
