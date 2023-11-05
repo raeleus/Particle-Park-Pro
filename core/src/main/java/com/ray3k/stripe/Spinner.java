@@ -43,9 +43,8 @@ import java.math.BigDecimal;
 
 public class Spinner extends Table implements Disableable {
     private BigDecimal value;
-    private Double minimum;
-    private Double maximum;
-    private boolean usingMinimum, usingMaximum;
+    private Double minimum = -Double.MAX_VALUE;
+    private Double maximum = Double.MAX_VALUE;
     private final BigDecimal increment;
     private final boolean rounding;
     private TextField textField;
@@ -66,8 +65,6 @@ public class Spinner extends Table implements Disableable {
         this.value = BigDecimal.valueOf(value);
         rounding = round;
         this.orientation = orientation;
-        usingMinimum = false;
-        usingMaximum = false;
         this.increment = BigDecimal.valueOf(increment);
         this.style = style;
 
@@ -248,14 +245,14 @@ public class Spinner extends Table implements Disableable {
 
                 if (text.matches("\\-?(\\d+\\.?\\d*)|(\\.\\d+)")) {
                     double value = Double.parseDouble(text);
-                    if (usingMinimum && value < parent.minimum) {
+                    if (value < parent.minimum) {
                         value = parent.minimum;
-                    } else if (usingMaximum && value > parent.maximum) {
+                    } else if (value > parent.maximum) {
                         value = parent.maximum;
                     }
                     parent.value = BigDecimal.valueOf(value);
                 } else {
-                    parent.value = BigDecimal.valueOf(usingMinimum ? parent.minimum : 0);
+                    parent.value = BigDecimal.valueOf(0);
                 }
             }
         });
@@ -264,10 +261,10 @@ public class Spinner extends Table implements Disableable {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
                 Spinner parent = (Spinner) textField.getParent();
-                if (usingMinimum && parent.value.doubleValue() < parent.minimum) {
+                if (parent.value.doubleValue() < parent.minimum) {
                     parent.value = BigDecimal.valueOf(parent.minimum);
                 }
-                if (usingMaximum && parent.value.doubleValue() > parent.maximum) {
+                if (parent.value.doubleValue() > parent.maximum) {
                     parent.value = BigDecimal.valueOf(parent.maximum);
                 }
                 parent.updateText();
@@ -305,10 +302,10 @@ public class Spinner extends Table implements Disableable {
 
     private void subtractValue() {
         value = value.subtract(increment);
-        if (usingMinimum && value.doubleValue() < minimum) {
+        if (value.doubleValue() < minimum) {
             value = BigDecimal.valueOf(minimum);
         }
-        if (usingMaximum && value.doubleValue() > maximum) {
+        if (value.doubleValue() > maximum) {
             value = BigDecimal.valueOf(maximum);
         }
         updateText();
@@ -316,10 +313,10 @@ public class Spinner extends Table implements Disableable {
 
     private void addValue() {
         value = value.add(increment);
-        if (usingMinimum && value.doubleValue() < minimum) {
+        if (value.doubleValue() < minimum) {
             value = BigDecimal.valueOf(minimum);
         }
-        if (usingMaximum && value.doubleValue() > maximum) {
+        if (value.doubleValue() > maximum) {
             value = BigDecimal.valueOf(maximum);
         }
         updateText();
@@ -358,7 +355,6 @@ public class Spinner extends Table implements Disableable {
 
     public void setMinimum(double minimum) {
         this.minimum = minimum;
-        usingMinimum = true;
     }
 
     public double getMaximum() {
@@ -367,12 +363,6 @@ public class Spinner extends Table implements Disableable {
 
     public void setMaximum(double maximum) {
         this.maximum = maximum;
-        usingMaximum = true;
-    }
-
-    public void clearMinMax() {
-        usingMinimum = false;
-        usingMaximum = false;
     }
 
     private void updateText() {
