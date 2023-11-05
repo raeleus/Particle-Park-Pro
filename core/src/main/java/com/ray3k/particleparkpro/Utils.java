@@ -35,11 +35,6 @@ import static com.ray3k.particleparkpro.Settings.*;
  * A convenience class with various static methods that perform various utility tasks throughout Particle Park Pro.
  */
 public class Utils {
-    public static String formatSpinnerValue(float value) {
-        return String.format("%.2f", value);
-    }
-
-
     public static void openFileExplorer(FileHandle startDirectory) throws IOException {
         if (startDirectory.exists()) {
             File file = startDirectory.file();
