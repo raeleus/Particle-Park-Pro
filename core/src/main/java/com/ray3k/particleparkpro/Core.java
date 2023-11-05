@@ -24,7 +24,6 @@ import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;

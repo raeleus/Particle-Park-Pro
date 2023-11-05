@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.badlogic.gdx.utils.*;
-import com.ray3k.particleparkpro.Core;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
@@ -18,15 +20,10 @@ import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;

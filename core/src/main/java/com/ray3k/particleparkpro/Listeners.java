@@ -236,7 +236,6 @@ public class Listeners {
         sliderPop.add(slider).width(100);
         addHandListener(slider.getKnob());
         onChange(slider, () -> {
-            System.out.println(slider.getValue());
             valueSpinner.setValue(slider.getValue());
             valueSpinner.fire(new ChangeEvent());
         });

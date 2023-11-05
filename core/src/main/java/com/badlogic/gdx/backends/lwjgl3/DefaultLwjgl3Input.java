@@ -17,15 +17,9 @@
 package com.badlogic.gdx.backends.lwjgl3;
 
 import com.badlogic.gdx.*;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCharCallback;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWScrollCallback;
-
 import com.badlogic.gdx.graphics.glutils.HdpiMode;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.*;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
