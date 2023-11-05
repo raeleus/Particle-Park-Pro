@@ -234,6 +234,7 @@ public class SpawnSubPanel extends Panel {
         widthHighToggleWidget.table2.add(widthHighCollapseButton);
         addHandListener(widthHighCollapseButton);
         addTooltip(widthHighCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(widthHighCollapseButton, widthHighToggleWidget::swap);
 
         if (!MathUtils.isEqual(valueWidth.getHighMin(), valueWidth.getHighMax())) widthHighToggleWidget.swap();
 
@@ -286,6 +287,7 @@ public class SpawnSubPanel extends Panel {
         widthLowToggleWidget.table2.add(widthLowCollapseButton);
         addHandListener(widthLowCollapseButton);
         addTooltip(widthLowCollapseButton, "Collapse to define a single low value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(widthLowCollapseButton, widthLowToggleWidget::swap);
 
         if (!MathUtils.isEqual(valueWidth.getLowMin(), valueWidth.getLowMax())) widthLowToggleWidget.swap();
 
@@ -375,6 +377,7 @@ public class SpawnSubPanel extends Panel {
         heightHighToggleWidget.table2.add(heightHighCollapseButton);
         addHandListener(heightHighCollapseButton);
         addTooltip(heightHighCollapseButton, "Collapse to define a single high value", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(heightHighCollapseButton, heightHighToggleWidget::swap);
 
         if (!MathUtils.isEqual(valueHeight.getHighMin(), valueHeight.getHighMax())) heightHighToggleWidget.swap();
 
