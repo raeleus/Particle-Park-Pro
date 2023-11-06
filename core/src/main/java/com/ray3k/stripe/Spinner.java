@@ -40,13 +40,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Spinner extends Table implements Disableable {
     private BigDecimal value;
     private Double minimum = -Double.MAX_VALUE;
     private Double maximum = Double.MAX_VALUE;
     private final BigDecimal increment;
-    private final boolean rounding;
+    private int decimalPlaces;
     private TextField textField;
     private Button buttonMinus;
     private Button buttonPlus;
@@ -61,9 +62,9 @@ public class Spinner extends Table implements Disableable {
     private static final float HOLD_ACTION_REPEAT_DELAY = .075f;
     private boolean stopNormalPress;
 
-    public Spinner(double value, double increment, boolean round, Orientation orientation, SpinnerStyle style) {
+    public Spinner(double value, double increment, int decimalPlaces, Orientation orientation, SpinnerStyle style) {
         this.value = BigDecimal.valueOf(value);
-        rounding = round;
+        this.decimalPlaces = decimalPlaces;
         this.orientation = orientation;
         this.increment = BigDecimal.valueOf(increment);
         this.style = style;
@@ -71,12 +72,12 @@ public class Spinner extends Table implements Disableable {
         addWidgets();
     }
 
-    public Spinner(double value, double increment, boolean round, Orientation orientation, Skin skin, String style) {
-        this(value, increment, round, orientation, skin.get(style, SpinnerStyle.class));
+    public Spinner(double value, double increment, int decimalPlaces, Orientation orientation, Skin skin, String style) {
+        this(value, increment, decimalPlaces, orientation, skin.get(style, SpinnerStyle.class));
     }
 
-    public Spinner(double value, double increment, boolean round, Orientation orientation, Skin skin) {
-        this(value, increment, round, orientation, skin, "default");
+    public Spinner(double value, double increment, int decimalPlaces, Orientation orientation, Skin skin) {
+        this(value, increment, decimalPlaces, orientation, skin, "default");
     }
 
     private void addWidgets() {
@@ -128,7 +129,7 @@ public class Spinner extends Table implements Disableable {
             @Override
             public boolean acceptChar(TextField textField1, char c) {
                 boolean returnValue = false;
-                if ((c >= 48 && c <= 57) || c == 45 || (!rounding && c == 46)) {
+                if ((c >= 48 && c <= 57) || c == 45/* || (decimalPlaces > 0 && c == 46)*/ || c == 46) {
                     returnValue = true;
                 }
                 return returnValue;
@@ -251,6 +252,7 @@ public class Spinner extends Table implements Disableable {
                         value = parent.maximum;
                     }
                     parent.value = BigDecimal.valueOf(value);
+                    parent.value = parent.value.setScale(decimalPlaces, RoundingMode.HALF_UP);
                 } else {
                     parent.value = BigDecimal.valueOf(0);
                 }
@@ -343,7 +345,7 @@ public class Spinner extends Table implements Disableable {
     }
 
     private void setValue(BigDecimal value, boolean updateText) {
-        this.value = value;
+        this.value = value.setScale(decimalPlaces, RoundingMode.HALF_UP);
         if (updateText) {
             updateText();
         }
@@ -366,11 +368,8 @@ public class Spinner extends Table implements Disableable {
     }
 
     private void updateText() {
-        if (rounding) {
-            textField.setText(Integer.toString(MathUtils.round(value.floatValue())));
-        } else {
-            textField.setText(value.toString());
-        }
+        value = value.setScale(decimalPlaces, RoundingMode.HALF_UP);
+        textField.setText(value.toString());
     }
 
     static public class SpinnerStyle {

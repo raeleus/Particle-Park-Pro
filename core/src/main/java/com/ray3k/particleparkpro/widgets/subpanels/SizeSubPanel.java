@@ -98,7 +98,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highSpinner = new Spinner(xValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highSpinner).width(spinnerWidth);
         addIbeamListener(highSpinner.getTextField());
@@ -114,7 +114,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMinSpinner = new Spinner(xValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highMinSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinSpinner).width(spinnerWidth);
         addIbeamListener(highMinSpinner.getTextField());
@@ -122,7 +122,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highMinSpinner.getButtonMinus());
         addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxSpinner).width(spinnerWidth);
         addIbeamListener(highMaxSpinner.getTextField());
@@ -148,7 +148,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowSpinner = new Spinner(xValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowSpinner).width(spinnerWidth);
         addIbeamListener(lowSpinner.getTextField());
@@ -164,7 +164,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMinSpinner = new Spinner(xValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinSpinner).width(spinnerWidth);
         addIbeamListener(lowMinSpinner.getTextField());
@@ -172,7 +172,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(lowMinSpinner.getButtonMinus());
         addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxSpinner.getTextField());
@@ -246,7 +246,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highXtoggleWidget.table1.defaults().space(itemSpacing);
-        var highXspinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXspinner = new Spinner(xValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highXspinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table1.add(highXspinner).width(spinnerWidth);
         addIbeamListener(highXspinner.getTextField());
@@ -262,7 +262,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highXtoggleWidget.table2.defaults().space(itemSpacing);
-        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXminSpinner = new Spinner(xValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highXminSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXminSpinner).width(spinnerWidth);
         addIbeamListener(highXminSpinner.getTextField());
@@ -270,7 +270,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highXminSpinner.getButtonMinus());
         addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highXmaxSpinner.setProgrammaticChangeEvents(false);
         highXtoggleWidget.table2.add(highXmaxSpinner).width(spinnerWidth);
         addIbeamListener(highXmaxSpinner.getTextField());
@@ -294,7 +294,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowXtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowXspinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXspinner = new Spinner(xValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowXspinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table1.add(lowXspinner).width(spinnerWidth);
         addIbeamListener(lowXspinner.getTextField());
@@ -310,7 +310,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowXtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXminSpinner = new Spinner(xValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowXminSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXminSpinner).width(spinnerWidth);
         addIbeamListener(lowXminSpinner.getTextField());
@@ -318,7 +318,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(lowXminSpinner.getButtonMinus());
         addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowXmaxSpinner.setProgrammaticChangeEvents(false);
         lowXtoggleWidget.table2.add(lowXmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowXmaxSpinner.getTextField());
@@ -377,7 +377,7 @@ public class SizeSubPanel extends Panel {
 
         //High single
         highYtoggleWidget.table1.defaults().space(itemSpacing);
-        var highYspinner = new Spinner(yValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYspinner = new Spinner(yValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highYspinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table1.add(highYspinner).width(spinnerWidth);
         addIbeamListener(highYspinner.getTextField());
@@ -393,7 +393,7 @@ public class SizeSubPanel extends Panel {
 
         //High range
         highYtoggleWidget.table2.defaults().space(itemSpacing);
-        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYminSpinner = new Spinner(yValue.getHighMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highYminSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYminSpinner).width(spinnerWidth);
         addIbeamListener(highYminSpinner.getTextField());
@@ -401,7 +401,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highYminSpinner.getButtonMinus());
         addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highYmaxSpinner.setProgrammaticChangeEvents(false);
         highYtoggleWidget.table2.add(highYmaxSpinner).width(spinnerWidth);
         addIbeamListener(highYmaxSpinner.getTextField());
@@ -425,7 +425,7 @@ public class SizeSubPanel extends Panel {
 
         //Low single
         lowYtoggleWidget.table1.defaults().space(itemSpacing);
-        var lowYspinner = new Spinner(yValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYspinner = new Spinner(yValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowYspinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table1.add(lowYspinner).width(spinnerWidth);
         addIbeamListener(lowYspinner.getTextField());
@@ -441,7 +441,7 @@ public class SizeSubPanel extends Panel {
 
         //Low range
         lowYtoggleWidget.table2.defaults().space(itemSpacing);
-        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYminSpinner = new Spinner(yValue.getLowMin(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowYminSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYminSpinner).width(spinnerWidth);
         addIbeamListener(lowYminSpinner.getTextField());
@@ -449,7 +449,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(lowYminSpinner.getButtonMinus());
         addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         lowYmaxSpinner.setProgrammaticChangeEvents(false);
         lowYtoggleWidget.table2.add(lowYmaxSpinner).width(spinnerWidth);
         addIbeamListener(lowYmaxSpinner.getTextField());

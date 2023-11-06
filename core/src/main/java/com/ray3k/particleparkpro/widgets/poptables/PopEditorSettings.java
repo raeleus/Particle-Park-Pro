@@ -82,7 +82,7 @@ public class PopEditorSettings extends PopTable {
         label = new Label("Maximum Undos:", skin);
         settingsTable.add(label);
 
-        var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var spinner = new Spinner(0, 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         spinner.setValue(preferences.getInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS));
         spinner.setProgrammaticChangeEvents(false);
         settingsTable.add(spinner);

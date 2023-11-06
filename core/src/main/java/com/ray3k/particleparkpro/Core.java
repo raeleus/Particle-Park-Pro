@@ -157,6 +157,8 @@ public class Core extends ApplicationAdapter {
      */
     public static int maxParticleCount;
 
+    public static final int SPINNER_DECIMAL_PLACES = 2;
+
     @Override
     public void create() {
         sizeWindowToScreenHeight(950/1080f, 1000/950f);

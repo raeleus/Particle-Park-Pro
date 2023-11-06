@@ -33,7 +33,7 @@ public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
-    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange, boolean allowDecimal, boolean adjustByPPM) {
+    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -94,7 +94,7 @@ public class GraphSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highValueSpinner = new Spinner(value.getHighMin(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var highValueSpinner = new Spinner(value.getHighMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highValueSpinner).width(spinnerWidth);
         addIbeamListener(highValueSpinner.getTextField());
@@ -110,7 +110,7 @@ public class GraphSubPanel extends Panel {
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highMinValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinValueSpinner).width(spinnerWidth);
         addIbeamListener(highMinValueSpinner.getTextField());
@@ -118,7 +118,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(highMinValueSpinner.getButtonMinus());
         addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(highMaxValueSpinner.getTextField());
@@ -144,7 +144,7 @@ public class GraphSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowValueSpinner = new Spinner(value.getLowMin(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowValueSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowValueSpinner).width(spinnerWidth);
         addIbeamListener(lowValueSpinner.getTextField());
@@ -160,7 +160,7 @@ public class GraphSubPanel extends Panel {
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMinValueSpinner.getTextField());
@@ -168,7 +168,7 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMinValueSpinner.getButtonMinus());
         addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
-        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxValueSpinner.getTextField());

@@ -38,7 +38,7 @@ public class CountSubPanel extends Panel {
         label = new Label("Min:", skin);
         bodyTable.add(label);
 
-        var minSpinner = new Spinner(selectedEmitter.getMinParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var minSpinner = new Spinner(selectedEmitter.getMinParticleCount(), 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(minSpinner).width(spinnerWidth);
         addHandListener(minSpinner.getButtonMinus());
         addHandListener(minSpinner.getButtonPlus());
@@ -50,7 +50,7 @@ public class CountSubPanel extends Panel {
         label = new Label("Max:", skin);
         bodyTable.add(label).spaceLeft(gap);
 
-        var maxSpinner = new Spinner(selectedEmitter.getMaxParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var maxSpinner = new Spinner(selectedEmitter.getMaxParticleCount(), 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(maxSpinner).width(spinnerWidth);
         addHandListener(maxSpinner.getButtonMinus());
         addHandListener(maxSpinner.getButtonPlus());
