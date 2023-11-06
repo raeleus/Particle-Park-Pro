@@ -55,13 +55,15 @@ public class Listeners {
         noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
     }
 
-    public static void onChange(Actor actor, Runnable runnable) {
-        actor.addListener(new ChangeListener() {
+    public static ChangeListener onChange(Actor actor, Runnable runnable) {
+        var changeListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 runnable.run();
             }
-        });
+        };
+        actor.addListener(changeListener);
+        return changeListener;
     }
 
     public static void onClick(Actor actor, Runnable runnable) {
@@ -226,7 +228,7 @@ public class Listeners {
         return popTable;
     }
 
-    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range) {
+    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range, ChangeListener changeListener) {
         var sliderPop = new PopTable();
         sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
 
@@ -240,10 +242,8 @@ public class Listeners {
         slider.setValue(valueSpinner.getValueAsInt());
         sliderPop.add(slider).width(100);
         addHandListener(slider.getKnob());
-        onChange(slider, () -> {
-            valueSpinner.setValue(slider.getValue());
-            valueSpinner.fire(new ChangeEvent());
-        });
+        onChange(slider, () -> valueSpinner.setValue(slider.getValue()));
+        slider.addListener(changeListener);
 
         valueSpinner.addListener(new FocusListener() {
             @Override
@@ -255,5 +255,6 @@ public class Listeners {
                 else sliderPop.hide();
             }
         });
+        onChange(valueSpinner, () -> slider.setValue((float) valueSpinner.getValue()));
     }
 }

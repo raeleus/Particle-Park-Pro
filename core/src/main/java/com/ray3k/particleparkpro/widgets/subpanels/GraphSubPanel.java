@@ -101,7 +101,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
         addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
@@ -118,7 +117,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
         addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange);
 
         var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -127,7 +125,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
         addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);
@@ -154,7 +151,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
         addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange);
 
         var lowExpandButton = new Button(skin, "moveright");
         lowToggleWidget.table1.add(lowExpandButton);
@@ -171,7 +167,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
         addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange);
 
         var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
@@ -180,7 +175,6 @@ public class GraphSubPanel extends Panel {
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
         addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange);
 
         var lowCollapseButton = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(lowCollapseButton);
@@ -221,7 +215,7 @@ public class GraphSubPanel extends Panel {
             graph.setNodes(value.getTimeline(), value.getScaling());
         });
 
-        onChange(highValueSpinner, () -> {
+        var changeListener = onChange(highValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -231,8 +225,9 @@ public class GraphSubPanel extends Panel {
             highMinValueSpinner.setValue(highValueSpinner.getValue());
             highMaxValueSpinner.setValue(highValueSpinner.getValue());
         });
+        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(highMinValueSpinner, () -> {
+        changeListener = onChange(highMinValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -241,8 +236,9 @@ public class GraphSubPanel extends Panel {
 
             highValueSpinner.setValue(highMinValueSpinner.getValue());
         });
+        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(highMaxValueSpinner, () -> {
+        changeListener = onChange(highMaxValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -251,6 +247,7 @@ public class GraphSubPanel extends Panel {
 
             highValueSpinner.setValue(highMaxValueSpinner.getValue());
         });
+        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange, changeListener);
 
         onChange(highCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
@@ -263,7 +260,7 @@ public class GraphSubPanel extends Panel {
             highMaxValueSpinner.setValue(highValueSpinner.getValue());
         });
 
-        onChange(lowValueSpinner, () -> {
+        changeListener = onChange(lowValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -273,8 +270,9 @@ public class GraphSubPanel extends Panel {
             lowMinValueSpinner.setValue(lowValueSpinner.getValue());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValue());
         });
+        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(lowMinValueSpinner, () -> {
+        changeListener = onChange(lowMinValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -283,8 +281,9 @@ public class GraphSubPanel extends Panel {
 
             lowValueSpinner.setValue(lowMinValueSpinner.getValue());
         });
+        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(lowMaxValueSpinner, () -> {
+        changeListener = onChange(lowMaxValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -293,6 +292,7 @@ public class GraphSubPanel extends Panel {
 
             lowValueSpinner.setValue(lowMaxValueSpinner.getValue());
         });
+        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange, changeListener);
 
         onChange(lowCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
@@ -318,7 +318,7 @@ public class GraphSubPanel extends Panel {
             addGraphUpdateAction(value, newTimeline, newScaling, undoDescription);
         });
 
-        onChange(graphExpanded, () -> {
+        changeListener = onChange(graphExpanded, () -> {
             var nodes = graphExpanded.getNodes();
             float[] newTimeline = new float[nodes.size];
             float[] newScaling = new float[nodes.size];

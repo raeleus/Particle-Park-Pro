@@ -202,7 +202,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighSpinner.getButtonPlus());
         addHandListener(widthHighSpinner.getButtonMinus());
         addTooltip(widthHighSpinner, "The high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderRange);
 
         var widthHighExpandButton = new Button(skin, "moveright");
         widthHighToggleWidget.table1.add(widthHighExpandButton);
@@ -219,7 +218,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighMinSpinner.getButtonPlus());
         addHandListener(widthHighMinSpinner.getButtonMinus());
         addTooltip(widthHighMinSpinner, "The minimum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderRange);
 
         var widthHighMaxSpinner = new Spinner(valueWidth.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         widthHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -228,7 +226,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthHighMaxSpinner.getButtonPlus());
         addHandListener(widthHighMaxSpinner.getButtonMinus());
         addTooltip(widthHighMaxSpinner, "The maximum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderRange);
 
         var widthHighCollapseButton = new Button(skin, "moveleft");
         widthHighToggleWidget.table2.add(widthHighCollapseButton);
@@ -255,7 +252,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowSpinner.getButtonPlus());
         addHandListener(widthLowSpinner.getButtonMinus());
         addTooltip(widthLowSpinner, "The low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderRange);
 
         var widthLowExpandButton = new Button(skin, "moveright");
         widthLowToggleWidget.table1.add(widthLowExpandButton);
@@ -272,7 +268,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowMinSpinner.getButtonPlus());
         addHandListener(widthLowMinSpinner.getButtonMinus());
         addTooltip(widthLowMinSpinner, "The minimum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderRange);
 
         var widthLowMaxSpinner = new Spinner(valueWidth.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         widthLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -281,7 +276,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(widthLowMaxSpinner.getButtonPlus());
         addHandListener(widthLowMaxSpinner.getButtonMinus());
         addTooltip(widthLowMaxSpinner, "The maximum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderRange);
 
         var widthLowCollapseButton = new Button(skin, "moveleft");
         widthLowToggleWidget.table2.add(widthLowCollapseButton);
@@ -345,7 +339,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighSpinner.getButtonPlus());
         addHandListener(heightHighSpinner.getButtonMinus());
         addTooltip(heightHighSpinner, "The high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderRange);
 
         var heightHighExpandButton = new Button(skin, "moveright");
         heightHighToggleWidget.table1.add(heightHighExpandButton);
@@ -362,7 +355,7 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMinSpinner.getButtonPlus());
         addHandListener(heightHighMinSpinner.getButtonMinus());
         addTooltip(heightHighMinSpinner, "The minimum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderRange);
+
 
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         heightHighMaxSpinner.setProgrammaticChangeEvents(false);
@@ -371,7 +364,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMaxSpinner.getButtonPlus());
         addHandListener(heightHighMaxSpinner.getButtonMinus());
         addTooltip(heightHighMaxSpinner, "The maximum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderRange);
 
         var heightHighCollapseButton = new Button(skin, "moveleft");
         heightHighToggleWidget.table2.add(heightHighCollapseButton);
@@ -398,7 +390,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowSpinner.getButtonPlus());
         addHandListener(heightLowSpinner.getButtonMinus());
         addTooltip(heightLowSpinner, "The low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderRange);
 
         var heightLowExpandButton = new Button(skin, "moveright");
         heightLowToggleWidget.table1.add(heightLowExpandButton);
@@ -415,7 +406,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowMinSpinner.getButtonPlus());
         addHandListener(heightLowMinSpinner.getButtonMinus());
         addTooltip(heightLowMinSpinner, "The minimum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderRange);
 
         var heightLowMaxSpinner = new Spinner(valueHeight.getLowMax(), 1, false, Orientation.RIGHT_STACK, spinnerStyle);
         heightLowMaxSpinner.setProgrammaticChangeEvents(false);
@@ -424,7 +414,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightLowMaxSpinner.getButtonPlus());
         addHandListener(heightLowMaxSpinner.getButtonMinus());
         addTooltip(heightLowMaxSpinner, "The maximum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderRange);
 
         var heightLowCollapseButton = new Button(skin, "moveleft");
         heightLowToggleWidget.table2.add(heightLowCollapseButton);
@@ -453,7 +442,7 @@ public class SpawnSubPanel extends Panel {
 
         updateShownTable();
 
-        onChange(widthHighSpinner, () -> {
+        var changeListener = onChange(widthHighSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -463,8 +452,9 @@ public class SpawnSubPanel extends Panel {
             widthHighMinSpinner.setValue(widthHighSpinner.getValue());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValue());
         });
+        addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(widthHighMinSpinner, () -> {
+        changeListener = onChange(widthHighMinSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -473,8 +463,9 @@ public class SpawnSubPanel extends Panel {
 
             widthHighSpinner.setValue(widthHighMinSpinner.getValue());
         });
+        addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(widthHighMaxSpinner, () -> {
+        changeListener = onChange(widthHighMaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -483,6 +474,7 @@ public class SpawnSubPanel extends Panel {
 
             widthHighSpinner.setValue(widthHighMaxSpinner.getValue());
         });
+        addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderRange, changeListener);
 
         onChange(widthHighCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
@@ -495,7 +487,7 @@ public class SpawnSubPanel extends Panel {
             widthHighMaxSpinner.setValue(widthHighSpinner.getValue());
         });
 
-        onChange(widthLowSpinner, () -> {
+        changeListener = onChange(widthLowSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -505,8 +497,9 @@ public class SpawnSubPanel extends Panel {
             widthLowMinSpinner.setValue(widthLowSpinner.getValue());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValue());
         });
+        addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(widthLowMinSpinner, () -> {
+        changeListener = onChange(widthLowMinSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -515,8 +508,9 @@ public class SpawnSubPanel extends Panel {
 
             widthLowSpinner.setValue(widthLowMinSpinner.getValue());
         });
+        addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(widthLowMaxSpinner, () -> {
+        changeListener = onChange(widthLowMaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
             undo.oldValue.set(valueWidth);
             undo.newValue.set(valueWidth);
@@ -525,6 +519,7 @@ public class SpawnSubPanel extends Panel {
 
             widthLowSpinner.setValue(widthLowMaxSpinner.getValue());
         });
+        addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderRange, changeListener);
 
         onChange(widthLowCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueWidth, "change Spawn Width");
@@ -550,7 +545,7 @@ public class SpawnSubPanel extends Panel {
             addGraphUpdateAction(valueWidth, newTimeline, newScaling, "change Spawn Width");
         });
 
-        onChange(heightHighSpinner, () -> {
+        changeListener = onChange(heightHighSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -560,8 +555,9 @@ public class SpawnSubPanel extends Panel {
             heightHighMinSpinner.setValue(heightHighSpinner.getValue());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValue());
         });
+        addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightHighMinSpinner, () -> {
+        changeListener = onChange(heightHighMinSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -570,8 +566,9 @@ public class SpawnSubPanel extends Panel {
 
             heightHighSpinner.setValue(heightHighMinSpinner.getValue());
         });
+        addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightHighMaxSpinner, () -> {
+        changeListener = onChange(heightHighMaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -580,8 +577,9 @@ public class SpawnSubPanel extends Panel {
 
             heightHighSpinner.setValue(heightHighMaxSpinner.getValue());
         });
+        addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightHighCollapseButton, () -> {
+        changeListener = onChange(heightHighCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -591,8 +589,9 @@ public class SpawnSubPanel extends Panel {
             heightHighMinSpinner.setValue(heightHighSpinner.getValue());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValue());
         });
+        addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightLowSpinner, () -> {
+        changeListener = onChange(heightLowSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -602,8 +601,9 @@ public class SpawnSubPanel extends Panel {
             heightLowMinSpinner.setValue(heightLowSpinner.getValue());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValue());
         });
+        addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightLowMinSpinner, () -> {
+        changeListener = onChange(heightLowMinSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -612,8 +612,9 @@ public class SpawnSubPanel extends Panel {
 
             heightLowSpinner.setValue(heightLowMinSpinner.getValue());
         });
+        addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(heightLowMaxSpinner, () -> {
+        changeListener = onChange(heightLowMaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);

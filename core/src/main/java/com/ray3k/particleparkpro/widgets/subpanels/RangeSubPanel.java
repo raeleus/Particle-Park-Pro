@@ -63,7 +63,6 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
         addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -80,7 +79,6 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
         addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange);
 
         var valueMaxSpinner = new Spinner(value.getLowMax(), 1, !allowDecimal, Orientation.RIGHT_STACK, spinnerStyle);
         valueMaxSpinner.setProgrammaticChangeEvents(false);
@@ -89,7 +87,6 @@ public class RangeSubPanel extends Panel {
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
         addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
@@ -97,7 +94,7 @@ public class RangeSubPanel extends Panel {
         addTooltip(button, "Collapse to define a single value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
-        onChange(valueSpinner, () -> {
+        var changeListener = onChange(valueSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -107,8 +104,9 @@ public class RangeSubPanel extends Panel {
             valueMinSpinner.setValue(valueSpinner.getValue());
             valueMaxSpinner.setValue(valueSpinner.getValue());
         });
+        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(valueMinSpinner, () -> {
+        changeListener = onChange(valueMinSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -117,8 +115,9 @@ public class RangeSubPanel extends Panel {
 
             valueSpinner.setValue(valueMinSpinner.getValue());
         });
+        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange, changeListener);
 
-        onChange(valueMaxSpinner, () -> {
+        changeListener = onChange(valueMaxSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
@@ -127,6 +126,7 @@ public class RangeSubPanel extends Panel {
 
             valueSpinner.setValue(valueMaxSpinner.getValue());
         });
+        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange, changeListener);
 
         onChange(button, () -> {
             if (highToggleWidget.showingTable1 && !MathUtils.isEqual(value.getLowMin(), value.getLowMax())) {
