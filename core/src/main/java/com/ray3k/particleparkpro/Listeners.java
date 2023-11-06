@@ -255,6 +255,6 @@ public class Listeners {
                 else sliderPop.hide();
             }
         });
-        onChange(valueSpinner, () -> slider.setValue((float) valueSpinner.getValue()));
+        onChange(valueSpinner, () -> slider.setValue(valueSpinner.getValue()));
     }
 }

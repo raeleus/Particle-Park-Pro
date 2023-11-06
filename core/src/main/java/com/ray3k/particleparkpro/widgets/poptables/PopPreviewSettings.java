@@ -80,7 +80,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(pixelsPerMeterSpinner.getButtonPlus());
         addIbeamListener(pixelsPerMeterSpinner.getTextField());
         onChange(pixelsPerMeterSpinner, () -> {
-            pixelsPerMeter = Math.max(0, (float) pixelsPerMeterSpinner.getValue());
+            pixelsPerMeter = Math.max(0, pixelsPerMeterSpinner.getValue());
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
             EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable(null);
         });
@@ -107,7 +107,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(deltaMultiplierSpinner.getButtonMinus());
         addHandListener(deltaMultiplierSpinner.getButtonPlus());
         addIbeamListener(deltaMultiplierSpinner.getTextField());
-        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = Math.max(0, (float) deltaMultiplierSpinner.getValue()));
+        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = Math.max(0, deltaMultiplierSpinner.getValue()));
 
         scrollTable.row();
         image = new Image(skin, "divider-10");
@@ -248,7 +248,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(xSpinner.getButtonMinus());
         addHandListener(xSpinner.getButtonPlus());
         addIbeamListener(xSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
+        onChange(xSpinner, () -> previewImageX = xSpinner.getValue());
 
         label = new Label("Y:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
@@ -258,7 +258,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(ySpinner.getButtonMinus());
         addHandListener(ySpinner.getButtonPlus());
         addIbeamListener(ySpinner.getTextField());
-        onChange(ySpinner, () -> previewImageY = (float) ySpinner.getValue());
+        onChange(ySpinner, () -> previewImageY = ySpinner.getValue());
 
         previewSizeTable.row();
         label = new Label("Width:", skin);
@@ -269,7 +269,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(widthSpinner.getButtonMinus());
         addHandListener(widthSpinner.getButtonPlus());
         addIbeamListener(widthSpinner.getTextField());
-        onChange(widthSpinner, () -> previewImageWidth = (float) widthSpinner.getValue());
+        onChange(widthSpinner, () -> previewImageWidth = widthSpinner.getValue());
 
         label = new Label("Height:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
@@ -279,7 +279,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(heightSpinner.getButtonMinus());
         addHandListener(heightSpinner.getButtonPlus());
         addIbeamListener(heightSpinner.getTextField());
-        onChange(heightSpinner, () -> previewImageHeight = (float) heightSpinner.getValue());
+        onChange(heightSpinner, () -> previewImageHeight = heightSpinner.getValue());
 
         onChange(selectPreviewTextButton, () -> {
             var fileHandle = FileDialogs.openDialog("Open preview image", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
@@ -355,9 +355,9 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(majorGridlinesSpinner.getButtonMinus());
         addHandListener(majorGridlinesSpinner.getButtonPlus());
         addIbeamListener(majorGridlinesSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
+        onChange(xSpinner, () -> previewImageX = xSpinner.getValue());
         onChange(majorGridlinesSpinner, () -> {
-            float value = (float) majorGridlinesSpinner.getValue();
+            float value = majorGridlinesSpinner.getValue();
             if (value > 0) gridMajorGridlines = value;
         });
 
@@ -371,7 +371,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(minorGridlinesSpinner.getButtonPlus());
         addIbeamListener(minorGridlinesSpinner.getTextField());
         onChange(minorGridlinesSpinner, () -> {
-            float value = (float) minorGridlinesSpinner.getValue();
+            float value = minorGridlinesSpinner.getValue();
             if (value > 0) gridMinorGridlines = value;
         });
 

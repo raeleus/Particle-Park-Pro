@@ -548,11 +548,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHigh((float) (float) highSpinner.getValue());
+            undo.newXvalue.setHigh(highSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHigh((float) highSpinner.getValue());
+            undo.newYvalue.setHigh(highSpinner.getValue());
             UndoManager.add(undo);
 
             highMinSpinner.setValue(highSpinner.getValue());
@@ -564,11 +564,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHighMin((float) highMinSpinner.getValue());
+            undo.newXvalue.setHighMin(highMinSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHighMin((float) highMinSpinner.getValue());
+            undo.newYvalue.setHighMin(highMinSpinner.getValue());
             UndoManager.add(undo);
 
             highSpinner.setValue(highMinSpinner.getValue());
@@ -579,11 +579,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHighMax((float) highMaxSpinner.getValue());
+            undo.newXvalue.setHighMax(highMaxSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHighMax((float) highMaxSpinner.getValue());
+            undo.newYvalue.setHighMax(highMaxSpinner.getValue());
             UndoManager.add(undo);
 
             highSpinner.setValue(highMaxSpinner.getValue());
@@ -594,11 +594,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setHigh((float) highSpinner.getValue());
+            undo.newXvalue.setHigh(highSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setHigh((float) highSpinner.getValue());
+            undo.newYvalue.setHigh(highSpinner.getValue());
             UndoManager.add(undo);
 
             highMinSpinner.setValue(highSpinner.getValue());
@@ -609,11 +609,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLow((float) lowSpinner.getValue());
+            undo.newXvalue.setLow(lowSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLow((float) lowSpinner.getValue());
+            undo.newYvalue.setLow(lowSpinner.getValue());
             UndoManager.add(undo);
 
             lowMinSpinner.setValue(lowSpinner.getValue());
@@ -625,11 +625,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLowMin((float) lowMinSpinner.getValue());
+            undo.newXvalue.setLowMin(lowMinSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLowMin((float) lowMinSpinner.getValue());
+            undo.newYvalue.setLowMin(lowMinSpinner.getValue());
             UndoManager.add(undo);
 
             lowSpinner.setValue(lowMinSpinner.getValue());
@@ -640,11 +640,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLowMax((float) lowMaxSpinner.getValue());
+            undo.newXvalue.setLowMax(lowMaxSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLowMax((float) lowMaxSpinner.getValue());
+            undo.newYvalue.setLowMax(lowMaxSpinner.getValue());
             UndoManager.add(undo);
 
             lowSpinner.setValue(lowMaxSpinner.getValue());
@@ -655,11 +655,11 @@ public class SizeSubPanel extends Panel {
             var undo = unsplitUndoTemplate.toBuilder().build();
             undo.oldXvalue.set(xValue);
             undo.newXvalue.set(xValue);
-            undo.newXvalue.setLow((float) lowSpinner.getValue());
+            undo.newXvalue.setLow(lowSpinner.getValue());
 
             undo.oldYvalue.set(yValue);
             undo.newYvalue.set(yValue);
-            undo.newYvalue.setLow((float) lowSpinner.getValue());
+            undo.newYvalue.setLow(lowSpinner.getValue());
             UndoManager.add(undo);
 
             lowMinSpinner.setValue(lowSpinner.getValue());
@@ -683,7 +683,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHigh((float) highXspinner.getValue());
+            undo.newValue.setHigh(highXspinner.getValue());
             UndoManager.add(undo);
 
             highXminSpinner.setValue(highXspinner.getValue());
@@ -695,7 +695,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHighMin((float) highXminSpinner.getValue());
+            undo.newValue.setHighMin(highXminSpinner.getValue());
             UndoManager.add(undo);
 
             highXspinner.setValue(highXminSpinner.getValue());
@@ -706,7 +706,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHighMax((float) highXmaxSpinner.getValue());
+            undo.newValue.setHighMax(highXmaxSpinner.getValue());
             UndoManager.add(undo);
 
             highSpinner.setValue(highXmaxSpinner.getValue());
@@ -717,7 +717,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setHigh((float) highXspinner.getValue());
+            undo.newValue.setHigh(highXspinner.getValue());
             UndoManager.add(undo);
 
             highXmaxSpinner.setValue(highXspinner.getValue());
@@ -728,7 +728,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLow((float) lowXspinner.getValue());
+            undo.newValue.setLow(lowXspinner.getValue());
             UndoManager.add(undo);
 
             lowXminSpinner.setValue(lowXspinner.getValue());
@@ -740,7 +740,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLowMin((float) lowXminSpinner.getValue());
+            undo.newValue.setLowMin(lowXminSpinner.getValue());
             UndoManager.add(undo);
 
             lowXspinner.setValue(lowXminSpinner.getValue());
@@ -751,7 +751,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLowMax((float) lowXmaxSpinner.getValue());
+            undo.newValue.setLowMax(lowXmaxSpinner.getValue());
             UndoManager.add(undo);
 
             lowSpinner.setValue(lowXmaxSpinner.getValue());
@@ -762,7 +762,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
             undo.oldValue.set(xValue);
             undo.newValue.set(xValue);
-            undo.newValue.setLow((float) lowXspinner.getValue());
+            undo.newValue.setLow(lowXspinner.getValue());
             UndoManager.add(undo);
 
             lowXmaxSpinner.setValue(lowXspinner.getValue());
@@ -786,7 +786,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHigh((float) highYspinner.getValue());
+            undo.newValue.setHigh(highYspinner.getValue());
             UndoManager.add(undo);
 
             highYminSpinner.setValue(highYspinner.getValue());
@@ -798,7 +798,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHighMin((float) highYminSpinner.getValue());
+            undo.newValue.setHighMin(highYminSpinner.getValue());
             UndoManager.add(undo);
 
             highYspinner.setValue(highYminSpinner.getValue());
@@ -809,7 +809,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHighMax((float) highYmaxSpinner.getValue());
+            undo.newValue.setHighMax(highYmaxSpinner.getValue());
             UndoManager.add(undo);
 
             highSpinner.setValue(highYmaxSpinner.getValue());
@@ -820,7 +820,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setHigh((float) highYspinner.getValue());
+            undo.newValue.setHigh(highYspinner.getValue());
             UndoManager.add(undo);
 
             highYmaxSpinner.setValue(highYspinner.getValue());
@@ -831,7 +831,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLow((float) lowYspinner.getValue());
+            undo.newValue.setLow(lowYspinner.getValue());
             UndoManager.add(undo);
 
             lowYminSpinner.setValue(lowYspinner.getValue());
@@ -843,7 +843,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLowMin((float) lowYminSpinner.getValue());
+            undo.newValue.setLowMin(lowYminSpinner.getValue());
             UndoManager.add(undo);
 
             lowYspinner.setValue(lowYminSpinner.getValue());
@@ -854,7 +854,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLowMax((float) lowYmaxSpinner.getValue());
+            undo.newValue.setLowMax(lowYmaxSpinner.getValue());
             UndoManager.add(undo);
 
             lowSpinner.setValue(lowYmaxSpinner.getValue());
@@ -865,7 +865,7 @@ public class SizeSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
             undo.oldValue.set(yValue);
             undo.newValue.set(yValue);
-            undo.newValue.setLow((float) lowYspinner.getValue());
+            undo.newValue.setLow(lowYspinner.getValue());
             UndoManager.add(undo);
 
             lowYmaxSpinner.setValue(lowYspinner.getValue());

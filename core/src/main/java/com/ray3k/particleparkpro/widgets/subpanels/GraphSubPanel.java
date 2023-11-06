@@ -219,7 +219,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHigh((float) highValueSpinner.getValue());
+            undo.newValue.setHigh(highValueSpinner.getValue());
             UndoManager.add(undo);
 
             highMinValueSpinner.setValue(highValueSpinner.getValue());
@@ -231,7 +231,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHighMin((float) highMinValueSpinner.getValue());
+            undo.newValue.setHighMin(highMinValueSpinner.getValue());
             UndoManager.add(undo);
 
             highValueSpinner.setValue(highMinValueSpinner.getValue());
@@ -242,7 +242,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHighMax((float) highMaxValueSpinner.getValue());
+            undo.newValue.setHighMax(highMaxValueSpinner.getValue());
             UndoManager.add(undo);
 
             highValueSpinner.setValue(highMaxValueSpinner.getValue());
@@ -253,7 +253,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHigh((float) highValueSpinner.getValue());
+            undo.newValue.setHigh(highValueSpinner.getValue());
             UndoManager.add(undo);
 
             highMinValueSpinner.setValue(highValueSpinner.getValue());
@@ -264,7 +264,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow((float) lowValueSpinner.getValue());
+            undo.newValue.setLow(lowValueSpinner.getValue());
             UndoManager.add(undo);
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValue());
@@ -276,7 +276,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMin((float) lowMinValueSpinner.getValue());
+            undo.newValue.setLowMin(lowMinValueSpinner.getValue());
             UndoManager.add(undo);
 
             lowValueSpinner.setValue(lowMinValueSpinner.getValue());
@@ -287,7 +287,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMax((float) lowMaxValueSpinner.getValue());
+            undo.newValue.setLowMax(lowMaxValueSpinner.getValue());
             UndoManager.add(undo);
 
             lowValueSpinner.setValue(lowMaxValueSpinner.getValue());
@@ -298,7 +298,7 @@ public class GraphSubPanel extends Panel {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow((float) lowValueSpinner.getValue());
+            undo.newValue.setLow(lowValueSpinner.getValue());
             UndoManager.add(undo);
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValue());

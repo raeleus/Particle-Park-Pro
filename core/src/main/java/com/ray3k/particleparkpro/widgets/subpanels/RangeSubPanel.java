@@ -98,7 +98,7 @@ public class RangeSubPanel extends Panel {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow((float) valueSpinner.getValue());
+            undo.newValue.setLow(valueSpinner.getValue());
             UndoManager.add(undo);
 
             valueMinSpinner.setValue(valueSpinner.getValue());
@@ -110,7 +110,7 @@ public class RangeSubPanel extends Panel {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMin((float) valueMinSpinner.getValue());
+            undo.newValue.setLowMin(valueMinSpinner.getValue());
             UndoManager.add(undo);
 
             valueSpinner.setValue(valueMinSpinner.getValue());
@@ -121,7 +121,7 @@ public class RangeSubPanel extends Panel {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMax((float) valueMaxSpinner.getValue());
+            undo.newValue.setLowMax(valueMaxSpinner.getValue());
             UndoManager.add(undo);
 
             valueSpinner.setValue(valueMaxSpinner.getValue());
@@ -133,7 +133,7 @@ public class RangeSubPanel extends Panel {
                 var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
                 undo.oldValue.set(value);
                 undo.newValue.set(value);
-                undo.newValue.setLow((float) valueSpinner.getValue());
+                undo.newValue.setLow(valueSpinner.getValue());
                 UndoManager.add(undo);
 
                 valueMinSpinner.setValue(valueSpinner.getValue());
