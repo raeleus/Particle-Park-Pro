@@ -12,6 +12,7 @@ import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -81,6 +82,7 @@ public class PopPreviewSettings extends PopTable {
         onChange(pixelsPerMeterSpinner, () -> {
             pixelsPerMeter = Math.max(0, (float) pixelsPerMeterSpinner.getValue());
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable(null);
         });
 
         scrollTable.row();

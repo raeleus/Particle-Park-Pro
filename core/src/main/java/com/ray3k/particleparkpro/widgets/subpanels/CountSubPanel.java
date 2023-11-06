@@ -45,7 +45,7 @@ public class CountSubPanel extends Panel {
         addIbeamListener(minSpinner.getTextField());
         addTooltip(minSpinner, "The minimum number of particles at all times", Align.top, Align.top, tooltipBottomArrowStyle);
         var changeListener = onChange(minSpinner, () -> UndoManager.add(new CountMinUndoable(selectedEmitter, minSpinner.getValueAsInt(), selectedEmitter.getMinParticleCount())));
-        addInfiniteSlider(minSpinner, 1, 20, changeListener);
+        addInfiniteSlider(minSpinner, 1, 20, false, changeListener);
 
         label = new Label("Max:", skin);
         bodyTable.add(label).spaceLeft(gap);
@@ -57,6 +57,6 @@ public class CountSubPanel extends Panel {
         addIbeamListener(maxSpinner.getTextField());
         addTooltip(maxSpinner, "The maximum number of particles allowed", Align.top, Align.top, tooltipBottomArrowStyle);
         changeListener = onChange(maxSpinner, () -> UndoManager.add(new CountMaxUndoable(selectedEmitter, maxSpinner.getValueAsInt(), selectedEmitter.getMaxParticleCount())));
-        addInfiniteSlider(maxSpinner, 1, 20, changeListener);
+        addInfiniteSlider(maxSpinner, 1, 20, false, changeListener);
     }
 }

@@ -558,7 +558,7 @@ public class SizeSubPanel extends Panel {
             highMinSpinner.setValue(highSpinner.getValue());
             highMaxSpinner.setValue(highSpinner.getValue());
         });
-        addInfiniteSlider(highSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highMinSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -573,7 +573,7 @@ public class SizeSubPanel extends Panel {
 
             highSpinner.setValue(highMinSpinner.getValue());
         });
-        addInfiniteSlider(highMinSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highMaxSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -588,7 +588,7 @@ public class SizeSubPanel extends Panel {
 
             highSpinner.setValue(highMaxSpinner.getValue());
         });
-        addInfiniteSlider(highMaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         onChange(highCollapseButton, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -619,7 +619,7 @@ public class SizeSubPanel extends Panel {
             lowMinSpinner.setValue(lowSpinner.getValue());
             lowMaxSpinner.setValue(lowSpinner.getValue());
         });
-        addInfiniteSlider(lowSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowMinSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -634,7 +634,7 @@ public class SizeSubPanel extends Panel {
 
             lowSpinner.setValue(lowMinSpinner.getValue());
         });
-        addInfiniteSlider(lowMinSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowMaxSpinner, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -649,7 +649,7 @@ public class SizeSubPanel extends Panel {
 
             lowSpinner.setValue(lowMaxSpinner.getValue());
         });
-        addInfiniteSlider(lowMaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         onChange(lowCollapseButton, () -> {
             var undo = unsplitUndoTemplate.toBuilder().build();
@@ -689,7 +689,7 @@ public class SizeSubPanel extends Panel {
             highXminSpinner.setValue(highXspinner.getValue());
             highXmaxSpinner.setValue(highXspinner.getValue());
         });
-        addInfiniteSlider(highXspinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highXspinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highXminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -700,7 +700,7 @@ public class SizeSubPanel extends Panel {
 
             highXspinner.setValue(highXminSpinner.getValue());
         });
-        addInfiniteSlider(highXminSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highXminSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highXmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -711,7 +711,7 @@ public class SizeSubPanel extends Panel {
 
             highSpinner.setValue(highXmaxSpinner.getValue());
         });
-        addInfiniteSlider(highXmaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highXmaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         onChange(highXcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -734,7 +734,7 @@ public class SizeSubPanel extends Panel {
             lowXminSpinner.setValue(lowXspinner.getValue());
             lowXmaxSpinner.setValue(lowXspinner.getValue());
         });
-        addInfiniteSlider(lowXspinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowXspinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowXminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -745,7 +745,7 @@ public class SizeSubPanel extends Panel {
 
             lowXspinner.setValue(lowXminSpinner.getValue());
         });
-        addInfiniteSlider(lowXminSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowXminSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowXmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -756,7 +756,7 @@ public class SizeSubPanel extends Panel {
 
             lowSpinner.setValue(lowXmaxSpinner.getValue());
         });
-        addInfiniteSlider(lowXmaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowXmaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowXcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, xValue, "change X Scale");
@@ -792,7 +792,7 @@ public class SizeSubPanel extends Panel {
             highYminSpinner.setValue(highYspinner.getValue());
             highYmaxSpinner.setValue(highYspinner.getValue());
         });
-        addInfiniteSlider(highYspinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highYspinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highYminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
@@ -803,7 +803,7 @@ public class SizeSubPanel extends Panel {
 
             highYspinner.setValue(highYminSpinner.getValue());
         });
-        addInfiniteSlider(highYminSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highYminSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highYmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
@@ -814,7 +814,7 @@ public class SizeSubPanel extends Panel {
 
             highSpinner.setValue(highYmaxSpinner.getValue());
         });
-        addInfiniteSlider(highYmaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(highYmaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(highYcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
@@ -837,7 +837,7 @@ public class SizeSubPanel extends Panel {
             lowYminSpinner.setValue(lowYspinner.getValue());
             lowYmaxSpinner.setValue(lowYspinner.getValue());
         });
-        addInfiniteSlider(lowYspinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowYspinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowYminSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
@@ -848,7 +848,7 @@ public class SizeSubPanel extends Panel {
 
             lowYspinner.setValue(lowYminSpinner.getValue());
         });
-        addInfiniteSlider(lowYminSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowYminSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         changeListener = onChange(lowYmaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");
@@ -859,7 +859,7 @@ public class SizeSubPanel extends Panel {
 
             lowSpinner.setValue(lowYmaxSpinner.getValue());
         });
-        addInfiniteSlider(lowYmaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(lowYmaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
         onChange(lowYcollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, yValue, "change Y Scale");

@@ -228,13 +228,13 @@ public class Listeners {
         return popTable;
     }
 
-    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range, ChangeListener changeListener) {
+    public static void addInfiniteSlider(Spinner valueSpinner, float increment, float range, boolean adjustByPPM, ChangeListener changeListener) {
         var sliderPop = new PopTable();
         sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
 
         var slider = new InfSlider(infSliderStyle);
-        slider.setRange(range);
-        slider.setIncrement(increment);
+        slider.setRange(adjustByPPM ? range / ParticlePreview.pixelsPerMeter : range);
+        slider.setIncrement(adjustByPPM ? increment / ParticlePreview.pixelsPerMeter : increment);
         slider.addListener(noCaptureKeyboardFocusListener);
         slider.getKnob().addListener(noCaptureKeyboardFocusListener);
         slider.getBackground().addListener(noCaptureKeyboardFocusListener);

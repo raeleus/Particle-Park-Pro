@@ -26,7 +26,7 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrow
  * A widget that allows modification of an emitter value that only has a min/max. Numeric spinners.
  */
 public class RangeSubPanel extends Panel {
-    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange, boolean allowDecimal) {
+    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange, boolean allowDecimal, boolean adjustByPPM) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -104,7 +104,7 @@ public class RangeSubPanel extends Panel {
             valueMinSpinner.setValue(valueSpinner.getValue());
             valueMaxSpinner.setValue(valueSpinner.getValue());
         });
-        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         changeListener = onChange(valueMinSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
@@ -115,7 +115,7 @@ public class RangeSubPanel extends Panel {
 
             valueSpinner.setValue(valueMinSpinner.getValue());
         });
-        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         changeListener = onChange(valueMaxSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
@@ -126,7 +126,7 @@ public class RangeSubPanel extends Panel {
 
             valueSpinner.setValue(valueMaxSpinner.getValue());
         });
-        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange, changeListener);
+        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         onChange(button, () -> {
             if (highToggleWidget.showingTable1 && !MathUtils.isEqual(value.getLowMin(), value.getLowMax())) {
