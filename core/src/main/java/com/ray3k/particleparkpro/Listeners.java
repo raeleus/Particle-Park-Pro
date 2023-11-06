@@ -1,5 +1,7 @@
 package com.ray3k.particleparkpro;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -161,7 +163,8 @@ public class Listeners {
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1 && popTable.isHidden() && !dismissed) {
+                var pressingButtons = Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.RIGHT) || Gdx.input.isButtonPressed(Buttons.MIDDLE);
+                if (pointer == -1 && !pressingButtons && popTable.isHidden() && !dismissed) {
                     if (fromActor == null || !event.getListenerActor().isAscendantOf(fromActor)) {
                         if (showTableAction == null) {
                             showTableAction = Actions.delay(.5f,
