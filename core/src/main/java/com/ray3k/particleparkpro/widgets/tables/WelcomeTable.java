@@ -47,6 +47,12 @@ public class WelcomeTable extends Table {
         checkbox.setChecked(!preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN).equals(DEFAULT_OPEN_TO_SCREEN));
         table.add(checkbox).space(25).right().colspan(2);
         addHandListener(checkbox);
+        onChange(checkbox, () -> {
+            if (!checkbox.isChecked()) {
+                preferences.putString(NAME_OPEN_TO_SCREEN, "Welcome");
+                preferences.flush();
+            }
+        });
 
         onChange(classicCard, () -> {
             if (checkbox.isChecked()) {
