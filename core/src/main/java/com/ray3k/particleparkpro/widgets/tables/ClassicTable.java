@@ -61,11 +61,13 @@ public class ClassicTable extends Table {
         var button = new Button(skin, "home");
         table.add(button).expandX().right();
         addHandListener(button);
+        addTooltip(button, "Return to the Home Screen", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> transition(this, new WelcomeTable(), Align.bottom));
 
         button = new Button(skin, "settings");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Open the Editor Settings dialog", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> {
             Gdx.input.setInputProcessor(foregroundStage);
             Gdx.graphics.setSystemCursor(SystemCursor.Arrow);

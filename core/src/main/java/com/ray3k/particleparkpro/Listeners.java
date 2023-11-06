@@ -21,6 +21,7 @@ import com.ray3k.stripe.Spinner;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.infSliderStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
 /**
  * A convenience class to organize and initialize the custom listeners for Particle Park Pro.
@@ -185,6 +186,7 @@ public class Listeners {
 
                 popTable.show(foreground ? foregroundStage : stage);
                 popTable.attachToActor(actor, edge, align);
+                if (popTableStyle == tooltipBottomRightArrowStyle) popTable.setAttachOffsetX(7);
 
                 popTable.moveToInsideStage();
             }
