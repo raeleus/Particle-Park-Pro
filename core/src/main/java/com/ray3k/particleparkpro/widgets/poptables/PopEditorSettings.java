@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.SkinLoader;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.Utils.UIscale;
 import com.ray3k.stripe.PopTable;
@@ -343,6 +344,8 @@ public class PopEditorSettings extends PopTable {
             preferences.flush();
             label.remove();
             pop.hide();
+            SkinLoader.loadSkin();
+            Core.populate(openTable);
         });
 
     }

@@ -157,7 +157,12 @@ public class Core extends ApplicationAdapter {
      */
     public static int maxParticleCount;
 
+    /**
+     * The number of decimal places used in the spinners used throughout the app.
+     */
     public static final int SPINNER_DECIMAL_PLACES = 2;
+
+    public static String openTable;
 
     @Override
     public void create() {
@@ -188,20 +193,27 @@ public class Core extends ApplicationAdapter {
 
         updateViewportScale(valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE)));
 
-        skin = new Skin(Gdx.files.internal("skin/particleparkpro.json"));
+
+        SkinLoader.loadSkin();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         particlePreview = new ParticlePreview();
-        Styles.initializeStyles();
 
         activeEmitters = new OrderedMap<>();
         loadParticle(Gdx.files.internal("flame.p"));
         selectedEmitter = particleEffect.getEmitters().first();
 
-        Gdx.input.setInputProcessor(stage);
-
         Listeners.initializeListeners();
 
         bgColor.set(skin.getColor("bg"));
+
+        populate(null);
+
+        initShaderProgram();
+    }
+
+    public static void populate(String openTable) {
+        stage.clear();
+        foregroundStage.clear();
 
         root = new Container<>();
         root.setFillParent(true);
@@ -239,7 +251,9 @@ public class Core extends ApplicationAdapter {
             }
         });
 
-        switch (preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN)) {
+        if (openTable == null) openTable = preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
+
+        switch (openTable) {
             case "Welcome":
                 var welcomeTable = new WelcomeTable();
                 root.setActor(welcomeTable);
@@ -257,10 +271,10 @@ public class Core extends ApplicationAdapter {
                 break;
         }
 
-        initShaderProgram();
+        Gdx.input.setInputProcessor(stage);
     }
 
-    private boolean holdingModifiers(IntArray modifiers) {
+    private static boolean holdingModifiers(IntArray modifiers) {
         var doNotInclude = new IntArray(new int[]{Keys.SHIFT_LEFT, Keys.CONTROL_LEFT, Keys.ALT_LEFT});
         for (int i = 0; i < modifiers.size; i++) {
             var modifier = modifiers.get(i);

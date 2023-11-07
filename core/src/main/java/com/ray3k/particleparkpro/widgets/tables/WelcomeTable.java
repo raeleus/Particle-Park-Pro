@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.WelcomeCard;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -59,6 +60,7 @@ public class WelcomeTable extends Table {
                 preferences.putString(NAME_OPEN_TO_SCREEN, "Classic");
                 preferences.flush();
             }
+            Core.openTable = "Classic";
             transition(this, new ClassicTable(), Align.top);
         });
 
@@ -67,6 +69,7 @@ public class WelcomeTable extends Table {
                 preferences.putString(NAME_OPEN_TO_SCREEN, "Wizard");
                 preferences.flush();
             }
+            Core.openTable = "Wizard";
             transition(this, new WizardTable(), Align.top);
         });
     }

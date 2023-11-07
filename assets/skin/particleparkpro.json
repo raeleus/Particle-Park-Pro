@@ -6,20 +6,92 @@
 		"markupEnabled": false,
 		"flip": false
 	},
-	"font": {
-		"file": "font.fnt",
-		"scaledSize": -1,
-		"markupEnabled": false,
-		"flip": false
-	},
-	"font-black": {
+	"font-blackx1": {
 		"file": "font-black.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"header": {
+	"font-blackx1_5": {
+		"file": "font-blackx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx2": {
+		"file": "font-blackx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx3": {
+		"file": "font-blackx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx4": {
+		"file": "font-blackx4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx1": {
+		"file": "font.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx1_5": {
+		"file": "fontx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx2": {
+		"file": "fontx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx3": {
+		"file": "fontx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx4": {
+		"file": "fontx4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx1": {
 		"file": "header.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx1_5": {
+		"file": "headerx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx2": {
+		"file": "headerx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx3": {
+		"file": "headerx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx4": {
+		"file": "headerx4.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -1922,6 +1994,11 @@
 		"imageCheckedOver": "radio-checked-over"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+	"default": {
+		"font": "font"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "font"
@@ -1977,6 +2054,14 @@
 		"background": "select-box-list-10"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+	"default-horizontal": {
+		"background": "button-normal-up-10"
+	},
+	"default-vertical": {
+		"background": "button-normal-up-10"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
 	"default": {
 		"hScrollKnob": "scrollbar-10",
@@ -2009,6 +2094,10 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
 	"default-horizontal": {
+		"background": "slider-bg-10",
+		"knob": "slider-knob"
+	},
+	"default-vertical": {
 		"background": "slider-bg-10",
 		"knob": "slider-knob"
 	}
@@ -2107,6 +2196,18 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
 	"default": {
 		"label": "default"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle": {
+	"default": {
+		"background": "slider-bg-10",
+		"knob": "slider-knob"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle": {
+	"default": {
+		"plus": "button-plus-up",
+		"minus": "button-minus-up"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
