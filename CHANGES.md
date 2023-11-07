@@ -8,6 +8,7 @@
 * Added the Delta Multiplier functionality of the preview
 * Added the Pixels Per Meter functionality of the preview
 * Decimal units for values allowed where it makes sense
+* Sharper fonts when UI is scaled.
 * Minor bugfixes and code cleanup
 ### Version 0.0.2
 * Initial release version
