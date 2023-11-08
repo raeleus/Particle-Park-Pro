@@ -45,8 +45,8 @@ public class SizeSubPanel extends Panel {
         var xValue = selectedEmitter.getXScale();
         var yValue = selectedEmitter.getYScale();
 
-        float sliderIncrement = 5f;
-        float sliderRange = 200f;
+        float sliderIncrement = 1f;
+        float sliderRange = 10f;
 
         setTouchable(Touchable.enabled);
 
