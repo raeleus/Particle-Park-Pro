@@ -22,7 +22,7 @@ import com.ray3k.stripe.ResizeWidget;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.resizeWidgetStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 /**
  * The UI controls to accompany the particle effect preview. The viewport of the ParticlePreview is adjusted to match
@@ -65,6 +65,8 @@ public class PreviewPanel extends Panel {
         var settingsButton = new Button(skin, "settings");
         table.add(settingsButton).expandX().left();
         addHandListener(settingsButton);
+        var popTooltip = addTooltip(settingsButton, "Change the preview settings.", Align.top, Align.topRight, tooltipBottomLeftArrowStyle);
+        popTooltip.setAttachOffsetX(-8);
         onChange(settingsButton, () -> {
             var pop = new PopPreviewSettings();
             pop.attachToActor(settingsButton, Align.topLeft, Align.topRight);
@@ -75,6 +77,7 @@ public class PreviewPanel extends Panel {
         var button = new Button(skin, "zoom-full");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Reset the zoom and center the camera at (0,0).", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = 5;
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
@@ -84,6 +87,7 @@ public class PreviewPanel extends Panel {
         button = new Button(skin, "zoom-out");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Zoom in.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex + 1, 0, zoomLevels.size - 1);
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
@@ -92,6 +96,7 @@ public class PreviewPanel extends Panel {
         button = new Button(skin, "zoom-in");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Zoom out.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex - 1, 0, zoomLevels.size - 1);
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);

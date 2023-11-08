@@ -28,6 +28,7 @@ public class Styles {
     public static DraggableTextListStyle draggableTextListNoBgStyle;
     public static InfSliderStyle infSliderStyle;
     public static PopTableStyle tooltipBottomArrowStyle;
+    public static PopTableStyle tooltipBottomLeftArrowStyle;
     public static PopTableStyle tooltipBottomRightArrowStyle;
     public static PopTableStyle tooltipTopArrowStyle;
     public static PopTableStyle tooltipRightArrowStyle;
@@ -47,6 +48,7 @@ public class Styles {
         draggableTextListNoBgStyle = new PPdraggableTextListNoBGStyle();
         infSliderStyle = new PPinfSliderStyle();
         tooltipBottomArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-arrow", WindowStyle.class));
+        tooltipBottomLeftArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-left-arrow", WindowStyle.class));
         tooltipBottomRightArrowStyle = new PopTableStyle(skin.get("tooltip-bottom-right-arrow", WindowStyle.class));
         tooltipTopArrowStyle = new PopTableStyle(skin.get("tooltip-top-arrow", WindowStyle.class));
         tooltipRightArrowStyle = new PopTableStyle(skin.get("tooltip-right-arrow", WindowStyle.class));
