@@ -1,7 +1,31 @@
 {
 "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-	"bold": {
+	"boldx1": {
 		"file": "bold.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx1_5": {
+		"file": "boldx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx2": {
+		"file": "boldx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx3": {
+		"file": "boldx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx4": {
+		"file": "boldx4.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false

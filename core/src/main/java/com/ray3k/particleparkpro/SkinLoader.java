@@ -18,6 +18,7 @@ public class SkinLoader {
         String fontName = null;
         String headerName = null;
         String blackName = null;
+        String boldName = null;
         float fontScale = 1;
         boolean fontUseIntegerPositions = true;
 
@@ -27,11 +28,13 @@ public class SkinLoader {
                 fontName = "font";
                 headerName = "header";
                 blackName = "font-black";
+                boldName = "bold";
                 break;
             case SCALE_1_5X:
                 fontName = "fontx1_5";
                 headerName = "headerx1_5";
                 blackName = "font-blackx1_5";
+                boldName = "boldx1_5";
                 fontScale = 1 / 1.5f;
                 fontUseIntegerPositions = false;
                 break;
@@ -39,6 +42,7 @@ public class SkinLoader {
                 fontName = "fontx2";
                 headerName = "headerx2";
                 blackName = "font-blackx2";
+                boldName = "boldx2";
                 fontScale = 1 / 2f;
                 fontUseIntegerPositions = false;
                 break;
@@ -46,6 +50,7 @@ public class SkinLoader {
                 fontName = "fontx3";
                 headerName = "headerx3";
                 blackName = "font-blackx3";
+                boldName = "boldx3";
                 fontScale = 1 / 3f;
                 fontUseIntegerPositions = false;
                 break;
@@ -53,6 +58,7 @@ public class SkinLoader {
                 fontName = "fontx4";
                 headerName = "headerx4";
                 blackName = "font-blackx4";
+                boldName = "boldx4";
                 fontScale = 1 / 4f;
                 fontUseIntegerPositions = false;
                 break;
@@ -83,6 +89,13 @@ public class SkinLoader {
         font.getData().setScale(fontScale);
         font.setUseIntegerPositions(fontUseIntegerPositions);
         skin.add("font-black", font);
+
+        regions = skin.getRegions(boldName);
+        if (regions != null) font = new BitmapFont(new BitmapFont.BitmapFontData(Gdx.files.internal("skin/" + boldName + ".fnt"), false), regions, true);
+        else font = new BitmapFont(new BitmapFont.BitmapFontData(Gdx.files.internal("skin/" + boldName + ".fnt"), false), skin.getRegion(boldName), true);
+        font.getData().setScale(fontScale);
+        font.setUseIntegerPositions(fontUseIntegerPositions);
+        skin.add("bold", font);
 
         skin.load(Gdx.files.internal("skin/particleparkpro.json"));
         Styles.initializeStyles();
