@@ -309,6 +309,9 @@ public class Utils {
         var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
 
         if (saveHandle != null) {
+            if (preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION) && !saveHandle.extension().equals("p"))
+                saveHandle = saveHandle.sibling(saveHandle.name() + ".p");
+
             Settings.setDefaultSavePath(saveHandle.parent());
             defaultFileName = saveHandle.name();
 
