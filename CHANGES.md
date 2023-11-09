@@ -1,4 +1,6 @@
 # Changelog
+### Version 0.0.4
+* 
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time
 * Fixed disabled emitters not being exported when saving
