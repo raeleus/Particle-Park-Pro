@@ -2041,6 +2041,14 @@
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
 	"default": {
 		"font": "font"
+	},
+	"settings": {
+		"imageUp": "icon-settings-up",
+		"font": "bold",
+		"up": "button-normal-up-10",
+		"down": "button-normal-down-10",
+		"over": "button-normal-over-10",
+		"disabled": "button-normal-disabled-10"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {

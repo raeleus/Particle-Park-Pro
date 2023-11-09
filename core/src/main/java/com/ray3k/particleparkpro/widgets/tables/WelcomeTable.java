@@ -1,27 +1,36 @@
 package com.ray3k.particleparkpro.widgets.tables;
 
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.widgets.WelcomeCard;
+import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Listeners.addHandListener;
-import static com.ray3k.particleparkpro.Listeners.onChange;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.Settings.DEFAULT_OPEN_TO_SCREEN;
 import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
 /**
  * The introductory table which highlights the app title and buttons to open the classic or wizard modes.
  */
 public class WelcomeTable extends Table {
+    private Button settingsButton;
+
     public WelcomeTable() {
+        var stack = new Stack();
+        add(stack).grow();
+
+        var root = new Table();
+        stack.add(root);
+
         var table = new Table();
-        add(table);
+        root.add(table);
 
         var image = new Image(skin, "title");
         table.add(image);
@@ -30,9 +39,9 @@ public class WelcomeTable extends Table {
         var label = new Label(version, skin);
         table.add(label).expandX().right().padRight(10).padTop(5);
 
-        row();
+        root.row();
         table = new Table();
-        add(table).spaceTop(100);
+        root.add(table).spaceTop(100);
 
         table.row().spaceRight(70);
         var classicCard = new WelcomeCard("Classic", "The classic Particle Editor experience", skin.getDrawable("thumb-classic"), "Open Classic Mode");
@@ -55,6 +64,20 @@ public class WelcomeTable extends Table {
             }
         });
 
+        root = new Table();
+        stack.add(root);
+
+        settingsButton = new Button(skin, "settings");
+        root.add(settingsButton).expand().bottom().right().padRight(20).padBottom(10);
+        addHandListener(settingsButton);
+        addTooltip(settingsButton, "Open the Editor Settings dialog", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
+        onChange(settingsButton, () -> {
+            Gdx.input.setInputProcessor(foregroundStage);
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+            var pop = new PopEditorSettings();
+            pop.show(foregroundStage);
+        });
+
         onChange(classicCard, () -> {
             if (checkbox.isChecked()) {
                 preferences.putString(NAME_OPEN_TO_SCREEN, "Classic");
@@ -62,6 +85,7 @@ public class WelcomeTable extends Table {
             }
             Core.openTable = "Classic";
             transition(this, new ClassicTable(), Align.top);
+            fadeSettingsButton();
         });
 
         onChange(wizardCard, () -> {
@@ -71,6 +95,11 @@ public class WelcomeTable extends Table {
             }
             Core.openTable = "Wizard";
             transition(this, new WizardTable(), Align.top);
+            fadeSettingsButton();
         });
+    }
+
+    private void fadeSettingsButton() {
+        settingsButton.addAction(Actions.fadeOut(.3f));
     }
 }
