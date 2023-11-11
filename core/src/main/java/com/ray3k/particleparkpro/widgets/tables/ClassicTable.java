@@ -21,7 +21,6 @@ public class ClassicTable extends Table {
     public static ClassicTable classicTable;
     private Table undoTable;
     public ClassicTable() {
-        shortcutManager.setScope(Settings.CLASSIC_SCOPE);
         classicTable = this;
         pad(20).padBottom(5);
 

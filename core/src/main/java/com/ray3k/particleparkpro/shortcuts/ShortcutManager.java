@@ -103,6 +103,7 @@ public class ShortcutManager extends InputListener {
 			break;
 		case Input.Keys.ALT_LEFT:
 		case Input.Keys.ALT_RIGHT:
+        case Input.Keys.SYM:
 			if (pressedKeys[2] > 0) {
 				pressedKeys[2] = 0;
 				dirty = true;
@@ -185,7 +186,6 @@ public class ShortcutManager extends InputListener {
     }
 
     public static int[] unpacKeybind(int packed) {
-//        int[] keybind = new int[4];
         int size = 0;
         Arrays.fill(TEMP, 0);
         for (int i = 0; i < MAX_KEYS; i++) {
@@ -207,56 +207,6 @@ public class ShortcutManager extends InputListener {
 
         return keybind;
     }
-
-    public static boolean isValidKeybind (int[] keys) {
-		if (keys == null || keys.length == 0 || keys.length > ShortcutManager.MAX_KEYS) {
-            return false;
-//			throw new InvalidShortcutException(
-//				"Keybind must not be null and have a length between 0 and " + ShortcutManager.MAX_KEYS);
-		}
-
-		boolean allModifiers = true;
-		boolean hasNormalKey = false;
-		boolean hasShift = false;
-		boolean hasAlt = false;
-		boolean hasControl = false;
-
-		for (int i = 0; i < keys.length; i++) {
-			// Treat left and right modifier keys the same
-			switch (keys[i]) {
-			case Keys.ALT_LEFT:
-			case Keys.ALT_RIGHT:
-            case Keys.SYM:
-//				if (hasAlt) throw new InvalidShortcutException("Alt key already added.");
-                if (hasAlt) return false;
-				hasAlt = true;
-				break;
-			case Keys.CONTROL_LEFT:
-			case Keys.CONTROL_RIGHT:
-//				if (hasControl) throw new InvalidShortcutException("Control key already added.");
-                if (hasControl) return false;
-				hasControl = true;
-				break;
-			case Keys.SHIFT_LEFT:
-			case Keys.SHIFT_RIGHT:
-//				if (hasShift) throw new InvalidShortcutException("Shift key already added.");
-                if (hasShift) return false;
-				hasShift = true;
-				break;
-			default:
-//				if (hasNormalKey) throw new InvalidShortcutException("Keybind must have a maximum of 1 non modifier key");
-                if (hasNormalKey) return false;
-
-				hasNormalKey = true;
-				allModifiers = false;
-			}
-		}
-
-//		if (allModifiers) throw new InvalidShortcutException("All modifier keys are not allowed.");
-        if (allModifiers) return false;
-
-        return true;
-	}
 
     public static String keybindToString (int[] keybind) {
 		StringBuilder builder = new StringBuilder();

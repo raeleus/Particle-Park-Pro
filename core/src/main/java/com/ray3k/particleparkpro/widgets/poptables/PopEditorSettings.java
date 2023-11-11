@@ -357,7 +357,6 @@ public class PopEditorSettings extends PopTable {
             if (keycode <= 0) continue;
 
            var text = Keys.toString(keybind[i]);
-           System.out.println(keybind[i]);
            if (text.startsWith("L-")) text = text.substring(2);
            if (text.equals("Alt") && displayCommandInsteadOfAlt) {
               text = "Cmd";
@@ -376,7 +375,6 @@ public class PopEditorSettings extends PopTable {
         preferences.putBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES);
         preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
         preferences.flush();
-
         populate();
     }
 
@@ -423,63 +421,12 @@ public class PopEditorSettings extends PopTable {
 
                     if (keyMap.hasKeybind(packed)) {
                         checkForDuplicateShortcuts();
-
                     } else {
-//                        keyMap.changeKeybind(shortcut, keybind);
-//                        preferences.putInteger(shortcut.getName() + "Shortcut", packed);
-//                        preferences.flush();
                         ShortcutUtils.setKeybind(keyMap, shortcut, keybind, true);
                     }
                 }
 
                 pop.hide();
-                initialize();
-                return false;
-            }
-        });
-
-        pop.show(stage);
-        stage.setKeyboardFocus(label);
-    }
-
-    private void showKeyBindPop(TextField textField, String name, Stage stage, String modifiersKey, String shortcutKey) {
-        var pop = new PopTable(skin.get("key-bind", WindowStyle.class));
-        pop.setHideOnUnfocus(true);
-
-        var label = new Label("Press a key combination for\n" + name + "\nPress ESCAPE to clear", skin, "bold");
-        label.setAlignment(Align.center);
-        pop.add(label);
-        label.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT) return false;
-                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) return false;
-                if (keycode == Keys.ALT_LEFT || keycode == Keys.ALT_RIGHT) return false;
-
-                var intArray = new IntArray();
-                if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT)) intArray.add(Keys.CONTROL_LEFT);
-                if (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) intArray.add(Keys.ALT_LEFT);
-                if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) intArray.add(Keys.SHIFT_LEFT);
-
-                if (keycode == Keys.ESCAPE) {
-                    preferences.putInteger(shortcutKey, Keys.ANY_KEY);
-                    preferences.putString(modifiersKey, "");
-                    preferences.flush();
-                    textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
-
-                    pop.hide();
-                    checkForDuplicateShortcuts();
-                    initialize();
-                    return false;
-                }
-
-                preferences.putInteger(shortcutKey, keycode);
-                preferences.putString(modifiersKey, modifiersToText(intArray.toArray()));
-                preferences.flush();
-                textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
-
-                pop.hide();
-                checkForDuplicateShortcuts();
                 initialize();
                 return false;
             }

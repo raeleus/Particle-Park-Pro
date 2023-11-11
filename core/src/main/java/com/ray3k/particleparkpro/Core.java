@@ -125,7 +125,6 @@ public class Core extends ApplicationAdapter {
     public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
     public static ShortcutManager shortcutManager;
     public static KeyMap keyMap;
-    public static final boolean isMac = System.getProperty("os.name").startsWith("mac");
 
     public static SaveAsRunnable saveAsRunnable;
     public static SaveRunnable saveRunnable;
@@ -229,24 +228,6 @@ public class Core extends ApplicationAdapter {
         shortcutManager.setKeyMap(keyMap);
         stage.addListener(shortcutManager);
 
-//        stage.addListener(new InputListener() {
-//            @Override
-//            public boolean keyDown(InputEvent event, int keycode) {
-//                if (keycode == Settings.undoPrimaryShortcut && holdingModifiers(Settings.undoPrimaryModifiers) && UndoManager.hasUndo()) {
-//                    UndoManager.undo();
-//                } else if (keycode == Settings.undoSecondaryShortcut && holdingModifiers(Settings.undoSecondaryModifiers) && UndoManager.hasUndo()) {
-//                    UndoManager.undo();
-//                }
-//
-//                if (keycode == Settings.redoPrimaryShortcut && holdingModifiers(Settings.redoPrimaryModifiers) && UndoManager.hasRedo()) {
-//                    UndoManager.redo();
-//                } else if (keycode == Settings.redoSecondaryShortcut && holdingModifiers(Settings.redoSecondaryModifiers) && UndoManager.hasRedo()) {
-//                    UndoManager.redo();
-//                }
-//                return false;
-//            }
-//        });
-
         switch (preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN)) {
             case "Welcome":
                 var welcomeTable = new WelcomeTable();
@@ -279,10 +260,10 @@ public class Core extends ApplicationAdapter {
         shortcuts.add(createShortcut("Open", "Open things", DEFAULT_KEYBINDS.get("Open"), GLOBAL_SCOPE, openRunnable));
 
         // Classic only keybinds
-        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", new int[] {Keys.C}, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
+//        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", new int[] {Keys.C}, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
 
         // Wizard only keybinds
-        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", new int[] {Keys.H}, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
+//        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", new int[] {Keys.H}, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
 
         keyMap.addAll(shortcuts);
     }

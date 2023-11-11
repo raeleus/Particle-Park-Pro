@@ -23,7 +23,6 @@ public class WizardTable extends Table {
     private Table undoTable;
 
     public WizardTable() {
-        shortcutManager.setScope(Settings.WIZARD_SCOPE);
         wizardTable = this;
         pad(20).padBottom(5);
 
