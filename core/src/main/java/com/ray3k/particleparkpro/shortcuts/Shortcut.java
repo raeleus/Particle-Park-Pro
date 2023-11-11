@@ -11,11 +11,21 @@ public class Shortcut {
     private final Runnable runnable;
     private final String name;
     private final String description;
+    private int scope;
 
     public Shortcut (String name, String description, Runnable runnable) {
        this.name = name;
        this.description = description;
        this.runnable = runnable;
+    }
+
+    public Shortcut setScope (int scope) {
+        this.scope = scope;
+        return this;
+    }
+
+    public int getScope() {
+       return scope;
     }
 
     public Runnable getRunnable() {

@@ -66,7 +66,7 @@ public class SaveAsShortcutRunnable implements Runnable {
             var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
 
             if (saveHandle != null) {
-                saveFileHandle = saveHandle;
+//                saveFileHandle = saveHandle;
                 Settings.setDefaultSavePath(saveHandle.parent());
                 defaultFileName = saveHandle.name();
 

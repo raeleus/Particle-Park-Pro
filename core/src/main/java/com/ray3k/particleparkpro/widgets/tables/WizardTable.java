@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.shortcuts.KeyMap;
+import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.Carousel;
 import com.ray3k.particleparkpro.widgets.panels.*;
@@ -18,7 +21,9 @@ public class WizardTable extends Table {
 
     public static WizardTable wizardTable;
     private Table undoTable;
+
     public WizardTable() {
+        shortcutManager.setScope(Settings.WIZARD_SCOPE);
         wizardTable = this;
         pad(20).padBottom(5);
 
@@ -77,7 +82,7 @@ public class WizardTable extends Table {
 
         refreshUndo();
 
-        stage.setKeyboardFocus(this);
+//        stage.setKeyboardFocus(this);
     }
 
     public void refreshUndo() {
@@ -103,4 +108,5 @@ public class WizardTable extends Table {
         }
         onChange(button, UndoManager::redo);
     }
+
 }

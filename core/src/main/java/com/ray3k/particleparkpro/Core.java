@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.shortcuts.runnables.RedoShortcutRunnable;
@@ -66,6 +67,7 @@ import java.io.IOException;
 
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.shortcuts.ShortcutUtils.createShortcut;
 
 public class Core extends ApplicationAdapter {
     public static Skin skin;
@@ -119,10 +121,15 @@ public class Core extends ApplicationAdapter {
     public static ObjectMap<String, FileHandle> fileHandles;
     public static ObjectMap<String, Sprite> sprites;
     public static String defaultFileName;
-    public static FileHandle saveFileHandle;
+    public static FileHandle openFileFileHandle;
     public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
     public static ShortcutManager shortcutManager;
-    public static Array<Shortcut> defaultShortcuts;
+    public static KeyMap keyMap;
+    public static final boolean isMac = System.getProperty("os.name").startsWith("mac");
+
+    public static SaveAsRunnable saveAsRunnable;
+    public static SaveRunnable saveRunnable;
+    public static OpenRunnable openRunnable;
 
     @Override
     public void create() {
@@ -211,9 +218,15 @@ public class Core extends ApplicationAdapter {
             }
         });
 
+        openRunnable = new OpenRunnable();
+        saveAsRunnable = new SaveAsRunnable();
+        saveRunnable = new SaveRunnable();
+        saveAsRunnable.setSaveRunnable(saveRunnable);
+        saveRunnable.setSaveAsRunnable(saveAsRunnable);
 
-        createDefaultShortcuts();
+        initKeyMap();
         shortcutManager = new ShortcutManager();
+        shortcutManager.setKeyMap(keyMap);
         stage.addListener(shortcutManager);
 
 //        stage.addListener(new InputListener() {
@@ -255,22 +268,23 @@ public class Core extends ApplicationAdapter {
         initShaderProgram();
     }
 
-    private void createDefaultShortcuts() {
-        defaultShortcuts = new Array<>();
-//        preferences.putInteger("UndoShortcut",)
-        SaveAsShortcutRunnable runnable = new SaveAsShortcutRunnable();
-        defaultShortcuts.add(createShortcut("Undo", "Undo things", preferences.getInteger("UndoShortcut", ShortcutManager.packKeybindUnsorted(DEFAULT_UNDO_KEYBIND)), new UndoShortcutRunnable()));
-        defaultShortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_REDO_KEYBIND, new RedoShortcutRunnable()));
-        defaultShortcuts.add(createShortcut("SaveAs", "Save as things", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S}, runnable));
-        defaultShortcuts.add(createShortcut("Save", "Save things", new int[] {Keys.CONTROL_LEFT, Keys.S}, new SaveShortcutRunnable(runnable)));
-    }
+    private void initKeyMap () {
+        keyMap = new KeyMap();
+        Array<Shortcut> shortcuts = new Array<>();
 
-    public Shortcut createShortcut(String name, String desc, int[] primaryKeybind, Runnable runnable) {
-       return new Shortcut(name, desc, runnable).setPrimaryKeybind(primaryKeybind);
-    }
+        shortcuts.add(createShortcut("Undo", "Undo things", DEFAULT_KEYBINDS.get("Undo"), GLOBAL_SCOPE, new UndoShortcutRunnable()));
+        shortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_KEYBINDS.get("Redo"), GLOBAL_SCOPE, new RedoShortcutRunnable()));
+        shortcuts.add(createShortcut("SaveAs", "Save as things", DEFAULT_KEYBINDS.get("SaveAs"), GLOBAL_SCOPE, saveAsRunnable));
+        shortcuts.add(createShortcut("Save", "Save things", DEFAULT_KEYBINDS.get("Save"), GLOBAL_SCOPE, saveRunnable));
+        shortcuts.add(createShortcut("Open", "Open things", DEFAULT_KEYBINDS.get("Open"), GLOBAL_SCOPE, openRunnable));
 
-    public Shortcut createShortcut(String name, String desc, int primaryKeybindPacked, Runnable runnable) {
-       return new Shortcut(name, desc, runnable).setPrimaryKeybindPacked(primaryKeybindPacked);
+        // Classic only keybinds
+        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", new int[] {Keys.C}, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
+
+        // Wizard only keybinds
+        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", new int[] {Keys.H}, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
+
+        keyMap.addAll(shortcuts);
     }
 
     public static void initShaderProgram() {

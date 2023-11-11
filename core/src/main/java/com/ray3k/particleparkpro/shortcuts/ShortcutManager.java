@@ -1,6 +1,5 @@
 package com.ray3k.particleparkpro.shortcuts;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,10 +16,15 @@ public class ShortcutManager extends InputListener {
 
     private int currentlyPressedKeysPacked;
     private int[] pressedKeys;
+    private static int scope;
     private boolean dirty;
     private boolean disabled;
     private KeyMap keyMap;
     private ShortcutManagerFilter filter;
+
+    public static void setScope (int scope) {
+        ShortcutManager.scope = scope;
+    }
 
     public ShortcutManager() {
         pressedKeys = new int[MAX_KEYS];
@@ -64,6 +68,7 @@ public class ShortcutManager extends InputListener {
 			break;
 		case Input.Keys.ALT_LEFT:
 		case Input.Keys.ALT_RIGHT:
+        case Input.Keys.SYM:
 			if (keys[2] == 0) {
 				keys[2] = Input.Keys.ALT_LEFT;
 				dirty = true;
@@ -138,6 +143,10 @@ public class ShortcutManager extends InputListener {
         Shortcut shortcut = keyMap.getShortcut(currentlyPressedKeysPacked);
 
         if (shortcut == null) return false;
+
+        if (shortcut.getScope() > 0 && scope != shortcut.getScope()) {
+           return false;
+        }
 
         shortcut.getRunnable().run();
 
@@ -217,6 +226,7 @@ public class ShortcutManager extends InputListener {
 			switch (keys[i]) {
 			case Keys.ALT_LEFT:
 			case Keys.ALT_RIGHT:
+            case Keys.SYM:
 //				if (hasAlt) throw new InvalidShortcutException("Alt key already added.");
                 if (hasAlt) return false;
 				hasAlt = true;

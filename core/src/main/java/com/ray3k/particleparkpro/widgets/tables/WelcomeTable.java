@@ -15,7 +15,7 @@ import static com.ray3k.particleparkpro.Settings.NAME_OPEN_TO_SCREEN;
 
 public class WelcomeTable extends Table {
     public WelcomeTable() {
-        shortcutManager.setKeyMap(null);
+        shortcutManager.setDisabled(true);
 
         var table = new Table();
         add(table);
@@ -52,6 +52,7 @@ public class WelcomeTable extends Table {
                 preferences.flush();
             }
             transition(this, new ClassicTable(), Align.top);
+            shortcutManager.setDisabled(false);
         });
 
         onChange(wizardCard, () -> {
@@ -60,6 +61,7 @@ public class WelcomeTable extends Table {
                 preferences.flush();
             }
             transition(this, new WizardTable(), Align.top);
+            shortcutManager.setDisabled(false);
         });
     }
 }

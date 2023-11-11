@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -18,9 +20,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.shortcuts.DefaultKeyMap;
+import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
+import com.ray3k.particleparkpro.shortcuts.ShortcutUtils;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -34,14 +37,9 @@ import static com.ray3k.particleparkpro.Settings.*;
 
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
+    private boolean displayCommandInsteadOfAlt;
     private UIscale uiScale;
-    private DefaultKeyMap keyMap;
-
-    public PopEditorSettings (DefaultKeyMap keyMap) {
-        super(skin.get(WindowStyle.class));
-        this.keyMap = keyMap;
-        populate();
-    }
+    private Table shortcutTable;
 
     public PopEditorSettings() {
         super(skin.get(WindowStyle.class));
@@ -171,105 +169,38 @@ public class PopEditorSettings extends PopTable {
             showConfirmScalePop();
         });
 
-        //shortcuts
+        // Shortcuts
         row();
-        var shortcutTable = new Table();
-        shortcutTable.columnDefaults(0).right().uniformX();
-        shortcutTable.columnDefaults(1).width(90);
-        shortcutTable.columnDefaults(2).width(90);
-        shortcutTable.columnDefaults(3).uniformX();
-        shortcutTable.defaults().space(5);
-        add(shortcutTable).padTop(20);
 
-        label = new Label("SHORTCUTS", skin, "header");
-        shortcutTable.add(label).colspan(4).align(Align.center);
+         label = new Label("SHORTCUTS", skin, "header");
+         add(label).padBottom(10).padTop(20);
+        row();
+
+        final String prefName = "Display command instead of alt";
+        var useCommandInsteadAlt = new CheckBox("(MacOs) Display command instead of alt", skin);
+        useCommandInsteadAlt.setChecked(preferences.getBoolean(prefName, false));
+        displayCommandInsteadOfAlt = useCommandInsteadAlt.isChecked();
+        addHandListener(useCommandInsteadAlt);
+        addTooltip(useCommandInsteadAlt, "Displays command instead of alt", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(useCommandInsteadAlt, () -> {
+            displayCommandInsteadOfAlt = useCommandInsteadAlt.isChecked();
+            preferences.putBoolean(prefName, displayCommandInsteadOfAlt);
+            preferences.flush();
+            refreshShortcutTable();
+        });
+        add(useCommandInsteadAlt).center().padBottom(10);
+        row();
+
+        shortcutTable = new Table();
+        shortcutTable.columnDefaults(0).right();
+        shortcutTable.columnDefaults(1).left().uniformX();
+        shortcutTable.defaults().space(5);
+        add(shortcutTable).padTop(0);
 
         shortcutTable.row();
-        shortcutTable.add();
+        shortcutTable.row();
 
-        label = new Label("Primary:", skin);
-        label.setAlignment(Align.center);
-        shortcutTable.add(label);
-
-        label = new Label("Secondary:", skin);
-        label.setAlignment(Align.center);
-        shortcutTable.add(label);
-
-        shortcutTable.add();
-
-//        shortcutTable.row();
-//        label = new Label("Undo:", skin);
-//        shortcutTable.add(label);
-
-        for (Shortcut s : keyMap.getAllShortcuts()) {
-            createShortcutSettingsOption(s, shortcutTable);
-        }
-
-//        var primaryUndoTextField = new TextField("", skin);
-//        setShortcutTextFieldText(primaryUndoTextField, NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_MODIFIERS, DEFAULT_PRIMARY_UNDO_SHORTCUT);
-//        shortcutTable.add(primaryUndoTextField);
-//        textFields.add(primaryUndoTextField);
-//        addIbeamListener(primaryUndoTextField);
-//        addTooltip(primaryUndoTextField, "Primary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
-//        onTouchDown(primaryUndoTextField, () -> {
-//            getStage().setKeyboardFocus(null);
-//            showKeyBindPop(primaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_PRIMARY_UNDO_MODIFIERS, NAME_PRIMARY_UNDO_SHORTCUT);
-//        });
-
-//        var secondaryUndoTextField = new TextField("", skin);
-//        setShortcutTextFieldText(secondaryUndoTextField, NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_MODIFIERS, DEFAULT_SECONDARY_UNDO_SHORTCUT);
-//        shortcutTable.add(secondaryUndoTextField);
-//        textFields.add(secondaryUndoTextField);
-//        addIbeamListener(secondaryUndoTextField);
-//        addTooltip(secondaryUndoTextField, "Secondary keyboard shortcut for the Undo action.", Align.top, Align.top, tooltipBottomArrowStyle);
-//        onTouchDown(secondaryUndoTextField, () -> {
-//            getStage().setKeyboardFocus(null);
-//            showKeyBindPop(secondaryUndoTextField, "UNDO SHORTCUT", getStage(), NAME_SECONDARY_UNDO_MODIFIERS, NAME_SECONDARY_UNDO_SHORTCUT);
-//        });
-
-//        shortcutTable.row();
-//        label = new Label("Redo:", skin);
-//        shortcutTable.add(label);
-//
-//        var primaryRedoTextField = new TextField("", skin);
-//        setShortcutTextFieldText(primaryRedoTextField, NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_MODIFIERS, DEFAULT_PRIMARY_REDO_SHORTCUT);
-//        shortcutTable.add(primaryRedoTextField);
-//        textFields.add(primaryRedoTextField);
-//        addIbeamListener(primaryRedoTextField);
-//        addTooltip(primaryRedoTextField, "Primary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
-//        onTouchDown(primaryRedoTextField, () -> {
-//            getStage().setKeyboardFocus(null);
-//            showKeyBindPop(primaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_PRIMARY_REDO_MODIFIERS, NAME_PRIMARY_REDO_SHORTCUT);
-//        });
-
-//        var secondaryRedoTextField = new TextField("", skin);
-//        setShortcutTextFieldText(secondaryRedoTextField, NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_MODIFIERS, DEFAULT_SECONDARY_REDO_SHORTCUT);
-//        secondaryRedoTextField.setText("Hello World");
-//        shortcutTable.add(secondaryRedoTextField);
-//        textFields.add(secondaryRedoTextField);
-//        addIbeamListener(secondaryRedoTextField);
-//        addTooltip(secondaryRedoTextField, "Secondary keyboard shortcut for the Redo action.", Align.top, Align.top, tooltipBottomArrowStyle);
-//        onTouchDown(secondaryRedoTextField, () -> {
-//            getStage().setKeyboardFocus(null);
-//            showKeyBindPop(secondaryRedoTextField, "REDO SHORTCUT", getStage(), NAME_SECONDARY_REDO_MODIFIERS, NAME_SECONDARY_REDO_SHORTCUT);
-//        });
-
-//        shortcutTable.add();
-//        shortcutTable.add();
-//        shortcutTable.add();
-//        shortcutTable.add();
-////        Table t = new Table();
-////        shortcutTable.add(t);
-//        Shortcut helloShortcut = createShortcut("Hello", "Hello World", new int[] {Keys.H}, () -> System.out.println("Hello World"));
-//        createShortcutSettingsOption(helloShortcut, t);
-//        createShortcutSettingsOption(helloShortcut, t);
-//
-//        t.clearChildren();
-//        t.add();
-//        t.add();
-//        t.add();
-//        t.add();
-//        createShortcutSettingsOption(helloShortcut, t);
+        refreshShortcutTable();
 
         //buttons
         row();
@@ -361,6 +292,13 @@ public class PopEditorSettings extends PopTable {
 
     }
 
+    private void refreshShortcutTable() {
+        shortcutTable.clearChildren();
+        for (Shortcut s : keyMap.getAllShortcuts()) {
+            createShortcutSettingsOption(s, shortcutTable);
+        }
+    }
+
     private void createShortcutSettingsOption(Shortcut shortcut, Table shortcutTable) {
         shortcutTable.row();
 
@@ -376,6 +314,14 @@ public class PopEditorSettings extends PopTable {
         onTouchDown(textField, () -> {
             getStage().setKeyboardFocus(null);
             showKeyBindPop(textField, shortcut, getStage());
+        });
+
+        var clearButton = new Button(skin, "cancel");
+        shortcutTable.add(clearButton);
+        addHandListener(clearButton);
+        onTouchDown(clearButton, () -> {
+            textField.setText("");
+            ShortcutUtils.clearKeybind(keyMap, shortcut, true);
         });
     }
 
@@ -403,7 +349,7 @@ public class PopEditorSettings extends PopTable {
         return stringBuilder.toString();
     }
 
-    private static String constructShortcutText(int[] keybind) {
+    private String constructShortcutText(int[] keybind) {
        var stringBuilder = new StringBuilder();
        for (int i = 0; i < keybind.length; i++) {
             int keycode = keybind[i] ;
@@ -411,28 +357,22 @@ public class PopEditorSettings extends PopTable {
             if (keycode <= 0) continue;
 
            var text = Keys.toString(keybind[i]);
+           System.out.println(keybind[i]);
            if (text.startsWith("L-")) text = text.substring(2);
+           if (text.equals("Alt") && displayCommandInsteadOfAlt) {
+              text = "Cmd";
+           }
             stringBuilder.append(text);
-            if (i < keybind.length - 1) stringBuilder.append("+");
+            if (i < keybind.length - 1) stringBuilder.append(" + ");
        }
        return stringBuilder.toString();
     }
 
     public void resetSettingsToDefaults() {
+        resetKeybinds(false);
+        keyMap.changeAllKeybinds(DEFAULT_KEYBINDS);
         preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
         preferences.putString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
-        preferences.putInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
-        preferences.putString(
-            NAME_PRIMARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_UNDO_MODIFIERS));
-        preferences.putInteger(NAME_SECONDARY_UNDO_SHORTCUT, DEFAULT_SECONDARY_UNDO_SHORTCUT);
-        preferences.putString(
-            NAME_SECONDARY_UNDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_UNDO_MODIFIERS));
-        preferences.putInteger(NAME_PRIMARY_REDO_SHORTCUT, DEFAULT_PRIMARY_REDO_SHORTCUT);
-        preferences.putString(
-            NAME_PRIMARY_REDO_MODIFIERS, modifiersToText(DEFAULT_PRIMARY_REDO_MODIFIERS));
-        preferences.putInteger(NAME_SECONDARY_REDO_SHORTCUT, DEFAULT_SECONDARY_REDO_SHORTCUT);
-        preferences.putString(
-            NAME_SECONDARY_REDO_MODIFIERS, modifiersToText(DEFAULT_SECONDARY_REDO_MODIFIERS));
         preferences.putBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES);
         preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
         preferences.flush();
@@ -461,19 +401,20 @@ public class PopEditorSettings extends PopTable {
                 if (keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT) return false;
                 if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) return false;
                 if (keycode == Keys.ALT_LEFT || keycode == Keys.ALT_RIGHT) return false;
+                if (keycode == Keys.SYM) return false;
 
                 var intArray = new IntArray();
                 if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT)) intArray.add(Keys.CONTROL_LEFT);
                 if (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) intArray.add(Keys.ALT_LEFT);
                 if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) intArray.add(Keys.SHIFT_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.SYM)) intArray.add(Keys.SYM);
 
                 boolean clearShortcut = keycode == Keys.ESCAPE;
 
                 if (clearShortcut) {
-                    keyMap.removeKeybind(shortcut);
                     textField.setText("");
-                    preferences.putInteger(shortcut.getName() + "Shortcut", Keys.ANY_KEY);
-                    preferences.flush();
+                    ShortcutUtils.clearKeybind(keyMap, shortcut, true);
+                    checkForDuplicateShortcuts();
                 } else {
                     intArray.add(keycode);
                     int[] keybind = ShortcutManager.sortKeybind(intArray.toArray());
@@ -484,9 +425,10 @@ public class PopEditorSettings extends PopTable {
                         checkForDuplicateShortcuts();
 
                     } else {
-                        keyMap.changeKeybind(shortcut, keybind);
-                        preferences.putInteger(shortcut.getName() + "Shortcut", packed);
-                        preferences.flush();
+//                        keyMap.changeKeybind(shortcut, keybind);
+//                        preferences.putInteger(shortcut.getName() + "Shortcut", packed);
+//                        preferences.flush();
+                        ShortcutUtils.setKeybind(keyMap, shortcut, keybind, true);
                     }
                 }
 
