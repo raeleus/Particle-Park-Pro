@@ -11,6 +11,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the tint of a gradient color value.
+ */
 @Data
 @AllArgsConstructor
 public class TintUndoable implements Undoable {

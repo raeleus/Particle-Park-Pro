@@ -5,15 +5,22 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.Carousel;
 import com.ray3k.particleparkpro.widgets.panels.*;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
+/**
+ * The widget layout that attempts to simplify the process of creating a particle effect.
+ */
 public class WizardTable extends Table {
 
     public static WizardTable wizardTable;
@@ -28,14 +35,17 @@ public class WizardTable extends Table {
         var emitterPropertiesPanel = new EmitterPropertiesPanel();
         var summaryPanel = new SummaryPanel();
 
-        var pager = new Carousel(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
-        pager.setTouchable(Touchable.enabled);
-        addHandListener(pager.previousButton);
-        addHandListener(pager.nextButton);
-        for (var button : pager.buttonGroup.getButtons()) addHandListener(button);
-        pager.buttonTable.padTop(10).padBottom(20);
+        var carousel = new Carousel(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
+        carousel.setTouchable(Touchable.enabled);
+        addHandListener(carousel.previousButton);
+        addHandListener(carousel.nextButton);
+        for (var button : carousel.buttonGroup.getButtons()) addHandListener(button);
+        carousel.buttonTable.padTop(10).padBottom(20);
+        onChange(carousel, () -> {
+            if (carousel.getShownActor() == summaryPanel) summaryPanel.populateScrollTable();
+        });
 
-        var verticalSplitPane = new SplitPane(previewPanel, pager, true, skin);
+        var verticalSplitPane = new SplitPane(previewPanel, carousel, true, skin);
         add(verticalSplitPane).grow();
         verticalSplitPane.setSplitAmount(.5f);
         addSplitPaneVerticalSystemCursorListener(verticalSplitPane);
@@ -53,18 +63,20 @@ public class WizardTable extends Table {
         addHandListener(textButton);
         addTooltip(textButton, "Open browser to download page", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro/releases"));
-        checkVersion((String newVersion) -> {
+        Utils.checkVersion((String newVersion) -> {
             if (!versionRaw.equals(newVersion)) textButton.setVisible(true);
         });
 
         var button = new Button(skin, "home");
         table.add(button).expandX().right();
         addHandListener(button);
+        addTooltip(button, "Return to the Home Screen", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> transition(this, new WelcomeTable(), Align.bottom));
 
         button = new Button(skin, "settings");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Open the Editor Settings dialog", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> {
             Gdx.input.setInputProcessor(foregroundStage);
             Gdx.graphics.setSystemCursor(SystemCursor.Arrow);

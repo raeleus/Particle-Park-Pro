@@ -29,6 +29,9 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.io.PrintStream;
 
+/**
+ * A logger that saves errors and messages to the provided logFilehandle.
+ */
 public class TextFileApplicationLogger implements ApplicationLogger {
     private final FileHandle logFileHandle;
 

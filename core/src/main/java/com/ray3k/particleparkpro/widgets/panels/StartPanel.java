@@ -6,17 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.StreamUtils;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.widgets.Panel;
 
-import java.io.FileWriter;
-import java.io.Writer;
+import static com.ray3k.particleparkpro.Core.skin;
+import static com.ray3k.particleparkpro.Listeners.*;
 
-import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultSavePath;
-
+/**
+ * An introductory screen used exclusively in Wizard mode to help introduce users to Particle Park Pro.
+ */
 public class StartPanel extends Panel {
     private Table scrollTable;
     public static StartPanel summaryPanel;

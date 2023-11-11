@@ -14,23 +14,32 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
-import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopPreviewSettings;
 import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
+/**
+ * The UI controls to accompany the particle effect preview. The viewport of the ParticlePreview is adjusted to match
+ * the dimensions of this widget. Controls effect the zoom, position of the camera, placement of the particle effect,
+ * and playing the effect in the preview. There are various options controlling grid, shaders, preview image, live
+ * statistics, background color, PPM, and delta multiplier.
+ */
 public class PreviewPanel extends Panel {
-    private final FloatArray zoomLevels = new FloatArray(new float[] {1/6f, 1/4f, 1/3f, .5f, 2/3f, 1f, 1.5f, 2f, 3f, 4f, 6f});
-    private int zoomLevelIndex = 5;
+    public static final FloatArray zoomLevels = new FloatArray(new float[] {1/6f, 1/4f, 1/3f, .5f, 2/3f, 1f, 1.5f, 2f, 3f, 4f, 6f});
+    public static int zoomLevelIndex = 5;
     private static final Vector2 temp = new Vector2();
     public static Image previewBackgroundImage;
     public static ResizeWidget resizeWidget;
     public static Label statsLabel;
 
     public PreviewPanel() {
+        zoomLevelIndex = 5;
         setTouchable(Touchable.enabled);
 
         var label = new Label("Preview", skin, "header");
@@ -56,6 +65,8 @@ public class PreviewPanel extends Panel {
         var settingsButton = new Button(skin, "settings");
         table.add(settingsButton).expandX().left();
         addHandListener(settingsButton);
+        var popTooltip = addTooltip(settingsButton, "Change the preview settings.", Align.top, Align.topRight, tooltipBottomLeftArrowStyle);
+        popTooltip.setAttachOffsetX(-8);
         onChange(settingsButton, () -> {
             var pop = new PopPreviewSettings();
             pop.attachToActor(settingsButton, Align.topLeft, Align.topRight);
@@ -66,26 +77,29 @@ public class PreviewPanel extends Panel {
         var button = new Button(skin, "zoom-full");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Reset the zoom and center the camera at (0,0).", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = 5;
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
             previewCamera.position.set(0, 0, 0);
         });
 
         button = new Button(skin, "zoom-out");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Zoom in.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex + 1, 0, zoomLevels.size - 1);
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
         });
 
         button = new Button(skin, "zoom-in");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Zoom out.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex - 1, 0, zoomLevels.size - 1);
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
         });
 
         var dragListener = new DragListener() {
@@ -131,13 +145,13 @@ public class PreviewPanel extends Panel {
 
                 var pixelsDifferenceW = (table.getWidth() / oldZoom) - (table.getWidth() / newZoom);
                 var sideRatioX = (x - (table.getWidth() / 2)) / table.getWidth();
-                previewCamera.position.x += pixelsDifferenceW * sideRatioX;
+                previewCamera.position.x += pixelsDifferenceW * sideRatioX  / pixelsPerMeter;
 
                 var pixelsDifferenceH = (table.getHeight() / oldZoom) - (table.getHeight() / newZoom);
                 var sideRatioH = (y - (table.getHeight() / 2)) / table.getHeight();
-                previewCamera.position.y += pixelsDifferenceH * sideRatioH;
+                previewCamera.position.y += pixelsDifferenceH * sideRatioH / pixelsPerMeter;
 
-                previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex));
+                previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
                 return true;
             }
 
@@ -156,7 +170,7 @@ public class PreviewPanel extends Panel {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 if (Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
                     temp.set(startX - x, startY - y);
-                    temp.scl(zoomLevels.get(zoomLevelIndex));
+                    temp.scl(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
                     previewCamera.position.set(cameraStartX + temp.x, cameraStartY + temp.y, 0);
                 }
 
@@ -209,32 +223,29 @@ public class PreviewPanel extends Panel {
         addAllResizeListener(resizeWidget.getActor());
         stack.add(resizeWidget);
 
-        //label
+        //stats
         statsLabel = new Label("", skin) {
-            int max;
             float countdown = -1f;
             final float MAX_TIME = 5f;
 
             @Override
             public void act(float delta) {
                 super.act(delta);
-                if (isVisible()) {
-                    var count = Core.calcParticleCount();
-                    max = Math.max(max, count);
-                    if (count >= max) countdown = MAX_TIME;
-                    else {
-                        countdown -= delta;
-                        if (countdown < 0) {
-                            countdown = MAX_TIME;
-                            max = count;
-                        }
+                var count = Utils.calcParticleCount();
+                maxParticleCount = Math.max(maxParticleCount, count);
+                if (count >= maxParticleCount) countdown = MAX_TIME;
+                else {
+                    countdown -= delta;
+                    if (countdown < 0) {
+                        countdown = MAX_TIME;
+                        maxParticleCount = count;
                     }
-
-                    setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
-                        "\nCount: " + count +
-                        "\nMax: " +  max +
-                        "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
                 }
+
+                if (isVisible()) setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
+                    "\nCount: " + count +
+                    "\nMax: " + maxParticleCount +
+                    "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
             }
         };
         statsLabel.setLayoutEnabled(false);

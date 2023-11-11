@@ -7,6 +7,10 @@ import com.badlogic.gdx.utils.IntArray;
 
 import static com.ray3k.particleparkpro.Core.preferences;
 
+/**
+ * This class organizes the various names used in the app preferences, the setting defaults, and provides methods for
+ * interpreting the settings saved in the file.
+ */
 public class Settings {
     public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
     public static final String NAME_CHECK_FOR_UPDATES = "Check for updates";
@@ -44,7 +48,7 @@ public class Settings {
     public static final IntArray redoSecondaryModifiers = new IntArray();
     public static FileHandle logFile;
 
-    public static void initialize() {
+    public static void initializeSettings() {
         undoPrimaryShortcut = preferences.getInteger(NAME_PRIMARY_UNDO_SHORTCUT, DEFAULT_PRIMARY_UNDO_SHORTCUT);
 
         undoPrimaryModifiers.clear();

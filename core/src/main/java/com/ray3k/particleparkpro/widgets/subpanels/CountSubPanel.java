@@ -10,8 +10,16 @@ import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.Core.skin;
+import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows the user to modify the Count value of the particle effect specifically. Numeric spinners for min
+ * and max.
+ */
 public class CountSubPanel extends Panel {
     public CountSubPanel() {
         setTouchable(Touchable.enabled);
@@ -30,25 +38,25 @@ public class CountSubPanel extends Panel {
         label = new Label("Min:", skin);
         bodyTable.add(label);
 
-        var minSpinner = new Spinner(selectedEmitter.getMinParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var minSpinner = new Spinner(selectedEmitter.getMinParticleCount(), 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(minSpinner).width(spinnerWidth);
         addHandListener(minSpinner.getButtonMinus());
         addHandListener(minSpinner.getButtonPlus());
         addIbeamListener(minSpinner.getTextField());
         addTooltip(minSpinner, "The minimum number of particles at all times", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(minSpinner, 1, 20);
-        onChange(minSpinner, () -> UndoManager.add(new CountMinUndoable(selectedEmitter, minSpinner.getValueAsInt(), selectedEmitter.getMinParticleCount())));
+        var changeListener = onChange(minSpinner, () -> UndoManager.add(new CountMinUndoable(selectedEmitter, minSpinner.getValueAsInt(), selectedEmitter.getMinParticleCount())));
+        addInfiniteSlider(minSpinner, 1, 20, false, changeListener);
 
         label = new Label("Max:", skin);
         bodyTable.add(label).spaceLeft(gap);
 
-        var maxSpinner = new Spinner(selectedEmitter.getMaxParticleCount(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var maxSpinner = new Spinner(selectedEmitter.getMaxParticleCount(), 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         bodyTable.add(maxSpinner).width(spinnerWidth);
         addHandListener(maxSpinner.getButtonMinus());
         addHandListener(maxSpinner.getButtonPlus());
         addIbeamListener(maxSpinner.getTextField());
         addTooltip(maxSpinner, "The maximum number of particles allowed", Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(maxSpinner, 1, 20);
-        onChange(maxSpinner, () -> UndoManager.add(new CountMaxUndoable(selectedEmitter, maxSpinner.getValueAsInt(), selectedEmitter.getMaxParticleCount())));
+        changeListener = onChange(maxSpinner, () -> UndoManager.add(new CountMaxUndoable(selectedEmitter, maxSpinner.getValueAsInt(), selectedEmitter.getMaxParticleCount())));
+        addInfiniteSlider(maxSpinner, 1, 20, false, changeListener);
     }
 }

@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.SkinLoader;
+import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.Utils.UIscale;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
@@ -27,8 +30,16 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * PopTable used to change the app settings. These include options for the UndoManager, default screen, checking for
+ * updates, UI scale, keyboard shortcuts, and more. Links to related directories in the user folder are provided for
+ * convenience.
+ */
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
     private UIscale uiScale;
@@ -72,7 +83,7 @@ public class PopEditorSettings extends PopTable {
         label = new Label("Maximum Undos:", skin);
         settingsTable.add(label);
 
-        var spinner = new Spinner(0, 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var spinner = new Spinner(0, 1, 0, Orientation.RIGHT_STACK, spinnerStyle);
         spinner.setValue(preferences.getInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS));
         spinner.setProgrammaticChangeEvents(false);
         settingsTable.add(spinner);
@@ -95,7 +106,7 @@ public class PopEditorSettings extends PopTable {
         settingsTable.add(selectBox);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
-        addTooltip(spinner, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(selectBox, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
@@ -138,8 +149,8 @@ public class PopEditorSettings extends PopTable {
         sliderTable.add(label);
 
         var slider = new Slider(0, 4, 1, false, skin);
-        uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
-        var scaleArray = new Array<>(UIscale.values());
+        uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+        var scaleArray = new Array<>(Utils.UIscale.values());
         slider.setValue(scaleArray.indexOf(uiScale, true));
         sliderTable.add(slider).width(80);
         addHandListener(slider);
@@ -149,7 +160,7 @@ public class PopEditorSettings extends PopTable {
         sliderTable.add(scaleLabel).padRight(5).width(20);
         onChange(slider, () -> {
             var index = MathUtils.round(slider.getValue());
-            uiScale = UIscale.values()[index];
+            uiScale = Utils.UIscale.values()[index];
             scaleLabel.setText(uiScale.text);
         });
 
@@ -158,7 +169,7 @@ public class PopEditorSettings extends PopTable {
         addHandListener(textButton);
         addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
-            updateViewportScale(uiScale);
+            Utils.updateViewportScale(uiScale);
             showConfirmScalePop();
         });
 
@@ -295,6 +306,13 @@ public class PopEditorSettings extends PopTable {
             Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });
 
+        buttonTable.row();
+        subButton = new TextButton("Close", skin);
+        buttonTable.add(subButton).padTop(20);
+        addHandListener(subButton);
+        addTooltip(subButton, "Close the settings dialog.", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(subButton, this::hide);
+
         checkForDuplicateShortcuts();
     }
 
@@ -314,8 +332,8 @@ public class PopEditorSettings extends PopTable {
             Actions.run(() -> {
                 pop.hide();
                 label.remove();
-                uiScale = valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
-                updateViewportScale(uiScale);
+                uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+                Utils.updateViewportScale(uiScale);
                 populate();
             })));
 
@@ -326,6 +344,8 @@ public class PopEditorSettings extends PopTable {
             preferences.flush();
             label.remove();
             pop.hide();
+            SkinLoader.loadSkin();
+            Core.populate(openTable);
         });
 
     }
@@ -411,7 +431,7 @@ public class PopEditorSettings extends PopTable {
 
                     pop.hide();
                     checkForDuplicateShortcuts();
-                    initialize();
+                    initializeSettings();
                     return false;
                 }
 
@@ -422,7 +442,7 @@ public class PopEditorSettings extends PopTable {
 
                 pop.hide();
                 checkForDuplicateShortcuts();
-                initialize();
+                initializeSettings();
                 return false;
             }
         });

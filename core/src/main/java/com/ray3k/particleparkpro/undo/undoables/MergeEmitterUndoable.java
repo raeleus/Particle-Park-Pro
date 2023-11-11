@@ -12,6 +12,9 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to merge a new list of emitters with the existing emitters.
+ */
 @Builder
 public class MergeEmitterUndoable implements Undoable {
     private Array<ParticleEmitter> oldEmitters;

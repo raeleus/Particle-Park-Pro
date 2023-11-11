@@ -8,6 +8,9 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to delete the selected emitter.
+ */
 @AllArgsConstructor
 public class DeleteEmitterUndoable implements Undoable {
     private ParticleEmitter emitter;
@@ -28,7 +31,7 @@ public class DeleteEmitterUndoable implements Undoable {
     public void redo() {
         particleEffect.getEmitters().removeValue(emitter, true);
         activeEmitters.remove(emitter);
-        selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
+        selectedEmitter = activeEmitters.orderedKeys().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
         refreshDisplay();
     }
 
@@ -36,7 +39,7 @@ public class DeleteEmitterUndoable implements Undoable {
     public void start() {
         particleEffect.getEmitters().removeValue(emitter, true);
         activeEmitters.remove(emitter);
-        selectedEmitter = particleEffect.getEmitters().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
+        selectedEmitter = activeEmitters.orderedKeys().get(Math.min(index, activeEmitters.orderedKeys().size - 1));
     }
 
     @Override

@@ -8,41 +8,50 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.badlogic.gdx.utils.*;
-import com.ray3k.particleparkpro.Core;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.TableShowHideListener;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableListStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.editableLabelStyle;
 
+/**
+ * A widget that displays the emitters attached to the loaded particle effect. User may make new emitters or duplicate
+ * existing ones. They can drag the emitters to reorder them or use the buttons to move them up and down. Each emitter
+ * can be deleted by selecting and clicking delete or dragging it off the panel. Options to save the particle effect,
+ * open a particle file, or merge a file with the open one are available as well.
+ */
 public class EffectEmittersPanel extends Panel {
     private DraggableList emittersDraggableList;
     private final int col1Width = 40;
     private final int col1PadLeft = 5;
     private final int defaultHorizontalSpacing = 10;
-    private final Array<TextButton> disableableButtons = new Array<>();
     public static EffectEmittersPanel effectEmittersPanel;
     private static final float DELAYED_UNDO_DELAY = .3f;
     private Action delayedUndoAction;
     private static final float TAP_SQUARE = 5;
     private static final float TAP_WIDTH_RENAMING = 2000;
     private static final float TAP_HEIGHT_RENAMING = 12;
+    private TextButton deleteTextButton;
+    private TextButton upTextButton;
+    private TextButton downTextButton;
 
     public EffectEmittersPanel() {
         effectEmittersPanel = this;
@@ -96,6 +105,7 @@ public class EffectEmittersPanel extends Panel {
 
                 selectedEmitter = emitter;
                 populateEmitters();
+                updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
 
@@ -162,7 +172,7 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-            UndoManager.add(new NewEmitterUndoable(createNewEmitter(), "New Emitter"));
+            UndoManager.add(new NewEmitterUndoable(Utils.createNewEmitter(), "New Emitter"));
 
             populateEmitters();
             updateDisableableWidgets();
@@ -184,11 +194,10 @@ public class EffectEmittersPanel extends Panel {
 
         //Delete
         table.row();
-        var deleteButton = new TextButton("Delete", skin);
-        table.add(deleteButton);
-        disableableButtons.add(deleteButton);
-        addHandListener(deleteButton);
-        onChange(deleteButton, () -> {
+        deleteTextButton = new TextButton("Delete", skin);
+        table.add(deleteTextButton);
+        addHandListener(deleteTextButton);
+        onChange(deleteTextButton, () -> {
             UndoManager.add(new DeleteEmitterUndoable(selectedEmitter, activeEmitters.orderedKeys().indexOf(selectedEmitter, true), "Delete Emitter"));
 
             populateEmitters();
@@ -206,43 +215,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-            var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
-
-            if (saveHandle != null) {
-                Settings.setDefaultSavePath(saveHandle.parent());
-                defaultFileName = saveHandle.name();
-
-                Writer fileWriter = null;
-                try {
-                    fileWriter = new FileWriter(saveHandle.file());
-                    particleEffect.save(fileWriter);
-                } catch (IOException e) {
-                    var error = "Error saving particle file.";
-                    var pop = new PopError(error, e.getMessage());
-                    pop.show(stage);
-
-                    Gdx.app.error(Core.class.getName(), error, e);
-                } finally {
-                    StreamUtils.closeQuietly(fileWriter);
-                }
-
-                for (var fileHandle : fileHandles.values()) {
-                    if (fileHandle.parent().equals(saveHandle.parent())) break;
-                    try {
-                        fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
-                    } catch (GdxRuntimeException e) {
-                        var error = "Error copying files to save location.";
-                        var pop = new PopError(error, e.getMessage());
-                        pop.show(stage);
-
-                        Gdx.app.error(Core.class.getName(), error, e);
-                    }
-                }
-            }
-        });
+        onChange(textButton, Utils::saveParticleEffect);
 
         //Open
         table.row();
@@ -257,7 +230,7 @@ public class EffectEmittersPanel extends Panel {
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
                 Settings.setDefaultSavePath(fileHandle.parent());
-                loadParticle(fileHandle);
+                Utils.loadParticle(fileHandle);
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 populateEmitters();
@@ -288,7 +261,7 @@ public class EffectEmittersPanel extends Panel {
                 var oldSprites = new ObjectMap<>(sprites);
                 var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
 
-                mergeParticle(fileHandle);
+                Utils.mergeParticle(fileHandle);
 
                 UndoManager.add(MergeEmitterUndoable
                     .builder()
@@ -312,39 +285,43 @@ public class EffectEmittersPanel extends Panel {
 
         //Up
         table.row();
-        textButton = new TextButton("Up", skin);
-        table.add(textButton).expandY().bottom();
-        disableableButtons.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
+        upTextButton = new TextButton("Up", skin);
+        table.add(upTextButton).expandY().bottom();
+        addHandListener(upTextButton);
+        onChange(upTextButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
             if (oldIndex <= 0) return;
             UndoManager.add(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex - 1, "Move Up Emitter"));
             populateEmitters();
+
+            updateDisableableWidgets();
         });
 
         //Down
         table.row();
-        textButton = new TextButton("Down", skin);
-        table.add(textButton);
-        disableableButtons.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> {
+        downTextButton = new TextButton("Down", skin);
+        table.add(downTextButton);
+        addHandListener(downTextButton);
+        onChange(downTextButton, () -> {
             var oldIndex = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
             if (oldIndex >= activeEmitters.orderedKeys().size - 1) return;
             UndoManager.add(new MoveEmitterUndoable(selectedEmitter, oldIndex, oldIndex + 1, "Move Down Emitter"));
             populateEmitters();
+
+            updateDisableableWidgets();
         });
 
         updateDisableableWidgets();
     }
 
     public void updateDisableableWidgets() {
-        for (var button : disableableButtons) {
-            button.setDisabled(particleEffect.getEmitters().size <= 1);
-        }
+        var size = activeEmitters.size;
+        var index = activeEmitters.orderedKeys().indexOf(selectedEmitter, true);
+        deleteTextButton.setDisabled(size <= 1);
+        upTextButton.setDisabled(index <= 0);
+        downTextButton.setDisabled(index >= size - 1);
 
-        emittersDraggableList.setAllowRemoval(particleEffect.getEmitters().size > 1);
+        emittersDraggableList.setAllowRemoval(size > 1);
     }
 
     public void populateEmitters() {
@@ -362,6 +339,7 @@ public class EffectEmittersPanel extends Panel {
             stack.add(backgroundImage);
             backgroundImages.add(backgroundImage);
 
+            //Emitter row item
             var table = new Table();
             table.setTouchable(Touchable.enabled);
             stack.add(table);
@@ -369,6 +347,7 @@ public class EffectEmittersPanel extends Panel {
                 for (var bg : backgroundImages) bg.setDrawable(skin, "clear");
                 backgroundImage.setDrawable(skin, "selected-emitter");
                 selectedEmitter = emitter;
+                updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             });
 
@@ -377,6 +356,7 @@ public class EffectEmittersPanel extends Panel {
             container.right();
             table.add(container).width(col1Width).padLeft(col1PadLeft);
 
+            //Enable/Disable
             var button = new Button(skin, "checkbox");
             container.setActor(button);
             addHandListener(button);
@@ -396,7 +376,7 @@ public class EffectEmittersPanel extends Panel {
 
             var dragLabel = new Label(emitter.getName(), skin, "emitter-drag");
             var removeLabel = new Label(emitter.getName(), skin, "emitter-remove");
-            var editableLabel = new EditableLabel(emitter.getName(), Core.editableLabelStyle) {
+            var editableLabel = new EditableLabel(emitter.getName(), editableLabelStyle) {
                 @Override
                 public void unfocused() {
                     emittersDraggableList.getDragAndDrop().setTapSquareSize(TAP_SQUARE);

@@ -7,6 +7,9 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
+/**
+ * A convenience class that provides static methods to open OS native file dialogs.
+ */
 public class FileDialogs {
     public static Array<FileHandle> openMultipleDialog(String title, String defaultPath, String[] filterPatterns, String filterDescription) {
         //fix file path characters

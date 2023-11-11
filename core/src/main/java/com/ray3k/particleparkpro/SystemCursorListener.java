@@ -32,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 /**
- *
+ * A listener that changes the system cursor when the user enters the actor.
  * @author Raymond
  */
 public class SystemCursorListener extends DragListener {

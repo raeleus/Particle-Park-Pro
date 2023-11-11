@@ -16,10 +16,17 @@ import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProp
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.Core.skin;
+import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows modification of an emitter value that only has a min/max. Numeric spinners.
+ */
 public class RangeSubPanel extends Panel {
-    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
+    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -49,14 +56,13 @@ public class RangeSubPanel extends Panel {
 
         //Value single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var valueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var valueSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         valueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(valueSpinner).width(spinnerWidth);
         addIbeamListener(valueSpinner.getTextField());
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
         addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange);
 
         var button = new Button(skin, "moveright");
         highToggleWidget.table1.add(button);
@@ -66,23 +72,21 @@ public class RangeSubPanel extends Panel {
 
         //Value range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var valueMinSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var valueMinSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         valueMinSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(valueMinSpinner).width(spinnerWidth);
         addIbeamListener(valueMinSpinner.getTextField());
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
         addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange);
 
-        var valueMaxSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var valueMaxSpinner = new Spinner(value.getLowMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         valueMaxSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(valueMaxSpinner).width(spinnerWidth);
         addIbeamListener(valueMaxSpinner.getTextField());
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
         addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange);
 
         button = new Button(skin, "moveleft");
         highToggleWidget.table2.add(button);
@@ -90,47 +94,50 @@ public class RangeSubPanel extends Panel {
         addTooltip(button, "Collapse to define a single value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, highToggleWidget::swap);
 
-        onChange(valueSpinner, () -> {
+        var changeListener = onChange(valueSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow(valueSpinner.getValueAsInt());
+            undo.newValue.setLow(valueSpinner.getValue());
             UndoManager.add(undo);
 
-            valueMinSpinner.setValue(valueSpinner.getValueAsInt());
-            valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+            valueMinSpinner.setValue(valueSpinner.getValue());
+            valueMaxSpinner.setValue(valueSpinner.getValue());
         });
+        addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(valueMinSpinner, () -> {
+        changeListener = onChange(valueMinSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMin(valueMinSpinner.getValueAsInt());
+            undo.newValue.setLowMin(valueMinSpinner.getValue());
             UndoManager.add(undo);
 
-            valueSpinner.setValue(valueMinSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMinSpinner.getValue());
         });
+        addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(valueMaxSpinner, () -> {
+        changeListener = onChange(valueMaxSpinner, () -> {
             var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMax(valueMaxSpinner.getValueAsInt());
+            undo.newValue.setLowMax(valueMaxSpinner.getValue());
             UndoManager.add(undo);
 
-            valueSpinner.setValue(valueMaxSpinner.getValueAsInt());
+            valueSpinner.setValue(valueMaxSpinner.getValue());
         });
+        addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         onChange(button, () -> {
             if (highToggleWidget.showingTable1 && !MathUtils.isEqual(value.getLowMin(), value.getLowMax())) {
                 var undo = new RangedNumericValueUndoable(selectedEmitter, value, undoDescription);
                 undo.oldValue.set(value);
                 undo.newValue.set(value);
-                undo.newValue.setLow(valueSpinner.getValueAsInt());
+                undo.newValue.setLow(valueSpinner.getValue());
                 UndoManager.add(undo);
 
-                valueMinSpinner.setValue(valueSpinner.getValueAsInt());
-                valueMaxSpinner.setValue(valueSpinner.getValueAsInt());
+                valueMinSpinner.setValue(valueSpinner.getValue());
+                valueMaxSpinner.setValue(valueSpinner.getValue());
             }
         });
         if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) highToggleWidget.swap();

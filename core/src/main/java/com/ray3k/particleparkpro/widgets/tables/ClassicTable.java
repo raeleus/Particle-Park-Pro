@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
@@ -11,10 +12,15 @@ import com.ray3k.particleparkpro.widgets.panels.PreviewPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.PresetActions.transition;
 import static com.ray3k.particleparkpro.undo.UndoManager.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
+/**
+ * The widget layout for classic mode that mimics the original Particle Editor.
+ */
 public class ClassicTable extends Table {
     public static ClassicTable classicTable;
     private Table undoTable;
@@ -48,18 +54,20 @@ public class ClassicTable extends Table {
         addHandListener(textButton);
         addTooltip(textButton, "Open browser to download page", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro/releases"));
-        checkVersion((String newVersion) -> {
+        Utils.checkVersion((String newVersion) -> {
             if (!versionRaw.equals(newVersion)) textButton.setVisible(true);
         });
 
         var button = new Button(skin, "home");
         table.add(button).expandX().right();
         addHandListener(button);
+        addTooltip(button, "Return to the Home Screen", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> transition(this, new WelcomeTable(), Align.bottom));
 
         button = new Button(skin, "settings");
         table.add(button);
         addHandListener(button);
+        addTooltip(button, "Open the Editor Settings dialog", Align.top, Align.topLeft, tooltipBottomRightArrowStyle, false);
         onChange(button, () -> {
             Gdx.input.setInputProcessor(foregroundStage);
             Gdx.graphics.setSystemCursor(SystemCursor.Arrow);

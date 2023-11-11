@@ -10,6 +10,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the edges value of a spawn shape.
+ */
 @Data
 @AllArgsConstructor
 public class SpawnEdgesUndoable implements Undoable {

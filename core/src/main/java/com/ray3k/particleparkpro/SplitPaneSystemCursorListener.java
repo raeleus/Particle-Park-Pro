@@ -30,7 +30,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 /**
- *
+ * A listener that changes the system cursor when the user enters the actor. The cursor does not change while the user
+ * is dragging on the actor.
  * @author Raymond
  */
 public class SplitPaneSystemCursorListener extends DragListener {
