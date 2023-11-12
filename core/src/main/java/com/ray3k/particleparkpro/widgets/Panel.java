@@ -4,6 +4,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
+/**
+ * A layout widget comprised of three components: tabTable, topTable, and bodyTable. These are used in conjunction by
+ * dependent classes to create a visual effect of a tabbed panel.
+ */
 public class Panel extends Table  {
     public Table tabTable;
     public Table topTable;

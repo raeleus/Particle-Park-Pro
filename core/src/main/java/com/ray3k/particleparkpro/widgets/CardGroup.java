@@ -4,6 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Widget that allows the user to flip through its children, displaying only one at a time.
+ */
 public class CardGroup extends Container<Actor> {
     public final Array<Actor> actors = new Array<>();
     private int shownIndex = -1;
@@ -27,6 +30,10 @@ public class CardGroup extends Container<Actor> {
 
     public int getShownIndex() {
         return shownIndex;
+    }
+
+    public Actor getShownActor() {
+        return actors.get(shownIndex);
     }
 
     public void add(Actor actor) {

@@ -7,6 +7,7 @@ import static com.ray3k.particleparkpro.Core.*;
 
 public class ShortcutUtils {
 
+    private static final int[] EMPTY_KEYBIND = new int[] {0};
     private static final String PREF_ID = "Shortcut";
 
     public static int getPackedKeybind (Shortcut shortcut, int[] defaultKeybind) {
@@ -21,7 +22,7 @@ public class ShortcutUtils {
     }
 
     public static void clearKeybind(KeyMap keyMap, Shortcut s, boolean flush) {
-        if (keyMap == null) return;
+        keyMap.changeKeybind(s, EMPTY_KEYBIND);
         preferences.putInteger(s.getName() + PREF_ID, 0);
         if (flush) preferences.flush();
     }

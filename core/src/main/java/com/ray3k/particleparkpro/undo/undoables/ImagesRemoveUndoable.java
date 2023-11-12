@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.undo.undoables;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.AllArgsConstructor;
 
@@ -10,6 +11,9 @@ import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to remove images from the emitter.
+ */
 @AllArgsConstructor
 public class ImagesRemoveUndoable implements Undoable {
     private ParticleEmitter emitter;
@@ -34,7 +38,7 @@ public class ImagesRemoveUndoable implements Undoable {
         selectedEmitter = emitter;
 
         emitter.getImagePaths().removeValue(path, false);
-        removeUnusedImageFiles();
+        Utils.removeUnusedImageFiles();
         sprites.remove(path);
         emitter.getSprites().removeValue(sprite, true);
         refreshDisplay();
@@ -43,7 +47,7 @@ public class ImagesRemoveUndoable implements Undoable {
     @Override
     public void start() {
         emitter.getImagePaths().removeValue(path, false);
-        removeUnusedImageFiles();
+        Utils.removeUnusedImageFiles();
         sprites.remove(path);
         emitter.getSprites().removeValue(sprite, true);
     }

@@ -1,6 +1,5 @@
 package com.ray3k.particleparkpro.widgets.styles;
 
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.ray3k.stripe.DraggableList.DraggableListStyle;
 
 import static com.ray3k.particleparkpro.Core.skin;

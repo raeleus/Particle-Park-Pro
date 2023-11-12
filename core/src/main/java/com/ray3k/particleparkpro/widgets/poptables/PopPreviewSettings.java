@@ -11,7 +11,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
-import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
 import com.ray3k.stripe.PopTable;
@@ -19,11 +20,16 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.ParticlePreview.*;
 import static com.ray3k.particleparkpro.Settings.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 
+/**
+ * PopTable used to change the settings of the PreviewPanel and ParticlePreview.
+ */
 public class PopPreviewSettings extends PopTable {
     public PopPreviewSettings() {
         super(Core.skin.get(WindowStyle.class));
@@ -68,12 +74,16 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Value:", skin);
         table.add(label).padLeft(tabWidth);
 
-        var pixelsPerMeterSpinner = new Spinner(pixelsPerMeter, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var pixelsPerMeterSpinner = new Spinner(pixelsPerMeter, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         table.add(pixelsPerMeterSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
         addHandListener(pixelsPerMeterSpinner.getButtonMinus());
         addHandListener(pixelsPerMeterSpinner.getButtonPlus());
         addIbeamListener(pixelsPerMeterSpinner.getTextField());
-        onChange(pixelsPerMeterSpinner, () -> pixelsPerMeter = (float) pixelsPerMeterSpinner.getValue());
+        onChange(pixelsPerMeterSpinner, () -> {
+            pixelsPerMeter = Math.max(0, pixelsPerMeterSpinner.getValue());
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable(null);
+        });
 
         scrollTable.row();
         var image = new Image(skin, "divider-10");
@@ -92,12 +102,12 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Value:", skin);
         table.add(label).padLeft(tabWidth);
 
-        var deltaMultiplierSpinner = new Spinner(deltaMultiplier, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var deltaMultiplierSpinner = new Spinner(deltaMultiplier, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         table.add(deltaMultiplierSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
         addHandListener(deltaMultiplierSpinner.getButtonMinus());
         addHandListener(deltaMultiplierSpinner.getButtonPlus());
         addIbeamListener(deltaMultiplierSpinner.getTextField());
-        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = (float) deltaMultiplierSpinner.getValue());
+        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = Math.max(0, deltaMultiplierSpinner.getValue()));
 
         scrollTable.row();
         image = new Image(skin, "divider-10");
@@ -233,43 +243,43 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("X:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
 
-        var xSpinner = new Spinner(previewImageX, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var xSpinner = new Spinner(previewImageX, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         previewSizeTable.add(xSpinner).width(spinnerWidth);
         addHandListener(xSpinner.getButtonMinus());
         addHandListener(xSpinner.getButtonPlus());
         addIbeamListener(xSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
+        onChange(xSpinner, () -> previewImageX = xSpinner.getValue());
 
         label = new Label("Y:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
 
-        var ySpinner = new Spinner(previewImageY, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var ySpinner = new Spinner(previewImageY, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         previewSizeTable.add(ySpinner).width(spinnerWidth);
         addHandListener(ySpinner.getButtonMinus());
         addHandListener(ySpinner.getButtonPlus());
         addIbeamListener(ySpinner.getTextField());
-        onChange(ySpinner, () -> previewImageY = (float) ySpinner.getValue());
+        onChange(ySpinner, () -> previewImageY = ySpinner.getValue());
 
         previewSizeTable.row();
         label = new Label("Width:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
 
-        var widthSpinner = new Spinner(previewImageWidth, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var widthSpinner = new Spinner(previewImageWidth, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         previewSizeTable.add(widthSpinner).width(spinnerWidth);
         addHandListener(widthSpinner.getButtonMinus());
         addHandListener(widthSpinner.getButtonPlus());
         addIbeamListener(widthSpinner.getTextField());
-        onChange(widthSpinner, () -> previewImageWidth = (float) widthSpinner.getValue());
+        onChange(widthSpinner, () -> previewImageWidth = widthSpinner.getValue());
 
         label = new Label("Height:", skin);
         previewSizeTable.add(label).padLeft(tabWidth);
 
-        var heightSpinner = new Spinner(previewImageHeight, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var heightSpinner = new Spinner(previewImageHeight, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         previewSizeTable.add(heightSpinner).width(spinnerWidth);
         addHandListener(heightSpinner.getButtonMinus());
         addHandListener(heightSpinner.getButtonPlus());
         addIbeamListener(heightSpinner.getTextField());
-        onChange(heightSpinner, () -> previewImageHeight = (float) heightSpinner.getValue());
+        onChange(heightSpinner, () -> previewImageHeight = heightSpinner.getValue());
 
         onChange(selectPreviewTextButton, () -> {
             var fileHandle = FileDialogs.openDialog("Open preview image", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
@@ -340,14 +350,14 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Major gridlines:", skin);
         gridTable.add(label).padLeft(tabWidth);
 
-        var majorGridlinesSpinner = new Spinner(gridMajorGridlines, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var majorGridlinesSpinner = new Spinner(gridMajorGridlines, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         gridTable.add(majorGridlinesSpinner).width(spinnerWidth);
         addHandListener(majorGridlinesSpinner.getButtonMinus());
         addHandListener(majorGridlinesSpinner.getButtonPlus());
         addIbeamListener(majorGridlinesSpinner.getTextField());
-        onChange(xSpinner, () -> previewImageX = (float) xSpinner.getValue());
+        onChange(xSpinner, () -> previewImageX = xSpinner.getValue());
         onChange(majorGridlinesSpinner, () -> {
-            float value = (float) majorGridlinesSpinner.getValue();
+            float value = majorGridlinesSpinner.getValue();
             if (value > 0) gridMajorGridlines = value;
         });
 
@@ -355,13 +365,13 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Minor gridlines:", skin);
         gridTable.add(label).padLeft(tabWidth);
 
-        var minorGridlinesSpinner = new Spinner(gridMinorGridlines, 1, false, Orientation.RIGHT_STACK, spinnerStyle);
+        var minorGridlinesSpinner = new Spinner(gridMinorGridlines, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         gridTable.add(minorGridlinesSpinner).width(spinnerWidth);
         addHandListener(minorGridlinesSpinner.getButtonMinus());
         addHandListener(minorGridlinesSpinner.getButtonPlus());
         addIbeamListener(minorGridlinesSpinner.getTextField());
         onChange(minorGridlinesSpinner, () -> {
-            float value = (float) minorGridlinesSpinner.getValue();
+            float value = minorGridlinesSpinner.getValue();
             if (value > 0) gridMinorGridlines = value;
         });
 
@@ -538,7 +548,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> {
             vertShaderFile = null;
-            initShaderProgram();
+            Utils.initShaderProgram();
         });
 
         subtable.row();
@@ -560,7 +570,7 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> {
             fragShaderFile = null;
-            initShaderProgram();
+            Utils.initShaderProgram();
         });
 
         subtable.row();
@@ -575,7 +585,7 @@ public class PopPreviewSettings extends PopTable {
                 Settings.setDefaultSavePath(fileHandle.parent());
 
                 fragShaderFile = fileHandle;
-                initShaderProgram();
+                Utils.initShaderProgram();
             }
         });
 
@@ -583,7 +593,7 @@ public class PopPreviewSettings extends PopTable {
         textButton = new TextButton("Reload", skin);
         subtable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> initShaderProgram());
+        onChange(textButton, () -> Utils.initShaderProgram());
 
 //        //Extra Texture Units
 //        subtable = new Table();

@@ -15,13 +15,18 @@ import com.badlogic.gdx.utils.Array;
 
 import static com.ray3k.particleparkpro.Core.skin;
 
+/**
+ * A widget that allows the user to flip through its children, displaying only one at a time. It transitions between
+ * each widget with a smoother Interpolation horizontally. Buttons to go to the next and previous screens are provided,
+ * as well as radio buttons for every page.
+ */
 public class Carousel extends Table {
     public CardGroup cardGroup;
     public TextButton previousButton;
     public TextButton nextButton;
     public Table buttonTable;
     public ButtonGroup<Button> buttonGroup;
-    private int index;
+    private int shownIndex;
     private float buttonSpacing = 5f;
     public static final Vector2 temp = new Vector2();
     private Interpolation interpolation = Interpolation.smoother;
@@ -49,7 +54,8 @@ public class Carousel extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (transitioning) queuedButtons.add(previousButton);
-                else changeIndex(index - 1);
+                else changeIndex(shownIndex - 1);
+                event.cancel();
             }
         });
 
@@ -66,10 +72,11 @@ public class Carousel extends Table {
                     public void changed(ChangeEvent event, Actor actor) {
                         if (transitioning) queuedButtons.add(button);
                         else changeIndex(newIndex);
+                        event.cancel();
                     }
                 });
             }
-            buttonGroup.getButtons().get(index).setChecked(true);
+            buttonGroup.getButtons().get(shownIndex).setChecked(true);
         }
 
         nextButton = new TextButton("Next", skin, "small");
@@ -78,7 +85,8 @@ public class Carousel extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (transitioning) queuedButtons.add(nextButton);
-                else changeIndex(index + 1);
+                else changeIndex(shownIndex + 1);
+                event.cancel();
             }
         });
     }
@@ -88,20 +96,20 @@ public class Carousel extends Table {
         if (index < 0) index = 0;
         if (index > size) index = size;
 
-        if (this.index == index) {
+        if (this.shownIndex == index) {
             queuedButtons.clear();
             return;
         }
 
-        boolean goLeft = index < this.index;
+        boolean goLeft = index < this.shownIndex;
 
-        var currentActor = cardGroup.actors.get(this.index);
+        var currentActor = cardGroup.actors.get(this.shownIndex);
         var nextActor = cardGroup.actors.get(index);
 
-        this.index = index;
+        this.shownIndex = index;
         setClip(true);
         transitioning = true;
-        buttonGroup.getButtons().get(this.index).setChecked(true);
+        buttonGroup.getButtons().get(this.shownIndex).setChecked(true);
 
         currentActor.addAction(Actions.sequence(Actions.moveBy((goLeft ? 1 : -1) * currentActor.getWidth(), 0, transitionDuration, interpolation)));
 
@@ -111,7 +119,7 @@ public class Carousel extends Table {
         nextActor.setBounds(temp.x + (goLeft ? -1 : 1) * currentActor.getWidth(),  temp.y, currentActor.getWidth(), currentActor.getHeight());
 
         nextActor.addAction(Actions.sequence(Actions.moveTo(temp.x, temp.y, transitionDuration, interpolation), Actions.run(() -> {
-            if (cardGroup.actors.size > 0) cardGroup.showIndex(this.index);
+            if (cardGroup.actors.size > 0) cardGroup.showIndex(this.shownIndex);
             setClip(false);
             transitioning = false;
 
@@ -124,5 +132,15 @@ public class Carousel extends Table {
                 }
             });
         })));
+
+        fire(new ChangeEvent());
+    }
+
+    public int getShownIndex() {
+        return shownIndex;
+    }
+
+    public Actor getShownActor() {
+        return cardGroup.getActor(shownIndex);
     }
 }

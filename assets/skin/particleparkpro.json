@@ -1,25 +1,121 @@
 {
 "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-	"bold": {
+	"boldx1": {
 		"file": "bold.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"font": {
-		"file": "font.fnt",
+	"boldx1_5": {
+		"file": "boldx1_5.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"font-black": {
+	"boldx2": {
+		"file": "boldx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx3": {
+		"file": "boldx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"boldx4": {
+		"file": "boldx4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx1": {
 		"file": "font-black.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"header": {
+	"font-blackx1_5": {
+		"file": "font-blackx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx2": {
+		"file": "font-blackx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx3": {
+		"file": "font-blackx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"font-blackx4": {
+		"file": "font-blackx4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx1": {
+		"file": "font.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx1_5": {
+		"file": "fontx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx2": {
+		"file": "fontx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx3": {
+		"file": "fontx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"fontx4": {
+		"file": "fontx4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx1": {
 		"file": "header.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx1_5": {
+		"file": "headerx1_5.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx2": {
+		"file": "headerx2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx3": {
+		"file": "headerx3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"headerx4": {
+		"file": "headerx4.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -1738,6 +1834,26 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"tooltip-bottom-left-arrow-10": {
+		"region": "tooltip-bottom-left-arrow",
+		"horizontalStretchAreas": [ 11, 30 ],
+		"verticalStretchAreas": [ 7, 18 ],
+		"tiling": false,
+		"minWidth": 34,
+		"minHeight": 22,
+		"rightWidth": 4,
+		"leftWidth": 4,
+		"bottomHeight": 7,
+		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -1782,12 +1898,14 @@
 	"moveup": {
 		"up": "button-moveup-up",
 		"down": "button-moveup-down",
-		"over": "button-moveup-over"
+		"over": "button-moveup-over",
+		"disabled": "button-moveup-disabled"
 	},
 	"movedown": {
 		"up": "button-movedown-up",
 		"down": "button-movedown-down",
-		"over": "button-movedown-over"
+		"over": "button-movedown-over",
+		"disabled": "button-movedown-disabled"
 	},
 	"cancel": {
 		"up": "button-cancel-up",
@@ -1920,6 +2038,19 @@
 		"imageCheckedOver": "radio-checked-over"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+	"default": {
+		"font": "font"
+	},
+	"settings": {
+		"imageUp": "icon-settings-up",
+		"font": "bold",
+		"up": "button-normal-up-10",
+		"down": "button-normal-down-10",
+		"over": "button-normal-over-10",
+		"disabled": "button-normal-disabled-10"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "font"
@@ -1975,6 +2106,14 @@
 		"background": "select-box-list-10"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+	"default-horizontal": {
+		"background": "button-normal-up-10"
+	},
+	"default-vertical": {
+		"background": "button-normal-up-10"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
 	"default": {
 		"hScrollKnob": "scrollbar-10",
@@ -2007,6 +2146,10 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
 	"default-horizontal": {
+		"background": "slider-bg-10",
+		"knob": "slider-knob"
+	},
+	"default-vertical": {
 		"background": "slider-bg-10",
 		"knob": "slider-knob"
 	}
@@ -2107,6 +2250,18 @@
 		"label": "default"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle": {
+	"default": {
+		"background": "slider-bg-10",
+		"knob": "slider-knob"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle": {
+	"default": {
+		"plus": "button-plus-up",
+		"minus": "button-minus-up"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
 		"background": "pop-table-10",
@@ -2144,6 +2299,10 @@
 	"confirm-scale": {
 		"titleFont": "font",
 		"stageBackground": "stage-background"
+	},
+	"tooltip-bottom-left-arrow": {
+		"background": "tooltip-bottom-left-arrow-10",
+		"titleFont": "font"
 	}
 }
 }

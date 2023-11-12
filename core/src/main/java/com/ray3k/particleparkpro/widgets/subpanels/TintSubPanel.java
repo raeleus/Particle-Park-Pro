@@ -14,11 +14,16 @@ import com.ray3k.particleparkpro.widgets.ColorGraph.NodeData;
 import com.ray3k.particleparkpro.widgets.Panel;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.handListener;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.colorGraphStyle;
 
 public class TintSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .5f;
     private Action graphUndoAction;
 
+    /**
+     * A widget that allows modification of the tint value of the currently selected emitter.
+     */
     public TintSubPanel() {
         var value = selectedEmitter.getTint();
         setTouchable(Touchable.enabled);

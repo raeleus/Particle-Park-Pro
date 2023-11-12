@@ -17,16 +17,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import lombok.Getter;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.ShapeDrawerDrawable;
 
-import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.Core.shapeDrawer;
 
+/**
+ * A widget that displays an editable line graph. Nodes can be added and repositioned by clicking the plot area. To
+ * remove a node, the user can double-click a node or drag it off of the plot area.
+ */
 public class LineGraph extends Table {
     private LineGraphStyle style;
     private String text;

@@ -8,10 +8,12 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.ray3k.particleparkpro.shortcuts.ShortcutUtils;
 
-import java.util.Map;
-
 import static com.ray3k.particleparkpro.Core.preferences;
 
+/**
+ * This class organizes the various names used in the app preferences, the setting defaults, and provides methods for
+ * interpreting the settings saved in the file.
+ */
 public class Settings {
     public static final String NAME_MAXIMUM_UNDOS = "Maximum undos";
     public static final String NAME_CHECK_FOR_UPDATES = "Check for updates";
@@ -30,7 +32,7 @@ public class Settings {
     public static final int WIZARD_SCOPE = 2;
     public static final ObjectMap<String, int[]> DEFAULT_KEYBINDS = new ObjectMap<>();
 
-    public static void initialize() {
+    public static void initializeSettings() {
         DEFAULT_KEYBINDS.put("Undo", new int[] {Keys.CONTROL_LEFT, Keys.Z});
         DEFAULT_KEYBINDS.put("Redo", new int[] {Keys.CONTROL_LEFT, Keys.Y});
         DEFAULT_KEYBINDS.put("Save", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S});

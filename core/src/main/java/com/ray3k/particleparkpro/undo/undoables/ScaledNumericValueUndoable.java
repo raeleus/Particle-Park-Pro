@@ -9,6 +9,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to change the value of a scaled numeric value.
+ */
 @AllArgsConstructor
 public class ScaledNumericValueUndoable implements Undoable {
     private ParticleEmitter emitter;

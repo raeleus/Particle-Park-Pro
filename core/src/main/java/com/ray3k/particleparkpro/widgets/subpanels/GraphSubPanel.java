@@ -22,12 +22,18 @@ import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
+/**
+ * A widget that modifies a particle effect property that requires a graph representation. High/low with optional
+ * min/max values per each. Optional fields for relative and independent.
+ */
 public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
-    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange) {
+    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -88,14 +94,13 @@ public class GraphSubPanel extends Panel {
 
         //High single
         highToggleWidget.table1.defaults().space(itemSpacing);
-        var highValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highValueSpinner = new Spinner(value.getHighMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table1.add(highValueSpinner).width(spinnerWidth);
         addIbeamListener(highValueSpinner.getTextField());
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
         addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
@@ -105,23 +110,21 @@ public class GraphSubPanel extends Panel {
 
         //High range
         highToggleWidget.table2.defaults().space(itemSpacing);
-        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMinValueSpinner = new Spinner(value.getHighMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highMinValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMinValueSpinner).width(spinnerWidth);
         addIbeamListener(highMinValueSpinner.getTextField());
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
         addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange);
 
-        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxValueSpinner.setProgrammaticChangeEvents(false);
         highToggleWidget.table2.add(highMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(highMaxValueSpinner.getTextField());
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
         addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);
@@ -141,14 +144,13 @@ public class GraphSubPanel extends Panel {
 
         //Low single
         lowToggleWidget.table1.defaults().space(itemSpacing);
-        var lowValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowValueSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table1.add(lowValueSpinner).width(spinnerWidth);
         addIbeamListener(lowValueSpinner.getTextField());
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
         addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange);
 
         var lowExpandButton = new Button(skin, "moveright");
         lowToggleWidget.table1.add(lowExpandButton);
@@ -158,23 +160,21 @@ public class GraphSubPanel extends Panel {
 
         //Low range
         lowToggleWidget.table2.defaults().space(itemSpacing);
-        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMinValueSpinner = new Spinner(value.getLowMin(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowMinValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMinValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMinValueSpinner.getTextField());
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
         addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange);
 
-        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, true, Orientation.RIGHT_STACK, spinnerStyle);
+        var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
         lowMaxValueSpinner.setProgrammaticChangeEvents(false);
         lowToggleWidget.table2.add(lowMaxValueSpinner).width(spinnerWidth);
         addIbeamListener(lowMaxValueSpinner.getTextField());
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
         addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
-        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange);
 
         var lowCollapseButton = new Button(skin, "moveleft");
         lowToggleWidget.table2.add(lowCollapseButton);
@@ -215,88 +215,94 @@ public class GraphSubPanel extends Panel {
             graph.setNodes(value.getTimeline(), value.getScaling());
         });
 
-        onChange(highValueSpinner, () -> {
+        var changeListener = onChange(highValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHigh(highValueSpinner.getValueAsInt());
+            undo.newValue.setHigh(highValueSpinner.getValue());
             UndoManager.add(undo);
 
-            highMinValueSpinner.setValue(highValueSpinner.getValueAsInt());
-            highMaxValueSpinner.setValue(highValueSpinner.getValueAsInt());
+            highMinValueSpinner.setValue(highValueSpinner.getValue());
+            highMaxValueSpinner.setValue(highValueSpinner.getValue());
         });
+        addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(highMinValueSpinner, () -> {
+        changeListener = onChange(highMinValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHighMin(highMinValueSpinner.getValueAsInt());
+            undo.newValue.setHighMin(highMinValueSpinner.getValue());
             UndoManager.add(undo);
 
-            highValueSpinner.setValue(highMinValueSpinner.getValueAsInt());
+            highValueSpinner.setValue(highMinValueSpinner.getValue());
         });
+        addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(highMaxValueSpinner, () -> {
+        changeListener = onChange(highMaxValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHighMax(highMaxValueSpinner.getValueAsInt());
+            undo.newValue.setHighMax(highMaxValueSpinner.getValue());
             UndoManager.add(undo);
 
-            highValueSpinner.setValue(highMaxValueSpinner.getValueAsInt());
+            highValueSpinner.setValue(highMaxValueSpinner.getValue());
         });
+        addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         onChange(highCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setHigh(highValueSpinner.getValueAsInt());
+            undo.newValue.setHigh(highValueSpinner.getValue());
             UndoManager.add(undo);
 
-            highMinValueSpinner.setValue(highValueSpinner.getValueAsInt());
-            highMaxValueSpinner.setValue(highValueSpinner.getValueAsInt());
+            highMinValueSpinner.setValue(highValueSpinner.getValue());
+            highMaxValueSpinner.setValue(highValueSpinner.getValue());
         });
 
-        onChange(lowValueSpinner, () -> {
+        changeListener = onChange(lowValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow(lowValueSpinner.getValueAsInt());
+            undo.newValue.setLow(lowValueSpinner.getValue());
             UndoManager.add(undo);
 
-            lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
-            lowMaxValueSpinner.setValue(lowValueSpinner.getValueAsInt());
+            lowMinValueSpinner.setValue(lowValueSpinner.getValue());
+            lowMaxValueSpinner.setValue(lowValueSpinner.getValue());
         });
+        addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(lowMinValueSpinner, () -> {
+        changeListener = onChange(lowMinValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMin(lowMinValueSpinner.getValueAsInt());
+            undo.newValue.setLowMin(lowMinValueSpinner.getValue());
             UndoManager.add(undo);
 
-            lowValueSpinner.setValue(lowMinValueSpinner.getValueAsInt());
+            lowValueSpinner.setValue(lowMinValueSpinner.getValue());
         });
+        addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
-        onChange(lowMaxValueSpinner, () -> {
+        changeListener = onChange(lowMaxValueSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLowMax(lowMaxValueSpinner.getValueAsInt());
+            undo.newValue.setLowMax(lowMaxValueSpinner.getValue());
             UndoManager.add(undo);
 
-            lowValueSpinner.setValue(lowMaxValueSpinner.getValueAsInt());
+            lowValueSpinner.setValue(lowMaxValueSpinner.getValue());
         });
+        addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
         onChange(lowCollapseButton, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, value, undoDescription);
             undo.oldValue.set(value);
             undo.newValue.set(value);
-            undo.newValue.setLow(lowValueSpinner.getValueAsInt());
+            undo.newValue.setLow(lowValueSpinner.getValue());
             UndoManager.add(undo);
 
-            lowMinValueSpinner.setValue(lowValueSpinner.getValueAsInt());
-            lowMaxValueSpinner.setValue(lowValueSpinner.getValueAsInt());
+            lowMinValueSpinner.setValue(lowValueSpinner.getValue());
+            lowMaxValueSpinner.setValue(lowValueSpinner.getValue());
         });
 
         onChange(graph, () -> {
@@ -312,7 +318,7 @@ public class GraphSubPanel extends Panel {
             addGraphUpdateAction(value, newTimeline, newScaling, undoDescription);
         });
 
-        onChange(graphExpanded, () -> {
+        changeListener = onChange(graphExpanded, () -> {
             var nodes = graphExpanded.getNodes();
             float[] newTimeline = new float[nodes.size];
             float[] newScaling = new float[nodes.size];

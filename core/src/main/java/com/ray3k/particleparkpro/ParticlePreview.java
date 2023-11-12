@@ -3,15 +3,16 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 import static com.ray3k.particleparkpro.Core.*;
 
+/**
+ * This class renders the particle preview.
+ */
 public class ParticlePreview {
-    public static float pixelsPerMeter;
-    public static float deltaMultiplier;
+    public static float pixelsPerMeter = 1f;
+    public static float deltaMultiplier = 1f;
     public static final Color backgroundColor = new Color(Color.BLACK);
     public static boolean statisticsEnabled;
     public static Texture previewImageTexture;
@@ -79,7 +80,7 @@ public class ParticlePreview {
         }
 
         if (!pause) {
-            particleEffect.update(Gdx.graphics.getDeltaTime());
+            particleEffect.update(Gdx.graphics.getDeltaTime() * deltaMultiplier);
             particleEffect.draw(spriteBatch);
         }
 

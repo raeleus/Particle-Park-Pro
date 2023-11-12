@@ -8,6 +8,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable to rearrange the images in the emitter.
+ */
 @AllArgsConstructor
 public class ImagesMoveUndoable implements Undoable {
     private ParticleEmitter emitter;

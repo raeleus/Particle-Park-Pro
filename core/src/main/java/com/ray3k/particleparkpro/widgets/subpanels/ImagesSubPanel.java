@@ -18,12 +18,21 @@ import com.ray3k.stripe.DraggableTextList;
 import com.ray3k.stripe.DraggableTextList.DraggableTextListListener;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableTextListNoBgStyle;
+import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
+/**
+ * A widget that allows the user to add images to the particle emitter. Default image options are available. Also allows
+ * the user to specify the sprite mode.
+ */
 public class ImagesSubPanel extends Panel {
     private DraggableTextList list;
     private Button removeButton;
+    private Button moveUpButton;
+    private Button moveDownButton;
 
     public ImagesSubPanel() {
         var listWidth = 210;
@@ -58,7 +67,10 @@ public class ImagesSubPanel extends Panel {
             if (selectedFileHandles.size > 0) setDefaultImagePath(selectedFileHandles.first().parent());
 
             UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Images"));
-            if (selectedFileHandles.size > 0) updateList();
+            if (selectedFileHandles.size > 0) {
+                updateList();
+                updateDisabled();
+            }
         });
 
         //Default
@@ -72,6 +84,7 @@ public class ImagesSubPanel extends Panel {
             selectedFileHandles.add(Gdx.files.internal("particle.png"));
             UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Default Image"));
             updateList();
+            updateDisabled();
         });
 
         //Default PMA
@@ -85,6 +98,7 @@ public class ImagesSubPanel extends Panel {
             selectedFileHandles.add(Gdx.files.internal("pre_particle.png"));
             UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Default Image"));
             updateList();
+            updateDisabled();
         });
 
         table = new Table();
@@ -141,11 +155,13 @@ public class ImagesSubPanel extends Panel {
                 removeButton.setDisabled(!list.isAllowRemoval());
 
                 UndoManager.add(new ImagesRemoveUndoable(selectedEmitter, path, fileHandles.get(path), sprites.get(path), "Remove Image"));
+                updateDisabled();
             }
 
             @Override
             public void reordered(String text, int indexBefore, int indexAfter) {
                 UndoManager.add(new ImagesMoveUndoable(selectedEmitter, indexBefore, indexAfter, "Move Image"));
+                updateDisabled();
             }
 
             @Override
@@ -165,10 +181,10 @@ public class ImagesSubPanel extends Panel {
 
         //move up
         table.defaults().space(5);
-        var button = new Button(skin, "moveup");
-        table.add(button);
-        addHandListener(button);
-        onChange(button, () -> {
+        moveUpButton = new Button(skin, "moveup");
+        table.add(moveUpButton);
+        addHandListener(moveUpButton);
+        onChange(moveUpButton, () -> {
             var paths = selectedEmitter.getImagePaths();
             var index = list.getSelectedIndex();
             if (index > 0) {
@@ -177,14 +193,15 @@ public class ImagesSubPanel extends Panel {
                 list.addAllTexts(paths);
                 list.setSelected(index);
             }
+            updateDisabled();
         });
 
         //move down
         table.row();
-        button = new Button(skin, "movedown");
-        table.add(button);
-        addHandListener(button);
-        onChange(button, () -> {
+        moveDownButton = new Button(skin, "movedown");
+        table.add(moveDownButton);
+        addHandListener(moveDownButton);
+        onChange(moveDownButton, () -> {
             var paths = selectedEmitter.getImagePaths();
             var index = list.getSelectedIndex();
             if (index < list.getTexts().size - 1) {
@@ -193,6 +210,7 @@ public class ImagesSubPanel extends Panel {
                 list.addAllTexts(paths);
                 list.setSelected(index);
             }
+            updateDisabled();
         });
 
         //remove
@@ -213,9 +231,11 @@ public class ImagesSubPanel extends Panel {
             list.setSelected(index < list.getTexts().size ? index : list.getTexts().size - 1);
             list.setAllowRemoval(list.getTexts().size > 1);
             removeButton.setDisabled(!list.isAllowRemoval());
+            updateDisabled();
         });
 
         updateList();
+        updateDisabled();
     }
 
     private void updateList() {
@@ -225,6 +245,16 @@ public class ImagesSubPanel extends Panel {
             list.addText(path);
         }
         list.setAllowRemoval(list.getTexts().size > 1);
-        removeButton.setDisabled(!list.isAllowRemoval());
+    }
+
+    private void updateDisabled() {
+        var index = list.getSelectedIndex();
+        var size = list.getTexts().size;
+        var allowRemoval = size > 1;
+
+        list.setAllowRemoval(allowRemoval);
+        removeButton.setDisabled(!allowRemoval);
+        moveUpButton.setDisabled(index == 0 || !allowRemoval);
+        moveDownButton.setDisabled(index == size - 1 || !allowRemoval);
     }
 }

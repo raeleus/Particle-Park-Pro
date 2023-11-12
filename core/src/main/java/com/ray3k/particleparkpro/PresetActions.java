@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.Align;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.ray3k.particleparkpro.Core.*;
 
+/**
+ * A convenience class to organize the Actions used for transitions throughout Particle Park Pro.
+ */
 public class PresetActions {
     private final static Color CLEAR_WHITE = new Color(1, 1, 1, 0);
 

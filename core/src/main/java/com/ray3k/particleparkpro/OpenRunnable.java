@@ -56,7 +56,7 @@ public class OpenRunnable implements Runnable {
     private void loadOnMainThread (FileHandle fileHandle) {
         EffectEmittersPanel effectEmittersPanel = EffectEmittersPanel.effectEmittersPanel;
         EmitterPropertiesPanel emitterPropertiesPanel = EmitterPropertiesPanel.emitterPropertiesPanel;
-        loadParticle(fileHandle);
+        Utils.loadParticle(fileHandle);
         selectedEmitter = particleEffect.getEmitters().first();
 
         effectEmittersPanel.populateEmitters();

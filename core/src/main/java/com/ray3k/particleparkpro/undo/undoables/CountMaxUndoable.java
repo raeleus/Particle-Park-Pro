@@ -8,6 +8,9 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
+/**
+ * Undoable for increasing the maximum particle count for the emitter.
+ */
 @AllArgsConstructor
 public class CountMaxUndoable implements Undoable {
     private ParticleEmitter emitter;

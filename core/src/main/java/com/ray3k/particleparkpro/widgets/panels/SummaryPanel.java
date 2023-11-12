@@ -1,27 +1,21 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StreamUtils;
-import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Listeners.*;
 
+/**
+ * A summary screen used exclusively in wizard mode that displays some emitter statistics and gives the user an option
+ * to save.
+ */
 public class SummaryPanel extends Panel {
     private Table scrollTable;
     public static SummaryPanel summaryPanel;
@@ -49,49 +43,47 @@ public class SummaryPanel extends Panel {
         scrollTable.clearChildren(true);
         scrollTable.defaults().space(10);
 
-        var label = new Label("Save Particle Effect?", skin, "bold");
+        var label = new Label("Congratulations! You have created a particle effect. It looks great!", skin);
         scrollTable.add(label);
+
+        scrollTable.row();
+        var table = new Table();
+        scrollTable.add(table);
+
+        table.defaults().spaceRight(10).uniformX();
+        table.columnDefaults(0).right();
+        table.columnDefaults(1).left();
+        label = new Label("Emitters:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(activeEmitters.size), skin);
+        table.add(label);
+
+        table.row();
+        label = new Label("Images:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(fileHandles.size), skin);
+        table.add(label);
+
+        table.row();
+        label = new Label("Max particle count:", skin, "header");
+        label.setColor(skin.getColor("selection"));
+        table.add(label);
+
+        label = new Label(Integer.toString(maxParticleCount), skin);
+        table.add(label);
+
+        scrollTable.row();
+        label = new Label("Save Particle Effect?", skin, "bold");
+        scrollTable.add(label).padTop(20);
 
         scrollTable.row();
         var textButton = new TextButton("Save", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-            var saveHandle = FileDialogs.saveDialog("Save", getDefaultSavePath(), defaultFileName, filterPatterns, "Particle Files (*.p)");
-
-            if (saveHandle != null) {
-                Settings.setDefaultSavePath(saveHandle.parent());
-                defaultFileName = saveHandle.name();
-
-                Writer fileWriter = null;
-                try {
-                    fileWriter = new FileWriter(saveHandle.file());
-                    particleEffect.save(fileWriter);
-                } catch (IOException e) {
-                    var error = "Error saving particle file.";
-                    var pop = new PopError(error, e.getMessage());
-                    pop.show(stage);
-
-                    Gdx.app.error(Core.class.getName(), error, e);
-                } finally {
-                    StreamUtils.closeQuietly(fileWriter);
-                }
-
-                for (var fileHandle : fileHandles.values()) {
-                    if (fileHandle.parent().equals(saveHandle.parent())) break;
-                    try {
-                        fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
-                    } catch (GdxRuntimeException e) {
-                        var error = "Error copying files to save location.";
-                        var pop = new PopError(error, e.getMessage());
-                        pop.show(stage);
-
-                        Gdx.app.error(Core.class.getName(), error, e);
-                    }
-                }
-            }
-        });
+        onChange(textButton, Utils::saveParticleEffect);
     }
 }
