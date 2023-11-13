@@ -4,10 +4,8 @@ public class Shortcut {
 
     private static final int[] EMTPTY_KEYBIND = new int[0];
 
-    private int primaryKeybindPacked;
-    private int secondaryKeybindPacked;
-    private int[] primaryKeybind;
-    private int[] secondaryKeybind;
+    private int keybindPacked;
+    private int[] keybind;
     private final Runnable runnable;
     private final String name;
     private final String description;
@@ -40,31 +38,22 @@ public class Shortcut {
         return description;
     }
 
-    public Shortcut setPrimaryKeybindPacked (int packed) {
-        primaryKeybindPacked = packed;
+    public Shortcut setKeybindPacked (int packed) {
+        keybindPacked = packed;
         return this;
     }
 
-    public int getPrimaryKeybindPacked() {
-        return primaryKeybindPacked;
+    public int getKeybindPacked () {
+        return keybindPacked;
     }
 
-    public Shortcut setPrimaryKeybind (int[] keybind) {
-        primaryKeybind = keybind;
+    public Shortcut setKeybind (int[] keybind) {
+        this.keybind = keybind;
         return this;
     }
 
-    public int[] getPrimaryKeybind() {
-        return primaryKeybind == null ? EMTPTY_KEYBIND : primaryKeybind;
-    }
-
-    public Shortcut setSecondaryKeybind (int[] keybind) {
-        secondaryKeybind = keybind;
-        return this;
-    }
-
-    public int[] getSecondaryKeybind() {
-        return secondaryKeybind;
+    public int[] getKeybind () {
+        return keybind == null ? EMTPTY_KEYBIND : keybind;
     }
 
 }

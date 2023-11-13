@@ -1,4 +1,4 @@
-package com.ray3k.particleparkpro.shortcuts.runnables;
+package com.ray3k.particleparkpro.runnables;
 
 import com.ray3k.particleparkpro.undo.UndoManager;
 

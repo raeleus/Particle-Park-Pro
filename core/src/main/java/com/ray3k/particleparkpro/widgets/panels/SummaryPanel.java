@@ -84,6 +84,6 @@ public class SummaryPanel extends Panel {
         var textButton = new TextButton("Save", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, Utils::saveParticleEffect);
+        onChange(textButton, saveRunnable);
     }
 }

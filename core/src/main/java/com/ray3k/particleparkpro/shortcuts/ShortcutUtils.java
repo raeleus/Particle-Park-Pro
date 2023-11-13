@@ -1,8 +1,5 @@
 package com.ray3k.particleparkpro.shortcuts;
 
-import com.badlogic.gdx.Input.Keys;
-import com.ray3k.particleparkpro.Core;
-
 import static com.ray3k.particleparkpro.Core.*;
 
 public class ShortcutUtils {
@@ -17,7 +14,7 @@ public class ShortcutUtils {
     public static Shortcut createShortcut (String name, String toolTipDesc, int[] defaultKeybind, int scope, Runnable runnable) {
         Shortcut s = new Shortcut(name, toolTipDesc, runnable);
         s.setScope(scope);
-        s.setPrimaryKeybindPacked(getPackedKeybind(s, defaultKeybind));
+        s.setKeybindPacked(getPackedKeybind(s, defaultKeybind));
         return s;
     }
 
@@ -29,11 +26,17 @@ public class ShortcutUtils {
 
     public static void setKeybind(KeyMap keyMap, Shortcut s, int[] unsortedKeybind, boolean flush) {
         keyMap.changeKeybind(s, unsortedKeybind);
-        preferences.putInteger(s.getName() + PREF_ID, s.getPrimaryKeybindPacked());
+        preferences.putInteger(s.getName() + PREF_ID, s.getKeybindPacked());
         if (flush) preferences.flush();
     }
 
-    public static void setKeybind(String name, int[] unsortedKeybind, boolean flush) {
+    public static void setKeybind(KeyMap keyMap, Shortcut s, int packedKeybind, boolean flush) {
+        keyMap.changeKeybind(s, packedKeybind);
+        preferences.putInteger(s.getName() + PREF_ID, s.getKeybindPacked());
+        if (flush) preferences.flush();
+    }
+
+    public static void setKeybindPreference (String name, int[] unsortedKeybind, boolean flush) {
         preferences.putInteger(name + PREF_ID, ShortcutManager.packKeybindUnsorted(unsortedKeybind)) ;
         if (flush) preferences.flush();
     }

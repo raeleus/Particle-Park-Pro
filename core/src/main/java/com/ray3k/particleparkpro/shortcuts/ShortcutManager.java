@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 public class ShortcutManager extends InputListener {
 
-    public static final Logger LOGGER = new Logger("ShortcutManager");
     public static final int MAX_KEYS = 4;
     private static final int[] TEMP = new int[4];
 

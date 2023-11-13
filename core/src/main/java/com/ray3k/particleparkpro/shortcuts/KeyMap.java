@@ -39,32 +39,39 @@ public class KeyMap {
     }
 
     public void add (Shortcut shortcut) {
-        if (shortcut.getPrimaryKeybind().length > 0) {
-            int packed = ShortcutManager.packKeybindUnsorted(shortcut.getPrimaryKeybind());
-            shortcut.setPrimaryKeybindPacked(packed);
+        if (shortcut.getKeybind().length > 0) {
+            int packed = ShortcutManager.packKeybindUnsorted(shortcut.getKeybind());
+            shortcut.setKeybindPacked(packed);
             activeShortcuts.put(packed, shortcut);
-        } else if (shortcut.getPrimaryKeybindPacked() > 0) {
-            int[] unpacked = ShortcutManager.unpacKeybind(shortcut.getPrimaryKeybindPacked());
+        } else if (shortcut.getKeybindPacked() > 0) {
+            int[] unpacked = ShortcutManager.unpacKeybind(shortcut.getKeybindPacked());
             isValidKeybind(unpacked);
-            shortcut.setPrimaryKeybind(unpacked);
-            activeShortcuts.put(shortcut.getPrimaryKeybindPacked(), shortcut);
+            shortcut.setKeybind(unpacked);
+            activeShortcuts.put(shortcut.getKeybindPacked(), shortcut);
         }
 
         allShortcuts.put(shortcut.getName(), shortcut);
     }
 
     public void removeKeybind (Shortcut shortcut) {
-        activeShortcuts.remove(shortcut.getPrimaryKeybindPacked());
-        shortcut.setPrimaryKeybind(null);
-        shortcut.setPrimaryKeybindPacked(0);
+        activeShortcuts.remove(shortcut.getKeybindPacked());
+        shortcut.setKeybind(null);
+        shortcut.setKeybindPacked(0);
     }
 
     public void changeKeybind (Shortcut shortcut, int[] newKeybind) {
-        activeShortcuts.remove(shortcut.getPrimaryKeybindPacked());
+        activeShortcuts.remove(shortcut.getKeybindPacked());
 
         int packed = ShortcutManager.packKeybindUnsorted(newKeybind);
-        shortcut.setPrimaryKeybind(newKeybind);
-        shortcut.setPrimaryKeybindPacked(packed);
+        shortcut.setKeybind(newKeybind);
+        shortcut.setKeybindPacked(packed);
+        activeShortcuts.put(packed, shortcut);
+    }
+
+    public void changeKeybind (Shortcut shortcut, int packed) {
+        activeShortcuts.remove(shortcut.getKeybindPacked());
+        shortcut.setKeybindPacked(packed);
+        shortcut.setKeybind(ShortcutManager.unpacKeybind(packed));
         activeShortcuts.put(packed, shortcut);
     }
 

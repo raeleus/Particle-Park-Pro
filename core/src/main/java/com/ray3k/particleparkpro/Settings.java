@@ -35,14 +35,14 @@ public class Settings {
     public static void initializeSettings() {
         DEFAULT_KEYBINDS.put("Undo", new int[] {Keys.CONTROL_LEFT, Keys.Z});
         DEFAULT_KEYBINDS.put("Redo", new int[] {Keys.CONTROL_LEFT, Keys.Y});
-        DEFAULT_KEYBINDS.put("Save", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S});
-        DEFAULT_KEYBINDS.put("SaveAs", new int[] {Keys.CONTROL_LEFT, Keys.S});
+        DEFAULT_KEYBINDS.put("SaveAs", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S});
+        DEFAULT_KEYBINDS.put("Save", new int[] {Keys.CONTROL_LEFT, Keys.S});
         DEFAULT_KEYBINDS.put("Open", new int[] {Keys.CONTROL_LEFT, Keys.O});
     }
 
     public static void resetKeybinds(boolean flush) {
         for (Entry<String, int[]> e : DEFAULT_KEYBINDS) {
-            ShortcutUtils.setKeybind(e.key, e.value, flush);
+            ShortcutUtils.setKeybindPreference(e.key, e.value, flush);
         }
     }
 

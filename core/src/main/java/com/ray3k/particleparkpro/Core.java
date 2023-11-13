@@ -20,23 +20,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.particleparkpro.runnables.OpenRunnable;
+import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
+import com.ray3k.particleparkpro.runnables.SaveRunnable;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
-import com.ray3k.particleparkpro.shortcuts.runnables.RedoShortcutRunnable;
-import com.ray3k.particleparkpro.shortcuts.runnables.SaveAsShortcutRunnable;
-import com.ray3k.particleparkpro.shortcuts.runnables.SaveShortcutRunnable;
-import com.ray3k.particleparkpro.shortcuts.runnables.UndoShortcutRunnable;
-import com.ray3k.particleparkpro.widgets.ColorGraph.ColorGraphStyle;
-import com.ray3k.particleparkpro.widgets.EditableLabel.EditableLabelStyle;
-import com.ray3k.particleparkpro.widgets.InfSlider;
-import com.ray3k.particleparkpro.widgets.InfSlider.InfSliderStyle;
-import com.ray3k.particleparkpro.widgets.LineGraph.LineGraphStyle;
+import com.ray3k.particleparkpro.runnables.RedoShortcutRunnable;
+import com.ray3k.particleparkpro.runnables.UndoShortcutRunnable;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
-import com.ray3k.particleparkpro.widgets.poptables.PopError;
-import com.ray3k.particleparkpro.widgets.styles.*;
-import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.widgets.styles.Styles;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -220,7 +212,6 @@ public class Core extends ApplicationAdapter {
         initKeyMap();
         shortcutManager = new ShortcutManager();
         shortcutManager.setKeyMap(keyMap);
-//        stage.addListener(shortcutManager);
 
         updateViewportScale(valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE)));
 

@@ -1,6 +1,5 @@
 package com.ray3k.particleparkpro.widgets.poptables;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
@@ -16,9 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
@@ -33,6 +30,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.StringBuilder;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
@@ -41,22 +39,25 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
 /**
- * PopTable used to change the app settings. These include options for the UndoManager, default screen, checking for
- * updates, UI scale, keyboard shortcuts, and more. Links to related directories in the user folder are provided for
- * convenience.
+ * PopTable used to change the app settings. These include options for the UndoManager, default screen, checking for updates, UI
+ * scale, keyboard shortcuts, and more. Links to related directories in the user folder are provided for convenience.
  */
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
     private boolean displayCommandInsteadOfAlt;
     private UIscale uiScale;
     private Table shortcutTable;
+    private ObjectIntMap<Shortcut> shortcutKeybindResolverLookup;
+    private IntMap<KeybindResolver> keybindResolvers;
 
-    public PopEditorSettings() {
+    public PopEditorSettings () {
         super(skin.get(WindowStyle.class));
+        shortcutKeybindResolverLookup = new ObjectIntMap<>();
+        keybindResolvers = new IntMap<>();
         populate();
     }
 
-    private void populate() {
+    private void populate () {
         textFields.clear();
         clearChildren();
 
@@ -65,12 +66,12 @@ public class PopEditorSettings extends PopTable {
         setKeepCenteredInWindow(true);
         addListener(new TableShowHideListener() {
             @Override
-            public void tableShown(Event event) {
+            public void tableShown (Event event) {
 
             }
 
             @Override
-            public void tableHidden(Event event) {
+            public void tableHidden (Event event) {
                 Gdx.input.setInputProcessor(stage);
             }
         });
@@ -96,7 +97,8 @@ public class PopEditorSettings extends PopTable {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonMinus());
         addHandListener(spinner.getButtonPlus());
-        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top,
+            tooltipBottomArrowStyle);
         onChange(spinner, () -> {
             preferences.putInteger(NAME_MAXIMUM_UNDOS, spinner.getValueAsInt());
             preferences.flush();
@@ -128,7 +130,8 @@ public class PopEditorSettings extends PopTable {
         checkForUpdatesCheckBox.setChecked(preferences.getBoolean(NAME_CHECK_FOR_UPDATES, DEFAULT_CHECK_FOR_UPDATES));
         checkBoxTable.add(checkForUpdatesCheckBox);
         addHandListener(checkForUpdatesCheckBox);
-        addTooltip(checkForUpdatesCheckBox, "Whether or not the app checks to see if there is an update available at startup", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(checkForUpdatesCheckBox, "Whether or not the app checks to see if there is an update available at startup",
+            Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(checkForUpdatesCheckBox, () -> {
             preferences.putBoolean(NAME_CHECK_FOR_UPDATES, checkForUpdatesCheckBox.isChecked());
             preferences.flush();
@@ -136,10 +139,13 @@ public class PopEditorSettings extends PopTable {
 
         checkBoxTable.row();
         var presumeFileExtensionCheckBox = new CheckBox("Presume file extension is .p", skin);
-        presumeFileExtensionCheckBox.setChecked(preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION));
+        presumeFileExtensionCheckBox.setChecked(
+            preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION));
         checkBoxTable.add(presumeFileExtensionCheckBox);
         addHandListener(presumeFileExtensionCheckBox);
-        addTooltip(presumeFileExtensionCheckBox, "Whether or not the app defaults all particle file dialogs to use the \".p\" file extension", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(presumeFileExtensionCheckBox,
+            "Whether or not the app defaults all particle file dialogs to use the \".p\" file extension", Align.top, Align.top,
+            tooltipBottomArrowStyle);
         onChange(presumeFileExtensionCheckBox, () -> {
             preferences.putBoolean(NAME_PRESUME_FILE_EXTENSION, presumeFileExtensionCheckBox.isChecked());
             preferences.flush();
@@ -182,8 +188,8 @@ public class PopEditorSettings extends PopTable {
         // Shortcuts
         row();
 
-         label = new Label("SHORTCUTS", skin, "header");
-         add(label).padBottom(10).padTop(20);
+        label = new Label("SHORTCUTS", skin, "header");
+        add(label).padBottom(10).padTop(20);
         row();
 
         final String prefName = "Display command instead of alt";
@@ -221,7 +227,8 @@ public class PopEditorSettings extends PopTable {
         var subButton = new TextButton("Open Preferences Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top,
+            tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".prefs/"));
@@ -238,7 +245,8 @@ public class PopEditorSettings extends PopTable {
         subButton = new TextButton("Open Log Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top,
+            tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
                 openFileExplorer(Gdx.files.external(".particleparkpro/"));
@@ -274,29 +282,29 @@ public class PopEditorSettings extends PopTable {
         addTooltip(subButton, "Close the settings dialog.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, this::hide);
 
-        checkForDuplicateShortcuts();
+        updateDuplicateKeybindUI();
     }
 
     int confirmTime;
 
-    private void showConfirmScalePop() {
+    private void showConfirmScalePop () {
         var pop = new PopTable(skin.get("confirm-scale", WindowStyle.class));
         pop.setModal(true);
 
-         confirmTime = 5;
+        confirmTime = 5;
 
         var label = new Label("", skin, "confirm-scale");
         label.setAlignment(Align.center);
         pop.add(label).size(200, 100);
-        label.addAction(Actions.sequence(
-            Actions.repeat(confirmTime, Actions.sequence(Actions.run(() -> label.setText("Click to confirm scale.\nResetting in " + (--confirmTime + 1) + "...")), Actions.delay(1f))),
-            Actions.run(() -> {
-                pop.hide();
-                label.remove();
-                uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
-                Utils.updateViewportScale(uiScale);
-                populate();
-            })));
+        label.addAction(Actions.sequence(Actions.repeat(confirmTime, Actions.sequence(
+            Actions.run(() -> label.setText("Click to confirm scale.\nResetting in " + (--confirmTime + 1) + "...")),
+            Actions.delay(1f))), Actions.run(() -> {
+            pop.hide();
+            label.remove();
+            uiScale = Utils.valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE));
+            Utils.updateViewportScale(uiScale);
+            populate();
+        })));
 
         pop.show(foregroundStage);
 
@@ -311,21 +319,21 @@ public class PopEditorSettings extends PopTable {
 
     }
 
-    private void refreshShortcutTable() {
+    private void refreshShortcutTable () {
         shortcutTable.clearChildren();
         for (Shortcut s : keyMap.getAllShortcuts()) {
             createShortcutSettingsOption(s, shortcutTable);
         }
     }
 
-    private void createShortcutSettingsOption(Shortcut shortcut, Table shortcutTable) {
+    private void createShortcutSettingsOption (Shortcut shortcut, Table shortcutTable) {
         shortcutTable.row();
 
         var label = new Label(shortcut.getName() + ":", skin);
         shortcutTable.add(label);
 
         var textField = new TextField("", skin);
-        textField.setText(constructShortcutText(shortcut.getPrimaryKeybind()));
+        textField.setText(constructShortcutText(shortcut.getKeybind()));
         shortcutTable.add(textField);
         textFields.add(textField);
         addIbeamListener(textField);
@@ -339,13 +347,11 @@ public class PopEditorSettings extends PopTable {
         shortcutTable.add(clearButton);
         addHandListener(clearButton);
         onTouchDown(clearButton, () -> {
-            textField.setText("");
-            ShortcutUtils.clearKeybind(keyMap, shortcut, true);
-            checkForDuplicateShortcuts();
+            clearKeybind(textField, shortcut);
         });
     }
 
-    public static void openFileExplorer(FileHandle startDirectory) throws IOException {
+    public static void openFileExplorer (FileHandle startDirectory) throws IOException {
         if (startDirectory.exists()) {
             File file = startDirectory.file();
             Desktop desktop = Desktop.getDesktop();
@@ -355,13 +361,15 @@ public class PopEditorSettings extends PopTable {
         }
     }
 
-    private static String constructShortcutText(int[] modifiers, int shortcut) {
-        if (shortcut == Keys.ANY_KEY) return "";
+    private static String constructShortcutText (int[] modifiers, int shortcut) {
+        if (shortcut == Keys.ANY_KEY)
+            return "";
 
         var stringBuilder = new StringBuilder();
         for (var modifier : modifiers) {
             var text = Keys.toString(modifier);
-            if (text.startsWith("L-")) text = text.substring(2);
+            if (text.startsWith("L-"))
+                text = text.substring(2);
             stringBuilder.append(text);
             stringBuilder.append("+");
         }
@@ -369,25 +377,28 @@ public class PopEditorSettings extends PopTable {
         return stringBuilder.toString();
     }
 
-    private String constructShortcutText(int[] keybind) {
-       var stringBuilder = new StringBuilder();
-       for (int i = 0; i < keybind.length; i++) {
-            int keycode = keybind[i] ;
+    private String constructShortcutText (int[] keybind) {
+        var stringBuilder = new StringBuilder();
+        for (int i = 0; i < keybind.length; i++) {
+            int keycode = keybind[i];
 
-            if (keycode <= 0) continue;
+            if (keycode <= 0)
+                continue;
 
-           var text = Keys.toString(keybind[i]);
-           if (text.startsWith("L-")) text = text.substring(2);
-           if (text.equals("Alt") && displayCommandInsteadOfAlt) {
-              text = "Cmd";
-           }
+            var text = Keys.toString(keybind[i]);
+            if (text.startsWith("L-"))
+                text = text.substring(2);
+            if (text.equals("Alt") && displayCommandInsteadOfAlt) {
+                text = "Cmd";
+            }
             stringBuilder.append(text);
-            if (i < keybind.length - 1) stringBuilder.append(" + ");
-       }
-       return stringBuilder.toString();
+            if (i < keybind.length - 1)
+                stringBuilder.append(" + ");
+        }
+        return stringBuilder.toString();
     }
 
-    public void resetSettingsToDefaults() {
+    public void resetSettingsToDefaults () {
         resetKeybinds(false);
         keyMap.changeAllKeybinds(DEFAULT_KEYBINDS);
         preferences.putInteger(NAME_MAXIMUM_UNDOS, DEFAULT_MAXIMUM_UNDOS);
@@ -398,15 +409,17 @@ public class PopEditorSettings extends PopTable {
         populate();
     }
 
-    private void setShortcutTextFieldText(TextField textField, String modifiersKey, String shortcutKey, int[] defaultModifiers, int defaultShortcut) {
+    private void setShortcutTextFieldText (TextField textField, String modifiersKey, String shortcutKey, int[] defaultModifiers,
+        int defaultShortcut) {
         if (preferences.contains(modifiersKey) && preferences.contains(shortcutKey)) {
-            textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)), preferences.getInteger(shortcutKey)));
+            textField.setText(constructShortcutText(readModifierText(preferences.getString(modifiersKey)),
+                preferences.getInteger(shortcutKey)));
         } else {
             textField.setText(constructShortcutText(defaultModifiers, defaultShortcut));
         }
     }
 
-    private void showKeyBindPop(TextField textField, Shortcut shortcut, Stage stage) {
+    private void showKeyBindPop (TextField textField, Shortcut shortcut, Stage stage) {
         var pop = new PopTable(skin.get("key-bind", WindowStyle.class));
         pop.setHideOnUnfocus(true);
 
@@ -415,24 +428,30 @@ public class PopEditorSettings extends PopTable {
         pop.add(label);
         label.addListener(new InputListener() {
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT) return false;
-                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) return false;
-                if (keycode == Keys.ALT_LEFT || keycode == Keys.ALT_RIGHT) return false;
-                if (keycode == Keys.SYM) return false;
+            public boolean keyDown (InputEvent event, int keycode) {
+                if (keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT)
+                    return false;
+                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT)
+                    return false;
+                if (keycode == Keys.ALT_LEFT || keycode == Keys.ALT_RIGHT)
+                    return false;
+                if (keycode == Keys.SYM)
+                    return false;
 
                 var intArray = new IntArray();
-                if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT)) intArray.add(Keys.CONTROL_LEFT);
-                if (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) intArray.add(Keys.ALT_LEFT);
-                if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) intArray.add(Keys.SHIFT_LEFT);
-                if (Gdx.input.isKeyPressed(Keys.SYM)) intArray.add(Keys.SYM);
+                if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT))
+                    intArray.add(Keys.CONTROL_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT))
+                    intArray.add(Keys.ALT_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT))
+                    intArray.add(Keys.SHIFT_LEFT);
+                if (Gdx.input.isKeyPressed(Keys.SYM))
+                    intArray.add(Keys.SYM);
 
                 boolean clearShortcut = keycode == Keys.ESCAPE;
 
                 if (clearShortcut) {
-                    textField.setText("");
-                    ShortcutUtils.clearKeybind(keyMap, shortcut, true);
-                    checkForDuplicateShortcuts();
+                    clearKeybind(textField, shortcut);
                 } else {
                     intArray.add(keycode);
                     int[] keybind = ShortcutManager.sortKeybind(intArray.toArray());
@@ -440,15 +459,28 @@ public class PopEditorSettings extends PopTable {
                     textField.setText(constructShortcutText(keybind));
 
                     if (keyMap.hasKeybind(packed)) {
-                        checkForDuplicateShortcuts();
+                        shortcutKeybindResolverLookup.remove(shortcut, -1);
+
+                        KeybindResolver r = keybindResolvers.get(packed);
+
+                        if (r == null) {
+                            r = new KeybindResolver(packed);
+                            keybindResolvers.put(packed, r);
+                            shortcutKeybindResolverLookup.put(keyMap.getShortcut(packed), packed);
+                            r.addConflict(keyMap.getShortcut(packed));
+                        }
+
+                        shortcutKeybindResolverLookup.put(shortcut, packed);
+                        r.addConflict(shortcut);
+
+                        updateDuplicateKeybindUI();
                     } else {
                         ShortcutUtils.setKeybind(keyMap, shortcut, keybind, true);
                     }
                 }
 
                 pop.hide();
-                checkForDuplicateShortcuts();
-                initializeSettings();
+                updateDuplicateKeybindUI();
                 return false;
             }
         });
@@ -457,7 +489,7 @@ public class PopEditorSettings extends PopTable {
         stage.setKeyboardFocus(label);
     }
 
-    private void checkForDuplicateShortcuts() {
+    private void updateDuplicateKeybindUI () {
         var texts = new Array<String>();
         for (int i = 0; i < textFields.size; i++) {
             var textField = textFields.get(i);
@@ -472,6 +504,45 @@ public class PopEditorSettings extends PopTable {
             }
 
             texts.add(text);
+        }
+    }
+
+    private void clearKeybind (TextField textField, Shortcut shortcut) {
+        textField.setText("");
+        ShortcutUtils.clearKeybind(keyMap, shortcut, true);
+
+        if (shortcutKeybindResolverLookup.containsKey(shortcut)) {
+            KeybindResolver r = keybindResolvers.get(shortcutKeybindResolverLookup.get(shortcut, -1));
+            if (r.removeConflict(shortcut)) {
+                keybindResolvers.remove(shortcut.getKeybindPacked());
+            }
+            shortcutKeybindResolverLookup.remove(shortcut, -1);
+        }
+        updateDuplicateKeybindUI();
+    }
+
+    private class KeybindResolver {
+
+        private final int packedConflictKeybind;
+        private Array<Shortcut> conflictShortcuts;
+
+        KeybindResolver (int keybind) {
+            packedConflictKeybind = keybind;
+            conflictShortcuts = new Array<>();
+        }
+
+        void addConflict (Shortcut s) {
+            conflictShortcuts.add(s);
+        }
+
+        boolean removeConflict (Shortcut s) {
+            conflictShortcuts.removeValue(s, false);
+
+            if (conflictShortcuts.size == 1) {
+                ShortcutUtils.setKeybind(keyMap, conflictShortcuts.peek(), packedConflictKeybind, true);
+                return true;
+            }
+            return false;
         }
     }
 }
