@@ -252,6 +252,7 @@ public class ColorGraph extends Table {
                             cp.addListener(new PopColorPickerListener() {
                                 @Override
                                 public void picked(Color color) {
+                                    color.a = 1;
                                     nodeData.color.set(color);
                                     updateColors();
                                     fire(new ChangeEvent());
@@ -260,6 +261,7 @@ public class ColorGraph extends Table {
 
                                 @Override
                                 public void updated(Color color) {
+                                    color.a = 1;
                                     nodeData.color.set(color);
                                     updateColors();
                                     fire(new ChangeEvent());
