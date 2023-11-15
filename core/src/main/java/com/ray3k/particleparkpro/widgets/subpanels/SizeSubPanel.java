@@ -81,7 +81,7 @@ public class SizeSubPanel extends Panel {
         relativeCheckBox.setChecked(xValue.isRelative());
         splitToggleWidget.table1.add(relativeCheckBox).left();
         addHandListener(relativeCheckBox);
-        addTooltip(relativeCheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeCheckBox, "If true, the high value is added to the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeCheckBox, () -> UndoManager.add(new DualScaledNumericValueRelativeUndoable(selectedEmitter, xValue, yValue, relativeCheckBox.isChecked(), "change Size Relative")));
 
         //High
@@ -229,7 +229,7 @@ public class SizeSubPanel extends Panel {
         relativeXcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeXcheckBox).left();
         addHandListener(relativeXcheckBox);
-        addTooltip(relativeXcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeXcheckBox, "If true, the high value is added to the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeXcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, xValue, relativeXcheckBox.isChecked(), "change X Size Relative")));
 
         //High
@@ -360,7 +360,7 @@ public class SizeSubPanel extends Panel {
         relativeYcheckBox.setProgrammaticChangeEvents(false);
         splitToggleWidget.table2.add(relativeYcheckBox).left();
         addHandListener(relativeYcheckBox);
-        addTooltip(relativeYcheckBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(relativeYcheckBox, "If true, the high value is added to the low value", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(relativeYcheckBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, yValue, relativeYcheckBox.isChecked(), "change Y Size Relative")));
 
         //High

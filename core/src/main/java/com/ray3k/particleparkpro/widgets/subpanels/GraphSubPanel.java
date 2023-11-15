@@ -65,7 +65,7 @@ public class GraphSubPanel extends Panel {
             checkBox.setChecked(value.isRelative());
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
-            addTooltip(checkBox, "If true, the value is in addition to the emitter's value", Align.top, Align.top, tooltipBottomArrowStyle);
+            addTooltip(checkBox, "If true, the high value is added to the low value", Align.top, Align.top, tooltipBottomArrowStyle);
             onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Relative")));
         }
 
