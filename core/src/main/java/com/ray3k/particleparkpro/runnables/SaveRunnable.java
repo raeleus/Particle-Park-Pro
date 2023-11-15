@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Settings.*;
 
 public class SaveRunnable implements Runnable {
 
@@ -24,8 +25,17 @@ public class SaveRunnable implements Runnable {
     @Override
     public void run () {
         if (openFileFileHandle != null) {
+            if (preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION) && !openFileFileHandle.extension().equals("p"))
+                openFileFileHandle = openFileFileHandle.sibling(openFileFileHandle.name() + ".p");
+
             Settings.setDefaultSavePath(openFileFileHandle.parent());
             defaultFileName = openFileFileHandle.name();
+
+            //enable all emitters for export
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                particleEffect.getEmitters().add(entry.key);
+            }
 
             Writer fileWriter = null;
             try {
@@ -54,6 +64,13 @@ public class SaveRunnable implements Runnable {
                     Gdx.app.error(Core.class.getName(), error, e);
                 }
             }
+
+            //reset enabled/disabled emitters
+            particleEffect.getEmitters().clear();
+            for (var entry : activeEmitters.entries()) {
+                if (entry.value) particleEffect.getEmitters().add(entry.key);
+            }
+
         } else {
             saveAsRunnable.run();
         }

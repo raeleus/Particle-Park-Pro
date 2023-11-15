@@ -42,36 +42,7 @@ public class SaveAsRunnable implements Runnable {
 
             if (saveHandle != null) {
                 openFileFileHandle = saveHandle;
-                Settings.setDefaultSavePath(saveHandle.parent());
-                defaultFileName = saveHandle.name();
-
-                Writer fileWriter = null;
-                try {
-                    fileWriter = new FileWriter(saveHandle.file());
-                    particleEffect.save(fileWriter);
-                } catch (IOException e) {
-                    var error = "Error saving particle file.";
-                    var pop = new PopError(error, e.getMessage());
-                    pop.show(stage);
-
-                    Gdx.app.error(Core.class.getName(), error, e);
-                } finally {
-                    StreamUtils.closeQuietly(fileWriter);
-                }
-
-                for (var fileHandle : fileHandles.values()) {
-                    if (fileHandle.parent().equals(saveHandle.parent()))
-                        break;
-                    try {
-                        fileHandle.copyTo(saveHandle.parent().child(fileHandle.name()));
-                    } catch (GdxRuntimeException e) {
-                        var error = "Error copying files to save location.";
-                        var pop = new PopError(error, e.getMessage());
-                        pop.show(stage);
-
-                        Gdx.app.error(Core.class.getName(), error, e);
-                    }
-                }
+                saveRunnable.run();
             }
 
             stage.getRoot().setTouchable(Touchable.enabled);
