@@ -194,6 +194,67 @@ public class PopPreviewSettings extends PopTable {
         });
 
         scrollTable.row();
+        table = new Table();
+        scrollTable.add(table).left().padLeft(tabWidth).space(itemSpacing);
+
+        table.defaults().space(itemSpacing);
+        label = new Label("Label color:", skin);
+        table.add(label);
+
+        stack = new Stack();
+        table.add(stack);
+
+        image = new Image(skin, "swatch-bg");
+        image.setScaling(Scaling.none);
+        stack.add(image);
+
+        var statisticsColorImage = new Image(skin, "swatch-fill");
+        statisticsColorImage.setColor(statisticsColor);
+        statisticsColorImage.setScaling(Scaling.none);
+        stack.add(statisticsColorImage);
+        addHandListener(stack);
+        onClick(statisticsColorImage, () -> {
+            var cp = new PopColorPicker(statisticsColor, popColorPickerStyle);
+            cp.setHideOnUnfocus(true);
+            cp.setButtonListener(handListener);
+            cp.setTextFieldListener(ibeamListener);
+            cp.addListener(new TableShowHideListener() {
+                @Override
+                public void tableShown(Event event) {
+                    setHideOnUnfocus(false);
+                }
+
+                @Override
+                public void tableHidden(Event event) {
+                    setHideOnUnfocus(true);
+                }
+            });
+            cp.addListener(new PopColorPickerListener() {
+                @Override
+                public void picked(Color color) {
+                    statisticsColorImage.setColor(color);
+                    statisticsColor.set(color);
+                    statsLabel.setColor(color);
+                }
+
+                @Override
+                public void updated(Color color) {
+                    statisticsColorImage.setColor(color);
+                    statisticsColor.set(color);
+                    statsLabel.setColor(color);
+                }
+
+                @Override
+                public void cancelled(Color oldColor) {
+                    statisticsColorImage.setColor(oldColor);
+                    statisticsColor.set(oldColor);
+                    statsLabel.setColor(oldColor);
+                }
+            });
+            cp.show(foregroundStage);
+        });
+
+        scrollTable.row();
         image = new Image(skin, "divider-10");
         image.setScaling(Scaling.stretchX);
         scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);

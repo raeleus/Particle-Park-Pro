@@ -27,6 +27,7 @@ public class ParticlePreview {
     public static float gridMajorGridlines = 100;
     public static float gridMinorGridlines = 25;
     public static final Color gridColor = new Color(Color.LIGHT_GRAY);
+    public static final Color statisticsColor = new Color(Color.WHITE);
     private static final Vector2 temp = new Vector2();
     public static boolean pause;
 

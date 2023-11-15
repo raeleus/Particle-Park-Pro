@@ -1,5 +1,6 @@
 # Changelog
 ### Version 0.0.4
+* The color of the statistics label can be changed
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time
