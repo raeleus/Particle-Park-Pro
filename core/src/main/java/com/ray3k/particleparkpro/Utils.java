@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.File;
@@ -301,6 +302,11 @@ public class Utils {
         var height = MathUtils.floor(displayMode.height * percentageOfScreenHeight);
         var width = MathUtils.floor(widthRatio * height);
         sizeWindowToFit(Math.min(width, displayMode.width), Math.min(height, displayMode.height), 0);
+    }
+
+    public static boolean isWindowFocused() {
+        var window = ((Lwjgl3Graphics)Gdx.graphics).getWindow();
+        return GLFW.glfwGetWindowAttrib(window.getWindowHandle(), GLFW.GLFW_FOCUSED) == GLFW.GLFW_TRUE;
     }
 
     public static void saveParticleEffect() {

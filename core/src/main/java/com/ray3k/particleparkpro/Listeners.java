@@ -166,8 +166,9 @@ public class Listeners {
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                var pressingButtons = Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.RIGHT) || Gdx.input.isButtonPressed(Buttons.MIDDLE);
-                if (pointer == -1 && !pressingButtons && popTable.isHidden() && !dismissed) {
+                if (!Utils.isWindowFocused()) return;
+                if (Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.RIGHT) || Gdx.input.isButtonPressed(Buttons.MIDDLE)) return;
+                if (pointer == -1 && popTable.isHidden() && !dismissed) {
                     if (fromActor == null || !event.getListenerActor().isAscendantOf(fromActor)) {
                         if (showTableAction == null) {
                             showTableAction = Actions.delay(.5f,

@@ -183,7 +183,6 @@ public class DefaultLwjgl3Input extends AbstractInput implements Lwjgl3Input {
     private int logicalMouseX;
 
     public void processMousePosition() {
-        if (GLFW.glfwGetWindowAttrib(window.getWindowHandle(), GLFW.GLFW_FOCUSED) == GLFW.GLFW_FALSE) return;
         Lwjgl3Window window = ((Lwjgl3Graphics) Gdx.graphics).getWindow();
 
         DoubleBuffer curX = org.lwjgl.BufferUtils.createDoubleBuffer(1);
