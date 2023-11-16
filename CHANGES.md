@@ -1,5 +1,6 @@
 # Changelog
 ### Version 0.0.4
+* Added option to load pre-built templates
 * The color of the statistics label can be changed
 * Right-clicking the preview now hides the cursor
 * Minor bugfixes and code cleanup

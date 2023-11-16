@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -20,6 +21,7 @@ import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.poptables.PopTemplate;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
@@ -281,6 +283,30 @@ public class EffectEmittersPanel extends Panel {
                 updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
+        });
+
+        //Template
+        table.row();
+        var templateTextButton = new TextButton("Template", skin);
+        table.add(templateTextButton);
+        addHandListener(templateTextButton);
+        onChange(templateTextButton, () -> {
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+            var pop = new PopTemplate();
+            pop.attachToActor(templateTextButton, Align.topRight, Align.bottomRight);
+            pop.show(foregroundStage);
+            pop.addListener(new PopTable.TableShowHideListener() {
+                @Override
+                public void tableShown(Event event) {
+
+                }
+
+                @Override
+                public void tableHidden(Event event) {
+                    //hide emitter options pop if necessary
+                    if (table instanceof PopTable) ((PopTable) table).hide();
+                }
+            });
         });
 
         //Up
