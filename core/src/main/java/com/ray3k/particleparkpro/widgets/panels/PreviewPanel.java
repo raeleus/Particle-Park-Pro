@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -118,6 +119,7 @@ public class PreviewPanel extends Panel {
                         }
                         emitter.reset();
                     }
+                    Gdx.graphics.setSystemCursor(SystemCursor.None);
                 }
 
                 return super.touchDown(event, x, y, pointer, button);
@@ -131,6 +133,8 @@ public class PreviewPanel extends Panel {
                     emitter.setContinuous(false);
                 }
                 resetEmitters.clear();
+
+                if (button == Buttons.RIGHT) Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
             }
 
             @Override
