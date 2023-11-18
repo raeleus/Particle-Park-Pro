@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.Array;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
@@ -13,7 +14,7 @@ import org.lwjgl.util.tinyfd.TinyFileDialogs;
 public class FileDialogs {
     public static Array<FileHandle> openMultipleDialog(String title, String defaultPath, String[] filterPatterns, String filterDescription) {
         //fix file path characters
-        if (isWindows()) {
+        if (UIUtils.isWindows) {
             defaultPath = defaultPath.replace("/", "\\");
             if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
@@ -48,7 +49,7 @@ public class FileDialogs {
 
     public static FileHandle openDialog(String title, String defaultPath, String[] filterPatterns, String filterDescription) {
         //fix file path characters
-        if (isWindows()) {
+        if (UIUtils.isWindows) {
             defaultPath = defaultPath.replace("/", "\\");
             if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
@@ -77,7 +78,7 @@ public class FileDialogs {
 
     public static FileHandle saveDialog(String title, String defaultPath, String defaultName, String[] filterPatterns, String filterDescription) {
         //fix file path characters
-        if (isWindows()) {
+        if (UIUtils.isWindows) {
             defaultPath = defaultPath.replace("/", "\\");
             if (!defaultPath.endsWith("\\")) defaultPath += "\\";
         } else {
@@ -102,29 +103,5 @@ public class FileDialogs {
         if (response == null) return null;
 
         return Gdx.files.absolute(response);
-    }
-
-    public static String os;
-
-    public static boolean isWindows() {
-        if (os == null) {
-            os = System.getProperty("os.name");
-        }
-
-        return os.startsWith("Windows");
-    }
-
-    public static boolean isLinux() {
-        if (os == null) {
-            os = System.getProperty("os.name");
-        }
-        return os.startsWith("Linux");
-    }
-
-    public static boolean isMac() {
-        if (os == null) {
-            os = System.getProperty("os.name");
-        }
-        return os.startsWith("Mac");
     }
 }
