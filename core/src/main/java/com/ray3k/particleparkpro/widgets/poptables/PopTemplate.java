@@ -2,7 +2,6 @@ package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -11,16 +10,13 @@ import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.stripe.PopTable;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProperty.*;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
-import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipRightArrowStyle;
 
 /**
  * PopTable used to open a template file.

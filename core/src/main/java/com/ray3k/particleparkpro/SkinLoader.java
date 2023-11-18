@@ -3,11 +3,11 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ray3k.particleparkpro.widgets.styles.Styles;
 
-import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.Core.preferences;
+import static com.ray3k.particleparkpro.Core.skin;
 import static com.ray3k.particleparkpro.Settings.DEFAULT_SCALE;
 import static com.ray3k.particleparkpro.Settings.NAME_SCALE;
 

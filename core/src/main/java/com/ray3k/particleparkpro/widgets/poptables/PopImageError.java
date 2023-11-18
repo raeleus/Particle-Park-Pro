@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
-import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Listeners;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.stripe.PopTable;
