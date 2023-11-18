@@ -3,6 +3,7 @@
 * Added option to load pre-built templates
 * The color of the statistics label can be changed
 * Right-clicking the preview now hides the cursor
+* Opening a particle effect file that doesn't have the locally saved particle images asks you to locate them in a new dialog
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time

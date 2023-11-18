@@ -54,6 +54,7 @@ public class EffectEmittersPanel extends Panel {
     private TextButton deleteTextButton;
     private TextButton upTextButton;
     private TextButton downTextButton;
+    private PopTable popEmitterControls;
 
     public EffectEmittersPanel() {
         effectEmittersPanel = this;
@@ -148,12 +149,12 @@ public class EffectEmittersPanel extends Panel {
     }
 
     private void showPopEmitterControls(Actor attachToActor) {
-        var pop = new PopTable(skin.get("side-pop", WindowStyle.class));
-        pop.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
-        pop.setHideOnUnfocus(true);
-        addEmitterButtons(pop);
+        popEmitterControls = new PopTable(skin.get("side-pop", WindowStyle.class));
+        popEmitterControls.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
+        popEmitterControls.setHideOnUnfocus(true);
+        addEmitterButtons(popEmitterControls);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
-        pop.addListener(new TableShowHideListener() {
+        popEmitterControls.addListener(new TableShowHideListener() {
             @Override
             public void tableShown(Event event) {
                 Gdx.input.setInputProcessor(foregroundStage);
@@ -164,7 +165,14 @@ public class EffectEmittersPanel extends Panel {
                 Gdx.input.setInputProcessor(stage);
             }
         });
-        pop.show(foregroundStage);
+        popEmitterControls.show(foregroundStage);
+    }
+
+    private void hidePopEmitterControls() {
+        if (popEmitterControls == null) return;
+
+        popEmitterControls.hide();
+        popEmitterControls = null;
     }
 
     private void addEmitterButtons(Table table) {
@@ -179,6 +187,7 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
             updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
+            hidePopEmitterControls();
         });
 
         //Duplicate
@@ -192,6 +201,7 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
             updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
+            hidePopEmitterControls();
         });
 
         //Delete
@@ -217,7 +227,10 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, Utils::saveParticleEffect);
+        onChange(textButton, () -> {
+            Utils.saveParticleEffect();
+            hidePopEmitterControls();
+        });
 
         //Open
         table.row();
@@ -232,7 +245,10 @@ public class EffectEmittersPanel extends Panel {
             if (fileHandle != null) {
                 defaultFileName = fileHandle.name();
                 Settings.setDefaultSavePath(fileHandle.parent());
-                Utils.loadParticle(fileHandle);
+                var completed = Utils.loadParticle(fileHandle);
+
+                if (!completed) return;
+
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 populateEmitters();
@@ -241,6 +257,7 @@ public class EffectEmittersPanel extends Panel {
 
                 UndoManager.clear();
             }
+            hidePopEmitterControls();
         });
 
         //Merge
@@ -263,7 +280,8 @@ public class EffectEmittersPanel extends Panel {
                 var oldSprites = new ObjectMap<>(sprites);
                 var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
 
-                Utils.mergeParticle(fileHandle);
+                var completed = Utils.mergeParticle(fileHandle);
+                if (!completed) return;
 
                 UndoManager.add(MergeEmitterUndoable
                     .builder()
@@ -283,6 +301,7 @@ public class EffectEmittersPanel extends Panel {
                 updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
+            hidePopEmitterControls();
         });
 
         //Template
@@ -307,6 +326,7 @@ public class EffectEmittersPanel extends Panel {
                     if (table instanceof PopTable) ((PopTable) table).hide();
                 }
             });
+            hidePopEmitterControls();
         });
 
         //Up
