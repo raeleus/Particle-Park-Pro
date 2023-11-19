@@ -262,6 +262,8 @@ public class Spinner extends Table implements Disableable {
         textField.addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if (focused) textField.selectAll();
+
                 Spinner parent = (Spinner) textField.getParent();
                 if (parent.value.floatValue() < parent.minimum) {
                     parent.value = BigDecimal.valueOf(parent.minimum);
