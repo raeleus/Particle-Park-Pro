@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Settings;
+import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.*;
 
 public class SaveRunnable implements Runnable {
 
@@ -71,6 +73,7 @@ public class SaveRunnable implements Runnable {
                 if (entry.value) particleEffect.getEmitters().add(entry.key);
             }
 
+            effectEmittersPanel.hidePopEmitterControls();
         } else {
             saveAsRunnable.run();
         }

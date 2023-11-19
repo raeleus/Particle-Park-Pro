@@ -54,12 +54,16 @@ public class OpenRunnable implements Runnable {
     }
 
     private void loadOnMainThread (FileHandle fileHandle) {
-        Utils.loadParticle(fileHandle);
+        var completed = Utils.loadParticle(fileHandle);
+
+        if (!completed) return;
+
         selectedEmitter = particleEffect.getEmitters().first();
 
         effectEmittersPanel.populateEmitters();
         effectEmittersPanel.updateDisableableWidgets();
         emitterPropertiesPanel.populateScrollTable(null);
+        effectEmittersPanel.hidePopEmitterControls();
 
         UndoManager.clear();
     }
