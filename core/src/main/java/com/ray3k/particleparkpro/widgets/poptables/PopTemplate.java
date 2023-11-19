@@ -54,9 +54,7 @@ public class PopTemplate extends PopTable {
         var textButton = new TextButton("Blank", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            openTemplate("blank.p");
-        });
+        onChange(textButton, () -> openTemplate("blank.p"));
 
         var popTable = addTooltip(textButton, "An empty template perfect for starting a new project.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
@@ -66,18 +64,21 @@ public class PopTemplate extends PopTable {
         textButton = new TextButton("Flame", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            openTemplate("flame.p");
-        });
+        onChange(textButton, () -> openTemplate("flame.p"));
 
         //Sparks
         scrollTable.row();
         textButton = new TextButton("Sparks", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            openTemplate("sparks.p");
-        });
+        onChange(textButton, () -> openTemplate("sparks.p"));
+
+        //Smoke
+        scrollTable.row();
+        textButton = new TextButton("Smoke", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("smoke.p"));
 
         popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
