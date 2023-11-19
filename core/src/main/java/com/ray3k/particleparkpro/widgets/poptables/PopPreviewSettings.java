@@ -99,7 +99,7 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Value:", skin);
         table.add(label).padLeft(tabWidth);
 
-        var deltaMultiplierSpinner = new Spinner(getDeltaMultiplier(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
+        var deltaMultiplierSpinner = new Spinner(getDeltaMultiplier(), .1f, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         table.add(deltaMultiplierSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
         addHandListener(deltaMultiplierSpinner.getButtonMinus());
         addHandListener(deltaMultiplierSpinner.getButtonPlus());
