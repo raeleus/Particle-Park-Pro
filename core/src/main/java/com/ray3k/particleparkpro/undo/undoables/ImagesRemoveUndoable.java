@@ -14,22 +14,32 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.em
 /**
  * Undoable to remove images from the emitter.
  */
-@AllArgsConstructor
 public class ImagesRemoveUndoable implements Undoable {
     private ParticleEmitter emitter;
     private String path;
     private FileHandle fileHandle;
     private Sprite sprite;
     private String description;
+    private int index;
+
+    public ImagesRemoveUndoable(ParticleEmitter emitter, String path, FileHandle fileHandle, Sprite sprite,
+                                String description) {
+        this.emitter = emitter;
+        this.path = path;
+        this.fileHandle = fileHandle;
+        this.sprite = sprite;
+        this.description = description;
+        index = emitter.getSprites().indexOf(sprite, true);
+    }
 
     @Override
     public void undo() {
         selectedEmitter = emitter;
 
-        emitter.getImagePaths().add(path);
+        emitter.getImagePaths().insert(index, path);
         fileHandles.put(path, fileHandle);
         sprites.put(path, sprite);
-        emitter.getSprites().add(sprite);
+        emitter.getSprites().insert(index, sprite);
         refreshDisplay();
     }
 
