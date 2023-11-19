@@ -84,5 +84,8 @@ public class PopTemplate extends PopTable {
         emitterPropertiesPanel.populateScrollTable(null);
 
         UndoManager.clear();
+
+        openFileFileHandle = null;
+        updateWindowTitle();
     }
 }

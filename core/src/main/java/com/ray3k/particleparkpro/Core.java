@@ -29,7 +29,6 @@ import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.runnables.RedoShortcutRunnable;
 import com.ray3k.particleparkpro.runnables.UndoShortcutRunnable;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
-import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -176,6 +175,16 @@ public class Core extends ApplicationAdapter {
 
     public static String openTable;
 
+    /**
+     * The default window title that is displayed at the top of the GLFW window.
+     */
+    public static final String DEFAULT_WINDOW_TITLE = "Particle Park Pro - Untitled Particle";
+
+    /**
+     * Indicates if changes have been made to the currently open file.
+     */
+    public static boolean unsavedChangesMade = true;
+
     @Override
     public void create() {
         sizeWindowToScreenHeight(950/1080f, 1000/950f);
@@ -230,6 +239,7 @@ public class Core extends ApplicationAdapter {
         populate(null);
 
         initShaderProgram();
+        updateWindowTitle();
     }
 
     public static void populate(String openTable) {
@@ -318,6 +328,16 @@ public class Core extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(modifier)) return false;
         }
         return true;
+    }
+
+    public static String getWindowTitle() {
+        return DEFAULT_WINDOW_TITLE;
+    }
+
+    public static void updateWindowTitle() {
+        var title = openFileFileHandle == null ? Core.DEFAULT_WINDOW_TITLE : "Particle Park Pro - " + openFileFileHandle.name();
+        if (unsavedChangesMade) title += "*";
+        Gdx.graphics.setTitle(title);
     }
 
     @Override

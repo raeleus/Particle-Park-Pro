@@ -74,6 +74,9 @@ public class SaveRunnable implements Runnable {
             }
 
             effectEmittersPanel.hidePopEmitterControls();
+
+            unsavedChangesMade = false;
+            Core.updateWindowTitle();
         } else {
             saveAsRunnable.run();
         }

@@ -6,6 +6,7 @@
 * The preview settings are persisted and can be reset to default values
 * Right-clicking the preview now hides the cursor
 * Opening a particle effect file that doesn't have the locally saved particle images asks you to locate them in a new dialog
+* The currently open file is displayed in the window title and indicates if changes have been made.
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time

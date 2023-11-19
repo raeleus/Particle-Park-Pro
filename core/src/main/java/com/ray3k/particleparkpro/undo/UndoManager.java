@@ -1,6 +1,7 @@
 package com.ray3k.particleparkpro.undo;
 
 import com.badlogic.gdx.utils.Array;
+import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Utils;
 
 /**
@@ -20,6 +21,9 @@ public class UndoManager {
         undoable.start();
         undoIndex = undoables.size - 1;
         Utils.refreshUndoButtons();
+
+        Core.unsavedChangesMade = true;
+        Core.updateWindowTitle();
     }
 
     public static String getUndoDescription() {
@@ -41,11 +45,15 @@ public class UndoManager {
     public static void undo() {
         if (hasUndo()) undoables.get(undoIndex--).undo();
         Utils.refreshUndoButtons();
+        Core.unsavedChangesMade = true;
+        Core.updateWindowTitle();
     }
 
     public static void redo() {
         if (hasRedo()) undoables.get(++undoIndex).redo();
         Utils.refreshUndoButtons();
+        Core.unsavedChangesMade = true;
+        Core.updateWindowTitle();
     }
 
     public static void clear() {

@@ -21,7 +21,7 @@ public class Lwjgl3Launcher {
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-        configuration.setTitle("Particle Park Pro");
+        configuration.setTitle(Core.DEFAULT_WINDOW_TITLE);
         configuration.useVsync(true);
         configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         configuration.setBackBufferConfig(8, 8, 8, 8, 16, 0, 10);

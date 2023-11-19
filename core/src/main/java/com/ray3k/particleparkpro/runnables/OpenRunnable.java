@@ -66,5 +66,6 @@ public class OpenRunnable implements Runnable {
         effectEmittersPanel.hidePopEmitterControls();
 
         UndoManager.clear();
+        updateWindowTitle();
     }
 }
