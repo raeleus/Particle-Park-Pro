@@ -8,10 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Scaling;
-import com.ray3k.particleparkpro.Core;
-import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
-import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.*;
 import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 import com.ray3k.stripe.PopColorPicker;
 import com.ray3k.stripe.PopColorPicker.PopColorPickerListener;
@@ -21,7 +18,7 @@ import com.ray3k.stripe.Spinner.Orientation;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.ParticlePreview.*;
+import static com.ray3k.particleparkpro.PreviewSettings.*;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.widgets.panels.PreviewPanel.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.popColorPickerStyle;
@@ -74,14 +71,14 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Value:", skin);
         table.add(label).padLeft(tabWidth);
 
-        var pixelsPerMeterSpinner = new Spinner(pixelsPerMeter, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
+        var pixelsPerMeterSpinner = new Spinner(getPixelsPerMeter(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         table.add(pixelsPerMeterSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
         addHandListener(pixelsPerMeterSpinner.getButtonMinus());
         addHandListener(pixelsPerMeterSpinner.getButtonPlus());
         addIbeamListener(pixelsPerMeterSpinner.getTextField());
         onChange(pixelsPerMeterSpinner, () -> {
-            pixelsPerMeter = Math.max(0, pixelsPerMeterSpinner.getValue());
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            setPixelsPerMeter(Math.max(0, pixelsPerMeterSpinner.getValue()));
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
             EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable(null);
         });
 
@@ -102,12 +99,12 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Value:", skin);
         table.add(label).padLeft(tabWidth);
 
-        var deltaMultiplierSpinner = new Spinner(deltaMultiplier, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
+        var deltaMultiplierSpinner = new Spinner(getDeltaMultiplier(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         table.add(deltaMultiplierSpinner).spaceLeft(itemSpacing).width(spinnerWidth);
         addHandListener(deltaMultiplierSpinner.getButtonMinus());
         addHandListener(deltaMultiplierSpinner.getButtonPlus());
         addIbeamListener(deltaMultiplierSpinner.getTextField());
-        onChange(deltaMultiplierSpinner, () -> deltaMultiplier = Math.max(0, deltaMultiplierSpinner.getValue()));
+        onChange(deltaMultiplierSpinner, () -> setDeltaMultiplier(Math.max(0, deltaMultiplierSpinner.getValue())));
 
         scrollTable.row();
         image = new Image(skin, "divider-10");
@@ -128,12 +125,12 @@ public class PopPreviewSettings extends PopTable {
         stack.add(image);
 
         var backgroundColorImage = new Image(skin, "swatch-fill");
-        backgroundColorImage.setColor(backgroundColor);
+        backgroundColorImage.setColor(getBackgroundColor());
         backgroundColorImage.setScaling(Scaling.none);
         stack.add(backgroundColorImage);
         addHandListener(stack);
         onClick(backgroundColorImage, () -> {
-            var cp = new PopColorPicker(backgroundColor, popColorPickerStyle);
+            var cp = new PopColorPicker(getBackgroundColor(), popColorPickerStyle);
             cp.setHideOnUnfocus(true);
             cp.setButtonListener(handListener);
             cp.setTextFieldListener(ibeamListener);
@@ -152,21 +149,21 @@ public class PopPreviewSettings extends PopTable {
                 @Override
                 public void picked(Color color) {
                     backgroundColorImage.setColor(color);
-                    backgroundColor.set(color);
+                    setBackgroundColor(color);
                     previewBackgroundImage.setColor(color);
                 }
 
                 @Override
                 public void updated(Color color) {
                     backgroundColorImage.setColor(color);
-                    backgroundColor.set(color);
+                    setBackgroundColorTemporarily(color);
                     previewBackgroundImage.setColor(color);
                 }
 
                 @Override
                 public void cancelled(Color oldColor) {
                     backgroundColorImage.setColor(oldColor);
-                    backgroundColor.set(oldColor);
+                    setBackgroundColorTemporarily(oldColor);
                     previewBackgroundImage.setColor(oldColor);
                 }
             });
@@ -185,12 +182,12 @@ public class PopPreviewSettings extends PopTable {
 
         scrollTable.row();
         var checkBox = new CheckBox("Statistics enabled", skin);
-        checkBox.setChecked(statisticsEnabled);
+        checkBox.setChecked(isStatisticsEnabled());
         scrollTable.add(checkBox).padLeft(tabWidth).left();
         addHandListener(checkBox);
         onChange(checkBox, () -> {
-            statisticsEnabled = checkBox.isChecked();
-            statsLabel.setVisible(statisticsEnabled);
+            setStatisticsEnabled(checkBox.isChecked());
+            statsLabel.setVisible(isStatisticsEnabled());
         });
 
         scrollTable.row();
@@ -209,12 +206,12 @@ public class PopPreviewSettings extends PopTable {
         stack.add(image);
 
         var statisticsColorImage = new Image(skin, "swatch-fill");
-        statisticsColorImage.setColor(statisticsColor);
+        statisticsColorImage.setColor(getStatisticsColor());
         statisticsColorImage.setScaling(Scaling.none);
         stack.add(statisticsColorImage);
         addHandListener(stack);
         onClick(statisticsColorImage, () -> {
-            var cp = new PopColorPicker(statisticsColor, popColorPickerStyle);
+            var cp = new PopColorPicker(getStatisticsColor(), popColorPickerStyle);
             cp.setHideOnUnfocus(true);
             cp.setButtonListener(handListener);
             cp.setTextFieldListener(ibeamListener);
@@ -233,21 +230,21 @@ public class PopPreviewSettings extends PopTable {
                 @Override
                 public void picked(Color color) {
                     statisticsColorImage.setColor(color);
-                    statisticsColor.set(color);
+                    setStatisticsColor(color);
                     statsLabel.setColor(color);
                 }
 
                 @Override
                 public void updated(Color color) {
                     statisticsColorImage.setColor(color);
-                    statisticsColor.set(color);
+                    setStatisticsColorTemporarily(color);
                     statsLabel.setColor(color);
                 }
 
                 @Override
                 public void cancelled(Color oldColor) {
                     statisticsColorImage.setColor(oldColor);
-                    statisticsColor.set(oldColor);
+                    setStatisticsColorTemporarily(oldColor);
                     statsLabel.setColor(oldColor);
                 }
             });
@@ -389,16 +386,16 @@ public class PopPreviewSettings extends PopTable {
 
         renderGridTable.defaults().spaceLeft(seperationWidth).spaceTop(itemSpacing);
         var gridCheckBox = new CheckBox("Grid enabled", skin);
-        gridCheckBox.setChecked(gridEnabled);
+        gridCheckBox.setChecked(isGridEnabled());
         renderGridTable.add(gridCheckBox).left().expandX();
         addHandListener(gridCheckBox);
-        onChange(gridCheckBox, () -> gridEnabled = gridCheckBox.isChecked());
+        onChange(gridCheckBox, () -> setGridEnabled(gridCheckBox.isChecked()));
 
         var axesCheckBox = new CheckBox("Axes enabled", skin);
-        axesCheckBox.setChecked(axesEnabled);
+        axesCheckBox.setChecked(isAxesEnabled());
         renderGridTable.add(axesCheckBox).left().expandX();
         addHandListener(axesCheckBox);
-        onChange(axesCheckBox, () -> axesEnabled = axesCheckBox.isChecked());
+        onChange(axesCheckBox, () -> setAxesEnabled(axesCheckBox.isChecked()));
 
         //Grid
         renderGridTable.row();
@@ -411,7 +408,7 @@ public class PopPreviewSettings extends PopTable {
         label = new Label("Major gridlines:", skin);
         gridTable.add(label).padLeft(tabWidth);
 
-        var majorGridlinesSpinner = new Spinner(gridMajorGridlines, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
+        var majorGridlinesSpinner = new Spinner(getGridMajorGridlines(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         gridTable.add(majorGridlinesSpinner).width(spinnerWidth);
         addHandListener(majorGridlinesSpinner.getButtonMinus());
         addHandListener(majorGridlinesSpinner.getButtonPlus());
@@ -419,21 +416,21 @@ public class PopPreviewSettings extends PopTable {
         onChange(xSpinner, () -> previewImageX = xSpinner.getValue());
         onChange(majorGridlinesSpinner, () -> {
             float value = majorGridlinesSpinner.getValue();
-            if (value > 0) gridMajorGridlines = value;
+            if (value > 0) setGridMajorGridlines(value);
         });
 
         gridTable.row();
         label = new Label("Minor gridlines:", skin);
         gridTable.add(label).padLeft(tabWidth);
 
-        var minorGridlinesSpinner = new Spinner(gridMinorGridlines, 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
+        var minorGridlinesSpinner = new Spinner(getGridMinorGridlines(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         gridTable.add(minorGridlinesSpinner).width(spinnerWidth);
         addHandListener(minorGridlinesSpinner.getButtonMinus());
         addHandListener(minorGridlinesSpinner.getButtonPlus());
         addIbeamListener(minorGridlinesSpinner.getTextField());
         onChange(minorGridlinesSpinner, () -> {
             float value = minorGridlinesSpinner.getValue();
-            if (value > 0) gridMinorGridlines = value;
+            if (value > 0) setGridMinorGridlines(value);
         });
 
         gridTable.row();
@@ -448,12 +445,12 @@ public class PopPreviewSettings extends PopTable {
         stack.add(image);
 
         var gridColorImage = new Image(skin, "swatch-fill");
-        gridColorImage.setColor(gridColor);
+        gridColorImage.setColor(getGridColor());
         gridColorImage.setScaling(Scaling.none);
         stack.add(gridColorImage);
         addHandListener(stack);
         onClick(gridColorImage, () -> {
-            var cp = new PopColorPicker(gridColor, popColorPickerStyle);
+            var cp = new PopColorPicker(getGridColor(), popColorPickerStyle);
             cp.setHideOnUnfocus(true);
             cp.setButtonListener(handListener);
             cp.setTextFieldListener(ibeamListener);
@@ -472,19 +469,19 @@ public class PopPreviewSettings extends PopTable {
                 @Override
                 public void picked(Color color) {
                     gridColorImage.setColor(color);
-                    gridColor.set(color);
+                    setGridColor(color);
                 }
 
                 @Override
                 public void updated(Color color) {
                     gridColorImage.setColor(color);
-                    gridColor.set(color);
+                    setGridColorTemporarily(color);
                 }
 
                 @Override
                 public void cancelled(Color oldColor) {
                     gridColorImage.setColor(oldColor);
-                    gridColor.set(oldColor);
+                    setGridColorTemporarily(oldColor);
                 }
             });
             cp.show(foregroundStage);
@@ -500,7 +497,7 @@ public class PopPreviewSettings extends PopTable {
                 foregroundStage.setKeyboardFocus(null);
             }
         });
-        if (!gridEnabled) {
+        if (!isGridEnabled()) {
             gridTable.setTouchable(Touchable.disabled);
             gridTable.setColor(skin.getColor("disabled"));
         }
@@ -523,12 +520,12 @@ public class PopPreviewSettings extends PopTable {
         stack.add(image);
 
         var axesColorImage = new Image(skin, "swatch-fill");
-        axesColorImage.setColor(axesColor);
+        axesColorImage.setColor(getAxesColor());
         axesColorImage.setScaling(Scaling.none);
         stack.add(axesColorImage);
         addHandListener(stack);
         onClick(axesColorImage, () -> {
-            var cp = new PopColorPicker(gridColor, popColorPickerStyle);
+            var cp = new PopColorPicker(getAxesColor(), popColorPickerStyle);
             cp.setHideOnUnfocus(true);
             cp.setButtonListener(handListener);
             cp.setTextFieldListener(ibeamListener);
@@ -547,19 +544,19 @@ public class PopPreviewSettings extends PopTable {
                 @Override
                 public void picked(Color color) {
                     axesColorImage.setColor(color);
-                    axesColor.set(color);
+                    setAxesColor(color);
                 }
 
                 @Override
                 public void updated(Color color) {
                     axesColorImage.setColor(color);
-                    axesColor.set(color);
+                    setAxesColorTemporarily(color);
                 }
 
                 @Override
                 public void cancelled(Color oldColor) {
                     axesColorImage.setColor(oldColor);
-                    axesColor.set(oldColor);
+                    setAxesColorTemporarily(oldColor);
                 }
             });
             cp.show(foregroundStage);
@@ -575,7 +572,7 @@ public class PopPreviewSettings extends PopTable {
                 foregroundStage.setKeyboardFocus(null);
             }
         });
-        if (!axesEnabled) {
+        if (!isAxesEnabled()) {
             axesTable.setTouchable(Touchable.disabled);
             axesTable.setColor(skin.getColor("disabled"));
         }
@@ -656,47 +653,31 @@ public class PopPreviewSettings extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> Utils.initShaderProgram());
 
-//        //Extra Texture Units
-//        subtable = new Table();
-//        table.add(subtable).padLeft(seperationWidth);
-//
-//        subtable.defaults().space(itemSpacing);
-//        label = new Label("Extra Texture Units", skin);
-//        subtable.add(label).padLeft(tabWidth).colspan(2);
-//
-//        subtable.row();
-//        var list = new List<String>(skin);
-//        scrollPane = new ScrollPane(list, skin);
-//        subtable.add(scrollPane).growY().width(100);
-//        addHandListener(list);
-//        addScrollFocusListener(scrollPane);
-//
-//        var textureUnitsTable = new Table();
-//        subtable.add(textureUnitsTable);
-//
-//        textureUnitsTable.defaults().space(itemSpacing);
-//        textButton = new TextButton("Add", skin);
-//        textureUnitsTable.add(textButton);
-//        addHandListener(textButton);
-//
-//        textureUnitsTable.row();
-//        textButton = new TextButton("Up", skin);
-//        textureUnitsTable.add(textButton);
-//        addHandListener(textButton);
-//
-//        textureUnitsTable.row();
-//        textButton = new TextButton("Down", skin);
-//        textureUnitsTable.add(textButton);
-//        addHandListener(textButton);
-//
-//        textureUnitsTable.row();
-//        textButton = new TextButton("Delete", skin);
-//        textureUnitsTable.add(textButton);
-//        addHandListener(textButton);
-//
-//        textureUnitsTable.row();
-//        textButton = new TextButton("Reload", skin);
-//        textureUnitsTable.add(textButton);
-//        addHandListener(textButton);
+        scrollTable.row();
+        image = new Image(skin, "divider-10");
+        image.setScaling(Scaling.stretchX);
+        scrollTable.add(image).growX().padTop(sectionPadding).padBottom(sectionPadding);
+
+        //Reset
+        scrollTable.row();
+        label = new Label("Reset all setting to default", skin, "header");
+        scrollTable.add(label).left();
+
+        scrollTable.row();
+        textButton = new TextButton("Reset", skin);
+        scrollTable.add(textButton).left().padLeft(tabWidth).space(itemSpacing);
+        addHandListener(textButton);
+        onChange(textButton, () -> {
+            resetPreviewSettings();
+            hide();
+
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
+            EmitterPropertiesPanel.emitterPropertiesPanel.populateScrollTable(null);
+
+            previewBackgroundImage.setColor(getBackgroundColor());
+
+            statsLabel.setVisible(isStatisticsEnabled());
+            statsLabel.setColor(getStatisticsColor());
+        });
     }
 }

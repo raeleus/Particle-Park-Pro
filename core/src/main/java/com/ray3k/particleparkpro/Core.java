@@ -181,6 +181,7 @@ public class Core extends ApplicationAdapter {
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
 
         Settings.initializeSettings();
+        PreviewSettings.initializeSettings();
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();

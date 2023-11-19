@@ -19,6 +19,7 @@ import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.PreviewSettings.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.infSliderStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 
@@ -233,8 +234,8 @@ public class Listeners {
         sliderPop.attachToActor(valueSpinner, Align.bottom, Align.bottom);
 
         var slider = new InfSlider(infSliderStyle);
-        slider.setRange(adjustByPPM ? range / ParticlePreview.pixelsPerMeter : range);
-        slider.setIncrement(adjustByPPM ? increment / ParticlePreview.pixelsPerMeter : increment);
+        slider.setRange(adjustByPPM ? range / getPixelsPerMeter() : range);
+        slider.setIncrement(adjustByPPM ? increment / getPixelsPerMeter() : increment);
         slider.addListener(noCaptureKeyboardFocusListener);
         slider.getKnob().addListener(noCaptureKeyboardFocusListener);
         slider.getBackground().addListener(noCaptureKeyboardFocusListener);
