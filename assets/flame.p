@@ -1,4 +1,4 @@
-flame
+Flame
 - Delay -
 active: false
 - Duration - 

@@ -1,4 +1,4 @@
-sparks
+Sparks
 - Delay -
 active: false
 - Duration - 
