@@ -80,6 +80,13 @@ public class PopTemplate extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("smoke.p"));
 
+        //Demolition
+        scrollTable.row();
+        textButton = new TextButton("Demolition", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("demolition.p"));
+
         popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
