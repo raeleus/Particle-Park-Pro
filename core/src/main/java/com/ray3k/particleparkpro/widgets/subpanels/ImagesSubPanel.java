@@ -29,12 +29,15 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrow
  * the user to specify the sprite mode.
  */
 public class ImagesSubPanel extends Panel {
+    public static ImagesSubPanel imagesSubPanel;
     private DraggableTextList list;
     private Button removeButton;
     private Button moveUpButton;
     private Button moveDownButton;
 
     public ImagesSubPanel() {
+        imagesSubPanel = this;
+
         var listWidth = 210;
         var listHeight = 100;
 
@@ -61,17 +64,7 @@ public class ImagesSubPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         addTooltip(textButton, "Add an image to be used as the texture for the particle", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(textButton, () -> {
-            var selectedFileHandles = FileDialogs.openMultipleDialog("Add images", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
-            if (selectedFileHandles == null) return;
-            if (selectedFileHandles.size > 0) setDefaultImagePath(selectedFileHandles.first().parent());
-
-            UndoManager.add(new ImagesAddUndoable(selectedEmitter, selectedFileHandles, "Add Images"));
-            if (selectedFileHandles.size > 0) {
-                updateList();
-                updateDisabled();
-            }
-        });
+        onChange(textButton, imagesRunnable);
 
         //Default
         table.row();
@@ -238,7 +231,7 @@ public class ImagesSubPanel extends Panel {
         updateDisabled();
     }
 
-    private void updateList() {
+    public void updateList() {
         var paths = selectedEmitter.getImagePaths();
         list.clearChildren();
         for (var path : paths) {
@@ -247,7 +240,7 @@ public class ImagesSubPanel extends Panel {
         list.setAllowRemoval(list.getTexts().size > 1);
     }
 
-    private void updateDisabled() {
+    public void updateDisabled() {
         var index = list.getSelectedIndex();
         var size = list.getTexts().size;
         var allowRemoval = size > 1;

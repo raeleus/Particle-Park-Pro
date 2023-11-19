@@ -159,6 +159,7 @@ public class Core extends ApplicationAdapter {
     public static SaveRunnable saveRunnable;
     public static OpenRunnable openRunnable;
     public static MergeRunnable mergeRunnable;
+    public static ImagesRunnable imagesRunnable;
 
     /**
      * The maximum number of particles recorded in 5 second intervals. Used for the preview stats and the SummaryPanel.
@@ -215,6 +216,7 @@ public class Core extends ApplicationAdapter {
         saveRunnable = new SaveRunnable();
         saveAsRunnable.setSaveRunnable(saveRunnable);
         saveRunnable.setSaveAsRunnable(saveAsRunnable);
+        imagesRunnable = new ImagesRunnable();
 
         initKeyMap();
         shortcutManager = new ShortcutManager();
