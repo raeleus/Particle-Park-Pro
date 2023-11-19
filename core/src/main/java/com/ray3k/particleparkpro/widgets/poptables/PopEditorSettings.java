@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
@@ -43,7 +44,6 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrow
  */
 public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
-    private boolean displayCommandInsteadOfAlt;
     private UIscale uiScale;
     private KeybindResolverInfoLookup keybindResolverInfoLookup;
     private IntMap<KeybindResolver> keybindResolvers;
@@ -196,23 +196,8 @@ public class PopEditorSettings extends PopTable {
 
         label = new Label("SHORTCUTS", skin, "header");
         shortcutTable.add(label).colspan(4).align(Align.center);
-        shortcutTable.row();
 
-        final String prefName = "Display command instead of alt";
-        var useCommandInsteadAlt = new CheckBox("(MacOs) Display command instead of alt", skin);
-        useCommandInsteadAlt.setChecked(preferences.getBoolean(prefName, false));
-        displayCommandInsteadOfAlt = useCommandInsteadAlt.isChecked();
-        addHandListener(useCommandInsteadAlt);
-        addTooltip(useCommandInsteadAlt, "Displays command instead of alt", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(useCommandInsteadAlt, () -> {
-            displayCommandInsteadOfAlt = useCommandInsteadAlt.isChecked();
-            preferences.putBoolean(prefName, displayCommandInsteadOfAlt);
-            preferences.flush();
-            populate();
-        });
-        shortcutTable.add(useCommandInsteadAlt).colspan(4).align(Align.center).padBottom(10).padTop(10);
         shortcutTable.row();
-
         shortcutTable.add();
 
         label = new Label("Primary:", skin);
@@ -394,7 +379,7 @@ public class PopEditorSettings extends PopTable {
             var text = Keys.toString(keybind[i]);
             if (text.startsWith("L-"))
                 text = text.substring(2);
-            if (text.equals("Alt") && displayCommandInsteadOfAlt) {
+            if (text.equals("Alt") && UIUtils.isMac) {
                 text = "Cmd";
             }
             stringBuilder.append(text);
