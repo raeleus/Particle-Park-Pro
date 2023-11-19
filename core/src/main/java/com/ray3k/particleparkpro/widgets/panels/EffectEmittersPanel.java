@@ -168,7 +168,7 @@ public class EffectEmittersPanel extends Panel {
         popEmitterControls.show(foregroundStage);
     }
 
-    private void hidePopEmitterControls() {
+    public void hidePopEmitterControls() {
         if (popEmitterControls == null) return;
 
         popEmitterControls.hide();
@@ -227,38 +227,23 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            Utils.saveParticleEffect();
-            hidePopEmitterControls();
-        });
+
+        onChange(textButton, saveRunnable);
+
+        //Save as
+        table.row();
+        textButton = new TextButton("Save as", skin);
+        table.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, saveAsRunnable);
 
         //Open
         table.row();
         textButton = new TextButton("Open", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-            var fileHandle = FileDialogs.openDialog("Open", getDefaultSavePath(), filterPatterns, "Particle files (*.p)");
 
-            if (fileHandle != null) {
-                defaultFileName = fileHandle.name();
-                Settings.setDefaultSavePath(fileHandle.parent());
-                var completed = Utils.loadParticle(fileHandle);
-
-                if (!completed) return;
-
-                selectedEmitter = particleEffect.getEmitters().first();
-
-                populateEmitters();
-                updateDisableableWidgets();
-                emitterPropertiesPanel.populateScrollTable(null);
-
-                UndoManager.clear();
-            }
-            hidePopEmitterControls();
-        });
+        onChange(textButton, openRunnable);
 
         //Merge
         table.row();

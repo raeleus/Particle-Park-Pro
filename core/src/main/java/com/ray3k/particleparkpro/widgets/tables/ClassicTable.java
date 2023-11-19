@@ -22,6 +22,7 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRight
  * The widget layout for classic mode that mimics the original Particle Editor.
  */
 public class ClassicTable extends Table {
+
     public static ClassicTable classicTable;
     private Table undoTable;
     public ClassicTable() {
@@ -104,4 +105,5 @@ public class ClassicTable extends Table {
         }
         onChange(button, UndoManager::redo);
     }
+
 }

@@ -25,6 +25,7 @@ public class WizardTable extends Table {
 
     public static WizardTable wizardTable;
     private Table undoTable;
+
     public WizardTable() {
         wizardTable = this;
         pad(20).padBottom(5);
@@ -89,7 +90,7 @@ public class WizardTable extends Table {
 
         refreshUndo();
 
-        stage.setKeyboardFocus(this);
+//        stage.setKeyboardFocus(this);
     }
 
     public void refreshUndo() {
@@ -115,4 +116,5 @@ public class WizardTable extends Table {
         }
         onChange(button, UndoManager::redo);
     }
+
 }

@@ -18,18 +18,23 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.OrderedMap;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.particleparkpro.runnables.OpenRunnable;
+import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
+import com.ray3k.particleparkpro.runnables.SaveRunnable;
+import com.ray3k.particleparkpro.shortcuts.KeyMap;
+import com.ray3k.particleparkpro.shortcuts.Shortcut;
+import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
+import com.ray3k.particleparkpro.runnables.RedoShortcutRunnable;
+import com.ray3k.particleparkpro.runnables.UndoShortcutRunnable;
+import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.Utils.*;
@@ -150,6 +155,14 @@ public class Core extends ApplicationAdapter {
      * The default name to be used when the user saves the ParticleEffect.
      */
     public static String defaultFileName;
+    public static FileHandle openFileFileHandle;
+    public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
+    public static ShortcutManager shortcutManager;
+    public static KeyMap keyMap;
+
+    public static SaveAsRunnable saveAsRunnable;
+    public static SaveRunnable saveRunnable;
+    public static OpenRunnable openRunnable;
 
     /**
      * The maximum number of particles recorded in 5 second intervals. Used for the preview stats and the SummaryPanel.
@@ -179,8 +192,7 @@ public class Core extends ApplicationAdapter {
         logFile.mkdirs();
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
-
-        Settings.initializeSettings();
+      
         PreviewSettings.initializeSettings();
 
         viewport = new ScreenViewport();
@@ -191,8 +203,17 @@ public class Core extends ApplicationAdapter {
         stage = new Stage(viewport, spriteBatch);
         foregroundStage = new Stage(viewport, spriteBatch);
 
-        updateViewportScale(valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE)));
+        openRunnable = new OpenRunnable();
+        saveAsRunnable = new SaveAsRunnable();
+        saveRunnable = new SaveRunnable();
+        saveAsRunnable.setSaveRunnable(saveRunnable);
+        saveRunnable.setSaveAsRunnable(saveAsRunnable);
 
+        initKeyMap();
+        shortcutManager = new ShortcutManager();
+        shortcutManager.setKeyMap(keyMap);
+
+        updateViewportScale(valueToUIscale(preferences.getFloat(NAME_SCALE, DEFAULT_SCALE)));
 
         SkinLoader.loadSkin();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
@@ -233,23 +254,7 @@ public class Core extends ApplicationAdapter {
             }
         });
 
-        stage.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Settings.undoPrimaryShortcut && holdingModifiers(Settings.undoPrimaryModifiers) && UndoManager.hasUndo()) {
-                    UndoManager.undo();
-                } else if (keycode == Settings.undoSecondaryShortcut && holdingModifiers(Settings.undoSecondaryModifiers) && UndoManager.hasUndo()) {
-                    UndoManager.undo();
-                }
-
-                if (keycode == Settings.redoPrimaryShortcut && holdingModifiers(Settings.redoPrimaryModifiers) && UndoManager.hasRedo()) {
-                    UndoManager.redo();
-                } else if (keycode == Settings.redoSecondaryShortcut && holdingModifiers(Settings.redoSecondaryModifiers) && UndoManager.hasRedo()) {
-                    UndoManager.redo();
-                }
-                return false;
-            }
-        });
+        stage.addListener(shortcutManager);
 
         if (openTable == null) openTable = preferences.getString(NAME_OPEN_TO_SCREEN, DEFAULT_OPEN_TO_SCREEN);
 
@@ -272,6 +277,32 @@ public class Core extends ApplicationAdapter {
         }
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void initKeyMap () {
+        keyMap = new KeyMap();
+        Array<Shortcut> shortcuts = new Array<>();
+
+        shortcuts.add(createShortcut("Undo", "Undo things", DEFAULT_UNDO_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, new UndoShortcutRunnable()));
+        shortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_REDO_PRIMARY_KEYBIND, DEFAULT_REDO_SECONDARY_KEYBIND, GLOBAL_SCOPE, new RedoShortcutRunnable()));
+        shortcuts.add(createShortcut("Save As", "Save as things", DEFAULT_SAVE_AS_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveAsRunnable));
+        shortcuts.add(createShortcut("Save", "Save things", DEFAULT_SAVE_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveRunnable));
+        shortcuts.add(createShortcut("Open", "Open things", DEFAULT_OPEN_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, openRunnable));
+
+        // Classic only keybinds
+//        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", primaryKeybind, secondaryKeybind, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
+
+        // Wizard only keybinds
+//        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", primaryKeybind, secondaryKeybind, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
+
+        keyMap.addAll(shortcuts);
+    }
+
+    public static void initShaderProgram() {
+        var vertex = vertShaderFile == null ? spriteBatch.getShader().getVertexShaderSource() : vertShaderFile.readString();
+        var frag = fragShaderFile == null ? spriteBatch.getShader().getFragmentShaderSource() : fragShaderFile.readString();
+        shaderProgram = new ShaderProgram(vertex, frag);
+        ShaderProgram.pedantic = false;
     }
 
     private static boolean holdingModifiers(IntArray modifiers) {

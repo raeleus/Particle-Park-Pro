@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
+import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.widgets.WelcomeCard;
 import com.ray3k.particleparkpro.widgets.poptables.PopEditorSettings;
 
@@ -23,6 +24,7 @@ public class WelcomeTable extends Table {
     private Button settingsButton;
 
     public WelcomeTable() {
+        shortcutManager.setDisabled(true);
         var stack = new Stack();
         add(stack).grow();
 
@@ -85,6 +87,8 @@ public class WelcomeTable extends Table {
             }
             Core.openTable = "Classic";
             transition(this, new ClassicTable(), Align.top);
+            shortcutManager.setDisabled(false);
+            shortcutManager.setScope(Settings.CLASSIC_SCOPE);
             fadeSettingsButton();
         });
 
@@ -95,6 +99,8 @@ public class WelcomeTable extends Table {
             }
             Core.openTable = "Wizard";
             transition(this, new WizardTable(), Align.top);
+            shortcutManager.setDisabled(false);
+            shortcutManager.setScope(Settings.WIZARD_SCOPE);
             fadeSettingsButton();
         });
     }
