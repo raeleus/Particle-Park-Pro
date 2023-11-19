@@ -227,6 +227,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Save", skin);
         table.add(textButton);
         addHandListener(textButton);
+
         onChange(textButton, saveRunnable);
 
         //Save as
@@ -241,6 +242,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Open", skin);
         table.add(textButton);
         addHandListener(textButton);
+
         onChange(textButton, openRunnable);
 
         //Merge

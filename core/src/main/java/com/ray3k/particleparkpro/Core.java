@@ -192,7 +192,7 @@ public class Core extends ApplicationAdapter {
         logFile.mkdirs();
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
-        
+      
         PreviewSettings.initializeSettings();
 
         viewport = new ScreenViewport();
