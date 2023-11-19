@@ -323,7 +323,7 @@ public class PopEditorSettings extends PopTable {
         primaryTextField.setText(constructShortcutText(shortcut.getPrimaryKeybind()));
         shortcutTable.add(primaryTextField);
         textFields.add(primaryTextField);
-        addIbeamListener(primaryTextField);
+        addHandListener(primaryTextField);
         addTooltip(primaryTextField, shortcut.getDescription(), Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(primaryTextField, () -> {
             getStage().setKeyboardFocus(null);
@@ -334,7 +334,7 @@ public class PopEditorSettings extends PopTable {
         secondaryTextField.setText(constructShortcutText(shortcut.getSecondaryKeybind()));
         shortcutTable.add(secondaryTextField);
         textFields.add(secondaryTextField);
-        addIbeamListener(secondaryTextField);
+        addHandListener(secondaryTextField);
         addTooltip(secondaryTextField, shortcut.getDescription(), Align.top, Align.top, tooltipBottomArrowStyle);
         onTouchDown(secondaryTextField, () -> {
             getStage().setKeyboardFocus(null);
