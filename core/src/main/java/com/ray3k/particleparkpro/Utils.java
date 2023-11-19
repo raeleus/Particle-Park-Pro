@@ -390,13 +390,20 @@ public class Utils {
         s.setScope(scope);
 
         int packed = getKeybindFromPreferences(name, true);
-        if (packed > 0) {
+        if (packed == 0 && defaultPrimaryKeybind != null) {
+            //set primary to default keybind
+            s.setPrimaryKeybind(defaultPrimaryKeybind, ShortcutManager.packKeybindSorted(defaultPrimaryKeybind));
+        } else {
             int[] unpacked = ShortcutManager.unpacKeybind(packed);
             s.setPrimaryKeybind(unpacked, packed);
         }
 
         packed = getKeybindFromPreferences(name, false);
-        if (packed > 0) {
+
+        if (packed == 0 && defaultSecondaryKeybind != null) {
+            //set secondary to default keybind
+            s.setSecondaryKeybind(defaultSecondaryKeybind, ShortcutManager.packKeybindSorted(defaultSecondaryKeybind));
+        } else {
             int[] unpacked = ShortcutManager.unpacKeybind(packed);
             s.setSecondaryKeybind(unpacked, packed);
         }
