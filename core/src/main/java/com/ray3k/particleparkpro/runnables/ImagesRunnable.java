@@ -36,7 +36,12 @@ public class ImagesRunnable implements Runnable {
             if (effectEmittersPanel == null || emitterPropertiesPanel == null) return;
 
             var selectedFileHandles = FileDialogs.openMultipleDialog("Add images", getDefaultImagePath(), new String[] {"png","jpg","jpeg"}, "Image files (*.png;*.jpg;*.jpeg)");
-            if (selectedFileHandles == null) return;
+            if (selectedFileHandles == null) {
+                stage.getRoot().setTouchable(Touchable.enabled);
+                open = false;
+                return;
+            }
+            
             if (selectedFileHandles.size > 0) {
                 setDefaultImagePath(selectedFileHandles.first().parent());
                 Gdx.app.postRunnable(() -> {
