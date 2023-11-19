@@ -250,44 +250,7 @@ public class EffectEmittersPanel extends Panel {
         textButton = new TextButton("Merge", skin);
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-            var fileHandle = FileDialogs.openDialog("Merge", getDefaultSavePath(), filterPatterns, "Particle files (*.p)");
-
-            if (fileHandle != null) {
-                defaultFileName = fileHandle.name();
-                Settings.setDefaultSavePath(fileHandle.parent());
-
-                var oldEmitters = new Array<>(particleEffect.getEmitters());
-                var oldActiveEmitters = new ObjectMap<>(activeEmitters);
-                var oldFileHandles = new ObjectMap<>(fileHandles);
-                var oldSprites = new ObjectMap<>(sprites);
-                var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
-
-                var completed = Utils.mergeParticle(fileHandle);
-                if (!completed) return;
-
-                UndoManager.add(MergeEmitterUndoable
-                    .builder()
-                    .oldEmitters(oldEmitters)
-                    .oldActiveEmitters(oldActiveEmitters)
-                    .oldFileHandles(oldFileHandles)
-                    .oldSprites(oldSprites)
-                    .oldSelectedIndex(oldSelectedIndex)
-                    .newEmitters(new Array<>(particleEffect.getEmitters()))
-                    .newActiveEmitters(new ObjectMap<>(activeEmitters))
-                    .newFileHandles(new ObjectMap<>(fileHandles))
-                    .newSprites(new ObjectMap<>(sprites))
-                    .newSelectedIndex(oldEmitters.indexOf(selectedEmitter, true))
-                    .description("Merge Particle Effect")
-                    .build());
-                populateEmitters();
-                updateDisableableWidgets();
-                emitterPropertiesPanel.populateScrollTable(null);
-            }
-            hidePopEmitterControls();
-        });
+        onChange(textButton, mergeRunnable);
 
         //Template
         table.row();

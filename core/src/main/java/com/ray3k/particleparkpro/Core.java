@@ -20,14 +20,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.particleparkpro.runnables.OpenRunnable;
-import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
-import com.ray3k.particleparkpro.runnables.SaveRunnable;
+import com.ray3k.particleparkpro.runnables.*;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
-import com.ray3k.particleparkpro.runnables.RedoShortcutRunnable;
-import com.ray3k.particleparkpro.runnables.UndoShortcutRunnable;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
@@ -162,6 +158,7 @@ public class Core extends ApplicationAdapter {
     public static SaveAsRunnable saveAsRunnable;
     public static SaveRunnable saveRunnable;
     public static OpenRunnable openRunnable;
+    public static MergeRunnable mergeRunnable;
 
     /**
      * The maximum number of particles recorded in 5 second intervals. Used for the preview stats and the SummaryPanel.
@@ -213,6 +210,7 @@ public class Core extends ApplicationAdapter {
         foregroundStage = new Stage(viewport, spriteBatch);
 
         openRunnable = new OpenRunnable();
+        mergeRunnable = new MergeRunnable();
         saveAsRunnable = new SaveAsRunnable();
         saveRunnable = new SaveRunnable();
         saveAsRunnable.setSaveRunnable(saveRunnable);
