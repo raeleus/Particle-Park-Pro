@@ -4,17 +4,18 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.ray3k.particleparkpro.Utils.*;
 
 public class KeyMap {
 
-    private final ObjectMap<String, Shortcut> allShortcuts;
+    private final OrderedMap<String, Shortcut> allShortcuts;
 
     private final IntMap<Shortcut> activeShortcuts;
 
     public KeyMap () {
-        allShortcuts = new ObjectMap<>();
+        allShortcuts = new OrderedMap<>();
         activeShortcuts = new IntMap<>();
     }
 
