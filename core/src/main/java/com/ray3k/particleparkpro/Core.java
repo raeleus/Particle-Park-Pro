@@ -192,7 +192,7 @@ public class Core extends ApplicationAdapter {
         logFile.mkdirs();
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
-      
+
         PreviewSettings.initializeSettings();
 
         viewport = new ScreenViewport();
@@ -283,11 +283,11 @@ public class Core extends ApplicationAdapter {
         keyMap = new KeyMap();
         Array<Shortcut> shortcuts = new Array<>();
 
-        shortcuts.add(createShortcut("Undo", "Undo things", DEFAULT_UNDO_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, new UndoShortcutRunnable()));
-        shortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_REDO_PRIMARY_KEYBIND, DEFAULT_REDO_SECONDARY_KEYBIND, GLOBAL_SCOPE, new RedoShortcutRunnable()));
-        shortcuts.add(createShortcut("Save As", "Save as things", DEFAULT_SAVE_AS_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveAsRunnable));
-        shortcuts.add(createShortcut("Save", "Save things", DEFAULT_SAVE_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveRunnable));
-        shortcuts.add(createShortcut("Open", "Open things", DEFAULT_OPEN_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, openRunnable));
+        shortcuts.add(createShortcut("Undo", "Keyboard shortcut for the Undo action.", DEFAULT_UNDO_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, new UndoShortcutRunnable()));
+        shortcuts.add(createShortcut("Redo", "Keyboard shortcut for the Redo action.", DEFAULT_REDO_PRIMARY_KEYBIND, DEFAULT_REDO_SECONDARY_KEYBIND, GLOBAL_SCOPE, new RedoShortcutRunnable()));
+        shortcuts.add(createShortcut("Save As", "Keyboard shortcut for the Save As action.", DEFAULT_SAVE_AS_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveAsRunnable));
+        shortcuts.add(createShortcut("Save", "Keyboard shortcut for the Save action.", DEFAULT_SAVE_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveRunnable));
+        shortcuts.add(createShortcut("Open", "Keyboard shortcut for the Open action.", DEFAULT_OPEN_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, openRunnable));
 
         // Classic only keybinds
 //        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", primaryKeybind, secondaryKeybind, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
