@@ -1,12 +1,13 @@
 # Changelog
 ### Version 0.0.4
-* Keyboard shortcuts to save, saveAs, and open have been added. Thanks John!
+* Keyboard shortcuts to save, saveAs, and open have been added. Thanks, John!
 * Added option to load pre-built templates
 * The color of the statistics label can be changed
 * The preview settings are persisted and can be reset to default values
 * Right-clicking the preview now hides the cursor
 * Opening a particle effect file that doesn't have the locally saved particle images asks you to locate them in a new dialog
-* The currently open file is displayed in the window title and indicates if changes have been made.
+* The currently open file is displayed in the window title and indicates if changes have been made
+* Fixed merging particles resulting in the wrong order of particles being added to the particle effect
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time
