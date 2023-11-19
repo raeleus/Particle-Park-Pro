@@ -2,31 +2,15 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.ray3k.particleparkpro.Core.*;
+import static com.ray3k.particleparkpro.PreviewSettings.*;
 
 /**
  * This class renders the particle preview.
  */
 public class ParticlePreview {
-    public static float pixelsPerMeter = 1f;
-    public static float deltaMultiplier = 1f;
-    public static final Color backgroundColor = new Color(Color.BLACK);
-    public static boolean statisticsEnabled;
-    public static Texture previewImageTexture;
-    public static boolean showResizeInterface;
-    public static float previewImageX;
-    public static float previewImageY;
-    public static float previewImageWidth;
-    public static float previewImageHeight;
-    public static boolean axesEnabled;
-    public static final Color axesColor = new Color(Color.BLUE);
-    public static boolean gridEnabled;
-    public static float gridMajorGridlines = 100;
-    public static float gridMinorGridlines = 25;
-    public static final Color gridColor = new Color(Color.LIGHT_GRAY);
     private static final Vector2 temp = new Vector2();
     public static boolean pause;
 
@@ -49,38 +33,38 @@ public class ParticlePreview {
         float right = temp.x;
         float top = temp.y;
 
-        if (gridEnabled) {
+        if (isGridEnabled()) {
             //draw major grid
-            shapeDrawer.setColor(gridColor);
+            shapeDrawer.setColor(getGridColor());
             shapeDrawer.setDefaultLineWidth(2 * previewViewport.getUnitsPerPixel());
-            for (float x = left - left % gridMajorGridlines; x < right; x += gridMajorGridlines) {
+            for (float x = left - left % getGridMajorGridlines(); x < right; x += getGridMajorGridlines()) {
                 shapeDrawer.line(x, bottom, x, top);
             }
-            for (float y = bottom - bottom % gridMajorGridlines; y < top; y += gridMajorGridlines) {
+            for (float y = bottom - bottom % getGridMajorGridlines(); y < top; y += getGridMajorGridlines()) {
                 shapeDrawer.line(left, y, right, y);
             }
 
             //draw minor grid
-            shapeDrawer.setColor(gridColor);
+            shapeDrawer.setColor(getGridColor());
             shapeDrawer.setDefaultLineWidth(1 * previewViewport.getUnitsPerPixel());
-            for (float x = left - left % gridMinorGridlines; x < right; x += gridMinorGridlines) {
+            for (float x = left - left % getGridMinorGridlines(); x < right; x += getGridMinorGridlines()) {
                 shapeDrawer.line(x, bottom, x, top);
             }
-            for (float y = bottom - bottom % gridMinorGridlines; y < top; y += gridMinorGridlines) {
+            for (float y = bottom - bottom % getGridMinorGridlines(); y < top; y += getGridMinorGridlines()) {
                 shapeDrawer.line(left, y, right, y);
             }
         }
 
-        if (axesEnabled) {
+        if (isAxesEnabled()) {
             //draw axes
-            shapeDrawer.setColor(axesColor);
+            shapeDrawer.setColor(getAxesColor());
             shapeDrawer.setDefaultLineWidth(3 * previewViewport.getUnitsPerPixel());
             if (bottom <= 0) shapeDrawer.line(left, 0, right, 0);
             if (left <= 0) shapeDrawer.line(0, bottom, 0, top);
         }
 
         if (!pause) {
-            particleEffect.update(Gdx.graphics.getDeltaTime() * deltaMultiplier);
+            particleEffect.update(Gdx.graphics.getDeltaTime() * getDeltaMultiplier());
             particleEffect.draw(spriteBatch);
         }
 

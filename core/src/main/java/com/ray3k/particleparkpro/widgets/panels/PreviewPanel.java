@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
+import com.ray3k.particleparkpro.PreviewSettings;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
 import com.ray3k.particleparkpro.widgets.poptables.PopPreviewSettings;
@@ -21,7 +23,7 @@ import com.ray3k.stripe.ResizeWidget;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.ParticlePreview.*;
+import static com.ray3k.particleparkpro.PreviewSettings.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.*;
 
 /**
@@ -51,7 +53,7 @@ public class PreviewPanel extends Panel {
         //Background
         previewBackgroundImage = new Image(skin, "white");
         stack.add(previewBackgroundImage);
-        previewBackgroundImage.setColor(backgroundColor);
+        previewBackgroundImage.setColor(getBackgroundColor());
 
         //Preview viewport
         stack.add(viewportWidget);
@@ -80,7 +82,7 @@ public class PreviewPanel extends Panel {
         addTooltip(button, "Reset the zoom and center the camera at (0,0).", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = 5;
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
             previewCamera.position.set(0, 0, 0);
         });
 
@@ -90,7 +92,7 @@ public class PreviewPanel extends Panel {
         addTooltip(button, "Zoom in.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex + 1, 0, zoomLevels.size - 1);
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
         });
 
         button = new Button(skin, "zoom-in");
@@ -99,7 +101,7 @@ public class PreviewPanel extends Panel {
         addTooltip(button, "Zoom out.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = MathUtils.clamp(zoomLevelIndex - 1, 0, zoomLevels.size - 1);
-            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+            previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
         });
 
         var dragListener = new DragListener() {
@@ -118,6 +120,7 @@ public class PreviewPanel extends Panel {
                         }
                         emitter.reset();
                     }
+                    Gdx.graphics.setSystemCursor(SystemCursor.None);
                 }
 
                 return super.touchDown(event, x, y, pointer, button);
@@ -131,6 +134,8 @@ public class PreviewPanel extends Panel {
                     emitter.setContinuous(false);
                 }
                 resetEmitters.clear();
+
+                if (button == Buttons.RIGHT) Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
             }
 
             @Override
@@ -145,13 +150,13 @@ public class PreviewPanel extends Panel {
 
                 var pixelsDifferenceW = (table.getWidth() / oldZoom) - (table.getWidth() / newZoom);
                 var sideRatioX = (x - (table.getWidth() / 2)) / table.getWidth();
-                previewCamera.position.x += pixelsDifferenceW * sideRatioX  / pixelsPerMeter;
+                previewCamera.position.x += pixelsDifferenceW * sideRatioX  / getPixelsPerMeter();
 
                 var pixelsDifferenceH = (table.getHeight() / oldZoom) - (table.getHeight() / newZoom);
                 var sideRatioH = (y - (table.getHeight() / 2)) / table.getHeight();
-                previewCamera.position.y += pixelsDifferenceH * sideRatioH / pixelsPerMeter;
+                previewCamera.position.y += pixelsDifferenceH * sideRatioH / getPixelsPerMeter();
 
-                previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+                previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
                 return true;
             }
 
@@ -170,7 +175,7 @@ public class PreviewPanel extends Panel {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 if (Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
                     temp.set(startX - x, startY - y);
-                    temp.scl(zoomLevels.get(zoomLevelIndex) / pixelsPerMeter);
+                    temp.scl(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());
                     previewCamera.position.set(cameraStartX + temp.x, cameraStartY + temp.y, 0);
                 }
 
@@ -255,5 +260,6 @@ public class PreviewPanel extends Panel {
         stack.add(container);
         statsLabel.addAction(Actions.delay(1f, Actions.run(() -> statsLabel.setLayoutEnabled(true))));
         statsLabel.setVisible(false);
+        statsLabel.setColor(getStatisticsColor());
     }
 }

@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/github/v/release/raeleus/Particle-Park-Pro
 )](https://github.com/raeleus/Particle-Park-Pro/releases)
 
-[![box-art](https://github.com/raeleus/Particle-Park-Pro/assets/12948924/dc7ad3c9-69fd-4099-bfb0-89cd5878b8ab)](https://github.com/raeleus/Particle-Park-Pro/releases)
+[<img src="https://github.com/raeleus/Particle-Park-Pro/assets/12948924/dc7ad3c9-69fd-4099-bfb0-89cd5878b8ab">](https://github.com/raeleus/Particle-Park-Pro/releases)
 
 ## Purpose
 

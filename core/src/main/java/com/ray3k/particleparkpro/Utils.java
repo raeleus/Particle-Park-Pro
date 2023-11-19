@@ -7,6 +7,7 @@ import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
@@ -21,18 +22,21 @@ import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
+import com.ray3k.particleparkpro.widgets.poptables.PopImageError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.DecimalFormat;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 /**
  * A convenience class with various static methods that perform various utility tasks throughout Particle Park Pro.
@@ -105,7 +109,7 @@ public class Utils {
         ShaderProgram.pedantic = false;
     }
 
-    public static void loadParticle (FileHandle fileHandle) {
+    public static boolean loadParticle(FileHandle fileHandle) {
         var newParticleEffect = new ParticleEffect();
         try {
             if (fileHandle.type() != FileType.Internal)
@@ -118,12 +122,14 @@ public class Utils {
             }
             newParticleEffect.setPosition(0, 0);
         } catch (Exception e) {
-            var pop = new PopError("Error loading particle file. Ensure that all associated images are saved locally.",
-                e.getMessage());
-            pop.show(stage);
+            Gdx.input.setInputProcessor(foregroundStage);
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+
+            var pop = new PopImageError("Error loading particle file. Ensure that all associated images are saved locally.", e.getMessage(), fileHandle, false);
+            pop.show(foregroundStage);
 
             Gdx.app.error(Core.class.getName(), "Error loading particle file.", e);
-            return;
+            return false;
         }
 
         disposeParticleEffect();
@@ -143,6 +149,7 @@ public class Utils {
                     sprites.put(path, emitter.getSprites().get(i));
             }
         }
+        return true;
     }
 
     public static void disposeParticleEffect () {
@@ -156,25 +163,38 @@ public class Utils {
         }
     }
 
-    public static void mergeParticle (FileHandle fileHandle) {
+    public static boolean mergeParticle(FileHandle fileHandle) {
+        var newParticleEffect = new ParticleEffect();
         var oldEmitters = new Array<ParticleEmitter>();
         var oldActiveEmitters = new ObjectMap<ParticleEmitter, Boolean>();
-        for (var emitter : particleEffect.getEmitters()) {
-            var oldEmitter = new ParticleEmitter(emitter);
-            oldEmitters.add(oldEmitter);
-            oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
-        }
+        try {
+            for (var emitter : particleEffect.getEmitters()) {
+                var oldEmitter = new ParticleEmitter(emitter);
+                oldEmitters.add(oldEmitter);
+                oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
+            }
 
-        if (fileHandle.type() != FileType.Internal)
-            particleEffect.load(fileHandle, fileHandle.parent());
-        else {
-            var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
-            particleEffect.load(fileHandle, textureAtlas);
-            var defaultImageHandle = Gdx.files.internal("particle.png");
-            fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+            if (fileHandle.type() != FileType.Internal) newParticleEffect.load(fileHandle, fileHandle.parent());
+            else {
+                var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
+                newParticleEffect.load(fileHandle, textureAtlas);
+                var defaultImageHandle = Gdx.files.internal("particle.png");
+                fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+            }
+        } catch (Exception e) {
+            Gdx.input.setInputProcessor(foregroundStage);
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+
+            var pop = new PopImageError("Error merging particle file. Ensure that all associated images are saved locally.", e.getMessage(), fileHandle, true);
+            pop.show(foregroundStage);
+
+            Gdx.app.error(Core.class.getName(), "Error merging particle file.", e);
+            return false;
         }
 
         activeEmitters.clear();
+        particleEffect = newParticleEffect;
+
         for (var emitter : particleEffect.getEmitters()) {
             emitter.setPosition(oldEmitters.first().getX(), oldEmitters.first().getY());
             activeEmitters.put(emitter, true);
@@ -192,6 +212,12 @@ public class Utils {
         for (var emitter : oldEmitters) {
             activeEmitters.put(emitter, oldActiveEmitters.get(emitter));
         }
+
+        effectEmittersPanel.populateEmitters();
+        effectEmittersPanel.updateDisableableWidgets();
+        emitterPropertiesPanel.populateScrollTable(null);
+
+        return true;
     }
 
     public static ParticleEmitter createNewEmitter () {
@@ -317,6 +343,11 @@ public class Utils {
         var height = MathUtils.floor(displayMode.height * percentageOfScreenHeight);
         var width = MathUtils.floor(widthRatio * height);
         sizeWindowToFit(Math.min(width, displayMode.width), Math.min(height, displayMode.height), 0);
+    }
+
+    public static boolean isWindowFocused() {
+        var window = ((Lwjgl3Graphics)Gdx.graphics).getWindow();
+        return GLFW.glfwGetWindowAttrib(window.getWindowHandle(), GLFW.GLFW_FOCUSED) == GLFW.GLFW_TRUE;
     }
 
     private static String getShortcutPreferenceString (String name, boolean primary) {

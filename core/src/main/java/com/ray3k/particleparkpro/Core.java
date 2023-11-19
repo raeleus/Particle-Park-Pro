@@ -29,6 +29,7 @@ import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.runnables.RedoShortcutRunnable;
 import com.ray3k.particleparkpro.runnables.UndoShortcutRunnable;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
+import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -191,6 +192,9 @@ public class Core extends ApplicationAdapter {
         logFile.mkdirs();
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
+
+        Settings.initializeSettings();
+        PreviewSettings.initializeSettings();
 
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();

@@ -125,9 +125,6 @@ public class SpawnSubPanel extends Panel {
         ellipseToggleGroup.table2.add(checkBox).colspan(2).left();
         addHandListener(checkBox);
         addTooltip(checkBox, "If true, particles will spawn on the edges of the ellipse", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(checkBox, () -> {
-            UndoManager.add(new SpawnEdgesUndoable(selectedEmitter, value, checkBox.isChecked(), "change Spawn Edges"));
-        });
 
         //Side
         ellipseToggleGroup.table2.row();
@@ -138,17 +135,18 @@ public class SpawnSubPanel extends Panel {
         label = new Label("Side:", skin);
         table.add(label);
 
-        var selectBox = new SelectBox<String>(skin);
-        selectBox.setItems("both", "top", "bottom");
-        selectBox.setSelectedIndex(value.getSide() == SpawnEllipseSide.both ? 0 : value.getSide() == SpawnEllipseSide.top ? 1 : 2);
-        table.add(selectBox).width(spinnerWidth);
-        addHandListener(selectBox);
-        addHandListener(selectBox.getList());
-        addTooltip(selectBox, "The side of the ellipse where particles will spawn", Align.top, Align.top, tooltipBottomArrowStyle);
-        onChange(selectBox, () -> {
+        var sideSelectBox = new SelectBox<String>(skin);
+        sideSelectBox.setDisabled(!value.isEdges());
+        sideSelectBox.setItems("both", "top", "bottom");
+        sideSelectBox.setSelectedIndex(value.getSide() == SpawnEllipseSide.both ? 0 : value.getSide() == SpawnEllipseSide.top ? 1 : 2);
+        table.add(sideSelectBox).width(spinnerWidth);
+        addHandListener(sideSelectBox);
+        addHandListener(sideSelectBox.getList());
+        addTooltip(sideSelectBox, "The side of the ellipse where particles will spawn", Align.top, Align.top, tooltipBottomArrowStyle);
+        onChange(sideSelectBox, () -> {
             SpawnEllipseSide side;
 
-            switch (selectBox.getSelectedIndex()) {
+            switch (sideSelectBox.getSelectedIndex()) {
                 case 0:
                     side = SpawnEllipseSide.both;
                     break;
@@ -161,6 +159,11 @@ public class SpawnSubPanel extends Panel {
             }
 
             UndoManager.add(new SpawnSideUndoable(selectedEmitter, value, side, value.getSide(), "change Spawn Side"));
+        });
+
+        onChange(checkBox, () -> {
+            UndoManager.add(new SpawnEdgesUndoable(selectedEmitter, value, checkBox.isChecked(), "change Spawn Edges"));
+            sideSelectBox.setDisabled(!value.isEdges());
         });
 
         //Shape specific widgets

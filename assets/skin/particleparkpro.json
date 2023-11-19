@@ -176,6 +176,12 @@
 		"b": 0.9490196,
 		"a": 1
 	},
+	"semi-transparent": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 0.2191013
+	},
 	"shadow": {
 		"r": 0,
 		"g": 0,
@@ -1724,8 +1730,8 @@
 		"minHeight": 19,
 		"rightWidth": 3,
 		"leftWidth": 3,
-		"bottomHeight": 3,
-		"topHeight": 3,
+		"bottomHeight": 5,
+		"topHeight": 5,
 		"offsetX": 0,
 		"offsetY": 0,
 		"offsetXspeed": 0,
@@ -1846,6 +1852,27 @@
 		"leftWidth": 4,
 		"bottomHeight": 7,
 		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"select-box-disabled-10": {
+		"region": "select-box-up",
+		"color": "semi-transparent",
+		"horizontalStretchAreas": [ 3, 41 ],
+		"verticalStretchAreas": [ 3, 5, 13, 15 ],
+		"tiling": false,
+		"minWidth": 57,
+		"minHeight": 19,
+		"rightWidth": 20,
+		"leftWidth": 6,
+		"bottomHeight": 2,
+		"topHeight": 2,
 		"offsetX": 0,
 		"offsetY": 0,
 		"offsetXspeed": 0,
@@ -2139,9 +2166,11 @@
 	"default": {
 		"font": "font-black",
 		"fontColor": "white",
+		"disabledFontColor": "semi-transparent",
 		"background": "select-box-up-10",
 		"scrollStyle": "default",
-		"listStyle": "select-box"
+		"listStyle": "select-box",
+		"backgroundDisabled": "select-box-disabled-10"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {

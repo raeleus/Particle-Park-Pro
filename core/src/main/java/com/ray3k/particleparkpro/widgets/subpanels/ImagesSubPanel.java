@@ -166,7 +166,7 @@ public class ImagesSubPanel extends Panel {
 
             @Override
             public void selected(String text) {
-
+                updateDisabled();
             }
         });
 

@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro.widgets.panels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -20,6 +21,7 @@ import com.ray3k.particleparkpro.undo.undoables.*;
 import com.ray3k.particleparkpro.widgets.CollapsibleGroup;
 import com.ray3k.particleparkpro.widgets.EditableLabel;
 import com.ray3k.particleparkpro.widgets.Panel;
+import com.ray3k.particleparkpro.widgets.poptables.PopTemplate;
 import com.ray3k.stripe.DraggableList;
 import com.ray3k.stripe.DraggableList.DraggableListListener;
 import com.ray3k.stripe.PopTable;
@@ -52,6 +54,7 @@ public class EffectEmittersPanel extends Panel {
     private TextButton deleteTextButton;
     private TextButton upTextButton;
     private TextButton downTextButton;
+    private PopTable popEmitterControls;
 
     public EffectEmittersPanel() {
         effectEmittersPanel = this;
@@ -146,12 +149,12 @@ public class EffectEmittersPanel extends Panel {
     }
 
     private void showPopEmitterControls(Actor attachToActor) {
-        var pop = new PopTable(skin.get("side-pop", WindowStyle.class));
-        pop.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
-        pop.setHideOnUnfocus(true);
-        addEmitterButtons(pop);
+        popEmitterControls = new PopTable(skin.get("side-pop", WindowStyle.class));
+        popEmitterControls.attachToActor(attachToActor, Align.topRight, Align.bottomRight);
+        popEmitterControls.setHideOnUnfocus(true);
+        addEmitterButtons(popEmitterControls);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
-        pop.addListener(new TableShowHideListener() {
+        popEmitterControls.addListener(new TableShowHideListener() {
             @Override
             public void tableShown(Event event) {
                 Gdx.input.setInputProcessor(foregroundStage);
@@ -162,7 +165,14 @@ public class EffectEmittersPanel extends Panel {
                 Gdx.input.setInputProcessor(stage);
             }
         });
-        pop.show(foregroundStage);
+        popEmitterControls.show(foregroundStage);
+    }
+
+    public void hidePopEmitterControls() {
+        if (popEmitterControls == null) return;
+
+        popEmitterControls.hide();
+        popEmitterControls = null;
     }
 
     private void addEmitterButtons(Table table) {
@@ -177,6 +187,7 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
             updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
+            hidePopEmitterControls();
         });
 
         //Duplicate
@@ -190,6 +201,7 @@ public class EffectEmittersPanel extends Panel {
             populateEmitters();
             updateDisableableWidgets();
             emitterPropertiesPanel.populateScrollTable(null);
+            hidePopEmitterControls();
         });
 
         //Delete
@@ -251,7 +263,8 @@ public class EffectEmittersPanel extends Panel {
                 var oldSprites = new ObjectMap<>(sprites);
                 var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
 
-                Utils.mergeParticle(fileHandle);
+                var completed = Utils.mergeParticle(fileHandle);
+                if (!completed) return;
 
                 UndoManager.add(MergeEmitterUndoable
                     .builder()
@@ -271,6 +284,31 @@ public class EffectEmittersPanel extends Panel {
                 updateDisableableWidgets();
                 emitterPropertiesPanel.populateScrollTable(null);
             }
+            hidePopEmitterControls();
+        });
+
+        //Template
+        table.row();
+        var templateTextButton = new TextButton("Template", skin);
+        table.add(templateTextButton);
+        addHandListener(templateTextButton);
+        onChange(templateTextButton, () -> {
+            Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+            var pop = new PopTemplate();
+            pop.attachToActor(templateTextButton, Align.topRight, Align.bottomRight);
+            pop.show(foregroundStage);
+            pop.addListener(new PopTable.TableShowHideListener() {
+                @Override
+                public void tableShown(Event event) {
+
+                }
+
+                @Override
+                public void tableHidden(Event event) {
+                    //hide emitter options pop if necessary
+                    if (table instanceof PopTable) ((PopTable) table).hide();
+                }
+            });
         });
 
         //Up
