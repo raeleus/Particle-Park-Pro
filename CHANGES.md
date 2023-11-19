@@ -1,5 +1,6 @@
 # Changelog
 ### Version 0.0.4
+* Keyboard shortcuts to save, saveAs, and open have been added. Thanks John!
 * Added option to load pre-built templates
 * The color of the statistics label can be changed
 * The preview settings are persisted and can be reset to default values
