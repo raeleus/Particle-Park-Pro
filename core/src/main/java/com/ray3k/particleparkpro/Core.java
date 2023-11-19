@@ -316,25 +316,6 @@ public class Core extends ApplicationAdapter {
         ShaderProgram.pedantic = false;
     }
 
-    private static boolean holdingModifiers(IntArray modifiers) {
-        var doNotInclude = new IntArray(new int[]{Keys.SHIFT_LEFT, Keys.CONTROL_LEFT, Keys.ALT_LEFT});
-        for (int i = 0; i < modifiers.size; i++) {
-            var modifier = modifiers.get(i);
-            if (!Gdx.input.isKeyPressed(modifier)) return false;
-            doNotInclude.removeValue(modifier);
-        }
-
-        for (int i = 0; i < doNotInclude.size; i++) {
-            var modifier = doNotInclude.get(i);
-            if (Gdx.input.isKeyPressed(modifier)) return false;
-        }
-        return true;
-    }
-
-    public static String getWindowTitle() {
-        return DEFAULT_WINDOW_TITLE;
-    }
-
     public static void updateWindowTitle() {
         var title = openFileFileHandle == null ? Core.DEFAULT_WINDOW_TITLE : "Particle Park Pro - " + openFileFileHandle.name();
         if (unsavedChangesMade) title += "*";
