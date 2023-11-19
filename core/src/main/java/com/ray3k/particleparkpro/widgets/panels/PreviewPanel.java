@@ -258,7 +258,7 @@ public class PreviewPanel extends Panel {
         container.pad(10);
         stack.add(container);
         statsLabel.addAction(Actions.delay(1f, Actions.run(() -> statsLabel.setLayoutEnabled(true))));
-        statsLabel.setVisible(false);
+        statsLabel.setVisible(isStatisticsEnabled());
         statsLabel.setColor(getStatisticsColor());
     }
 }

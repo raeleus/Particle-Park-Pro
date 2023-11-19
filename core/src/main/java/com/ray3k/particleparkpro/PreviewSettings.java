@@ -121,7 +121,7 @@ public class PreviewSettings {
 
     public static void setStatisticsEnabled(boolean statisticsEnabled) {
         PreviewSettings.statisticsEnabled = statisticsEnabled;
-        preferences.putBoolean("statisticsEnables", statisticsEnabled);
+        preferences.putBoolean("statisticsEnabled", statisticsEnabled);
         preferences.flush();
     }
 
