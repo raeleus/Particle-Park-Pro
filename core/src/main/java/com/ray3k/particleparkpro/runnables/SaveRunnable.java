@@ -39,6 +39,7 @@ public class SaveRunnable implements Runnable {
                 particleEffect.getEmitters().add(entry.key);
             }
 
+            var fileError = false;
             Writer fileWriter = null;
             try {
                 fileWriter = new FileWriter(openFileFileHandle.file());
@@ -49,6 +50,7 @@ public class SaveRunnable implements Runnable {
                 pop.show(stage);
 
                 Gdx.app.error(Core.class.getName(), error, e);
+                fileError = true;
             } finally {
                 StreamUtils.closeQuietly(fileWriter);
             }
@@ -64,6 +66,7 @@ public class SaveRunnable implements Runnable {
                     pop.show(stage);
 
                     Gdx.app.error(Core.class.getName(), error, e);
+                    fileError = true;
                 }
             }
 
@@ -75,8 +78,10 @@ public class SaveRunnable implements Runnable {
 
             effectEmittersPanel.hidePopEmitterControls();
 
-            unsavedChangesMade = false;
-            Core.updateWindowTitle();
+            if (!fileError) {
+                unsavedChangesMade = false;
+                Core.updateWindowTitle();
+            }
         } else {
             saveAsRunnable.run();
         }
