@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.utils.*;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
-import com.ray3k.particleparkpro.shortcuts.ShortcutUtils;
 import com.ray3k.particleparkpro.SkinLoader;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.Utils.UIscale;
@@ -35,6 +33,7 @@ import java.lang.StringBuilder;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Utils.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 
@@ -46,13 +45,12 @@ public class PopEditorSettings extends PopTable {
     private static final Array<TextField> textFields = new Array<>();
     private boolean displayCommandInsteadOfAlt;
     private UIscale uiScale;
-    private Table shortcutTable;
-    private ObjectIntMap<Shortcut> shortcutKeybindResolverLookup;
+    private KeybindResolverInfoLookup keybindResolverInfoLookup;
     private IntMap<KeybindResolver> keybindResolvers;
 
     public PopEditorSettings () {
         super(skin.get(WindowStyle.class));
-        shortcutKeybindResolverLookup = new ObjectIntMap<>();
+        keybindResolverInfoLookup = new KeybindResolverInfoLookup();
         keybindResolvers = new IntMap<>();
         populate();
     }
@@ -188,9 +186,17 @@ public class PopEditorSettings extends PopTable {
         // Shortcuts
         row();
 
+        var shortcutTable = new Table();
+        shortcutTable.columnDefaults(0).right().uniformX();
+        shortcutTable.columnDefaults(1).width(90);
+        shortcutTable.columnDefaults(2).width(90);
+        shortcutTable.columnDefaults(3).uniformX();
+        shortcutTable.defaults().space(5);
+        add(shortcutTable).padTop(20);
+
         label = new Label("SHORTCUTS", skin, "header");
-        add(label).padBottom(10).padTop(20);
-        row();
+        shortcutTable.add(label).colspan(4).align(Align.center);
+        shortcutTable.row();
 
         final String prefName = "Display command instead of alt";
         var useCommandInsteadAlt = new CheckBox("(MacOs) Display command instead of alt", skin);
@@ -202,21 +208,26 @@ public class PopEditorSettings extends PopTable {
             displayCommandInsteadOfAlt = useCommandInsteadAlt.isChecked();
             preferences.putBoolean(prefName, displayCommandInsteadOfAlt);
             preferences.flush();
-            refreshShortcutTable();
+            populate();
         });
-        add(useCommandInsteadAlt).center().padBottom(10);
-        row();
-
-        shortcutTable = new Table();
-        shortcutTable.columnDefaults(0).right();
-        shortcutTable.columnDefaults(1).left().uniformX();
-        shortcutTable.defaults().space(5);
-        add(shortcutTable).padTop(0);
-
-        shortcutTable.row();
+        shortcutTable.add(useCommandInsteadAlt).colspan(4).align(Align.center).padBottom(10).padTop(10);
         shortcutTable.row();
 
-        refreshShortcutTable();
+        shortcutTable.add();
+
+        label = new Label("Primary:", skin);
+        label.setAlignment(Align.center);
+        shortcutTable.add(label);
+
+        label = new Label("Secondary:", skin);
+        label.setAlignment(Align.center);
+        shortcutTable.add(label);
+
+        shortcutTable.add();
+
+        for (Shortcut s : keyMap.getAllShortcuts()) {
+            createShortcutSettingsOption(s, shortcutTable);
+        }
 
         //buttons
         row();
@@ -281,8 +292,6 @@ public class PopEditorSettings extends PopTable {
         addHandListener(subButton);
         addTooltip(subButton, "Close the settings dialog.", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, this::hide);
-
-        updateDuplicateKeybindUI();
     }
 
     int confirmTime;
@@ -319,35 +328,32 @@ public class PopEditorSettings extends PopTable {
 
     }
 
-    private void refreshShortcutTable () {
-        shortcutTable.clearChildren();
-        for (Shortcut s : keyMap.getAllShortcuts()) {
-            createShortcutSettingsOption(s, shortcutTable);
-        }
-    }
-
     private void createShortcutSettingsOption (Shortcut shortcut, Table shortcutTable) {
         shortcutTable.row();
 
         var label = new Label(shortcut.getName() + ":", skin);
         shortcutTable.add(label);
 
-        var textField = new TextField("", skin);
-        textField.setText(constructShortcutText(shortcut.getKeybind()));
-        shortcutTable.add(textField);
-        textFields.add(textField);
-        addIbeamListener(textField);
-        addTooltip(textField, shortcut.getDescription(), Align.top, Align.top, tooltipBottomArrowStyle);
-        onTouchDown(textField, () -> {
+        var primaryTextField = new TextField("", skin);
+        primaryTextField.setText(constructShortcutText(shortcut.getPrimaryKeybind()));
+        shortcutTable.add(primaryTextField);
+        textFields.add(primaryTextField);
+        addIbeamListener(primaryTextField);
+        addTooltip(primaryTextField, shortcut.getDescription(), Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(primaryTextField, () -> {
             getStage().setKeyboardFocus(null);
-            showKeyBindPop(textField, shortcut, getStage());
+            showKeyBindPop(primaryTextField, shortcut, getStage(), true);
         });
 
-        var clearButton = new Button(skin, "cancel");
-        shortcutTable.add(clearButton);
-        addHandListener(clearButton);
-        onTouchDown(clearButton, () -> {
-            clearKeybind(textField, shortcut);
+        var secondaryTextField = new TextField("", skin);
+        secondaryTextField.setText(constructShortcutText(shortcut.getSecondaryKeybind()));
+        shortcutTable.add(secondaryTextField);
+        textFields.add(secondaryTextField);
+        addIbeamListener(secondaryTextField);
+        addTooltip(secondaryTextField, shortcut.getDescription(), Align.top, Align.top, tooltipBottomArrowStyle);
+        onTouchDown(secondaryTextField, () -> {
+            getStage().setKeyboardFocus(null);
+            showKeyBindPop(secondaryTextField, shortcut, getStage(), false);
         });
     }
 
@@ -419,7 +425,7 @@ public class PopEditorSettings extends PopTable {
         }
     }
 
-    private void showKeyBindPop (TextField textField, Shortcut shortcut, Stage stage) {
+    private void showKeyBindPop (TextField textField, Shortcut shortcut, Stage stage, boolean primary) {
         var pop = new PopTable(skin.get("key-bind", WindowStyle.class));
         pop.setHideOnUnfocus(true);
 
@@ -451,31 +457,52 @@ public class PopEditorSettings extends PopTable {
                 boolean clearShortcut = keycode == Keys.ESCAPE;
 
                 if (clearShortcut) {
-                    clearKeybind(textField, shortcut);
+                    textField.setText("");
+                    clearKeybind(keyMap, shortcut, primary, true);
+
+                    int key = keybindResolverInfoLookup.getKey(shortcut, primary);
+
+                    if (key != -1) {
+                              KeybindResolver r = keybindResolvers.get(key);
+                        if (r.removeConflict(shortcut, primary)) {
+                            if (primary) {
+                                keybindResolvers.remove(shortcut.getPrimaryKeybindPacked());
+                            } else {
+                                keybindResolvers.remove(shortcut.getSecondaryKeybindPacked());
+                            }
+                        }
+                        keybindResolverInfoLookup.remove(shortcut, primary);
+                    }
                 } else {
                     intArray.add(keycode);
                     int[] keybind = ShortcutManager.sortKeybind(intArray.toArray());
                     int packed = ShortcutManager.packKeybindSorted(keybind);
                     textField.setText(constructShortcutText(keybind));
 
-                    if (keyMap.hasKeybind(packed)) {
-                        shortcutKeybindResolverLookup.remove(shortcut, -1);
+                    keybindResolverInfoLookup.remove(shortcut, primary);
 
+                    if (keyMap.hasKeybind(packed)) {
                         KeybindResolver r = keybindResolvers.get(packed);
 
                         if (r == null) {
                             r = new KeybindResolver(packed);
                             keybindResolvers.put(packed, r);
-                            shortcutKeybindResolverLookup.put(keyMap.getShortcut(packed), packed);
-                            r.addConflict(keyMap.getShortcut(packed));
+
+                            // Add shortcut holding the keybind
+                            Shortcut s = keyMap.getShortcut(packed);
+                            if (s.getPrimaryKeybindPacked() == packed) {
+                                r.addConflict(s, true);
+                                keybindResolverInfoLookup.put(s, packed, true);
+                            } else {
+                                r.addConflict(s, false);
+                                keybindResolverInfoLookup.put(s, packed, false);
+                            }
                         }
 
-                        shortcutKeybindResolverLookup.put(shortcut, packed);
-                        r.addConflict(shortcut);
-
-                        updateDuplicateKeybindUI();
+                        r.addConflict(shortcut, primary);
+                        keybindResolverInfoLookup.put(shortcut, packed, primary);
                     } else {
-                        ShortcutUtils.setKeybind(keyMap, shortcut, keybind, true);
+                        changeKeybind(keyMap, shortcut, keybind, primary, true);
                     }
                 }
 
@@ -507,42 +534,126 @@ public class PopEditorSettings extends PopTable {
         }
     }
 
-    private void clearKeybind (TextField textField, Shortcut shortcut) {
-        textField.setText("");
-        ShortcutUtils.clearKeybind(keyMap, shortcut, true);
-
-        if (shortcutKeybindResolverLookup.containsKey(shortcut)) {
-            KeybindResolver r = keybindResolvers.get(shortcutKeybindResolverLookup.get(shortcut, -1));
-            if (r.removeConflict(shortcut)) {
-                keybindResolvers.remove(shortcut.getKeybindPacked());
-            }
-            shortcutKeybindResolverLookup.remove(shortcut, -1);
-        }
-        updateDuplicateKeybindUI();
-    }
-
     private class KeybindResolver {
 
         private final int packedConflictKeybind;
-        private Array<Shortcut> conflictShortcuts;
+        private final Array<KeybindResolverInfo> conflictShortcuts;
 
         KeybindResolver (int keybind) {
             packedConflictKeybind = keybind;
             conflictShortcuts = new Array<>();
         }
 
-        void addConflict (Shortcut s) {
-            conflictShortcuts.add(s);
+        public boolean containsConflict (Shortcut s, boolean primary) {
+            for (int i = 0; i < conflictShortcuts.size; i++) {
+                KeybindResolverInfo info = conflictShortcuts.get(i);
+
+                if (info.shortcut.equals(s) && info.primary == primary) {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        boolean removeConflict (Shortcut s) {
-            conflictShortcuts.removeValue(s, false);
+        KeybindResolverInfo addConflict (Shortcut s, boolean primary) {
+            KeybindResolverInfo info = new KeybindResolverInfo(s, primary);
+            conflictShortcuts.add(info);
+            return info;
+        }
+
+        boolean removeConflict (Shortcut s, boolean primary) {
+            for (int i = conflictShortcuts.size - 1; i >= 0; i--) {
+                KeybindResolverInfo info = conflictShortcuts.get(i);
+
+                if (info.shortcut.equals(s) && info.primary == primary) {
+                    conflictShortcuts.removeIndex(i);
+                    break;
+                }
+            }
 
             if (conflictShortcuts.size == 1) {
-                ShortcutUtils.setKeybind(keyMap, conflictShortcuts.peek(), packedConflictKeybind, true);
+                KeybindResolverInfo info = conflictShortcuts.peek();
+                changeKeybind(keyMap, info.shortcut, packedConflictKeybind, info.primary, true);
                 return true;
             }
             return false;
+        }
+    }
+
+    private class KeybindResolverInfoLookup {
+
+        private ObjectLongMap<Shortcut> lookup;
+
+        KeybindResolverInfoLookup () {
+            lookup = new ObjectLongMap<>();
+        }
+
+        long pack (int primary, int secondary) {
+            return (((long)primary) << 32 | (secondary & 0xffffffffL));
+        }
+
+        long packPrimary (long num, int primary) {
+            int sec = (int)num;
+            return pack(primary, sec);
+        }
+
+        long packSecondary (long num, int secondary) {
+            int pri = (int)(num >> 32);
+            return pack(pri, secondary);
+        }
+
+        int getPrimary (long num) {
+            return (int)(num >> 32);
+        }
+
+        int getSecondary (long num) {
+            return (int)num;
+        }
+
+        void put (Shortcut s, int v, boolean primary) {
+            long key = lookup.get(s, -1);
+
+            if (key == -1) {
+                key = 0;
+            }
+
+            key = primary ? packPrimary(key, v) : packSecondary(key, v);
+            lookup.put(s, key);
+        }
+
+        void remove(Shortcut s, boolean primary) {
+           long key = lookup.get(s, -1);
+
+           if (key == -1) return;
+
+           key = primary ? packPrimary(key, 0) : packSecondary(key, 0);
+
+           int primaryKeybindPacked = getPrimary(key);
+           int secondaryKeybindPacked = getSecondary(key);
+
+           if (primaryKeybindPacked == 0 && secondaryKeybindPacked == 0) {
+              lookup.remove(s, -1);
+           } else {
+               lookup.put(s, key);
+           }
+        }
+
+        int getKey (Shortcut s, boolean primary) {
+            long result = lookup.get(s, -1);
+            if (result == -1) return -1;
+            return primary ? getPrimary(result) : getSecondary(result);
+        }
+
+    }
+
+    private class KeybindResolverInfo {
+
+        private boolean primary;
+        private Shortcut shortcut;
+
+        KeybindResolverInfo (Shortcut shortcut, boolean primary) {
+            this.shortcut = shortcut;
+            this.primary = primary;
         }
     }
 }

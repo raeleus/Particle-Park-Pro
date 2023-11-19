@@ -7,18 +7,18 @@ import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
-import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
-import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
 public class OpenRunnable implements Runnable {
 
-    public static boolean open;
+    private static boolean open;
 
     @Override
     public void run () {
@@ -29,9 +29,6 @@ public class OpenRunnable implements Runnable {
         service.execute(() -> {
             open = true;
             stage.getRoot().setTouchable(Touchable.disabled);
-
-            EffectEmittersPanel effectEmittersPanel = EffectEmittersPanel.effectEmittersPanel;
-            EmitterPropertiesPanel emitterPropertiesPanel = EmitterPropertiesPanel.emitterPropertiesPanel;
 
             if (effectEmittersPanel == null || emitterPropertiesPanel == null)
                 return;
@@ -57,8 +54,6 @@ public class OpenRunnable implements Runnable {
     }
 
     private void loadOnMainThread (FileHandle fileHandle) {
-        EffectEmittersPanel effectEmittersPanel = EffectEmittersPanel.effectEmittersPanel;
-        EmitterPropertiesPanel emitterPropertiesPanel = EmitterPropertiesPanel.emitterPropertiesPanel;
         Utils.loadParticle(fileHandle);
         selectedEmitter = particleEffect.getEmitters().first();
 

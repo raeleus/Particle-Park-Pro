@@ -17,6 +17,9 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.*;
+import com.ray3k.particleparkpro.shortcuts.KeyMap;
+import com.ray3k.particleparkpro.shortcuts.Shortcut;
+import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -35,7 +38,10 @@ import static com.ray3k.particleparkpro.Settings.*;
  * A convenience class with various static methods that perform various utility tasks throughout Particle Park Pro.
  */
 public class Utils {
-    public static void openFileExplorer(FileHandle startDirectory) throws IOException {
+
+    public static final int[] EMPTY_KEYBIND = new int[] {};
+
+    public static void openFileExplorer (FileHandle startDirectory) throws IOException {
         if (startDirectory.exists()) {
             File file = startDirectory.file();
             Desktop desktop = Desktop.getDesktop();
@@ -45,45 +51,45 @@ public class Utils {
         }
     }
 
-    public static UIscale valueToUIscale(float value) {
+    public static UIscale valueToUIscale (float value) {
         for (var scale : UIscale.values()) {
-            if (MathUtils.isEqual(scale.multiplier, value)) return scale;
+            if (MathUtils.isEqual(scale.multiplier, value))
+                return scale;
         }
         return UIscale.SCALE_1X;
     }
 
-    public static void updateViewportScale(UIscale uiScale) {
+    public static void updateViewportScale (UIscale uiScale) {
         viewport.setUnitsPerPixel(uiScale.multiplier);
         previewViewport.setUnitsPerPixel(uiScale.multiplier);
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         viewportWidget.updateViewport(false);
     }
 
-    public static void checkVersion(VersionUpdateRunnable updater) {
-        if (!preferences.getBoolean(Settings.NAME_CHECK_FOR_UPDATES, Settings.DEFAULT_CHECK_FOR_UPDATES)) return;
+    public static void checkVersion (VersionUpdateRunnable updater) {
+        if (!preferences.getBoolean(Settings.NAME_CHECK_FOR_UPDATES, Settings.DEFAULT_CHECK_FOR_UPDATES))
+            return;
 
         Thread thread = new Thread(() -> {
             HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-            HttpRequest httpRequest =
-                requestBuilder.newRequest()
-                              .method(HttpMethods.GET)
-                              .url("https://raw.githubusercontent.com/raeleus/Particle-Park-Pro/master/core/src/main/resources/version")
-                              .build();
+            HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET)
+                .url("https://raw.githubusercontent.com/raeleus/Particle-Park-Pro/master/core/src/main/resources/version")
+                .build();
 
             Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                 @Override
-                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                public void handleHttpResponse (Net.HttpResponse httpResponse) {
                     var newVersion = httpResponse.getResultAsString();
                     Gdx.app.postRunnable(() -> updater.versionUpdateAvailable(newVersion));
                 }
 
                 @Override
-                public void failed(Throwable t) {
+                public void failed (Throwable t) {
                     updater.versionUpdateAvailable(version);
                 }
 
                 @Override
-                public void cancelled() {
+                public void cancelled () {
                     updater.versionUpdateAvailable(version);
                 }
             });
@@ -92,17 +98,18 @@ public class Utils {
         thread.start();
     }
 
-    public static void initShaderProgram() {
+    public static void initShaderProgram () {
         var vertex = vertShaderFile == null ? spriteBatch.getShader().getVertexShaderSource() : vertShaderFile.readString();
         var frag = fragShaderFile == null ? spriteBatch.getShader().getFragmentShaderSource() : fragShaderFile.readString();
         shaderProgram = new ShaderProgram(vertex, frag);
         ShaderProgram.pedantic = false;
     }
 
-    public static void loadParticle(FileHandle fileHandle) {
+    public static void loadParticle (FileHandle fileHandle) {
         var newParticleEffect = new ParticleEffect();
         try {
-            if (fileHandle.type() != FileType.Internal) newParticleEffect.load(fileHandle, fileHandle.parent());
+            if (fileHandle.type() != FileType.Internal)
+                newParticleEffect.load(fileHandle, fileHandle.parent());
             else {
                 var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
                 newParticleEffect.load(fileHandle, textureAtlas);
@@ -111,7 +118,8 @@ public class Utils {
             }
             newParticleEffect.setPosition(0, 0);
         } catch (Exception e) {
-            var pop = new PopError("Error loading particle file. Ensure that all associated images are saved locally.", e.getMessage());
+            var pop = new PopError("Error loading particle file. Ensure that all associated images are saved locally.",
+                e.getMessage());
             pop.show(stage);
 
             Gdx.app.error(Core.class.getName(), "Error loading particle file.", e);
@@ -131,13 +139,15 @@ public class Utils {
                 var path = emitter.getImagePaths().get(i);
                 var imageHandle = fileHandle.parent().child(path);
                 fileHandles.put(path, imageHandle);
-                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
+                if (i < emitter.getSprites().size)
+                    sprites.put(path, emitter.getSprites().get(i));
             }
         }
     }
 
-    public static void disposeParticleEffect() {
-        if (particleEffect == null) return;
+    public static void disposeParticleEffect () {
+        if (particleEffect == null)
+            return;
         for (int i = 0, n = particleEffect.getEmitters().size; i < n; i++) {
             ParticleEmitter emitter = particleEffect.getEmitters().get(i);
             for (Sprite sprite : emitter.getSprites()) {
@@ -146,7 +156,7 @@ public class Utils {
         }
     }
 
-    public static void mergeParticle(FileHandle fileHandle) {
+    public static void mergeParticle (FileHandle fileHandle) {
         var oldEmitters = new Array<ParticleEmitter>();
         var oldActiveEmitters = new ObjectMap<ParticleEmitter, Boolean>();
         for (var emitter : particleEffect.getEmitters()) {
@@ -155,7 +165,8 @@ public class Utils {
             oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
         }
 
-        if (fileHandle.type() != FileType.Internal) particleEffect.load(fileHandle, fileHandle.parent());
+        if (fileHandle.type() != FileType.Internal)
+            particleEffect.load(fileHandle, fileHandle.parent());
         else {
             var textureAtlas = new TextureAtlas(Gdx.files.internal("default/default.atlas"));
             particleEffect.load(fileHandle, textureAtlas);
@@ -172,7 +183,8 @@ public class Utils {
                 var path = emitter.getImagePaths().get(i);
                 var imageHandle = fileHandle.parent().child(path);
                 fileHandles.put(path, imageHandle);
-                if (i < emitter.getSprites().size) sprites.put(path, emitter.getSprites().get(i));
+                if (i < emitter.getSprites().size)
+                    sprites.put(path, emitter.getSprites().get(i));
             }
         }
 
@@ -182,7 +194,7 @@ public class Utils {
         }
     }
 
-    public static ParticleEmitter createNewEmitter() {
+    public static ParticleEmitter createNewEmitter () {
         var emitter = new ParticleEmitter();
         emitter.setName("Untitled");
 
@@ -238,7 +250,7 @@ public class Utils {
         return emitter;
     }
 
-    public static int calcParticleCount() {
+    public static int calcParticleCount () {
         var count = 0;
         for (var emitter : particleEffect.getEmitters()) {
             count += emitter.getActiveCount();
@@ -246,7 +258,7 @@ public class Utils {
         return count;
     }
 
-    public static void removeUnusedImageFiles() {
+    public static void removeUnusedImageFiles () {
         var names = new ObjectSet<String>();
         for (var emitter : particleEffect.getEmitters()) {
             names.addAll(emitter.getImagePaths());
@@ -255,40 +267,44 @@ public class Utils {
         var iter = fileHandles.iterator();
         while (iter.hasNext) {
             var entry = iter.next();
-            if (!names.contains(entry.value.name())) iter.remove();
+            if (!names.contains(entry.value.name()))
+                iter.remove();
         }
     }
 
-    public static void refreshUndoButtons() {
-        if (ClassicTable.classicTable != null) ClassicTable.classicTable.refreshUndo();
-        if (WizardTable.wizardTable != null) WizardTable.wizardTable.refreshUndo();
+    public static void refreshUndoButtons () {
+        if (ClassicTable.classicTable != null)
+            ClassicTable.classicTable.refreshUndo();
+        if (WizardTable.wizardTable != null)
+            WizardTable.wizardTable.refreshUndo();
     }
 
     public enum UIscale {
-        SCALE_1X("1x", 1f), SCALE_1_5X("1.5x", 1/1.5f), SCALE_2X("2x", 1/2f), SCALE_3X("3x", 1/3f), SCALE_4X("4x", 1/4f);
+        SCALE_1X("1x", 1f), SCALE_1_5X("1.5x", 1 / 1.5f), SCALE_2X("2x", 1 / 2f), SCALE_3X("3x", 1 / 3f), SCALE_4X("4x", 1 / 4f);
 
         public String text;
         public float multiplier;
 
-        UIscale(String text, float multiplier) {
+        UIscale (String text, float multiplier) {
             this.text = text;
             this.multiplier = multiplier;
         }
     }
 
     public interface VersionUpdateRunnable {
-        void versionUpdateAvailable(String newVersion);
+        void versionUpdateAvailable (String newVersion);
     }
 
-    public static void centerWindow() {
-        var graphics = (Lwjgl3Graphics) Gdx.graphics;
+    public static void centerWindow () {
+        var graphics = (Lwjgl3Graphics)Gdx.graphics;
         var displayMode = graphics.getDisplayMode();
         var window = graphics.getWindow();
         var monitor = graphics.getMonitor();
-        window.setPosition(monitor.virtualX + displayMode.width / 2 - graphics.getWidth() / 2, monitor.virtualY + displayMode.height / 2 - graphics.getHeight() / 2);
+        window.setPosition(monitor.virtualX + displayMode.width / 2 - graphics.getWidth() / 2,
+            monitor.virtualY + displayMode.height / 2 - graphics.getHeight() / 2);
     }
 
-    public static void sizeWindowToFit(int maxWidth, int maxHeight, int displayBorder) {
+    public static void sizeWindowToFit (int maxWidth, int maxHeight, int displayBorder) {
         var displayMode = Gdx.graphics.getDisplayMode();
         int width = Math.min(displayMode.width - displayBorder * 2, maxWidth);
         int height = Math.min(displayMode.height - displayBorder * 2, maxHeight);
@@ -296,11 +312,64 @@ public class Utils {
         centerWindow();
     }
 
-    public static void sizeWindowToScreenHeight(float percentageOfScreenHeight, float widthRatio) {
+    public static void sizeWindowToScreenHeight (float percentageOfScreenHeight, float widthRatio) {
         var displayMode = Gdx.graphics.getDisplayMode();
         var height = MathUtils.floor(displayMode.height * percentageOfScreenHeight);
         var width = MathUtils.floor(widthRatio * height);
         sizeWindowToFit(Math.min(width, displayMode.width), Math.min(height, displayMode.height), 0);
+    }
+
+    private static String getShortcutPreferenceString (String name, boolean primary) {
+        return primary ? name + "Shortcut" : name + "Shortcut" + "Secondary";
+    }
+
+    public static void clearKeybind (KeyMap keyMap, Shortcut s, boolean primary, boolean flush) {
+        keyMap.removeKeybind(s, primary);
+        writeKeybindToPreferences(s.getName(), 0, primary, flush);
+    }
+
+    public static void changeKeybind (KeyMap keyMap, Shortcut s, int[] unsortedKeybind, boolean primary, boolean flush) {
+        keyMap.changeKeybind(s, unsortedKeybind, primary);
+        writeKeybindToPreferences(s.getName(), unsortedKeybind, primary, flush);
+    }
+
+    public static void changeKeybind (KeyMap keyMap, Shortcut s, int packedKeybind, boolean primary, boolean flush) {
+        keyMap.changeKeybind(s, packedKeybind, primary);
+        writeKeybindToPreferences(s.getName(), packedKeybind, primary, flush);
+    }
+
+    public static int getKeybindFromPreferences (String name, boolean primary) {
+        return preferences.getInteger(getShortcutPreferenceString(name, primary));
+    }
+
+    public static void writeKeybindToPreferences (String name, int[] keybind, boolean primary, boolean flush) {
+        writeKeybindToPreferences(name, ShortcutManager.packKeybindUnsorted(keybind), primary, flush);
+    }
+
+    public static void writeKeybindToPreferences (String name, int packed, boolean primary, boolean flush) {
+        preferences.putInteger(getShortcutPreferenceString(name, primary), packed);
+        if (flush)
+            preferences.flush();
+    }
+
+    public static Shortcut createShortcut (String name, String toolTipDesc, int[] defaultPrimaryKeybind,
+        int[] defaultSecondaryKeybind, int scope, Runnable runnable) {
+        addKeybindReference(name, defaultPrimaryKeybind, defaultSecondaryKeybind);
+        Shortcut s = new Shortcut(name, toolTipDesc, runnable);
+        s.setScope(scope);
+
+        int packed = getKeybindFromPreferences(name, true);
+        if (packed > 0) {
+            int[] unpacked = ShortcutManager.unpacKeybind(packed);
+            s.setPrimaryKeybind(unpacked, packed);
+        }
+
+        packed = getKeybindFromPreferences(name, false);
+        if (packed > 0) {
+            int[] unpacked = ShortcutManager.unpacKeybind(packed);
+            s.setSecondaryKeybind(unpacked, packed);
+        }
+        return s;
     }
 
 }

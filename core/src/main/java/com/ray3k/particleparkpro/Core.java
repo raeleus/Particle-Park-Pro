@@ -36,7 +36,6 @@ import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
-import static com.ray3k.particleparkpro.shortcuts.ShortcutUtils.createShortcut;
 import static com.ray3k.particleparkpro.Utils.*;
 
 /**
@@ -193,8 +192,6 @@ public class Core extends ApplicationAdapter {
         logFile.delete();
         Gdx.app.setApplicationLogger(new TextFileApplicationLogger(logFile));
 
-        Settings.initializeSettings();
-
         viewport = new ScreenViewport();
         previewCamera = new OrthographicCamera();
         previewViewport = new ScreenViewport(previewCamera);
@@ -283,17 +280,17 @@ public class Core extends ApplicationAdapter {
         keyMap = new KeyMap();
         Array<Shortcut> shortcuts = new Array<>();
 
-        shortcuts.add(createShortcut("Undo", "Undo things", DEFAULT_KEYBINDS.get("Undo"), GLOBAL_SCOPE, new UndoShortcutRunnable()));
-        shortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_KEYBINDS.get("Redo"), GLOBAL_SCOPE, new RedoShortcutRunnable()));
-        shortcuts.add(createShortcut("SaveAs", "Save as things", DEFAULT_KEYBINDS.get("SaveAs"), GLOBAL_SCOPE, saveAsRunnable));
-        shortcuts.add(createShortcut("Save", "Save things", DEFAULT_KEYBINDS.get("Save"), GLOBAL_SCOPE, saveRunnable));
-        shortcuts.add(createShortcut("Open", "Open things", DEFAULT_KEYBINDS.get("Open"), GLOBAL_SCOPE, openRunnable));
+        shortcuts.add(createShortcut("Undo", "Undo things", DEFAULT_UNDO_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, new UndoShortcutRunnable()));
+        shortcuts.add(createShortcut("Redo", "Redo things", DEFAULT_REDO_PRIMARY_KEYBIND, DEFAULT_REDO_SECONDARY_KEYBIND, GLOBAL_SCOPE, new RedoShortcutRunnable()));
+        shortcuts.add(createShortcut("Save As", "Save as things", DEFAULT_SAVE_AS_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveAsRunnable));
+        shortcuts.add(createShortcut("Save", "Save things", DEFAULT_SAVE_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveRunnable));
+        shortcuts.add(createShortcut("Open", "Open things", DEFAULT_OPEN_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, openRunnable));
 
         // Classic only keybinds
-//        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", new int[] {Keys.C}, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
+//        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", primaryKeybind, secondaryKeybind, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
 
         // Wizard only keybinds
-//        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", new int[] {Keys.H}, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
+//        shortcuts.add(createShortcut("(Wizard) Hello", "Save things", primaryKeybind, secondaryKeybind, WIZARD_SCOPE, () -> System.out.println("Hello Wizard")));
 
         keyMap.addAll(shortcuts);
     }

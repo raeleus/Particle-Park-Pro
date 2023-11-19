@@ -219,12 +219,10 @@ public class EffectEmittersPanel extends Panel {
 
         //Save as
         table.row();
-        textButton = new TextButton("SaveAs", skin);
+        textButton = new TextButton("Save as", skin);
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, saveAsRunnable);
-
-//        onChange(textButton, Utils::saveParticleEffect);
 
         //Open
         table.row();
@@ -232,24 +230,6 @@ public class EffectEmittersPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, openRunnable);
-//        onChange(textButton, () -> {
-//            var useFileExtension = preferences.getBoolean(NAME_PRESUME_FILE_EXTENSION, DEFAULT_PRESUME_FILE_EXTENSION);
-//            var filterPatterns = useFileExtension ? new String[] {"p"} : null;
-//            var fileHandle = FileDialogs.openDialog("Open", getDefaultSavePath(), filterPatterns, "Particle files (*.p)");
-//
-//            if (fileHandle != null) {
-//                defaultFileName = fileHandle.name();
-//                Settings.setDefaultSavePath(fileHandle.parent());
-//                Utils.loadParticle(fileHandle);
-//                selectedEmitter = particleEffect.getEmitters().first();
-//
-//                populateEmitters();
-//                updateDisableableWidgets();
-//                emitterPropertiesPanel.populateScrollTable(null);
-//
-//                UndoManager.clear();
-//            }
-//        });
 
         //Merge
         table.row();

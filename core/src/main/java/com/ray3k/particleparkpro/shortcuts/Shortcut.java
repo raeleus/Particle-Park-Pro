@@ -1,11 +1,13 @@
 package com.ray3k.particleparkpro.shortcuts;
 
+import static com.ray3k.particleparkpro.Utils.*;
+
 public class Shortcut {
 
-    private static final int[] EMTPTY_KEYBIND = new int[0];
-
-    private int keybindPacked;
-    private int[] keybind;
+    private int[] primaryKeybind;
+    private int[] secondaryKeybind;
+    private int primaryKeybindPacked;
+    private int secondaryKeybindPacked;
     private final Runnable runnable;
     private final String name;
     private final String description;
@@ -38,22 +40,32 @@ public class Shortcut {
         return description;
     }
 
-    public Shortcut setKeybindPacked (int packed) {
-        keybindPacked = packed;
+    public Shortcut setPrimaryKeybind(int[] keybind, int packed) {
+        primaryKeybind = keybind;
+        primaryKeybindPacked = packed;
         return this;
     }
 
-    public int getKeybindPacked () {
-        return keybindPacked;
+    public int[] getPrimaryKeybind() {
+        return primaryKeybind != null ? primaryKeybind : EMPTY_KEYBIND;
     }
 
-    public Shortcut setKeybind (int[] keybind) {
-        this.keybind = keybind;
+    public int getPrimaryKeybindPacked () {
+        return primaryKeybindPacked;
+    }
+
+    public Shortcut setSecondaryKeybind (int[] keybind, int packed) {
+        secondaryKeybind = keybind;
+        secondaryKeybindPacked = packed;
         return this;
     }
 
-    public int[] getKeybind () {
-        return keybind == null ? EMTPTY_KEYBIND : keybind;
+    public int[] getSecondaryKeybind() {
+        return secondaryKeybind != null ? secondaryKeybind : EMPTY_KEYBIND;
+    }
+
+    public int getSecondaryKeybindPacked() {
+        return secondaryKeybindPacked;
     }
 
 }

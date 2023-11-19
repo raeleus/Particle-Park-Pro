@@ -6,9 +6,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.ray3k.particleparkpro.shortcuts.ShortcutUtils;
+import com.ray3k.particleparkpro.shortcuts.KeybindReference;
 
 import static com.ray3k.particleparkpro.Core.preferences;
+import static com.ray3k.particleparkpro.Utils.*;
 
 /**
  * This class organizes the various names used in the app preferences, the setting defaults, and provides methods for
@@ -25,24 +26,33 @@ public class Settings {
     public static final boolean DEFAULT_PRESUME_FILE_EXTENSION = true;
     public static final String DEFAULT_OPEN_TO_SCREEN = "Welcome";
     public static final float DEFAULT_SCALE = 1f;
-
+    public static final int[] DEFAULT_UNDO_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.Z};
+    public static final int[] DEFAULT_REDO_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.Y};
+    public static final int[] DEFAULT_REDO_SECONDARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.Z};
+    public static final int[] DEFAULT_SAVE_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.S};
+    public static final int[] DEFAULT_SAVE_AS_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S};
+    public static final int[] DEFAULT_OPEN_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.O};
     public static FileHandle logFile;
     public static final int GLOBAL_SCOPE = 0;
     public static final int CLASSIC_SCOPE = 1;
     public static final int WIZARD_SCOPE = 2;
-    public static final ObjectMap<String, int[]> DEFAULT_KEYBINDS = new ObjectMap<>();
+    public static final ObjectMap<String, KeybindReference> DEFAULT_KEYBINDS = new ObjectMap<>();
 
-    public static void initializeSettings() {
-        DEFAULT_KEYBINDS.put("Undo", new int[] {Keys.CONTROL_LEFT, Keys.Z});
-        DEFAULT_KEYBINDS.put("Redo", new int[] {Keys.CONTROL_LEFT, Keys.Y});
-        DEFAULT_KEYBINDS.put("SaveAs", new int[] {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S});
-        DEFAULT_KEYBINDS.put("Save", new int[] {Keys.CONTROL_LEFT, Keys.S});
-        DEFAULT_KEYBINDS.put("Open", new int[] {Keys.CONTROL_LEFT, Keys.O});
+    public static void addKeybindReference(String name, int[] primaryKeybind, int[] secondaryKeybind) {
+        DEFAULT_KEYBINDS.put(name, new KeybindReference(primaryKeybind, secondaryKeybind));
     }
 
     public static void resetKeybinds(boolean flush) {
-        for (Entry<String, int[]> e : DEFAULT_KEYBINDS) {
-            ShortcutUtils.setKeybindPreference(e.key, e.value, flush);
+        for (Entry<String, KeybindReference> e : DEFAULT_KEYBINDS) {
+            KeybindReference ref = e.value;
+
+            if (ref.getPrimaryKeybind().length > 0) {
+               writeKeybindToPreferences(e.key, ref.getPrimaryKeybind(), true, flush);
+            }
+
+            if (ref.getSecondaryKeybind().length > 0) {
+               writeKeybindToPreferences(e.key, ref.getSecondaryKeybind(), false, flush);
+            }
         }
     }
 
