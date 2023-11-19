@@ -2,7 +2,7 @@ package com.ray3k.particleparkpro.shortcuts;
 
 import java.util.Objects;
 
-import static com.ray3k.particleparkpro.Utils.*;
+import static com.ray3k.particleparkpro.Utils.EMPTY_KEYBIND;
 
 public class Shortcut {
 

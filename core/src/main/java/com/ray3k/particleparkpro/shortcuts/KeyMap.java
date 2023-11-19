@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 
-import static com.ray3k.particleparkpro.Utils.*;
+import static com.ray3k.particleparkpro.Utils.EMPTY_KEYBIND;
 
 public class KeyMap {
 

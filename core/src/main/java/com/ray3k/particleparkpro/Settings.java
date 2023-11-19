@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.ray3k.particleparkpro.shortcuts.KeybindReference;
 
 import static com.ray3k.particleparkpro.Core.preferences;
-import static com.ray3k.particleparkpro.Utils.*;
+import static com.ray3k.particleparkpro.Utils.writeKeybindToPreferences;
 
 /**
  * This class organizes the various names used in the app preferences, the setting defaults, and provides methods for

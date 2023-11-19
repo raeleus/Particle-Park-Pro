@@ -30,6 +30,7 @@ import com.ray3k.particleparkpro.widgets.tables.WelcomeTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
 import com.ray3k.stripe.ViewportWidget;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
 import static com.ray3k.particleparkpro.PresetActions.welcomeAction;
 import static com.ray3k.particleparkpro.Settings.*;
 import static com.ray3k.particleparkpro.Utils.*;

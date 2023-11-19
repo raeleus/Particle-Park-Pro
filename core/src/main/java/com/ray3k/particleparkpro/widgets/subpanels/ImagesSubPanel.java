@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ImagesAddUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ImagesMoveUndoable;
@@ -19,8 +18,6 @@ import com.ray3k.stripe.DraggableTextList.DraggableTextListListener;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
-import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.draggableTextListNoBgStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
 

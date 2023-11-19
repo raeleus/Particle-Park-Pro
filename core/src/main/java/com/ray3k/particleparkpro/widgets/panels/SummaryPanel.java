@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.widgets.Panel;
 
 import static com.ray3k.particleparkpro.Core.*;

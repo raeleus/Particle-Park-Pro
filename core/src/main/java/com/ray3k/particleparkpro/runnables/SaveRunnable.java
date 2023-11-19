@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Settings;
-import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
 
 import java.io.FileWriter;
@@ -13,8 +12,9 @@ import java.io.IOException;
 import java.io.Writer;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.*;
-import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.*;
+import static com.ray3k.particleparkpro.Settings.DEFAULT_PRESUME_FILE_EXTENSION;
+import static com.ray3k.particleparkpro.Settings.NAME_PRESUME_FILE_EXTENSION;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 public class SaveRunnable implements Runnable {
 

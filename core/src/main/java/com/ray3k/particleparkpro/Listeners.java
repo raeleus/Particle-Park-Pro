@@ -19,7 +19,7 @@ import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner;
 
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.PreviewSettings.*;
+import static com.ray3k.particleparkpro.PreviewSettings.getPixelsPerMeter;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.infSliderStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
 

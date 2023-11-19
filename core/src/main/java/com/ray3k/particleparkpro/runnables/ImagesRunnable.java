@@ -4,23 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.ray3k.particleparkpro.FileDialogs;
-import com.ray3k.particleparkpro.Settings;
-import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.undo.undoables.ImagesAddUndoable;
-import com.ray3k.particleparkpro.undo.undoables.MergeEmitterUndoable;
-import com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Core.selectedEmitter;
+import static com.ray3k.particleparkpro.Core.stage;
+import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
+import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
-import static com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel.*;
+import static com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel.imagesSubPanel;
 
 public class ImagesRunnable implements Runnable {
 
