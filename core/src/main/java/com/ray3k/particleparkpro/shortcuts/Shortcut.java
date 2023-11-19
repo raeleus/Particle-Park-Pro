@@ -1,5 +1,7 @@
 package com.ray3k.particleparkpro.shortcuts;
 
+import java.util.Objects;
+
 import static com.ray3k.particleparkpro.Utils.*;
 
 public class Shortcut {
@@ -45,7 +47,6 @@ public class Shortcut {
         primaryKeybindPacked = packed;
         return this;
     }
-
     public int[] getPrimaryKeybind() {
         return primaryKeybind != null ? primaryKeybind : EMPTY_KEYBIND;
     }
@@ -66,6 +67,22 @@ public class Shortcut {
 
     public int getSecondaryKeybindPacked() {
         return secondaryKeybindPacked;
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Shortcut shortcut = (Shortcut)o;
+        return scope == shortcut.scope && runnable.equals(shortcut.runnable) && name.equals(shortcut.name) && description.equals(
+            shortcut.description);
+    }
+
+    @Override
+    public int hashCode () {
+        return Objects.hash(runnable, name, description, scope);
     }
 
 }
