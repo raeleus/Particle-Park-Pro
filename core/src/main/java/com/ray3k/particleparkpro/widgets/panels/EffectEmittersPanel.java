@@ -326,7 +326,6 @@ public class EffectEmittersPanel extends Panel {
                     if (table instanceof PopTable) ((PopTable) table).hide();
                 }
             });
-            hidePopEmitterControls();
         });
 
         //Up
