@@ -120,6 +120,15 @@ public class PopTemplate extends PopTable {
         onChange(textButton, () -> openTemplate("explosion.p"));
         popTable = addTooltip(textButton, "Standard fire ball explosion", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
+
+        //Firework
+        scrollTable.row();
+        textButton = new TextButton("Firework", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("firework.p"));
+        popTable = addTooltip(textButton, "Firework that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
     }
 
     private void openTemplate(String internalPath) {
