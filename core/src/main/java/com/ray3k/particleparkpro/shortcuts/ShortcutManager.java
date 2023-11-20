@@ -128,10 +128,6 @@ public class ShortcutManager extends InputListener {
     public boolean keyDown (InputEvent event, int keycode) {
         if (keyMap == null || disabled || pressedKeys[3] != 0) return false;
 
-        if (event.getStage().getKeyboardFocus() != null) {
-           return false;
-        }
-
         if (filter != null && !filter.acceptKeycode(keycode)) {
             return false;
         }
