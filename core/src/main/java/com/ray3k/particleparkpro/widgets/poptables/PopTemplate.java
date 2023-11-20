@@ -55,7 +55,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("blank.p"));
-        var popTable = addTooltip(textButton, "An empty template perfect for starting a new project.", Align.top, Align.top, tooltipBottomArrowStyle);
+        var popTable = addTooltip(textButton, "An empty template perfect for starting a new project", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Flame
@@ -64,7 +64,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("flame.p"));
-        popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Sparks
@@ -73,7 +73,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("sparks.p"));
-        popTable = addTooltip(textButton, "A shower of sparks coming from an arc welder.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "A shower of sparks coming from an arc welder", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Smoke
@@ -82,7 +82,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("smoke.p"));
-        popTable = addTooltip(textButton, "A tower of smoke emanating from a chimney or wreckage.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "A tower of smoke emanating from a chimney or wreckage", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Demolition
@@ -91,7 +91,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("demolition.p"));
-        popTable = addTooltip(textButton, "The explosion from a demolished building or self-destructing robot.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "The explosion from a demolished building or self-destructing robot", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Trail
@@ -100,7 +100,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("trail.p"));
-        popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Thruster
@@ -109,7 +109,16 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("thruster.p"));
-        popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "A thruster plume that sticks closely to an attached object like a rocket", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Explosion
+        scrollTable.row();
+        textButton = new TextButton("Explosion", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("explosion.p"));
+        popTable = addTooltip(textButton, "Standard fire ball explosion", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
 
