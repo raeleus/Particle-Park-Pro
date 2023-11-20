@@ -46,8 +46,6 @@ public class MergeRunnable implements Runnable {
                 Gdx.app.postRunnable(() -> {
                     loadOnMainThread(fileHandle);
                 });
-
-                openFileFileHandle = fileHandle;
             }
 
             stage.getRoot().setTouchable(Touchable.enabled);
