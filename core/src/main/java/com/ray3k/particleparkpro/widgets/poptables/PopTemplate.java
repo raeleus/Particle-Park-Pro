@@ -102,6 +102,15 @@ public class PopTemplate extends PopTable {
         onChange(textButton, () -> openTemplate("trail.p"));
         popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
+
+        //Thruster
+        scrollTable.row();
+        textButton = new TextButton("Thruster", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("thruster.p"));
+        popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
     }
 
     private void openTemplate(String internalPath) {
