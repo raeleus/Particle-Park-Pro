@@ -39,6 +39,7 @@ public class Toast extends PopTable {
     public void show(Stage stage) {
         super.show(stage, null);
         setKeepSizedWithinStage(false);
+        getParentGroup().setColor(1, 1, 1, 1);
         addAction(sequence(
             moveTo(getStage().getWidth() / 2f - getWidth() / 2f, -getHeight()),
             moveTo(getStage().getWidth() / 2f - getWidth() / 2f, 0, .7f, Interpolation.exp5Out),
