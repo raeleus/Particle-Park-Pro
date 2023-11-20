@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.ray3k.particleparkpro.undo.Undoable;
 import lombok.Builder;
+
+import java.util.Map;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
@@ -17,13 +20,11 @@ import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.em
  */
 @Builder
 public class MergeEmitterUndoable implements Undoable {
-    private Array<ParticleEmitter> oldEmitters;
-    private ObjectMap<ParticleEmitter, Boolean> oldActiveEmitters;
+    private OrderedMap<ParticleEmitter, Boolean> oldActiveEmitters;
     private ObjectMap<String, FileHandle> oldFileHandles;
     private ObjectMap<String, Sprite> oldSprites;
     private int oldSelectedIndex;
-    private Array<ParticleEmitter> newEmitters;
-    private ObjectMap<ParticleEmitter, Boolean> newActiveEmitters;
+    private OrderedMap<ParticleEmitter, Boolean> newActiveEmitters;
     private ObjectMap<String, FileHandle> newFileHandles;
     private ObjectMap<String, Sprite> newSprites;
     private int newSelectedIndex;
@@ -32,10 +33,12 @@ public class MergeEmitterUndoable implements Undoable {
     @Override
     public void undo() {
         particleEffect.getEmitters().clear();
-        particleEffect.getEmitters().addAll(oldEmitters);
 
         activeEmitters.clear();
-        activeEmitters.putAll(oldActiveEmitters);
+        for (var oldActiveEmitter : oldActiveEmitters) {
+            activeEmitters.put(oldActiveEmitter.key, oldActiveEmitter.value);
+            if (oldActiveEmitter.value) particleEffect.getEmitters().add(oldActiveEmitter.key);
+        }
 
         fileHandles.clear();
         fileHandles.putAll(oldFileHandles);
@@ -43,7 +46,7 @@ public class MergeEmitterUndoable implements Undoable {
         sprites.clear();
         sprites.putAll(oldSprites);
 
-        selectedEmitter = particleEffect.getEmitters().get(oldSelectedIndex);
+        selectedEmitter = activeEmitters.orderedKeys().get(oldSelectedIndex);
 
         refreshDisplay();
     }
@@ -51,10 +54,12 @@ public class MergeEmitterUndoable implements Undoable {
     @Override
     public void redo() {
         particleEffect.getEmitters().clear();
-        particleEffect.getEmitters().addAll(newEmitters);
 
         activeEmitters.clear();
-        activeEmitters.putAll(newActiveEmitters);
+        for (var newActiveEmitter : newActiveEmitters) {
+            activeEmitters.put(newActiveEmitter.key, newActiveEmitter.value);
+            if (newActiveEmitter.value) particleEffect.getEmitters().add(newActiveEmitter.key);
+        }
 
         fileHandles.clear();
         fileHandles.putAll(newFileHandles);
@@ -62,26 +67,15 @@ public class MergeEmitterUndoable implements Undoable {
         sprites.clear();
         sprites.putAll(newSprites);
 
-        selectedEmitter = particleEffect.getEmitters().get(newSelectedIndex);
+        selectedEmitter = activeEmitters.orderedKeys().get(newSelectedIndex);
 
         refreshDisplay();
     }
 
     @Override
     public void start() {
-        particleEffect.getEmitters().clear();
-        particleEffect.getEmitters().addAll(newEmitters);
-
-        activeEmitters.clear();
-        activeEmitters.putAll(newActiveEmitters);
-
-        fileHandles.clear();
-        fileHandles.putAll(newFileHandles);
-
-        sprites.clear();
-        sprites.putAll(newSprites);
-
-        selectedEmitter = particleEffect.getEmitters().get(newSelectedIndex);
+        selectedEmitter = activeEmitters.orderedKeys().get(newSelectedIndex);
+        particleEffect.reset();
     }
 
     @Override

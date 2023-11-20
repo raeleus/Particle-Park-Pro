@@ -11,6 +11,7 @@
 * The particle effect now resets when certain properties are modified so the change is instantly noticeable 
 * Fixed merging particles resulting in the wrong order of particles being added to the particle effect
 * Fixed independent checkbox for emitters not working
+* Fixed merging resulting in unsorted and unexpected results
 * Fixed undoing remove image always adding the image to the end of the list
 * Minor bugfixes and code cleanup
 ### Version 0.0.3

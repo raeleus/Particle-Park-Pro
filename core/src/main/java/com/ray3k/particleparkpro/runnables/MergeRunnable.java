@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
@@ -55,27 +56,25 @@ public class MergeRunnable implements Runnable {
     }
 
     private void loadOnMainThread (FileHandle fileHandle) {
-        var oldEmitters = new Array<>(particleEffect.getEmitters());
-        var oldActiveEmitters = new ObjectMap<>(activeEmitters);
+
+        var oldActiveEmitters = new OrderedMap<>(activeEmitters);
         var oldFileHandles = new ObjectMap<>(fileHandles);
         var oldSprites = new ObjectMap<>(sprites);
-        var oldSelectedIndex = oldEmitters.indexOf(selectedEmitter, true);
+        var oldSelectedIndex = activeEmitters.keys().toArray().indexOf(selectedEmitter, true);
 
         var completed = Utils.mergeParticle(fileHandle);
         if (!completed) return;
 
         UndoManager.add(MergeEmitterUndoable
             .builder()
-            .oldEmitters(oldEmitters)
             .oldActiveEmitters(oldActiveEmitters)
             .oldFileHandles(oldFileHandles)
             .oldSprites(oldSprites)
             .oldSelectedIndex(oldSelectedIndex)
-            .newEmitters(new Array<>(particleEffect.getEmitters()))
-            .newActiveEmitters(new ObjectMap<>(activeEmitters))
+            .newActiveEmitters(new OrderedMap<>(activeEmitters))
             .newFileHandles(new ObjectMap<>(fileHandles))
             .newSprites(new ObjectMap<>(sprites))
-            .newSelectedIndex(oldEmitters.indexOf(selectedEmitter, true))
+            .newSelectedIndex(activeEmitters.keys().toArray().indexOf(selectedEmitter, true))
             .description("Merge Particle Effect")
             .build());
         effectEmittersPanel.populateEmitters();
@@ -84,7 +83,6 @@ public class MergeRunnable implements Runnable {
         emitterPropertiesPanel.populateScrollTable(null);
         showToast("Merged " + fileHandle.name());
 
-        UndoManager.clear();
         updateWindowTitle();
     }
 }

@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
@@ -172,13 +173,10 @@ public class Utils {
 
     public static boolean mergeParticle(FileHandle fileHandle) {
         var newParticleEffect = new ParticleEffect();
-        var oldEmitters = new Array<ParticleEmitter>();
-        var oldActiveEmitters = new ObjectMap<ParticleEmitter, Boolean>();
+        var oldActiveEmitters = new OrderedMap<ParticleEmitter, Boolean>();
         try {
-            for (var emitter : particleEffect.getEmitters()) {
-                var oldEmitter = new ParticleEmitter(emitter);
-                oldEmitters.add(oldEmitter);
-                oldActiveEmitters.put(oldEmitter, activeEmitters.get(emitter));
+            for (var activeEmitter : activeEmitters) {
+                oldActiveEmitters.put(activeEmitter.key, activeEmitter.value);
             }
 
             if (fileHandle.type() != FileType.Internal) newParticleEffect.load(fileHandle, fileHandle.parent());
@@ -202,7 +200,7 @@ public class Utils {
         particleEffect = newParticleEffect;
 
         for (var emitter : particleEffect.getEmitters()) {
-            emitter.setPosition(oldEmitters.first().getX(), oldEmitters.first().getY());
+            emitter.setPosition(oldActiveEmitters.orderedKeys().first().getX(), oldActiveEmitters.orderedKeys().first().getY());
             activeEmitters.put(emitter, true);
 
             for (int i = 0; i < emitter.getImagePaths().size; i++) {
@@ -218,9 +216,9 @@ public class Utils {
         var newEmitters = new Array<>(particleEffect.getEmitters());
         particleEffect.getEmitters().clear();
 
-        particleEffect.getEmitters().addAll(oldEmitters);
-        for (var emitter : oldEmitters) {
-            activeEmitters.put(emitter, oldActiveEmitters.get(emitter));
+        for (var oldActiveEmitter : oldActiveEmitters) {
+            activeEmitters.put(oldActiveEmitter.key, oldActiveEmitter.value);
+            if (oldActiveEmitter.value) particleEffect.getEmitters().add(oldActiveEmitter.key);
         }
 
         particleEffect.getEmitters().addAll(newEmitters);
