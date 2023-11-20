@@ -55,7 +55,6 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("blank.p"));
-
         var popTable = addTooltip(textButton, "An empty template perfect for starting a new project.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
@@ -65,6 +64,8 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("flame.p"));
+        popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
 
         //Sparks
         scrollTable.row();
@@ -72,6 +73,8 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("sparks.p"));
+        popTable = addTooltip(textButton, "A shower of sparks coming from an arc welder.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
 
         //Smoke
         scrollTable.row();
@@ -79,6 +82,8 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("smoke.p"));
+        popTable = addTooltip(textButton, "A tower of smoke emanating from a chimney or wreckage.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
 
         //Demolition
         scrollTable.row();
@@ -86,8 +91,16 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("demolition.p"));
+        popTable = addTooltip(textButton, "The explosion from a demolished building or self-destructing robot.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
 
-        popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame.", Align.top, Align.top, tooltipBottomArrowStyle);
+        //Trail
+        scrollTable.row();
+        textButton = new TextButton("Trail", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("trail.p"));
+        popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object.", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
 
