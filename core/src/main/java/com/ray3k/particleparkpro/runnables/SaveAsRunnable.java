@@ -34,6 +34,8 @@ public class SaveAsRunnable implements Runnable {
             if (saveHandle != null) {
                 openFileFileHandle = saveHandle;
                 saveRunnable.run();
+            } else {
+                saveRunnable.setCloseOnCompletion(false);
             }
 
             stage.getRoot().setTouchable(Touchable.enabled);

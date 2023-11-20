@@ -3,6 +3,8 @@ package com.ray3k.particleparkpro.lwjgl3;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import com.ray3k.particleparkpro.Core;
 
 public class Lwjgl3Launcher {
@@ -16,7 +18,8 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new Core(), getDefaultConfiguration());
+        var core = new Core();
+        return new Lwjgl3Application(core, getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
@@ -27,6 +30,7 @@ public class Lwjgl3Launcher {
         configuration.setBackBufferConfig(8, 8, 8, 8, 16, 0, 10);
         configuration.setWindowedMode(1000, 950);
         configuration.setWindowIcon("icon128.png", "icon64.png", "icon32.png", "icon16.png");
+        configuration.setWindowListener(Core.windowListener);
         return configuration;
     }
 }

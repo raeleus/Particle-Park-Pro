@@ -2,6 +2,7 @@
 ### Version 0.0.4
 * Keyboard shortcuts to save, saveAs, and open have been added. Thanks, John!
 * Added option to load pre-built templates
+* Prompt the user to save changes before exiting the app
 * The color of the statistics label can be changed
 * The preview settings are persisted and can be reset to default values
 * Right-clicking the preview now hides the cursor

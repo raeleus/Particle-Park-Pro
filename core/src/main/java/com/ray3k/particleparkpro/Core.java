@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -186,6 +187,10 @@ public class Core extends ApplicationAdapter {
      * Indicates if changes have been made to the currently open file.
      */
     public static boolean unsavedChangesMade = true;
+
+    public static Lwjgl3WindowListener windowListener = new Utils.WindowListener();
+
+    public static boolean allowClose = true;
 
     @Override
     public void create() {

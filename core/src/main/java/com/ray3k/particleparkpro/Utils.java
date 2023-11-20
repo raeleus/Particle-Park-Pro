@@ -6,6 +6,8 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Array;
@@ -26,9 +29,12 @@ import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.widgets.Toast;
+import com.ray3k.particleparkpro.widgets.poptables.PopConfirmClose;
 import com.ray3k.particleparkpro.widgets.poptables.PopImageError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
+import com.ray3k.stripe.PopTable;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
@@ -449,5 +455,29 @@ public class Utils {
         toast.add(label);
 
         toast.show(foregroundStage);
+    }
+
+    public static class WindowListener extends Lwjgl3WindowAdapter {
+        private PopConfirmClose pop;
+        @Override
+        public boolean closeRequested() {
+            if (!allowClose && pop == null) {
+                pop = new PopConfirmClose();
+                pop.addListener(new TableShowHideListener() {
+                    @Override
+                    public void tableShown(Event event) {
+
+                    }
+
+                    @Override
+                    public void tableHidden(Event event) {
+                        pop = null;
+                    }
+                });
+                pop.show(foregroundStage);
+            }
+
+            return allowClose;
+        }
     }
 }

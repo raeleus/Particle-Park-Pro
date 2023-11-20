@@ -70,6 +70,7 @@ public class OpenRunnable implements Runnable {
 
         UndoManager.clear();
         unsavedChangesMade = false;
+        allowClose = true;
         updateWindowTitle();
     }
 }

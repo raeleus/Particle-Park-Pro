@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Utils;
 
+import static com.ray3k.particleparkpro.Core.allowClose;
+
 /**
  * The UndoManager is a system to handle undo/redo in the app. The description of the currently primed undo/redo is
  * provided. The undoIndex indicates where in the history that the user is currently at. Certain actions will wipe the
@@ -23,6 +25,7 @@ public class UndoManager {
         Utils.refreshUndoButtons();
 
         Core.unsavedChangesMade = true;
+        allowClose = false;
         Core.updateWindowTitle();
     }
 
@@ -49,6 +52,7 @@ public class UndoManager {
         undoable.undo();
         Utils.refreshUndoButtons();
         Core.unsavedChangesMade = true;
+        allowClose = false;
         Core.updateWindowTitle();
     }
 
@@ -59,6 +63,7 @@ public class UndoManager {
         undoable.redo();
         Utils.refreshUndoButtons();
         Core.unsavedChangesMade = true;
+        allowClose = false;
         Core.updateWindowTitle();
     }
 
