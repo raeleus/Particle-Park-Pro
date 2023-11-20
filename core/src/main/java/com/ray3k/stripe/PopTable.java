@@ -302,7 +302,8 @@ public class PopTable extends Table {
         if (!hidden) {
             group.setTouchable(Touchable.disabled);
             hidden = true;
-            group.addAction(sequence(action, Actions.removeActor()));
+            if (action != null) group.addAction(sequence(action, Actions.removeActor()));
+            else group.addAction(Actions.removeActor());
             fire(new TableHiddenEvent());
             for (InputListener inputListener : keyInputListeners) {
                 stage.removeListener(inputListener);
@@ -356,7 +357,7 @@ public class PopTable extends Table {
 
         setPosition((int) (stage.getWidth() / 2f - getWidth() / 2f), (int) (stage.getHeight() / 2f - getHeight() / 2f));
 
-        group.addAction(action);
+        if (action != null) group.addAction(action);
         fire(new TableShownEvent());
 
         previousKeyboardFocus = null;
