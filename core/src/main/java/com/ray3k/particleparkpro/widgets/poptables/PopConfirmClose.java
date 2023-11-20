@@ -64,7 +64,7 @@ public class PopConfirmClose extends PopTable {
             saveRunnable.run();
         });
 
-        textButton = new TextButton("Close without saving", skin);
+        textButton = new TextButton("Close without saving", skin, "highlighted-red");
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, Gdx.app::exit);

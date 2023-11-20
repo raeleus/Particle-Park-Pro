@@ -1881,6 +1881,66 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"button-highlighted-red-up-10": {
+		"region": "button-highlighted-red-up",
+		"horizontalStretchAreas": [ 3, 74 ],
+		"verticalStretchAreas": [ 4, 23 ],
+		"tiling": false,
+		"minWidth": 78,
+		"minHeight": 27,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 4,
+		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"button-highlighted-red-over-10": {
+		"region": "button-highlighted-red-over",
+		"horizontalStretchAreas": [ 3, 74 ],
+		"verticalStretchAreas": [ 4, 23 ],
+		"tiling": false,
+		"minWidth": 78,
+		"minHeight": 27,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 4,
+		"topHeight": 3,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"button-highlighted-red-down-10": {
+		"region": "button-highlighted-red-down",
+		"horizontalStretchAreas": [ 3, 74 ],
+		"verticalStretchAreas": [ 3, 22 ],
+		"tiling": false,
+		"minWidth": 78,
+		"minHeight": 27,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 3,
+		"topHeight": 4,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -2232,6 +2292,12 @@
 		"fontColor": "white",
 		"overFontColor": "selection",
 		"pressedOffsetY": -1
+	},
+	"highlighted-red": {
+		"font": "font",
+		"up": "button-highlighted-red-up-10",
+		"down": "button-highlighted-red-down-10",
+		"over": "button-highlighted-red-over-10"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
