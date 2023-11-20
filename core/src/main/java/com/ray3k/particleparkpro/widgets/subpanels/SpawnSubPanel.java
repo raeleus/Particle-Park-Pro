@@ -207,6 +207,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighSpinner.getTextField());
         addHandListener(widthHighSpinner.getButtonPlus());
         addHandListener(widthHighSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(widthHighSpinner);
         addTooltip(widthHighSpinner, "The high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthHighExpandButton = new Button(skin, "moveright");
@@ -223,6 +224,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMinSpinner.getTextField());
         addHandListener(widthHighMinSpinner.getButtonPlus());
         addHandListener(widthHighMinSpinner.getButtonMinus());
+        ;addUnfocusOnEnterKeyListener(widthHighMinSpinner);
         addTooltip(widthHighMinSpinner, "The minimum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthHighMaxSpinner = new Spinner(valueWidth.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -231,6 +233,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthHighMaxSpinner.getTextField());
         addHandListener(widthHighMaxSpinner.getButtonPlus());
         addHandListener(widthHighMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(widthHighMaxSpinner);
         addTooltip(widthHighMaxSpinner, "The maximum high value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthHighCollapseButton = new Button(skin, "moveleft");
@@ -257,6 +260,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowSpinner.getTextField());
         addHandListener(widthLowSpinner.getButtonPlus());
         addHandListener(widthLowSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(widthLowSpinner);
         addTooltip(widthLowSpinner, "The low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthLowExpandButton = new Button(skin, "moveright");
@@ -273,6 +277,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMinSpinner.getTextField());
         addHandListener(widthLowMinSpinner.getButtonPlus());
         addHandListener(widthLowMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(widthLowMinSpinner);
         addTooltip(widthLowMinSpinner, "The minimum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthLowMaxSpinner = new Spinner(valueWidth.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -281,6 +286,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(widthLowMaxSpinner.getTextField());
         addHandListener(widthLowMaxSpinner.getButtonPlus());
         addHandListener(widthLowMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(widthLowMaxSpinner);
         addTooltip(widthLowMaxSpinner, "The maximum low value for the width of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var widthLowCollapseButton = new Button(skin, "moveleft");
@@ -344,6 +350,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighSpinner.getTextField());
         addHandListener(heightHighSpinner.getButtonPlus());
         addHandListener(heightHighSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightHighSpinner);
         addTooltip(heightHighSpinner, "The high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightHighExpandButton = new Button(skin, "moveright");
@@ -360,6 +367,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMinSpinner.getTextField());
         addHandListener(heightHighMinSpinner.getButtonPlus());
         addHandListener(heightHighMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightHighMinSpinner);
         addTooltip(heightHighMinSpinner, "The minimum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -368,6 +376,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightHighMaxSpinner.getTextField());
         addHandListener(heightHighMaxSpinner.getButtonPlus());
         addHandListener(heightHighMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightHighMaxSpinner);
         addTooltip(heightHighMaxSpinner, "The maximum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightHighCollapseButton = new Button(skin, "moveleft");
@@ -394,6 +403,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowSpinner.getTextField());
         addHandListener(heightLowSpinner.getButtonPlus());
         addHandListener(heightLowSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightLowSpinner);
         addTooltip(heightLowSpinner, "The low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightLowExpandButton = new Button(skin, "moveright");
@@ -410,6 +420,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMinSpinner.getTextField());
         addHandListener(heightLowMinSpinner.getButtonPlus());
         addHandListener(heightLowMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightLowMinSpinner);
         addTooltip(heightLowMinSpinner, "The minimum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightLowMaxSpinner = new Spinner(valueHeight.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -418,6 +429,7 @@ public class SpawnSubPanel extends Panel {
         addIbeamListener(heightLowMaxSpinner.getTextField());
         addHandListener(heightLowMaxSpinner.getButtonPlus());
         addHandListener(heightLowMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(heightLowMaxSpinner);
         addTooltip(heightLowMaxSpinner, "The maximum low value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var heightLowCollapseButton = new Button(skin, "moveleft");

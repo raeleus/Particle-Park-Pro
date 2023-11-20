@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -37,6 +38,7 @@ public class Listeners {
     public static SplitPaneSystemCursorListener splitPaneHorizontalSystemCursorListener;
     public static SplitPaneSystemCursorListener splitPaneVerticalSystemCursorListener;
     public static NoCaptureKeyboardFocusListener noCaptureKeyboardFocusListener;
+    public static InputListener unfocusOnEnterKeyListener;
     static ScrollFocusListener scrollFocusListener;
     static ScrollFocusListener foregroundScrollFocusListener;
 
@@ -53,6 +55,14 @@ public class Listeners {
         scrollFocusListener = new ScrollFocusListener(stage);
         foregroundScrollFocusListener = new ScrollFocusListener(foregroundStage);
         noCaptureKeyboardFocusListener = new NoCaptureKeyboardFocusListener();
+
+        unfocusOnEnterKeyListener = new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Keys.ENTER) event.getStage().setKeyboardFocus(null);
+                return super.keyDown(event, keycode);
+            }
+        };
     }
 
     public static ChangeListener onChange(Actor actor, Runnable runnable) {
@@ -127,6 +137,10 @@ public class Listeners {
 
     public static void addSplitPaneVerticalSystemCursorListener(Actor actor) {
         actor.addListener(splitPaneVerticalSystemCursorListener);
+    }
+
+    public static void addUnfocusOnEnterKeyListener(Actor actor) {
+        actor.addListener(unfocusOnEnterKeyListener);
     }
 
     public static PopTable addTooltip(Actor actor, String text, int edge, int align, float width, PopTableStyle popTableStyle) {

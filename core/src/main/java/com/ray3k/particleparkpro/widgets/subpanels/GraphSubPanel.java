@@ -103,6 +103,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highValueSpinner.getTextField());
         addHandListener(highValueSpinner.getButtonPlus());
         addHandListener(highValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highValueSpinner);
         addTooltip(highValueSpinner, "The high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highExpandButton = new Button(skin, "moveright");
@@ -119,6 +120,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highMinValueSpinner.getTextField());
         addHandListener(highMinValueSpinner.getButtonPlus());
         addHandListener(highMinValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highMinValueSpinner);
         addTooltip(highMinValueSpinner, "The minimum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highMaxValueSpinner = new Spinner(value.getHighMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
@@ -127,6 +129,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(highMaxValueSpinner.getTextField());
         addHandListener(highMaxValueSpinner.getButtonPlus());
         addHandListener(highMaxValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highMaxValueSpinner);
         addTooltip(highMaxValueSpinner, "The maximum high value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highCollapseButton = new Button(skin, "moveleft");
@@ -153,6 +156,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowValueSpinner.getTextField());
         addHandListener(lowValueSpinner.getButtonPlus());
         addHandListener(lowValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowValueSpinner);
         addTooltip(lowValueSpinner, "The low value for the " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowExpandButton = new Button(skin, "moveright");
@@ -169,6 +173,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowMinValueSpinner.getTextField());
         addHandListener(lowMinValueSpinner.getButtonPlus());
         addHandListener(lowMinValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowMinValueSpinner);
         addTooltip(lowMinValueSpinner, "The minimum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowMaxValueSpinner = new Spinner(value.getLowMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
@@ -177,6 +182,7 @@ public class GraphSubPanel extends Panel {
         addIbeamListener(lowMaxValueSpinner.getTextField());
         addHandListener(lowMaxValueSpinner.getButtonPlus());
         addHandListener(lowMaxValueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowMaxValueSpinner);
         addTooltip(lowMaxValueSpinner, "The maximum low value for " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowCollapseButton = new Button(skin, "moveleft");

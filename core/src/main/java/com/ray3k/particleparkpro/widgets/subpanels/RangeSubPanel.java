@@ -61,6 +61,7 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueSpinner.getTextField());
         addHandListener(valueSpinner.getButtonPlus());
         addHandListener(valueSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(valueSpinner);
         addTooltip(valueSpinner, "The " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var button = new Button(skin, "moveright");
@@ -77,6 +78,7 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueMinSpinner.getTextField());
         addHandListener(valueMinSpinner.getButtonPlus());
         addHandListener(valueMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(valueMinSpinner);
         addTooltip(valueMinSpinner, "The minimum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         var valueMaxSpinner = new Spinner(value.getLowMax(), 1, decimalPlaces, Orientation.RIGHT_STACK, spinnerStyle);
@@ -85,6 +87,7 @@ public class RangeSubPanel extends Panel {
         addIbeamListener(valueMaxSpinner.getTextField());
         addHandListener(valueMaxSpinner.getButtonPlus());
         addHandListener(valueMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(valueMaxSpinner);
         addTooltip(valueMaxSpinner, "The maximum " + tooltip, Align.top, Align.top, tooltipBottomArrowStyle);
 
         button = new Button(skin, "moveleft");

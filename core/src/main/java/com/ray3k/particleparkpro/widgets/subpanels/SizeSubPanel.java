@@ -104,6 +104,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highSpinner.getTextField());
         addHandListener(highSpinner.getButtonPlus());
         addHandListener(highSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highSpinner);
         addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highExpandButton = new Button(skin, "moveright");
@@ -120,6 +121,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highMinSpinner.getTextField());
         addHandListener(highMinSpinner.getButtonPlus());
         addHandListener(highMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highMinSpinner);
         addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -128,6 +130,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highMaxSpinner.getTextField());
         addHandListener(highMaxSpinner.getButtonPlus());
         addHandListener(highMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highMaxSpinner);
         addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highCollapseButton = new Button(skin, "moveleft");
@@ -154,6 +157,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowSpinner.getTextField());
         addHandListener(lowSpinner.getButtonPlus());
         addHandListener(lowSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowSpinner);
         addTooltip(lowSpinner, "The low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowExpandButton = new Button(skin, "moveright");
@@ -170,6 +174,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowMinSpinner.getTextField());
         addHandListener(lowMinSpinner.getButtonPlus());
         addHandListener(lowMinSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowMinSpinner);
         addTooltip(lowMinSpinner, "The minimum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowMaxSpinner = new Spinner(xValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -178,6 +183,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowMaxSpinner.getTextField());
         addHandListener(lowMaxSpinner.getButtonPlus());
         addHandListener(lowMaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowMaxSpinner);
         addTooltip(lowMaxSpinner, "The maximum low value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowCollapseButton = new Button(skin, "moveleft");
@@ -252,6 +258,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXspinner.getTextField());
         addHandListener(highXspinner.getButtonPlus());
         addHandListener(highXspinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highXspinner);
         addTooltip(highXspinner, "The high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highXexpandButton = new Button(skin, "moveright");
@@ -268,6 +275,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXminSpinner.getTextField());
         addHandListener(highXminSpinner.getButtonPlus());
         addHandListener(highXminSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highXminSpinner);
         addTooltip(highXminSpinner, "The minimum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highXmaxSpinner = new Spinner(xValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -276,6 +284,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highXmaxSpinner.getTextField());
         addHandListener(highXmaxSpinner.getButtonPlus());
         addHandListener(highXmaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highXmaxSpinner);
         addTooltip(highXmaxSpinner, "The maximum high value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highXcollapseButton = new Button(skin, "moveleft");
@@ -300,6 +309,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXspinner.getTextField());
         addHandListener(lowXspinner.getButtonPlus());
         addHandListener(lowXspinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowXspinner);
         addTooltip(lowXspinner, "The low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowXexpandButton = new Button(skin, "moveright");
@@ -316,6 +326,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXminSpinner.getTextField());
         addHandListener(lowXminSpinner.getButtonPlus());
         addHandListener(lowXminSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowXminSpinner);
         addTooltip(lowXminSpinner, "The minimum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowXmaxSpinner = new Spinner(xValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -324,6 +335,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowXmaxSpinner.getTextField());
         addHandListener(lowXmaxSpinner.getButtonPlus());
         addHandListener(lowXmaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowXmaxSpinner);
         addTooltip(lowXmaxSpinner, "The maximum low value for the particle X size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowXcollapseButton = new Button(skin, "moveleft");
@@ -383,6 +395,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYspinner.getTextField());
         addHandListener(highYspinner.getButtonPlus());
         addHandListener(highYspinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highYspinner);
         addTooltip(highYspinner, "The high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highYexpandButton = new Button(skin, "moveright");
@@ -399,6 +412,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYminSpinner.getTextField());
         addHandListener(highYminSpinner.getButtonPlus());
         addHandListener(highYminSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highYminSpinner);
         addTooltip(highYminSpinner, "The minimum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highYmaxSpinner = new Spinner(yValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -407,6 +421,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(highYmaxSpinner.getTextField());
         addHandListener(highYmaxSpinner.getButtonPlus());
         addHandListener(highYmaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(highYmaxSpinner);
         addTooltip(highYmaxSpinner, "The maximum high value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highYcollapseButton = new Button(skin, "moveleft");
@@ -431,6 +446,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYspinner.getTextField());
         addHandListener(lowYspinner.getButtonPlus());
         addHandListener(lowYspinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowYspinner);
         addTooltip(lowYspinner, "The low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowYexpandButton = new Button(skin, "moveright");
@@ -447,6 +463,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYminSpinner.getTextField());
         addHandListener(lowYminSpinner.getButtonPlus());
         addHandListener(lowYminSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowYminSpinner);
         addTooltip(lowYminSpinner, "The minimum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowYmaxSpinner = new Spinner(yValue.getLowMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
@@ -455,6 +472,7 @@ public class SizeSubPanel extends Panel {
         addIbeamListener(lowYmaxSpinner.getTextField());
         addHandListener(lowYmaxSpinner.getButtonPlus());
         addHandListener(lowYmaxSpinner.getButtonMinus());
+        addUnfocusOnEnterKeyListener(lowYmaxSpinner);
         addTooltip(lowYmaxSpinner, "The maximum low value for the particle Y size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var lowYcollapseButton = new Button(skin, "moveleft");
