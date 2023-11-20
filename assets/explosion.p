@@ -27,7 +27,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-independent: false
+independent: true
 - Life Offset - 
 active: false
 independent: false
@@ -178,12 +178,12 @@ lowMin: 0.0
 lowMax: 0.0
 highMin: 300.0
 highMax: 500.0
-relative: true
+relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-independent: false
+independent: true
 - Life Offset - 
 active: false
 independent: false
