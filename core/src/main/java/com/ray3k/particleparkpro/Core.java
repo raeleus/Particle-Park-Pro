@@ -192,6 +192,10 @@ public class Core extends ApplicationAdapter {
 
     public static boolean allowClose = true;
 
+    public static Toast currentToast;
+
+    public static Array<Toast> toastQueue;
+
     @Override
     public void create() {
         sizeWindowToScreenHeight(950/1080f, 1000/950f);
@@ -236,6 +240,8 @@ public class Core extends ApplicationAdapter {
         SkinLoader.loadSkin();
         shapeDrawer = new ShapeDrawer(spriteBatch, skin.getRegion("white-pixel"));
         particlePreview = new ParticlePreview();
+
+        toastQueue = new Array<>();
 
         activeEmitters = new OrderedMap<>();
         loadParticle(Gdx.files.internal("flame.p"));

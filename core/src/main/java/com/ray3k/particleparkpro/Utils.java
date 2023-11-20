@@ -449,12 +449,36 @@ public class Utils {
     }
 
     public static void showToast(String text) {
-        var toast = new Toast(skin.get("toast", WindowStyle.class), .7f);
+        var transitionTime = currentToast != null ? .2f : .5f;
+        var showTime = currentToast != null ? .5f : .7f;
+        var toast = new Toast(skin.get("toast", WindowStyle.class), transitionTime, showTime);
 
         var label = new Label(text, skin);
         toast.add(label);
 
-        toast.show(foregroundStage);
+        toast.addListener(new TableShowHideListener() {
+            @Override
+            public void tableShown(Event event) {
+                currentToast = toast;
+            }
+
+            @Override
+            public void tableHidden(Event event) {
+                Gdx.app.postRunnable(() -> {
+                    currentToast = null;
+                    if (toastQueue.size == 0) return;
+                    var toast = toastQueue.first();
+                    toastQueue.removeIndex(0);
+                    toast.show(foregroundStage);
+                });
+            }
+        });
+
+        if (currentToast == null) {
+            toast.show(foregroundStage);
+        } else {
+            toastQueue.add(toast);
+        }
     }
 
     public static class WindowListener extends Lwjgl3WindowAdapter {
