@@ -332,7 +332,6 @@ public class PopTable extends Table {
         hidden = false;
         this.stage = stage;
         group = new WidgetGroup();
-        group.setColor(1, 1, 1, 0);
         group.setFillParent(true);
         group.setTouchable(hideOnUnfocus ? Touchable.enabled : Touchable.childrenOnly);
         group.addListener(new InputListener(){
