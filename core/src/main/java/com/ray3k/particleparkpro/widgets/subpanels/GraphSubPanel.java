@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.widgets.subpanels;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.IndependentScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueIndependentUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueRelativeUndoable;
 import com.ray3k.particleparkpro.undo.undoables.ScaledNumericValueUndoable;
 import com.ray3k.particleparkpro.undo.undoables.SetPropertyUndoable;
@@ -74,10 +76,11 @@ public class GraphSubPanel extends Panel {
             graphToggleWidget.table1.row();
             var checkBox = new CheckBox("Independent", skin);
             checkBox.setProgrammaticChangeEvents(false);
+            checkBox.setChecked(((IndependentScaledNumericValue) value).isIndependent());
             graphToggleWidget.table1.add(checkBox).left();
             addHandListener(checkBox);
             addTooltip(checkBox, "If true, the value is randomly assigned per particle", Align.top, Align.top, tooltipBottomArrowStyle);
-            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueRelativeUndoable(selectedEmitter, value, checkBox.isChecked(), undoDescription + " Independent")));
+            onChange(checkBox, () -> UndoManager.add(new ScaledNumericValueIndependentUndoable(selectedEmitter, ((IndependentScaledNumericValue) value), checkBox.isChecked(), undoDescription + " Independent")));
         }
 
         //High

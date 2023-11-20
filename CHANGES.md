@@ -10,6 +10,7 @@
 * The currently open file is displayed in the window title and indicates if changes have been made
 * The particle effect now resets when certain properties are modified so the change is instantly noticeable 
 * Fixed merging particles resulting in the wrong order of particles being added to the particle effect
+* Fixed independent checkbox for emitters not working
 * Fixed undoing remove image always adding the image to the end of the list
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
