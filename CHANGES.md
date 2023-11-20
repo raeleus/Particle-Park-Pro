@@ -7,6 +7,7 @@
 * Right-clicking the preview now hides the cursor
 * Opening a particle effect file that doesn't have the locally saved particle images asks you to locate them in a new dialog
 * The currently open file is displayed in the window title and indicates if changes have been made
+* The particle effect now resets when certain properties are modified so the change is instantly noticeable 
 * Fixed merging particles resulting in the wrong order of particles being added to the particle effect
 * Fixed undoing remove image always adding the image to the end of the list
 * Minor bugfixes and code cleanup

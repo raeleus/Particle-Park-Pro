@@ -93,5 +93,6 @@ public class MergeEmitterUndoable implements Undoable {
         effectEmittersPanel.populateEmitters();
         effectEmittersPanel.updateDisableableWidgets();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 }

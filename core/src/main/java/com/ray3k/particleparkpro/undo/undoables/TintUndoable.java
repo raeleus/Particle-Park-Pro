@@ -7,6 +7,7 @@ import com.ray3k.particleparkpro.widgets.ColorGraph;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.particleEffect;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
@@ -56,5 +57,6 @@ public class TintUndoable implements Undoable {
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 }

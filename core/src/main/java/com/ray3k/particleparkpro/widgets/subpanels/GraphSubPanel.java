@@ -33,7 +33,7 @@ public class GraphSubPanel extends Panel {
     private static final float GRAPH_UNDO_DELAY = .3f;
     private Action graphUndoAction;
 
-    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM) {
+    public GraphSubPanel(String name, ScaledNumericValue value, boolean hasRelative, boolean hasIndependent, String tooltip, String undoDescription, String graphText, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM, boolean resetParticleEffect) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -224,6 +224,7 @@ public class GraphSubPanel extends Panel {
 
             highMinValueSpinner.setValue(highValueSpinner.getValue());
             highMaxValueSpinner.setValue(highValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(highValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -235,6 +236,7 @@ public class GraphSubPanel extends Panel {
             UndoManager.add(undo);
 
             highValueSpinner.setValue(highMinValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(highMinValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -246,6 +248,7 @@ public class GraphSubPanel extends Panel {
             UndoManager.add(undo);
 
             highValueSpinner.setValue(highMaxValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(highMaxValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -258,6 +261,7 @@ public class GraphSubPanel extends Panel {
 
             highMinValueSpinner.setValue(highValueSpinner.getValue());
             highMaxValueSpinner.setValue(highValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
 
         changeListener = onChange(lowValueSpinner, () -> {
@@ -269,6 +273,7 @@ public class GraphSubPanel extends Panel {
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValue());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(lowValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -280,6 +285,7 @@ public class GraphSubPanel extends Panel {
             UndoManager.add(undo);
 
             lowValueSpinner.setValue(lowMinValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(lowMinValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -291,6 +297,7 @@ public class GraphSubPanel extends Panel {
             UndoManager.add(undo);
 
             lowValueSpinner.setValue(lowMaxValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(lowMaxValueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -303,6 +310,7 @@ public class GraphSubPanel extends Panel {
 
             lowMinValueSpinner.setValue(lowValueSpinner.getValue());
             lowMaxValueSpinner.setValue(lowValueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
 
         onChange(graph, () -> {
@@ -316,9 +324,10 @@ public class GraphSubPanel extends Panel {
             }
 
             addGraphUpdateAction(value, newTimeline, newScaling, undoDescription);
+            if (resetParticleEffect) particleEffect.reset();
         });
 
-        changeListener = onChange(graphExpanded, () -> {
+        onChange(graphExpanded, () -> {
             var nodes = graphExpanded.getNodes();
             float[] newTimeline = new float[nodes.size];
             float[] newScaling = new float[nodes.size];

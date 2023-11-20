@@ -51,5 +51,6 @@ public class DeleteEmitterUndoable implements Undoable {
         effectEmittersPanel.populateEmitters();
         effectEmittersPanel.updateDisableableWidgets();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 }

@@ -159,11 +159,13 @@ public class SpawnSubPanel extends Panel {
             }
 
             UndoManager.add(new SpawnSideUndoable(selectedEmitter, value, side, value.getSide(), "change Spawn Side"));
+            particleEffect.reset();
         });
 
         onChange(checkBox, () -> {
             UndoManager.add(new SpawnEdgesUndoable(selectedEmitter, value, checkBox.isChecked(), "change Spawn Edges"));
             sideSelectBox.setDisabled(!value.isEdges());
+            particleEffect.reset();
         });
 
         //Shape specific widgets
@@ -178,6 +180,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(new SpawnTypeUndoable(selectedEmitter, value, spawnType, spawnTypeOld, "change Spawn Type"));
 
             updateShownTable();
+            particleEffect.reset();
         });
 
         //Width
@@ -359,7 +362,6 @@ public class SpawnSubPanel extends Panel {
         addHandListener(heightHighMinSpinner.getButtonMinus());
         addTooltip(heightHighMinSpinner, "The minimum high value for the height of the spawn shape", Align.top, Align.top, tooltipBottomArrowStyle);
 
-
         var heightHighMaxSpinner = new Spinner(valueHeight.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         heightHighMaxSpinner.setProgrammaticChangeEvents(false);
         heightHighToggleWidget.table2.add(heightHighMaxSpinner).width(spinnerWidth);
@@ -454,6 +456,7 @@ public class SpawnSubPanel extends Panel {
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValue());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthHighSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -465,6 +468,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             widthHighSpinner.setValue(widthHighMinSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthHighMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -476,6 +480,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             widthHighSpinner.setValue(widthHighMaxSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthHighMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -488,6 +493,7 @@ public class SpawnSubPanel extends Panel {
 
             widthHighMinSpinner.setValue(widthHighSpinner.getValue());
             widthHighMaxSpinner.setValue(widthHighSpinner.getValue());
+            particleEffect.reset();
         });
 
         changeListener = onChange(widthLowSpinner, () -> {
@@ -499,6 +505,7 @@ public class SpawnSubPanel extends Panel {
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValue());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthLowSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -510,6 +517,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             widthLowSpinner.setValue(widthLowMinSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthLowMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -521,6 +529,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             widthLowSpinner.setValue(widthLowMaxSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(widthLowMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -533,6 +542,7 @@ public class SpawnSubPanel extends Panel {
 
             widthLowMinSpinner.setValue(widthLowSpinner.getValue());
             widthLowMaxSpinner.setValue(widthLowSpinner.getValue());
+            particleEffect.reset();
         });
 
         onChange(graphWidth, () -> {
@@ -546,6 +556,7 @@ public class SpawnSubPanel extends Panel {
             }
 
             addGraphUpdateAction(valueWidth, newTimeline, newScaling, "change Spawn Width");
+            particleEffect.reset();
         });
 
         changeListener = onChange(heightHighSpinner, () -> {
@@ -557,6 +568,7 @@ public class SpawnSubPanel extends Panel {
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValue());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightHighSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -568,6 +580,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             heightHighSpinner.setValue(heightHighMinSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightHighMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -579,6 +592,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             heightHighSpinner.setValue(heightHighMaxSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightHighMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -591,6 +605,7 @@ public class SpawnSubPanel extends Panel {
 
             heightHighMinSpinner.setValue(heightHighSpinner.getValue());
             heightHighMaxSpinner.setValue(heightHighSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightLowSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -603,6 +618,7 @@ public class SpawnSubPanel extends Panel {
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValue());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightLowMinSpinner, sliderIncrement, sliderRange, true, changeListener);
 
@@ -614,10 +630,11 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             heightLowSpinner.setValue(heightLowMinSpinner.getValue());
+            particleEffect.reset();
         });
         addInfiniteSlider(heightLowMaxSpinner, sliderIncrement, sliderRange, true, changeListener);
 
-        changeListener = onChange(heightLowMaxSpinner, () -> {
+        onChange(heightLowMaxSpinner, () -> {
             var undo = new ScaledNumericValueUndoable(selectedEmitter, valueHeight, "change Spawn Height");
             undo.oldValue.set(valueHeight);
             undo.newValue.set(valueHeight);
@@ -625,6 +642,7 @@ public class SpawnSubPanel extends Panel {
             UndoManager.add(undo);
 
             heightLowSpinner.setValue(heightLowMaxSpinner.getValue());
+            particleEffect.reset();
         });
 
         onChange(heightLowCollapseButton, () -> {
@@ -636,6 +654,7 @@ public class SpawnSubPanel extends Panel {
 
             heightLowMinSpinner.setValue(heightLowSpinner.getValue());
             heightLowMaxSpinner.setValue(heightLowSpinner.getValue());
+            particleEffect.reset();
         });
 
         onChange(graphHeight, () -> {
@@ -649,6 +668,7 @@ public class SpawnSubPanel extends Panel {
             }
 
             addGraphUpdateAction(valueHeight, newTimeline, newScaling, "change Spawn Height");
+            particleEffect.reset();
         });
 
         onChange(graphExpanded, () -> {
@@ -666,6 +686,7 @@ public class SpawnSubPanel extends Panel {
             } else {
                 addGraphUpdateAction(valueHeight, newTimeline, newScaling, "change Spawn Height");
             }
+            particleEffect.reset();
         });
     }
 

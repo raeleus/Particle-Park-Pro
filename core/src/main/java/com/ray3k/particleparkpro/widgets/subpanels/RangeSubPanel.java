@@ -16,8 +16,7 @@ import com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.ShownProp
 import com.ray3k.stripe.Spinner;
 import com.ray3k.stripe.Spinner.Orientation;
 
-import static com.ray3k.particleparkpro.Core.selectedEmitter;
-import static com.ray3k.particleparkpro.Core.skin;
+import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Listeners.*;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.spinnerStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrowStyle;
@@ -26,7 +25,7 @@ import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomArrow
  * A widget that allows modification of an emitter value that only has a min/max. Numeric spinners.
  */
 public class RangeSubPanel extends Panel {
-    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM) {
+    public RangeSubPanel(String title, RangedNumericValue value, String tooltip, String undoDescription, ShownProperty closeProperty, float sliderIncrement, float sliderRange, int decimalPlaces, boolean adjustByPPM, boolean resetParticleEffect) {
         final int spinnerWidth = 70;
         final int itemSpacing = 5;
 
@@ -103,6 +102,7 @@ public class RangeSubPanel extends Panel {
 
             valueMinSpinner.setValue(valueSpinner.getValue());
             valueMaxSpinner.setValue(valueSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(valueSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -114,6 +114,7 @@ public class RangeSubPanel extends Panel {
             UndoManager.add(undo);
 
             valueSpinner.setValue(valueMinSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(valueMinSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -125,6 +126,7 @@ public class RangeSubPanel extends Panel {
             UndoManager.add(undo);
 
             valueSpinner.setValue(valueMaxSpinner.getValue());
+            if (resetParticleEffect) particleEffect.reset();
         });
         addInfiniteSlider(valueMaxSpinner, sliderIncrement, sliderRange, adjustByPPM, changeListener);
 
@@ -138,6 +140,7 @@ public class RangeSubPanel extends Panel {
 
                 valueMinSpinner.setValue(valueSpinner.getValue());
                 valueMaxSpinner.setValue(valueSpinner.getValue());
+                if (resetParticleEffect) particleEffect.reset();
             }
         });
         if (!MathUtils.isEqual(value.getLowMin(), value.getLowMax())) highToggleWidget.swap();

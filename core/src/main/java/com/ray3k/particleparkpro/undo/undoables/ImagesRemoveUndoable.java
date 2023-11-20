@@ -70,5 +70,6 @@ public class ImagesRemoveUndoable implements Undoable {
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 }

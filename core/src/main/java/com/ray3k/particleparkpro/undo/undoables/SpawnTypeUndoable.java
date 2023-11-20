@@ -7,6 +7,7 @@ import com.ray3k.particleparkpro.widgets.subpanels.SpawnSubPanel.SpawnType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.ray3k.particleparkpro.Core.particleEffect;
 import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
@@ -47,6 +48,7 @@ public class SpawnTypeUndoable implements Undoable {
     public void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 
     @Override

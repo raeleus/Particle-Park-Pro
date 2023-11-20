@@ -67,5 +67,6 @@ public class MoveEmitterUndoable implements Undoable {
     private void refreshDisplay() {
         effectEmittersPanel.populateEmitters();
         emitterPropertiesPanel.populateScrollTable(null);
+        particleEffect.reset();
     }
 }
