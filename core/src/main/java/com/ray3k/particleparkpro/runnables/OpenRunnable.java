@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Utils.showToast;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
@@ -64,6 +65,7 @@ public class OpenRunnable implements Runnable {
         effectEmittersPanel.updateDisableableWidgets();
         emitterPropertiesPanel.populateScrollTable(null);
         effectEmittersPanel.hidePopEmitterControls();
+        showToast("Opened " + fileHandle.name());
 
         UndoManager.clear();
         updateWindowTitle();

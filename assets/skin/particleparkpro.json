@@ -2332,6 +2332,10 @@
 	"tooltip-bottom-left-arrow": {
 		"background": "tooltip-bottom-left-arrow-10",
 		"titleFont": "font"
+	},
+	"toast": {
+		"background": "button-highlighted-up-10",
+		"titleFont": "font"
 	}
 }
 }

@@ -43,14 +43,20 @@ public class UndoManager {
     }
 
     public static void undo() {
-        if (hasUndo()) undoables.get(undoIndex--).undo();
+        if (!hasUndo()) return;
+        var undoable = undoables.get(undoIndex--);
+        Utils.showToast("Undo " + undoable.getDescription());
+        undoable.undo();
         Utils.refreshUndoButtons();
         Core.unsavedChangesMade = true;
         Core.updateWindowTitle();
     }
 
     public static void redo() {
-        if (hasRedo()) undoables.get(++undoIndex).redo();
+        if (!hasRedo()) return;
+        var undoable = undoables.get(++undoIndex);
+        Utils.showToast("Redo " + undoable.getDescription());
+        undoable.redo();
         Utils.refreshUndoButtons();
         Core.unsavedChangesMade = true;
         Core.updateWindowTitle();

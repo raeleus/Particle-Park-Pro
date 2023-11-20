@@ -15,6 +15,7 @@ import static com.ray3k.particleparkpro.Core.selectedEmitter;
 import static com.ray3k.particleparkpro.Core.stage;
 import static com.ray3k.particleparkpro.Settings.getDefaultImagePath;
 import static com.ray3k.particleparkpro.Settings.setDefaultImagePath;
+import static com.ray3k.particleparkpro.Utils.showToast;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel.imagesSubPanel;
@@ -41,7 +42,7 @@ public class ImagesRunnable implements Runnable {
                 open = false;
                 return;
             }
-            
+
             if (selectedFileHandles.size > 0) {
                 setDefaultImagePath(selectedFileHandles.first().parent());
                 Gdx.app.postRunnable(() -> {
@@ -60,6 +61,8 @@ public class ImagesRunnable implements Runnable {
         if (selectedFileHandles.size > 0) {
             imagesSubPanel.updateList();
             imagesSubPanel.updateDisabled();
+
+            showToast(selectedFileHandles.size == 1 ? "Added image " + selectedFileHandles.first().name() : "Added " + selectedFileHandles.size + " images");
         }
     }
 }

@@ -14,6 +14,7 @@ import java.io.Writer;
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.DEFAULT_PRESUME_FILE_EXTENSION;
 import static com.ray3k.particleparkpro.Settings.NAME_PRESUME_FILE_EXTENSION;
+import static com.ray3k.particleparkpro.Utils.showToast;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 
 public class SaveRunnable implements Runnable {
@@ -77,6 +78,7 @@ public class SaveRunnable implements Runnable {
             }
 
             effectEmittersPanel.hidePopEmitterControls();
+            showToast("Saved");
 
             if (!fileError) {
                 unsavedChangesMade = false;

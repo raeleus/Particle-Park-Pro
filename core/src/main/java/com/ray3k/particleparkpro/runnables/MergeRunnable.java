@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.Settings.*;
+import static com.ray3k.particleparkpro.Utils.showToast;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
 import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 
@@ -83,6 +84,7 @@ public class MergeRunnable implements Runnable {
         effectEmittersPanel.updateDisableableWidgets();
         effectEmittersPanel.hidePopEmitterControls();
         emitterPropertiesPanel.populateScrollTable(null);
+        showToast("Merged " + fileHandle.name());
 
         UndoManager.clear();
         updateWindowTitle();

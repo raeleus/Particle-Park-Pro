@@ -17,12 +17,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
+import com.ray3k.particleparkpro.widgets.Toast;
 import com.ray3k.particleparkpro.widgets.poptables.PopImageError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -437,6 +440,14 @@ public class Utils {
 
         defaultImageHandle = Gdx.files.internal("particle-fire.png");
         fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+    }
 
+    public static void showToast(String text) {
+        var toast = new Toast(skin.get("toast", WindowStyle.class), .7f);
+
+        var label = new Label(text, skin);
+        toast.add(label);
+
+        toast.show(foregroundStage);
     }
 }
