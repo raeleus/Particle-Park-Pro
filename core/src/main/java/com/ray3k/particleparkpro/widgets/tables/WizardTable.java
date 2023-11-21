@@ -2,6 +2,7 @@ package com.ray3k.particleparkpro.widgets.tables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
@@ -117,4 +118,9 @@ public class WizardTable extends Table {
         onChange(button, UndoManager::redo);
     }
 
+//    @Override
+//    protected void setStage(Stage stage) {
+//        super.setStage(stage);
+//        if (stage == null) WizardTable.wizardTable = null;
+//    }
 }

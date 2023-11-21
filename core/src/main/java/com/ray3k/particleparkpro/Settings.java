@@ -32,6 +32,7 @@ public class Settings {
     public static final int[] DEFAULT_SAVE_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.S};
     public static final int[] DEFAULT_SAVE_AS_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.SHIFT_LEFT, Keys.S};
     public static final int[] DEFAULT_OPEN_PRIMARY_KEYBIND = {Keys.CONTROL_LEFT, Keys.O};
+    public static final int[] DEFAULT_SWITCH_MODE_KEYBIND = {Keys.CONTROL_LEFT, Keys.TAB};
     public static FileHandle logFile;
     public static final int GLOBAL_SCOPE = 0;
     public static final int CLASSIC_SCOPE = 1;

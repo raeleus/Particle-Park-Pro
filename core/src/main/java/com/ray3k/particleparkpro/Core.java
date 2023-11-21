@@ -80,6 +80,9 @@ public class Core extends ApplicationAdapter {
      */
     public static OrthographicCamera previewCamera;
 
+    /**
+     * The container holding all UI elements.
+     */
     public static Container<Actor> root;
 
     /**
@@ -200,6 +203,11 @@ public class Core extends ApplicationAdapter {
     public static ImagesRunnable imagesRunnable;
 
     /**
+     * The Runnable used to switch the visible mode without having to go to the WelcomeScreen.
+     */
+    public static SwitchModeRunnable switchModeRunnable;
+
+    /**
      * The maximum number of particles recorded in 5 second intervals. Used for the preview stats and the SummaryPanel.
      */
     public static int maxParticleCount;
@@ -280,6 +288,7 @@ public class Core extends ApplicationAdapter {
         saveAsRunnable.setSaveRunnable(saveRunnable);
         saveRunnable.setSaveAsRunnable(saveAsRunnable);
         imagesRunnable = new ImagesRunnable();
+        switchModeRunnable = new SwitchModeRunnable();
 
         initKeyMap();
         shortcutManager = new ShortcutManager();
@@ -363,6 +372,7 @@ public class Core extends ApplicationAdapter {
         shortcuts.add(createShortcut("Save", "Keyboard shortcut for the Save action.", DEFAULT_SAVE_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveRunnable));
         shortcuts.add(createShortcut("Save As", "Keyboard shortcut for the Save As action.", DEFAULT_SAVE_AS_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, saveAsRunnable));
         shortcuts.add(createShortcut("Open", "Keyboard shortcut for the Open action.", DEFAULT_OPEN_PRIMARY_KEYBIND, null, GLOBAL_SCOPE, openRunnable));
+        shortcuts.add(createShortcut("Switch Mode", "Keyboard shortcut to switch the visible mode.", DEFAULT_SWITCH_MODE_KEYBIND, null, GLOBAL_SCOPE, switchModeRunnable));
 
         // Classic only keybinds
 //        shortcuts.add(createShortcut("(Classic) Classic", "Hello Classic", primaryKeybind, secondaryKeybind, CLASSIC_SCOPE, () -> System.out.println("Hello Classic")));
