@@ -66,7 +66,7 @@ public class PreviewPanel extends Panel {
         var settingsButton = new Button(skin, "settings");
         table.add(settingsButton).expandX().left();
         addHandListener(settingsButton);
-        var popTooltip = addTooltip(settingsButton, "Change the preview settings.", Align.top, Align.topRight, tooltipBottomLeftArrowStyle);
+        var popTooltip = addTooltip(settingsButton, "Change the preview settings", Align.top, Align.topRight, tooltipBottomLeftArrowStyle);
         popTooltip.setAttachOffsetX(-8);
         onChange(settingsButton, () -> {
             var pop = new PopPreviewSettings();
@@ -78,7 +78,7 @@ public class PreviewPanel extends Panel {
         var button = new Button(skin, "zoom-full");
         table.add(button);
         addHandListener(button);
-        addTooltip(button, "Reset the zoom and center the camera at (0,0).", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(button, "Reset the zoom and center the camera at (0,0)", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(button, () -> {
             zoomLevelIndex = 5;
             previewViewport.setUnitsPerPixel(zoomLevels.get(zoomLevelIndex) / getPixelsPerMeter());

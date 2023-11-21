@@ -96,7 +96,7 @@ public class PopEditorSettings extends PopTable {
         addIbeamListener(spinner.getTextField());
         addHandListener(spinner.getButtonMinus());
         addHandListener(spinner.getButtonPlus());
-        addTooltip(spinner, "The maximum number of undos that will be kept in memory.", Align.top, Align.top,
+        addTooltip(spinner, "The maximum number of undos that will be kept in memory", Align.top, Align.top,
             tooltipBottomArrowStyle);
         onChange(spinner, () -> {
             preferences.putInteger(NAME_MAXIMUM_UNDOS, spinner.getValueAsInt());
@@ -113,7 +113,7 @@ public class PopEditorSettings extends PopTable {
         settingsTable.add(selectBox);
         addHandListener(selectBox);
         addHandListener(selectBox.getList());
-        addTooltip(selectBox, "The default screen that the app opens to.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(selectBox, "The default screen that the app opens to", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(selectBox, () -> {
             preferences.putString(NAME_OPEN_TO_SCREEN, selectBox.getSelected());
             preferences.flush();
@@ -165,7 +165,7 @@ public class PopEditorSettings extends PopTable {
         slider.setValue(scaleArray.indexOf(uiScale, true));
         sliderTable.add(slider).width(80);
         addHandListener(slider);
-        addTooltip(slider, "Increase the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(slider, "Increase the UI Scale for high DPI displays", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var scaleLabel = new Label(uiScale.text, skin);
         sliderTable.add(scaleLabel).padRight(5).width(20);
@@ -178,7 +178,7 @@ public class PopEditorSettings extends PopTable {
         var textButton = new TextButton("Apply", skin);
         sliderTable.add(textButton);
         addHandListener(textButton);
-        addTooltip(textButton, "Apply the UI Scale for high DPI displays.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(textButton, "Apply the UI Scale for high DPI displays", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(textButton, () -> {
             Utils.updateViewportScale(uiScale);
             showConfirmScalePop();
@@ -224,7 +224,7 @@ public class PopEditorSettings extends PopTable {
         var subButton = new TextButton("Open Preferences Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings.", Align.top, Align.top,
+        addTooltip(subButton, "Open the preferences directory where Particle Park Pro saves its settings", Align.top, Align.top,
             tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
@@ -242,7 +242,7 @@ public class PopEditorSettings extends PopTable {
         subButton = new TextButton("Open Log Directory", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors.", Align.top, Align.top,
+        addTooltip(subButton, "Open the log directory where Particle Park Pro saves errors", Align.top, Align.top,
             tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             try {
@@ -260,14 +260,14 @@ public class PopEditorSettings extends PopTable {
         subButton = new TextButton("Reset to Defaults", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Reset all settings to their defaults.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Reset all settings to their defaults", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, this::resetSettingsToDefaults);
 
         buttonTable.row();
         subButton = new TextButton("Open GitHub Page", skin);
         buttonTable.add(subButton);
         addHandListener(subButton);
-        addTooltip(subButton, "Open the GitHub page for Particle Park Pro.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(subButton, "Open the GitHub page for Particle Park Pro", Align.top, Align.top, tooltipBottomArrowStyle);
         onChange(subButton, () -> {
             Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });

@@ -105,7 +105,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highSpinner.getButtonPlus());
         addHandListener(highSpinner.getButtonMinus());
         addUnfocusOnEnterKeyListener(highSpinner);
-        addTooltip(highSpinner, "The high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highSpinner, "The high value for the particle size in world units", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highExpandButton = new Button(skin, "moveright");
         highToggleWidget.table1.add(highExpandButton);
@@ -122,7 +122,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highMinSpinner.getButtonPlus());
         addHandListener(highMinSpinner.getButtonMinus());
         addUnfocusOnEnterKeyListener(highMinSpinner);
-        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMinSpinner, "The minimum high value for the particle size in world units", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highMaxSpinner = new Spinner(xValue.getHighMax(), 1, SPINNER_DECIMAL_PLACES, Orientation.RIGHT_STACK, spinnerStyle);
         highMaxSpinner.setProgrammaticChangeEvents(false);
@@ -131,7 +131,7 @@ public class SizeSubPanel extends Panel {
         addHandListener(highMaxSpinner.getButtonPlus());
         addHandListener(highMaxSpinner.getButtonMinus());
         addUnfocusOnEnterKeyListener(highMaxSpinner);
-        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units.", Align.top, Align.top, tooltipBottomArrowStyle);
+        addTooltip(highMaxSpinner, "The maximum high value for the particle size in world units", Align.top, Align.top, tooltipBottomArrowStyle);
 
         var highCollapseButton = new Button(skin, "moveleft");
         highToggleWidget.table2.add(highCollapseButton);

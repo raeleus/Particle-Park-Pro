@@ -37,7 +37,7 @@ public class OptionsSubPanel extends Panel {
         additiveCheckBox.setChecked(selectedEmitter.isAdditive());
         bodyTable.add(additiveCheckBox);
         addHandListener(additiveCheckBox);
-        addTooltip(additiveCheckBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white.",
+        addTooltip(additiveCheckBox, "Additive blending is used when the particle emitter is drawn. This causes overlapping colors to approach white",
             Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(additiveCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.ADDITIVE, additiveCheckBox.isChecked(), "change Additive option");
@@ -62,7 +62,7 @@ public class OptionsSubPanel extends Panel {
         continuousCheckBox.setChecked(selectedEmitter.isContinuous());
         bodyTable.add(continuousCheckBox);
         addHandListener(continuousCheckBox);
-        addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(continuousCheckBox, "A continuous particle emitter will keep emitting particles even after the duration has expired", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(continuousCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.CONTINUOUS, continuousCheckBox.isChecked(), "change Continuous option");
             UndoManager.add(undoable);
@@ -86,7 +86,7 @@ public class OptionsSubPanel extends Panel {
         behindCheckBox.setChecked(selectedEmitter.isBehind());
         bodyTable.add(behindCheckBox);
         addHandListener(behindCheckBox);
-        addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility.", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
+        addTooltip(behindCheckBox, "Behind has no practical application in the current libGDX API, but is included for backwards compatibility", Align.top, Align.top, tooltipWidth, tooltipBottomArrowStyle);
         onChange(behindCheckBox, () -> {
             var undoable = new OptionsUndoable(selectedEmitter, Type.BEHIND, behindCheckBox.isChecked(), "change Behind option");
             UndoManager.add(undoable);
