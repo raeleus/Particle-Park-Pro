@@ -2,22 +2,16 @@ package com.ray3k.particleparkpro.widgets.poptables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.Listeners;
-import com.ray3k.particleparkpro.Utils;
 import com.ray3k.stripe.PopTable;
 
-import java.io.IOException;
-
 import static com.ray3k.particleparkpro.Core.*;
-import static com.ray3k.particleparkpro.Listeners.*;
-import static com.ray3k.particleparkpro.Settings.logFile;
+import static com.ray3k.particleparkpro.Listeners.addHandListener;
+import static com.ray3k.particleparkpro.Listeners.onChange;
 
 /**
  * PopTable used to display errors during runtime that can be recovered from. These are typically file errors when

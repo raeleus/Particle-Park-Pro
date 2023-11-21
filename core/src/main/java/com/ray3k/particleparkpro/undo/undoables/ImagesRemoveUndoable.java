@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.Undoable;
-import lombok.AllArgsConstructor;
 
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
