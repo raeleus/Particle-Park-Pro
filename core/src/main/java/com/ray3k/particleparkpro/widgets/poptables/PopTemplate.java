@@ -129,6 +129,15 @@ public class PopTemplate extends PopTable {
         onChange(textButton, () -> openTemplate("firework.p"));
         popTable = addTooltip(textButton, "Firework that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
+
+        //Infinity
+        scrollTable.row();
+        textButton = new TextButton("Infinity", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("infinity.p"));
+        popTable = addTooltip(textButton, "An infinite four way pattern.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
     }
 
     private void openTemplate(String internalPath) {
