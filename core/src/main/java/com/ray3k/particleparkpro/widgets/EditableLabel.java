@@ -55,6 +55,7 @@ public class EditableLabel extends ToggleGroup {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
                 if (focused) textField.selectAll();
+                else swap();
             }
         });
     }

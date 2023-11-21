@@ -13,6 +13,7 @@
 * Fixed independent checkbox for emitters not working
 * Fixed merging resulting in unsorted and unexpected results
 * Fixed undoing remove image always adding the image to the end of the list
+* Fixed EditableLabel not changing back to a label on an unfocus
 * Minor bugfixes and code cleanup
 ### Version 0.0.3
 * Fixed certain keyboard shortcuts being triggered at the same time
