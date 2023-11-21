@@ -136,7 +136,16 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("infinity.p"));
-        popTable = addTooltip(textButton, "An infinite four way pattern.", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "An infinite four way pattern", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Glitch
+        scrollTable.row();
+        textButton = new TextButton("Glitch", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("Glitch.p"));
+        popTable = addTooltip(textButton, "Use additive to create a glitchy logo effect", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
 

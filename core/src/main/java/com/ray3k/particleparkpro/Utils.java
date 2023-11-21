@@ -441,6 +441,9 @@ public class Utils {
 
         defaultImageHandle = Gdx.files.internal("particle-fire.png");
         fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
+
+        defaultImageHandle = Gdx.files.internal("logo.png");
+        fileHandles.put(defaultImageHandle.name(), defaultImageHandle);
     }
 
     public static void showToast(String text) {
