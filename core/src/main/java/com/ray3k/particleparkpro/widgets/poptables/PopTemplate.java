@@ -179,7 +179,8 @@ public class PopTemplate extends PopTable {
             @Override
             public void run() {
                 hide();
-                Utils.loadParticle(Gdx.files.internal(internalPath));
+                var templateFileHandle = Gdx.files.internal(internalPath);
+                Utils.loadParticle(templateFileHandle);
                 selectedEmitter = particleEffect.getEmitters().first();
 
                 EffectEmittersPanel.effectEmittersPanel.populateEmitters();
@@ -191,6 +192,8 @@ public class PopTemplate extends PopTable {
                 openFileFileHandle = null;
                 unsavedChangesMade = false;
                 updateWindowTitle();
+
+                Utils.showToast("Loaded template " + templateFileHandle.name());
             }
         };
         saveFirstRunnable.setOnCompletionRunnable(runnable);
