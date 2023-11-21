@@ -161,7 +161,7 @@ public class EmitterPropertiesPanel extends Panel {
         //Angle
         if (selectedEmitter.getAngle().isActive()) {
             scrollTable.row();
-            var angleSubPanel = new GraphSubPanel("Angle", selectedEmitter.getAngle(), true, false, "the particle emission angle in degrees", "change Angle", "Life", ANGLE, 15, 90, SPINNER_DECIMAL_PLACES, true, false);
+            var angleSubPanel = new GraphSubPanel("Angle", selectedEmitter.getAngle(), true, false, "the particle emission angle in degrees", "change Angle", "Life", ANGLE, 5, 45, SPINNER_DECIMAL_PLACES, true, false);
             angleSubPanel.setUserObject(ANGLE);
             scrollTable.add(angleSubPanel);
             if (newProperty == ANGLE) scrollToActor = angleSubPanel;
