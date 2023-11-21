@@ -64,6 +64,7 @@ public class SizeSubPanel extends Panel {
 
         //Split X and Y
         var splitXYcheckBox = new CheckBox("Split X and Y", skin);
+        splitXYcheckBox.setChecked(yValue.isActive());
         graphToggleWidget.table1.add(splitXYcheckBox).left();
         addHandListener(splitXYcheckBox);
         addTooltip(splitXYcheckBox, "If true, the X and Y values can be set independently", Align.top, Align.top, tooltipBottomArrowStyle);
@@ -71,6 +72,7 @@ public class SizeSubPanel extends Panel {
         //Split ToggleGroup
         graphToggleWidget.table1.row();
         var splitToggleWidget = new ToggleGroup();
+        if (yValue.isActive()) splitToggleWidget.swap();
         graphToggleWidget.table1.add(splitToggleWidget);
 
         //Joined
