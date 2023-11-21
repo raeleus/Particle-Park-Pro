@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.particleparkpro.Listeners.WindowListener;
 import com.ray3k.particleparkpro.runnables.*;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
@@ -230,13 +231,13 @@ public class Core extends ApplicationAdapter {
     /**
      * Indicates if changes have been made to the currently open file.
      */
-    public static boolean unsavedChangesMade = true;
+    public static boolean unsavedChangesMade = false;
 
     /**
      * A window listener that intercepts a close request to determine if the user would like to save the particle effect
      * if there are any unsaved changes.
      */
-    public static Lwjgl3WindowListener windowListener = new Utils.WindowListener();
+    public static Lwjgl3WindowListener windowListener = new WindowListener();
 
     /**
      * Indicates if the application window can be closed. This is used in conjunction with windowListener to prevent
@@ -392,7 +393,7 @@ public class Core extends ApplicationAdapter {
 
     public static void updateWindowTitle() {
         var title = openFileFileHandle == null ? Core.DEFAULT_WINDOW_TITLE : "Particle Park Pro - " + openFileFileHandle.name();
-        if (unsavedChangesMade) title += "*";
+        if (unsavedChangesMade || openFileFileHandle == null) title += "*";
         Gdx.graphics.setTitle(title);
     }
 

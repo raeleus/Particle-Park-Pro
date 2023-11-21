@@ -3,6 +3,7 @@ package com.ray3k.particleparkpro;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,8 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.widgets.InfSlider;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
+import com.ray3k.particleparkpro.widgets.poptables.PopConfirmClose;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.PopTable.PopTableStyle;
+import com.ray3k.stripe.PopTable.TableShowHideListener;
 import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner;
 
@@ -271,5 +274,29 @@ public class Listeners {
             }
         });
         onChange(valueSpinner, () -> slider.setValue(valueSpinner.getValue()));
+    }
+
+    public static class WindowListener extends Lwjgl3WindowAdapter {
+        private PopConfirmClose pop;
+        @Override
+        public boolean closeRequested() {
+            if (!allowClose && pop == null) {
+                pop = new PopConfirmClose();
+                pop.addListener(new TableShowHideListener() {
+                    @Override
+                    public void tableShown(Event event) {
+
+                    }
+
+                    @Override
+                    public void tableHidden(Event event) {
+                        pop = null;
+                    }
+                });
+                pop.show(foregroundStage);
+            }
+
+            return allowClose;
+        }
     }
 }

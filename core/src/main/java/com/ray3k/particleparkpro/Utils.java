@@ -6,7 +6,6 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,7 +27,6 @@ import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
 import com.ray3k.particleparkpro.widgets.Toast;
-import com.ray3k.particleparkpro.widgets.poptables.PopConfirmClose;
 import com.ray3k.particleparkpro.widgets.poptables.PopImageError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -476,30 +474,6 @@ public class Utils {
             toast.show(foregroundStage);
         } else {
             toastQueue.add(toast);
-        }
-    }
-
-    public static class WindowListener extends Lwjgl3WindowAdapter {
-        private PopConfirmClose pop;
-        @Override
-        public boolean closeRequested() {
-            if (!allowClose && pop == null) {
-                pop = new PopConfirmClose();
-                pop.addListener(new TableShowHideListener() {
-                    @Override
-                    public void tableShown(Event event) {
-
-                    }
-
-                    @Override
-                    public void tableHidden(Event event) {
-                        pop = null;
-                    }
-                });
-                pop.show(foregroundStage);
-            }
-
-            return allowClose;
         }
     }
 }
