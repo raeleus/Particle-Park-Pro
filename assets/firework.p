@@ -169,8 +169,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 500.0
+highMin: 900.0
+highMax: 900.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -238,10 +238,18 @@ lowMax: 0.0
 highMin: 0.0
 highMax: 600.0
 relative: false
-scalingCount: 1
+scalingCount: 5
 scaling0: 1.0
-timelineCount: 1
+scaling1: 1.0
+scaling2: 0.3559322
+scaling3: 0.10169491
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
+timeline1: 0.19444445
+timeline2: 0.29166666
+timeline3: 0.5000004
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
@@ -272,8 +280,8 @@ active: false
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: -330.0
-highMax: -330.0
+highMin: -100.0
+highMax: -100.0
 relative: true
 scalingCount: 3
 scaling0: 0.0
@@ -281,7 +289,7 @@ scaling1: 0.0
 scaling2: 1.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.7013893
+timeline1: 0.3402782
 timeline2: 1.0
 - Tint - 
 colorsCount: 3
@@ -317,8 +325,8 @@ particle-star.png
 Purple
 - Delay -
 active: true
-lowMin: 1100.0
-lowMax: 1100.0
+lowMin: 1300.0
+lowMax: 1300.0
 - Duration - 
 lowMin: 100.0
 lowMax: 100.0
@@ -338,8 +346,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 500.0
+highMin: 900.0
+highMax: 900.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -416,10 +424,18 @@ lowMax: 0.0
 highMin: 0.0
 highMax: 600.0
 relative: false
-scalingCount: 1
+scalingCount: 5
 scaling0: 1.0
-timelineCount: 1
+scaling1: 1.0
+scaling2: 0.3559322
+scaling3: 0.10169491
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
+timeline1: 0.19444445
+timeline2: 0.29166666
+timeline3: 0.5000004
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
@@ -450,8 +466,8 @@ active: false
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: -330.0
-highMax: -330.0
+highMin: -100.0
+highMax: -100.0
 relative: true
 scalingCount: 3
 scaling0: 0.0
@@ -459,7 +475,7 @@ scaling1: 0.0
 scaling2: 1.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.7013893
+timeline1: 0.3402782
 timeline2: 1.0
 - Tint - 
 colorsCount: 3
@@ -495,8 +511,8 @@ particle-star.png
 Blue
 - Delay -
 active: true
-lowMin: 1300.0
-lowMax: 1300.0
+lowMin: 1700.0
+lowMax: 1700.0
 - Duration - 
 lowMin: 100.0
 lowMax: 100.0
@@ -516,8 +532,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 500.0
+highMin: 900.0
+highMax: 900.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -594,10 +610,18 @@ lowMax: 0.0
 highMin: 0.0
 highMax: 600.0
 relative: false
-scalingCount: 1
+scalingCount: 5
 scaling0: 1.0
-timelineCount: 1
+scaling1: 1.0
+scaling2: 0.3559322
+scaling3: 0.10169491
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
+timeline1: 0.19444445
+timeline2: 0.29166666
+timeline3: 0.5000004
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
@@ -628,8 +652,8 @@ active: false
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: -330.0
-highMax: -330.0
+highMin: -100.0
+highMax: -100.0
 relative: true
 scalingCount: 3
 scaling0: 0.0
@@ -637,12 +661,12 @@ scaling1: 0.0
 scaling2: 1.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.7013893
+timeline1: 0.3402782
 timeline2: 1.0
 - Tint - 
 colorsCount: 3
-colors0: 0.0
-colors1: 0.0
+colors0: 0.09803922
+colors1: 0.09803922
 colors2: 1.0
 timelineCount: 1
 timeline0: 0.0
@@ -673,8 +697,8 @@ particle-star.png
 Finish1
 - Delay -
 active: true
-lowMin: 1800.0
-lowMax: 1800.0
+lowMin: 2400.0
+lowMax: 2400.0
 - Duration - 
 lowMin: 10.0
 lowMax: 10.0
@@ -772,14 +796,18 @@ lowMax: 0.0
 highMin: 200.0
 highMax: 200.0
 relative: false
-scalingCount: 3
+scalingCount: 5
 scaling0: 1.0
 scaling1: 1.0
-scaling2: 0.0
-timelineCount: 3
+scaling2: 0.2881356
+scaling3: 0.084745765
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
 timeline1: 0.2777782
-timeline2: 0.2916671
+timeline2: 0.38194486
+timeline3: 0.5555556
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
@@ -855,8 +883,8 @@ particle-star.png
 Finish2
 - Delay -
 active: true
-lowMin: 2400.0
-lowMax: 2400.0
+lowMin: 2800.0
+lowMax: 2800.0
 - Duration - 
 lowMin: 10.0
 lowMax: 10.0
@@ -954,14 +982,18 @@ lowMax: 0.0
 highMin: 200.0
 highMax: 200.0
 relative: false
-scalingCount: 3
+scalingCount: 5
 scaling0: 1.0
 scaling1: 1.0
-scaling2: 0.0
-timelineCount: 3
+scaling2: 0.3559322
+scaling3: 0.13559322
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
 timeline1: 0.2777782
-timeline2: 0.2916671
+timeline2: 0.40972266
+timeline3: 0.6111115
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
@@ -1037,8 +1069,8 @@ particle-star.png
 Finish3
 - Delay -
 active: true
-lowMin: 3000.0
-lowMax: 3000.0
+lowMin: 3400.0
+lowMax: 3400.0
 - Duration - 
 lowMin: 10.0
 lowMax: 10.0
@@ -1136,14 +1168,18 @@ lowMax: 0.0
 highMin: 200.0
 highMax: 200.0
 relative: false
-scalingCount: 3
+scalingCount: 5
 scaling0: 1.0
 scaling1: 1.0
-scaling2: 0.0
-timelineCount: 3
+scaling2: 0.33898306
+scaling3: 0.084745765
+scaling4: 0.0
+timelineCount: 5
 timeline0: 0.0
 timeline1: 0.2777782
-timeline2: 0.2916671
+timeline2: 0.4027778
+timeline3: 0.5555556
+timeline4: 1.0
 - Angle - 
 active: true
 lowMin: 0.0
