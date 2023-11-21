@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
+import com.ray3k.particleparkpro.Utils;
 import lombok.Getter;
 
 /**
@@ -47,6 +49,12 @@ public class EditableLabel extends ToggleGroup {
             public void changed(ChangeEvent event, Actor actor) {
                 label.setText(textField.getText());
                 EditableLabel.this.text = textField.getText();
+            }
+        });
+        textField.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if (focused) textField.selectAll();
             }
         });
     }
