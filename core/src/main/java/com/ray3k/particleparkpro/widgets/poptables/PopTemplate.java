@@ -127,7 +127,7 @@ public class PopTemplate extends PopTable {
         scrollTable.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("firework.p"));
-        popTable = addTooltip(textButton, "Firework that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable = addTooltip(textButton, "Fireworks that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Infinity
@@ -155,6 +155,15 @@ public class PopTemplate extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("rain.p"));
         popTable = addTooltip(textButton, "Cinematic rain to overlay an entire scene", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Laser
+        scrollTable.row();
+        textButton = new TextButton("Laser", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("laser.p"));
+        popTable = addTooltip(textButton, "A laser line that can be rotated in code", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
 
