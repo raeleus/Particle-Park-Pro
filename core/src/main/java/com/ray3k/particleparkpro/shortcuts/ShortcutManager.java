@@ -7,6 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import java.util.Arrays;
 
+/**
+ * Manages the input processing of Shortcuts and their associated key bindings.
+ */
 public class ShortcutManager extends InputListener {
 
     public static final int MAX_KEYS = 4;

@@ -8,6 +8,9 @@ import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.ray3k.particleparkpro.Utils.EMPTY_KEYBIND;
 
+/**
+ * Holds the currently added shortcuts.
+ */
 public class KeyMap {
 
     private final OrderedMap<String, Shortcut> allShortcuts;

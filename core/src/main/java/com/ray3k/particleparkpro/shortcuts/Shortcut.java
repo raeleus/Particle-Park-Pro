@@ -4,6 +4,10 @@ import java.util.Objects;
 
 import static com.ray3k.particleparkpro.Utils.EMPTY_KEYBIND;
 
+/**
+ * A Shortcut consists of a primary and secondary keybind associated with a Runnable action. A name and description
+ * are stored for display in the settings UI.
+ */
 public class Shortcut {
 
     private int[] primaryKeybind;

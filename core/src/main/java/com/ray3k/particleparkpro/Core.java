@@ -154,14 +154,49 @@ public class Core extends ApplicationAdapter {
      * The default name to be used when the user saves the ParticleEffect.
      */
     public static String defaultFileName;
+
+    /**
+     * The currently opened particle file handle.
+     */
     public static FileHandle openFileFileHandle;
+
+    /**
+     * The ShortcutManager used to detect key combinations.
+     */
     public static ShortcutManager shortcutManager;
+
+    /**
+     * The KeyMap used in conjunction with the shortcutManager to detect key combinations.
+     */
     public static KeyMap keyMap;
 
+    /**
+     * The Runnable used to save the particle effect. A file chooser is opened for the user to select a file path and name.
+     */
     public static SaveAsRunnable saveAsRunnable;
+
+    /**
+     * The Runnable used to save the particle effect. If the particle effect hasn't been saved before, a file chooser is
+     * opened for the user to select a file path and name.
+     */
     public static SaveRunnable saveRunnable;
+
+    /**
+     * The Runnable used to open a particle effect from a file. A file chooser is opened for the user to select a file
+     * path and name.
+     */
     public static OpenRunnable openRunnable;
+
+    /**
+     * The Runnable used to open a particle effect from a file and merge it with the existing one. A file chooser is
+     * opened for the user to select a file path and name.
+     */
     public static MergeRunnable mergeRunnable;
+
+    /**
+     * The Runnable used to open a file chooser to select any number of images to be added to the currently selected
+     * emitter.
+     */
     public static ImagesRunnable imagesRunnable;
 
     /**
@@ -174,6 +209,9 @@ public class Core extends ApplicationAdapter {
      */
     public static final int SPINNER_DECIMAL_PLACES = 2;
 
+    /**
+     * A name detailing the currently opened table: "Welcome", "Classic", and "Wizard".
+     */
     public static String openTable;
 
     /**
@@ -186,12 +224,26 @@ public class Core extends ApplicationAdapter {
      */
     public static boolean unsavedChangesMade = true;
 
+    /**
+     * A window listener that intercepts a close request to determine if the user would like to save the particle effect
+     * if there are any unsaved changes.
+     */
     public static Lwjgl3WindowListener windowListener = new Utils.WindowListener();
 
+    /**
+     * Indicates if the application window can be closed. This is used in conjunction with windowListener to prevent
+     * the user from closing without the option to save their changes.
+     */
     public static boolean allowClose = true;
 
+    /**
+     * The currently displayed Toast. Is null when there is no Toast visible.
+     */
     public static Toast currentToast;
 
+    /**
+     * The queue of Toasts that haven't been displayed yet.
+     */
     public static Array<Toast> toastQueue;
 
     @Override
