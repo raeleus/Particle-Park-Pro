@@ -81,7 +81,7 @@ public class SaveRunnable implements Runnable {
             }
 
             effectEmittersPanel.hidePopEmitterControls();
-            showToast("Saved");
+            showToast("Saved " + openFileFileHandle.name());
 
             if (!fileError) {
                 unsavedChangesMade = false;
