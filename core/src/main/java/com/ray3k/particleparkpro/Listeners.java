@@ -59,7 +59,7 @@ public class Listeners {
         unfocusOnEnterKeyListener = new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Keys.ENTER) event.getStage().setKeyboardFocus(null);
+                if (keycode == Keys.ENTER || keycode == Keys.NUMPAD_ENTER) event.getStage().setKeyboardFocus(null);
                 return super.keyDown(event, keycode);
             }
         };
