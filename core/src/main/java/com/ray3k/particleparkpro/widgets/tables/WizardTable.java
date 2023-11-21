@@ -26,6 +26,9 @@ public class WizardTable extends Table {
 
     public static WizardTable wizardTable;
     private Table undoTable;
+    private static int carouselIndex;
+    private static float splitPanePercent = .5f;
+    private SplitPane verticalSplitPane;
 
     public WizardTable() {
         wizardTable = this;
@@ -38,18 +41,20 @@ public class WizardTable extends Table {
         var summaryPanel = new SummaryPanel();
 
         var carousel = new Carousel(startPanel, effectEmittersPanel, emitterPropertiesPanel, summaryPanel);
+        carousel.showIndex(carouselIndex, false);
         carousel.setTouchable(Touchable.enabled);
         addHandListener(carousel.previousButton);
         addHandListener(carousel.nextButton);
         for (var button : carousel.buttonGroup.getButtons()) addHandListener(button);
         carousel.buttonTable.padTop(10).padBottom(20);
         onChange(carousel, () -> {
+            carouselIndex = carousel.getShownIndex();
             if (carousel.getShownActor() == summaryPanel) summaryPanel.populateScrollTable();
         });
 
-        var verticalSplitPane = new SplitPane(previewPanel, carousel, true, skin);
+        verticalSplitPane = new SplitPane(previewPanel, carousel, true, skin);
         add(verticalSplitPane).grow();
-        verticalSplitPane.setSplitAmount(.5f);
+        verticalSplitPane.setSplitAmount(splitPanePercent);
         addSplitPaneVerticalSystemCursorListener(verticalSplitPane);
 
         row();
@@ -90,8 +95,6 @@ public class WizardTable extends Table {
         table.add(undoTable);
 
         refreshUndo();
-
-//        stage.setKeyboardFocus(this);
     }
 
     public void refreshUndo() {
@@ -116,5 +119,11 @@ public class WizardTable extends Table {
             pop.setAttachOffsetX(8);
         }
         onChange(button, UndoManager::redo);
+    }
+
+    @Override
+    protected void setStage(Stage stage) {
+        super.setStage(stage);
+        if (stage == null) splitPanePercent = verticalSplitPane.getSplitAmount();
     }
 }

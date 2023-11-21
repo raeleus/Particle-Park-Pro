@@ -54,7 +54,7 @@ public class Carousel extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (transitioning) queuedButtons.add(previousButton);
-                else changeIndex(shownIndex - 1);
+                else showIndex(shownIndex - 1);
                 event.cancel();
             }
         });
@@ -71,7 +71,7 @@ public class Carousel extends Table {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         if (transitioning) queuedButtons.add(button);
-                        else changeIndex(newIndex);
+                        else showIndex(newIndex);
                         event.cancel();
                     }
                 });
@@ -85,54 +85,66 @@ public class Carousel extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (transitioning) queuedButtons.add(nextButton);
-                else changeIndex(shownIndex + 1);
+                else showIndex(shownIndex + 1);
                 event.cancel();
             }
         });
     }
 
-    private void changeIndex(int index) {
+    public void showIndex(int shownIndex) {
+        showIndex(shownIndex,  true);
+    }
+
+    public void showIndex(int index, boolean showTransition) {
         var size = cardGroup.actors.size - 1;
         if (index < 0) index = 0;
         if (index > size) index = size;
 
-        if (this.shownIndex == index) {
+        if (shownIndex == index) {
             queuedButtons.clear();
             return;
         }
 
-        boolean goLeft = index < this.shownIndex;
+        if (!showTransition) {
+            shownIndex = index;
+            cardGroup.showIndex(shownIndex);
+            buttonGroup.getButtons().get(shownIndex).setChecked(true);
+        } else {
+            boolean goLeft = index < shownIndex;
 
-        var currentActor = cardGroup.actors.get(this.shownIndex);
-        var nextActor = cardGroup.actors.get(index);
+            var currentActor = cardGroup.actors.get(shownIndex);
+            var nextActor = cardGroup.actors.get(index);
 
-        this.shownIndex = index;
-        setClip(true);
-        transitioning = true;
-        buttonGroup.getButtons().get(this.shownIndex).setChecked(true);
+            shownIndex = index;
+            setClip(true);
+            transitioning = true;
+            buttonGroup.getButtons().get(shownIndex).setChecked(true);
 
-        currentActor.addAction(Actions.sequence(Actions.moveBy((goLeft ? 1 : -1) * currentActor.getWidth(), 0, transitionDuration, interpolation)));
+            currentActor.addAction(Actions.sequence(
+                Actions.moveBy((goLeft ? 1 : -1) * currentActor.getWidth(), 0, transitionDuration, interpolation)));
 
-        temp.set(0, 0);
-        currentActor.localToActorCoordinates(this, temp);
-        addActor(nextActor);
-        nextActor.setBounds(temp.x + (goLeft ? -1 : 1) * currentActor.getWidth(),  temp.y, currentActor.getWidth(), currentActor.getHeight());
+            temp.set(0, 0);
+            currentActor.localToActorCoordinates(this, temp);
+            addActor(nextActor);
+            nextActor.setBounds(temp.x + (goLeft ? -1 : 1) * currentActor.getWidth(), temp.y, currentActor.getWidth(),
+                currentActor.getHeight());
 
-        nextActor.addAction(Actions.sequence(Actions.moveTo(temp.x, temp.y, transitionDuration, interpolation), Actions.run(() -> {
-            if (cardGroup.actors.size > 0) cardGroup.showIndex(this.shownIndex);
-            setClip(false);
-            transitioning = false;
+            nextActor.addAction(
+                Actions.sequence(Actions.moveTo(temp.x, temp.y, transitionDuration, interpolation), Actions.run(() -> {
+                    if (cardGroup.actors.size > 0) cardGroup.showIndex(shownIndex);
+                    setClip(false);
+                    transitioning = false;
 
 
-            Gdx.app.postRunnable(() -> {
-                if (queuedButtons.size > 0) {
-                    var button = queuedButtons.first();
-                    queuedButtons.removeIndex(0);
-                    button.fire(new ChangeEvent());
-                }
-            });
-        })));
-
+                    Gdx.app.postRunnable(() -> {
+                        if (queuedButtons.size > 0) {
+                            var button = queuedButtons.first();
+                            queuedButtons.removeIndex(0);
+                            button.fire(new ChangeEvent());
+                        }
+                    });
+                })));
+        }
         fire(new ChangeEvent());
     }
 
