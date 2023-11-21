@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Utils;
+import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
+import com.ray3k.particleparkpro.runnables.SaveRunnable;
 import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel;
 import com.ray3k.stripe.PopTable;
@@ -168,17 +170,36 @@ public class PopTemplate extends PopTable {
     }
 
     private void openTemplate(String internalPath) {
-        hide();
-        Utils.loadParticle(Gdx.files.internal(internalPath));
-        selectedEmitter = particleEffect.getEmitters().first();
+        var saveFirstRunnable = new SaveRunnable();
+        var saveAsFirstRunnable = new SaveAsRunnable();
+        saveFirstRunnable.setSaveAsRunnable(saveAsFirstRunnable);
+        saveAsFirstRunnable.setSaveRunnable(saveFirstRunnable);
 
-        EffectEmittersPanel.effectEmittersPanel.populateEmitters();
-        EffectEmittersPanel.effectEmittersPanel.updateDisableableWidgets();
-        emitterPropertiesPanel.populateScrollTable(null);
+        var runnable = new Runnable() {
+            @Override
+            public void run() {
+                hide();
+                Utils.loadParticle(Gdx.files.internal(internalPath));
+                selectedEmitter = particleEffect.getEmitters().first();
 
-        UndoManager.clear();
+                EffectEmittersPanel.effectEmittersPanel.populateEmitters();
+                EffectEmittersPanel.effectEmittersPanel.updateDisableableWidgets();
+                emitterPropertiesPanel.populateScrollTable(null);
 
-        openFileFileHandle = null;
-        updateWindowTitle();
+                UndoManager.clear();
+
+                openFileFileHandle = null;
+                unsavedChangesMade = false;
+                updateWindowTitle();
+            }
+        };
+        saveFirstRunnable.setOnCompletionRunnable(runnable);
+
+        if (unsavedChangesMade) {
+            var pop = new PopConfirmLoad(saveFirstRunnable, runnable);
+            pop.show(foregroundStage);
+        } else {
+            runnable.run();
+        }
     }
 }

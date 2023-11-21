@@ -7,6 +7,7 @@ import com.ray3k.particleparkpro.FileDialogs;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.Utils;
 import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.widgets.poptables.PopConfirmLoad;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,6 +26,21 @@ public class OpenRunnable implements Runnable {
     public void run () {
         if (open)
             return;
+
+        if (unsavedChangesMade) {
+            var saveFirstRunnable = new SaveRunnable();
+            var saveAsFirstRunnable = new SaveAsRunnable();
+            saveFirstRunnable.setSaveAsRunnable(saveAsFirstRunnable);
+            saveAsFirstRunnable.setSaveRunnable(saveFirstRunnable);
+            saveFirstRunnable.setOnCompletionRunnable(this);
+
+            var pop = new PopConfirmLoad(saveFirstRunnable, () -> {
+                unsavedChangesMade = false;
+                OpenRunnable.this.run();
+            });
+            pop.show(foregroundStage);
+            return;
+        }
 
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {

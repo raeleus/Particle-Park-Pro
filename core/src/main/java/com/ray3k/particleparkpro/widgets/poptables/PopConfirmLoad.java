@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
-import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
-import com.ray3k.particleparkpro.runnables.SaveRunnable;
 import com.ray3k.stripe.PopTable;
 
 import static com.ray3k.particleparkpro.Core.*;
@@ -20,11 +18,16 @@ import static com.ray3k.particleparkpro.Listeners.onChange;
  * saving or opening particles and images. A link to the log directory enables users to retrieve the crash log file
  * through their OS file explorer.
  */
-public class PopConfirmClose extends PopTable {
+public class PopConfirmLoad extends PopTable {
     private final InputProcessor previousInputProcessor;
+    private Runnable runnableSave;
+    private Runnable runnableDiscard;
 
-    public PopConfirmClose() {
+    public PopConfirmLoad(Runnable runnableSave, Runnable runnableDiscard) {
         super(skin.get(WindowStyle.class));
+
+        this.runnableSave = runnableSave;
+        this.runnableDiscard = runnableDiscard;
 
         previousInputProcessor = Gdx.input.getInputProcessor();
         Gdx.input.setInputProcessor(foregroundStage);
@@ -40,7 +43,7 @@ public class PopConfirmClose extends PopTable {
         add(label);
 
         row();
-        label = new Label("Do you want to save your changes before you quit?", skin);
+        label = new Label("Do you want to save your changes before loading the particle effect?", skin);
         label.setWrap(true);
         label.setAlignment(Align.center);
         add(label).growX();
@@ -56,20 +59,17 @@ public class PopConfirmClose extends PopTable {
         onChange(textButton, () -> {
             hide();
             Gdx.input.setInputProcessor(previousInputProcessor);
-
-            var saveFirstRunnable = new SaveRunnable();
-            var saveAsFirstRunnable = new SaveAsRunnable();
-
-            saveFirstRunnable.setSaveAsRunnable(saveAsFirstRunnable);
-            saveAsFirstRunnable.setSaveRunnable(saveFirstRunnable);
-            saveFirstRunnable.setOnCompletionRunnable(() -> Gdx.app.exit());
-            saveFirstRunnable.run();
+            runnableSave.run();
         });
 
-        textButton = new TextButton("Close without saving", skin, "highlighted-red");
+        textButton = new TextButton("Discard changes", skin, "highlighted-red");
         table.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, Gdx.app::exit);
+        onChange(textButton, () -> {
+            hide();
+            Gdx.input.setInputProcessor(previousInputProcessor);
+            runnableDiscard.run();
+        });
 
         textButton = new TextButton("Cancel", skin);
         table.add(textButton);

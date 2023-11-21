@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.StreamUtils;
 import com.ray3k.particleparkpro.Core;
 import com.ray3k.particleparkpro.Settings;
 import com.ray3k.particleparkpro.widgets.poptables.PopError;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.io.FileWriter;
@@ -21,8 +22,8 @@ import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effec
 public class SaveRunnable implements Runnable {
 
     private SaveAsRunnable saveAsRunnable;
-    @Setter
-    private boolean closeOnCompletion;
+    @Getter @Setter
+    private Runnable onCompletionRunnable;
 
     public void setSaveAsRunnable (SaveAsRunnable runnable) {
         saveAsRunnable = runnable;
@@ -87,9 +88,7 @@ public class SaveRunnable implements Runnable {
                 unsavedChangesMade = false;
                 allowClose = true;
                 Core.updateWindowTitle();
-                if (closeOnCompletion) Gdx.app.exit();
-            } else {
-                closeOnCompletion = false;
+                if (onCompletionRunnable != null) Gdx.app.postRunnable(onCompletionRunnable);
             }
         } else {
             saveAsRunnable.run();
