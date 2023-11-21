@@ -144,8 +144,17 @@ public class PopTemplate extends PopTable {
         textButton = new TextButton("Glitch", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("Glitch.p"));
+        onChange(textButton, () -> openTemplate("glitch.p"));
         popTable = addTooltip(textButton, "Use additive to create a glitchy logo effect", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Rain
+        scrollTable.row();
+        textButton = new TextButton("Rain", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("rain.p"));
+        popTable = addTooltip(textButton, "Cinematic rain to overlay an entire scene", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
     }
 
