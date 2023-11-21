@@ -117,10 +117,4 @@ public class WizardTable extends Table {
         }
         onChange(button, UndoManager::redo);
     }
-
-//    @Override
-//    protected void setStage(Stage stage) {
-//        super.setStage(stage);
-//        if (stage == null) WizardTable.wizardTable = null;
-//    }
 }
