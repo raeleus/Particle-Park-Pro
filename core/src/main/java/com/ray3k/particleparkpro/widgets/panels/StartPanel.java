@@ -1,5 +1,6 @@
 package com.ray3k.particleparkpro.widgets.panels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -90,7 +91,7 @@ public class StartPanel extends Panel {
         table.add(textButton);
         addHandListener(textButton);
         onChange(textButton, () -> {
-
+            Gdx.net.openURI("https://github.com/raeleus/Particle-Park-Pro");
         });
 
         textButton = new TextButton("YouTube", skin);
