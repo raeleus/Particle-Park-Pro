@@ -60,6 +60,14 @@ public class PopTemplate extends PopTable {
         var popTable = addTooltip(textButton, "An empty template perfect for starting a new project", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
+        //Explosion
+        textButton = new TextButton("Explosion", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("explosion.p"));
+        popTable = addTooltip(textButton, "Standard fire ball explosion", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
         //Flame
         scrollTable.row();
         textButton = new TextButton("Flame", skin);
@@ -67,6 +75,14 @@ public class PopTemplate extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("flame.p"));
         popTable = addTooltip(textButton, "The default template implementing the traditional ever-burning flame", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Firework
+        textButton = new TextButton("Firework", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("firework.p"));
+        popTable = addTooltip(textButton, "Fireworks that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Sparks
@@ -78,6 +94,14 @@ public class PopTemplate extends PopTable {
         popTable = addTooltip(textButton, "A shower of sparks coming from an arc welder", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
+        //Infinity
+        textButton = new TextButton("Infinity", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("infinity.p"));
+        popTable = addTooltip(textButton, "An infinite four way pattern", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
         //Smoke
         scrollTable.row();
         textButton = new TextButton("Smoke", skin);
@@ -85,6 +109,14 @@ public class PopTemplate extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("smoke.p"));
         popTable = addTooltip(textButton, "A tower of smoke emanating from a chimney or wreckage", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Glitch
+        textButton = new TextButton("Glitch", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("glitch.p"));
+        popTable = addTooltip(textButton, "Use additive to create a glitchy logo effect", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Demolition
@@ -96,6 +128,14 @@ public class PopTemplate extends PopTable {
         popTable = addTooltip(textButton, "The explosion from a demolished building or self-destructing robot", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
+        //Rain
+        textButton = new TextButton("Rain", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("rain.p"));
+        popTable = addTooltip(textButton, "Cinematic rain to overlay an entire scene", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
         //Trail
         scrollTable.row();
         textButton = new TextButton("Trail", skin);
@@ -103,6 +143,14 @@ public class PopTemplate extends PopTable {
         addHandListener(textButton);
         onChange(textButton, () -> openTemplate("trail.p"));
         popTable = addTooltip(textButton, "A simple trail to follow a missile or any other flying object", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
+
+        //Laser
+        textButton = new TextButton("Laser", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("laser.p"));
+        popTable = addTooltip(textButton, "A laser line that can be rotated in code", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
         //Thruster
@@ -114,62 +162,7 @@ public class PopTemplate extends PopTable {
         popTable = addTooltip(textButton, "A thruster plume that sticks closely to an attached object like a rocket", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
 
-        //Explosion
-        scrollTable.row();
-        textButton = new TextButton("Explosion", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("explosion.p"));
-        popTable = addTooltip(textButton, "Standard fire ball explosion", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
-        //Firework
-        scrollTable.row();
-        textButton = new TextButton("Firework", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("firework.p"));
-        popTable = addTooltip(textButton, "Fireworks that demonstrate emitters with multiple delays", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
-        //Infinity
-        scrollTable.row();
-        textButton = new TextButton("Infinity", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("infinity.p"));
-        popTable = addTooltip(textButton, "An infinite four way pattern", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
-        //Glitch
-        scrollTable.row();
-        textButton = new TextButton("Glitch", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("glitch.p"));
-        popTable = addTooltip(textButton, "Use additive to create a glitchy logo effect", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
-        //Rain
-        scrollTable.row();
-        textButton = new TextButton("Rain", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("rain.p"));
-        popTable = addTooltip(textButton, "Cinematic rain to overlay an entire scene", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
-        //Laser
-        scrollTable.row();
-        textButton = new TextButton("Laser", skin);
-        scrollTable.add(textButton);
-        addHandListener(textButton);
-        onChange(textButton, () -> openTemplate("laser.p"));
-        popTable = addTooltip(textButton, "A laser line that can be rotated in code", Align.top, Align.top, tooltipBottomArrowStyle);
-        popTable.setKeepSizedWithinStage(false);
-
         //Splash
-        scrollTable.row();
         textButton = new TextButton("Splash", skin);
         scrollTable.add(textButton);
         addHandListener(textButton);
