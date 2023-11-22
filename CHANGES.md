@@ -2,6 +2,7 @@
 ### Version 0.0.4
 * Keyboard shortcuts to save, saveAs, and open have been added. Thanks, John!
 * Added option to load pre-built templates
+* Added drag and drop functionality for images and particle files
 * Prompt the user to save changes before exiting the app, loading a particle effect file, or loading a template
 * The color of the statistics label can be changed
 * The preview settings are persisted and can be reset to default values

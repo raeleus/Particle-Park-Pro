@@ -23,10 +23,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.ray3k.particleparkpro.runnables.SaveAsRunnable;
+import com.ray3k.particleparkpro.runnables.SaveRunnable;
 import com.ray3k.particleparkpro.shortcuts.KeyMap;
 import com.ray3k.particleparkpro.shortcuts.Shortcut;
 import com.ray3k.particleparkpro.shortcuts.ShortcutManager;
+import com.ray3k.particleparkpro.undo.UndoManager;
 import com.ray3k.particleparkpro.widgets.Toast;
+import com.ray3k.particleparkpro.widgets.poptables.PopConfirmLoad;
 import com.ray3k.particleparkpro.widgets.poptables.PopImageError;
 import com.ray3k.particleparkpro.widgets.tables.ClassicTable;
 import com.ray3k.particleparkpro.widgets.tables.WizardTable;
@@ -155,7 +159,48 @@ public class Utils {
         return true;
     }
 
-    public static void disposeParticleEffect () {
+    public static void openDroppedParticleFile(FileHandle fileHandle) {
+        if (unsavedChangesMade) {
+            var saveFirstRunnable = new SaveRunnable();
+            var saveAsFirstRunnable = new SaveAsRunnable();
+            saveFirstRunnable.setSaveAsRunnable(saveAsFirstRunnable);
+            saveAsFirstRunnable.setSaveRunnable(saveFirstRunnable);
+            saveFirstRunnable.setOnCompletionRunnable(() -> openDroppedParticleFile(fileHandle));
+
+            var pop = new PopConfirmLoad(saveFirstRunnable, () -> {
+                unsavedChangesMade = false;
+                openDroppedParticleFile(fileHandle);
+            });
+            pop.show(foregroundStage);
+            return;
+        }
+
+        if (effectEmittersPanel == null || emitterPropertiesPanel == null) return;
+
+        defaultFileName = fileHandle.name();
+        Settings.setDefaultSavePath(fileHandle.parent());
+
+        var completed = Utils.loadParticle(fileHandle);
+
+        if (!completed) return;
+
+        selectedEmitter = particleEffect.getEmitters().first();
+
+        effectEmittersPanel.populateEmitters();
+        effectEmittersPanel.updateDisableableWidgets();
+        emitterPropertiesPanel.populateScrollTable(null);
+        effectEmittersPanel.hidePopEmitterControls();
+        showToast("Opened " + fileHandle.name());
+
+        UndoManager.clear();
+        unsavedChangesMade = false;
+        allowClose = true;
+        updateWindowTitle();
+
+        openFileFileHandle = fileHandle;
+    }
+
+    public static void disposeParticleEffect() {
         if (particleEffect == null)
             return;
         for (int i = 0, n = particleEffect.getEmitters().size; i < n; i++) {

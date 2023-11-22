@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -13,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.ray3k.particleparkpro.undo.UndoManager;
+import com.ray3k.particleparkpro.undo.undoables.ImagesAddUndoable;
 import com.ray3k.particleparkpro.widgets.InfSlider;
 import com.ray3k.particleparkpro.widgets.NoCaptureKeyboardFocusListener;
 import com.ray3k.particleparkpro.widgets.poptables.PopConfirmClose;
@@ -22,10 +26,19 @@ import com.ray3k.stripe.PopTable.TableShowHideListener;
 import com.ray3k.stripe.ScrollFocusListener;
 import com.ray3k.stripe.Spinner;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.spi.FileTypeDetector;
+import java.util.Locale;
+
 import static com.ray3k.particleparkpro.Core.*;
 import static com.ray3k.particleparkpro.PreviewSettings.*;
+import static com.ray3k.particleparkpro.Utils.showToast;
+import static com.ray3k.particleparkpro.widgets.panels.EffectEmittersPanel.effectEmittersPanel;
+import static com.ray3k.particleparkpro.widgets.panels.EmitterPropertiesPanel.emitterPropertiesPanel;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.infSliderStyle;
 import static com.ray3k.particleparkpro.widgets.styles.Styles.tooltipBottomRightArrowStyle;
+import static com.ray3k.particleparkpro.widgets.subpanels.ImagesSubPanel.imagesSubPanel;
 
 /**
  * A convenience class to organize and initialize the custom listeners for Particle Park Pro.
@@ -297,6 +310,30 @@ public class Listeners {
             }
 
             return allowClose;
+        }
+
+        @Override
+        public void filesDropped(String[] files) {
+            var imageFileHandles = new Array<FileHandle>();
+            var textFileHandles = new Array<FileHandle>();
+
+            for (var file : files) {
+                var fileHandle = Gdx.files.absolute(file);
+                if (fileHandle.extension().toLowerCase(Locale.ROOT).matches("^png$|^jpg$")) imageFileHandles.add(fileHandle);
+                else textFileHandles.add(fileHandle);
+            }
+
+            if (imageFileHandles.size > 0) {
+                if (effectEmittersPanel == null || emitterPropertiesPanel == null) return;
+
+                UndoManager.add(new ImagesAddUndoable(selectedEmitter, imageFileHandles, "Add Images"));
+                imagesSubPanel.updateList();
+                imagesSubPanel.updateDisabled();
+
+                showToast(imageFileHandles.size == 1 ? "Added image " + imageFileHandles.first().name() : "Added " + imageFileHandles.size + " images");
+            } else if (textFileHandles.size > 0) {
+                Utils.openDroppedParticleFile(textFileHandles.first());
+            }
         }
     }
 }
