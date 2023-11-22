@@ -167,6 +167,15 @@ public class PopTemplate extends PopTable {
         onChange(textButton, () -> openTemplate("laser.p"));
         popTable = addTooltip(textButton, "A laser line that can be rotated in code", Align.top, Align.top, tooltipBottomArrowStyle);
         popTable.setKeepSizedWithinStage(false);
+
+        //Splash
+        scrollTable.row();
+        textButton = new TextButton("Splash", skin);
+        scrollTable.add(textButton);
+        addHandListener(textButton);
+        onChange(textButton, () -> openTemplate("splash.p"));
+        popTable = addTooltip(textButton, "A water splash as viewed from the side", Align.top, Align.top, tooltipBottomArrowStyle);
+        popTable.setKeepSizedWithinStage(false);
     }
 
     private void openTemplate(String internalPath) {
