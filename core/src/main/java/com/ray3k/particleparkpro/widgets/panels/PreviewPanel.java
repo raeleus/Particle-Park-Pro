@@ -246,10 +246,11 @@ public class PreviewPanel extends Panel {
                     }
                 }
 
-                if (isVisible()) setText("FPS: " + Gdx.graphics.getFramesPerSecond() +
-                    "\nCount: " + count +
-                    "\nMax: " + maxParticleCount +
-                    "\n" + (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) + "%");
+                if (isVisible()) {
+                    var fps = Gdx.graphics.getFramesPerSecond();
+                    var percentage = particleEffect.getEmitters().size > 0 ? (int) (particleEffect.getEmitters().first().getPercentComplete() * 100) : 100;
+                    setText("FPS: " + fps + "\nCount: " + count + "\nMax: " + maxParticleCount + "\n" + percentage + "%");
+                }
             }
         };
         statsLabel.setLayoutEnabled(false);

@@ -11,6 +11,7 @@
 * The currently open file is displayed in the window title and indicates if changes have been made
 * The particle effect now resets when certain properties are modified so the change is instantly noticeable
 * The split pane and carousel in Wizard mode are now persisted between switching modes
+* Fixed crash upon deactivating all emitters. Thanks, Rafa!
 * Fixed merging particles resulting in the wrong order of particles being added to the particle effect
 * Fixed independent checkbox for emitters not working
 * Fixed merging resulting in unsorted and unexpected results
