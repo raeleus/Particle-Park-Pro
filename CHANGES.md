@@ -1,6 +1,6 @@
 # Changelog
 ### Version 0.0.5
-* 
+* This project has been moved into a new repo under the libGDX organization. Please see https://github.com/libgdx/gdx-particle-editor
 ### Version 0.0.4
 * Keyboard shortcuts to save, saveAs, and open have been added. Thanks, John!
 * Added option to load pre-built templates
